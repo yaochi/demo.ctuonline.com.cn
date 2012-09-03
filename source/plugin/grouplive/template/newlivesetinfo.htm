@@ -1,0 +1,61 @@
+<!--{eval $_G[home_tpl_titles] = array('直播');}-->
+<!--{template common/header}-->
+<style type="text/css">
+.c52{width:541px; height:455px;	margin:0 7px;}
+.left {float: left;}
+.bt4{background-image: url(source/plugin/grouplive/images/images/c1.jpg);background-repeat: no-repeat;width:543px;height:32px;}
+.bt4 ul {list-style-type:none;line-height:32px;font-weight:700;}
+.bt4 li {background-image:url(source/plugin/grouplive/images/cd1.jpg);background-repeat:no-repeat;float:left;width:94px;
+text-align:center;cursor:pointer; font-size: 14px; font-weight: bold; line-height: 32px;}
+.bt4 li.hover {color:#0067b2;background-image:url(source/plugin/grouplive/images/images/cd.jpg);background-repeat:no-repeat;}
+</style>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>
+	<!-- {if  $_G[forum][type]=='activity'} -->
+	<!--
+	&rsaquo; <a href="forum.php?mod=group&fid=$_G[parent][fid]">$_G[parent][name]</a>
+	&rsaquo; <a href="forum.php?mod=activity&fup=$_G[parent][fid]&fid=$_G[forum][fid]">活动</a>
+	$activitynav -->
+	{eval echo get_groupcreatenav($_G[forum]);}
+	<!-- {else} -->
+	$groupnav
+	<!-- {/if} -->
+
+</div>
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<div id="ct" class="wp cl n">
+	<div style="float: right;padding-right: 190px;padding-top: 10px;">
+       &lt; <a href="{eval echo join_plugin_action2('index')}">返回列表</a>
+    </div>
+    <ul class="tb cl">
+        <li class="a" >
+        <!--{if $live[liveid]}--><a>编辑</a><!--{else}-->
+        <a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=grouplive&amp;plugin_op=createmenu">新建</a><!--{/if}-->
+        </li>
+        <!--{if $_G["forum"]["type"]=="activity"}-->
+        	<li $actives[activity]><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=importmenu">从专区导入</a></li>
+       	<!--{/if}-->
+    </ul>
+		<div class="bm cl">
+			<span style="margin-left: 80px;"></span>
+			<h1 class="mt"><img class="vm left" style=" margin: 7px 5px 0 0 ; " src="{STATICURL}image/plugins/grouplive.gif" alt="live" />
+			<!--{if $live[liveid]}--> <!--{if $live[type]==3 }-->
+			<ul class="bt4 ul left" style="margin-left: 5px;">
+				<li class="bt4 li" ><a href="{echo join_plugin_action2('livecp', array('liveid' => $live['liveid'], 'op' => 'edit','newliveid'=>$live['newliveid'],'fid'=>$live['fid']));}">基础设置</a></li>
+				<li class="bt4 li hover" style="cursor: default;">高级设置</li>
+			</ul>
+<!--{else}-->编辑直播<!--{/if}--><!--{else}-->创建直播<!--{/if}--></h1>
+<iframe   id= "frm"  frameBorder=0 scrolling=no name= "frm" src= "$_G[config][expert][liveurl]/info/setinfo.do?action=view&liveid=$live[newliveid]&fid=$live['fid'] "
+				width= "650"   height= "1000" >  编辑直播设置信息</iframe>
+		</div>
+<!--{template common/footer}-->
+
+
+
+

@@ -1,0 +1,231 @@
+﻿<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="mn">
+<div class="bm cl">
+
+<h1 class="mt">推荐资源</h1>
+<div id="postbox">
+<form action="{eval echo join_plugin_action2('createclass')}" autocomplete="off" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<input id="allowType" name="allowType" type="hidden" value=".doc|.docx|.ppt|.pptx|.pdf|.rtf" />
+<table width="81%" cellspacing="0" cellpadding="0" border="0" class="tfm" style="width:770px !important;">
+  <tbody><tr>
+    <th style="border-bottom:1px dashed #d5d5d5;"><strong>资源类型：</strong></th>
+    <td style="border-bottom:1px dashed #d5d5d5;">
+	<label><input name="extratype" type="radio" value="class" checked="checked" />
+	课程</label>
+	<label><input name="extratype" type="radio" value="lec" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexlec&';" />
+	讲师</label>
+	<label><input name="extratype" type="radio" value="org"  onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexorg&';" />
+	培训机构</label>
+	</td>
+  </tr>
+ </tbody>
+ </table>
+<!--课程-->
+<table width="97%" name="classtable" id="classtable"  cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd" style="margin-top:11px;">
+  <tbody>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程名称：</strong></th>
+    <td><input type="text" class="px" id="classname" name="classname"><span id="checklecturer" class="xcred" style="display:none;">该课程已存在</span></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程简介：</strong></th>
+    <td valign="top"><textarea class="pt" id="classdescr" name="classdescr" cols="40" rows="5"></textarea></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程大纲：</strong></th>
+    <td><input type="file" name="classinfo" id="classinfo" value=''></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程分类：</strong></th>
+    <td><label>
+     <select name="classification" class="ps">
+		<option value="1">管理类</option>
+		<option value="2">营销类</option>
+		<option value="3">专业类</option>
+		<option value="4">通用类</option>
+	</select>
+    </label></td>
+  </tr>
+    <tr>
+    <th><strong class="rq y">*</strong><strong>教授本门课程的讲师：</strong></th>
+    <td><div id="extralec"><!--{if $lecture}--><p><input type="hidden" value="$lecture[id]" id="lecids[]" name="lecids[]"><a title="删除此选项" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$lecture[name]</p><!--{/if}--></div>
+	<a href="#" onclick="showWindow('lecwindow', 'misc.php?mod=queryextralec&fid=$_G[fid]', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加讲师</a></td>
+  </tr>
+    <tr>
+    <th><strong>本门课程所属机构：</strong></th>
+    <td><div id="extraorg"><!--{if $org}--><p><input type="hidden" value="$org[id]" id="orgids[]" name="orgids[]"><input type="hidden" value="$org[name]" id="orgnames[]" name="orgnames[]"><a title="删除此课程" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$org[name]</p><!--{/if}--></div>
+	<a href="#" onclick="showWindow('orgwindow', 'misc.php?mod=queryextraorg&fid=$_G[fid]', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加机构</a></td>
+  </tr>
+    <tr>
+    <th><strong class="rq y">*</strong><strong>请进行打分：</strong></th>
+    <td>
+    <table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="classtotalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>前瞻性：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="classstarsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>教学设计：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="163"><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="classstarstwo" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>内容实用：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="classstarsthree" value="" size="2" /></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+</tbody></table>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+
+	if(BROWSER.ie) {
+		$("classname").attachEvent("onPropertyChange", checkDuplicated);
+	} else {
+		$("classname").addEventListener("input", checkDuplicated, false);
+	}
+	attachEventListener($("classname"), "blur", checkDuplicated, false);
+
+function checkDuplicated() {
+		var checkTimeoutProcess;
+		$("checklecturer").style.display = "none";
+		isDuplicated = false;
+
+		var callurl = "forum.php?mod=group"+"&"+"action=plugin&fid="+$_G[fid]+"&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=checkclass&name=" + encodeURI($("classname").value);
+		clearTimeout(checkTimeoutProcess);
+		checkTimeoutProcess = setTimeout(function(){
+			getJSONP(callurl, "processDuplicated");
+		}, 2000);
+	}
+
+	function processDuplicated(data) {
+		if(data.s == 1) {
+			$("checklecturer").style.display = "";
+			isDuplicated = true;
+		}
+	}
+
+
+function validate_from(obj) {
+		var classname = $('classname');
+		if (classname) {
+			var slen = strlen(classname.value);
+			if (slen < 1) {
+				showDialog("请填写课程名称");
+				classname.focus();
+				return false;
+			}
+		}
+		var classdescr = $('classdescr');
+		if (classdescr) {
+			var slen = strlen(classdescr.value);
+			if (slen < 1) {
+				showDialog("请填写课程简介");
+				classdescr.focus();
+				return false;
+			}
+		}
+		var classinfo=$('classinfo');
+		if (classinfo) {
+			var slen = strlen(classinfo.value);
+			if (slen < 1) {
+				showDialog("请上传课程大纲");
+				return false;
+			}
+			var str=(classinfo.value).toLowerCase();
+			 var fileType=/\.[^\.]+$/.exec(str);
+
+			 var allowType=document.getElementById('allowType').value.split('|');
+			 var pass=0;
+			 for (var i in allowType){
+			  if (fileType==allowType[i]){
+			   pass=1;
+			   break;
+			  }
+			 }
+			 if (pass==0) showDialog("不允许上传此类型文件!\r\n只允许上传以下几种类型文件:\r\n doc, docx, ppt, pptx, pdf, rtf");
+			 if(pass==0){
+				 return false;
+			 }
+		}
+		var extralec=$('extralec');
+		if(extralec.innerHTML==''){
+			showDialog("请选择讲师");
+			return false;
+		}
+		var flag=0;
+		for(var i=0;i<4;i++){
+			if($('stars2-input'+i).value==''){
+				flag++;
+			}
+		}
+		if(flag!=0){
+			showDialog("请完成全部打分后提交");
+			return false;
+		}
+
+}
+
+
+
+
+</script>
+

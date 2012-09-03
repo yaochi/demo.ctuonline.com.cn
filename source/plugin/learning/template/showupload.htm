@@ -1,0 +1,124 @@
+{template common/header}
+<div id="main_messaqge" style="width: 500px;">
+<input type="hidden" id="fastpostmessage" name="fastpostmessage"/>
+	<img src="{IMGDIR}/loading.gif" width="16" height="16" style="display: none;" />
+<p class="xcred mtm hm" style="display: none">意见内容不能为空！</p>
+
+<h3 class="flb"><em>{lang upload}</em><span><a
+	href="javascript:;"
+	onclick="closewindow($learid,'$ajax');"
+	class="flbc" title="关闭">关闭</a></span></h3>
+	<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_group_post.css?{VERHASH}" />
+	<!--{eval $editorid = 'e';}-->
+	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+	<input type="hidden" name="learntype" id="learntype" value="$type">
+	<div class="p_pof upf" id="{$editorid}_attach_menu" unselectable="on">
+		<ul class="imguptype" id="{$editorid}_attach_ctrl">
+			<li><a href="javascript:;" hidefocus="true" class="current" id="{$editorid}_btn_attachlist" onclick="switchAttachbutton('attachlist');">附件上传说明</a></li>
+			<li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_upload" onclick="switchAttachbutton('upload');">普通上传</a></li>
+		</ul>
+			<div class="p_opt" unselectable="on" id="{$editorid}_upload" style="display: none;">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tbody id="attachbodyhidden" style="display:none"><tr>
+						<td class="atnu"><span id="localno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
+						<td class="atna">
+							<span id="deschidden[]" style="display:none">
+								<span id="localfile[]"></span>
+							</span>
+							<input type="hidden" name="localid[]" />
+						</td>
+						<td class="attc"><span id="cpdel[]"></span></td>
+					</tr></tbody>
+				</table>
+				<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
+				<div class="upbk">
+					<div id="attachbtnhidden" style="display:none"><span>
+					<form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=learningupload&operation=learningupload&simple=1&learid=$learid&idtype=learn&learntype=$type" target="attachframe" enctype="multipart/form-data">
+					<input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="fldt" /></form></span></div>
+					<div id="attachbtn"></div>
+					<p id="uploadbtn">
+						<button type="button" class="pn" onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');"><span>{lang cancel}</span></button>
+						<button type="button" class="pn pnc" onclick="uploadAttach(0, 0); hasUpload = 1;"><span>{lang upload}</span></button>
+					</p>
+					<p id="uploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" />正在上传......</p>
+				</div>
+				<div class="notice upnf">
+					文件尺寸: <strong>小于 10MB </strong>&nbsp;
+				</div>
+			</div>
+		<div class="p_opt post_tablelist" unselectable="on" id="{$editorid}_attachlist">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="attach_tblheader"{if empty($attachs['used']) && empty($attachs['unused'])} style="display: none"{/if}>
+
+			</table>
+			<div class="upfl">
+				<span class="rq">上传单个会将您旧附件删除.<br>如果您想要上传多个附件，请打包上传。谢谢.</span>
+			</div>
+		</div>
+	</div>
+	</div>
+<script type="text/javascript">
+	var hasUpload = 0;
+	var editorid = '$editorid';
+	//var textobj = $(editorid + '_textarea');
+	var wysiwyg = (BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9));
+	var allowswitcheditor = parseInt('1');
+	var allowhtml = parseInt('0');
+	var allowsmilies = parseInt('1');
+	var allowbbcode = parseInt('1');
+	var allowimgcode = parseInt('1');
+	var fontoptions = new Array({lang e_fontoptions});
+	var custombbcodes = new Array();
+	var extensions = '';
+	var id = '$_GET[learid]';
+	var idtype = 'learn';
+</script>
+
+<iframe name="attachframe" id="attachframe" style="display: none;" onload="uploadNextAttach();"></iframe>
+<script type="text/javascript">
+		var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0};
+		function switchImagebutton(btn) {
+			var btns = ['www', 'imgattachlist', 'albumlist'];
+			btns.push('local');
+			switchButton(btn, btns);
+			$(editorid + '_image_menu').style.height = '';
+		}
+
+		function switchAttachbutton(btn) {
+			var btns = ['attachlist'];
+			btns.push('upload');
+			switchButton(btn, btns);
+		}
+		ATTACHNUM['attachused'] = {echo @count($attachs['used'])};
+		ATTACHNUM['attachunused'] = {echo @count($attachs['unused'])};
+		{if !empty($attachs['used']) || !empty($attachs['unused'])}
+			//$(editorid + '_attach').evt = false;
+			updateattachnum('attach');
+		{else}
+			switchAttachbutton('upload');
+		{/if}
+
+
+	addAttach();
+</script>
+<script type="text/javascript">
+function cleanWindow(isForced) {
+var aplInput = $("fastpostmessage");
+var loadingimg = $("main_messaqge").getElementsByTagName("img")[0];
+var promptInfo = $("main_messaqge").getElementsByTagName("p")[0];
+isForced ? aplInput.value = "" : "";
+isForced ? promptInfo.style.display = "none" : "";
+}
+function cl(){
+cleanWindow(true);
+hideWindow('$_G[gp_handlekey]');
+}
+
+function closewindow(learid,ajax){
+if(ajax=='alter'){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=alter&learnid="+learid;
+}else{
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=optionview&learnid="+learid;
+}
+}
+</script>
+{template common/footer}

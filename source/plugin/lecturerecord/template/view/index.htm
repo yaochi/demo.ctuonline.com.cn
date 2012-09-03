@@ -1,0 +1,124 @@
+<div class="mn">
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index&type=apply" class="z">返回列表</a>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_skjl">
+  <!-- {if $type=='apply'} -->
+  <tr>
+    <td width="80" align="right"><strong>授课名称：</strong></td>
+    <td align="left">$record[name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>讲师：</strong></td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td width="80" align="right"><strong>培训班名称：</strong></td>
+    <td align="left">$record[class_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>培训班级别：</strong></td>
+    <td align="left"><!--{if $record[class_level]==2}-->集团级<!--{else}-->省级<!--{/if}--></td>
+  </tr>
+  <tr>
+    <td align="right"><strong>主办方：</strong></td>
+    <td align="left">$record[org_name]</td>
+  </tr>
+   <tr>
+    <td align="right"><strong>课程时长：</strong></td>
+    <td align="left"><!--{if $record[class_time]}-->$record[class_time] 小时<!--{/if}--></td>
+  </tr>
+  <tr>
+    <td align="right"><strong>时间：</strong></td>
+    <td align="left">$record[starttime] ~ $record[endtime]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>地点：</strong></td>
+    <td align="left">$record[address]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>人数：</strong></td>
+    <td align="left">$record[class_stud_num]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>评估分：</strong></td>
+    <td align="left">$record[class_result]</td>
+  </tr>
+  <!-- {/if} -->
+  <!-- {if $type=='dev'} -->
+  <tr>
+    <td width="80" align="right"><strong>课程开发名称：</strong></td>
+    <td align="left">$record[name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>讲师：</strong></td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>课程级别：</strong></td>
+    <td align="left"><!--{if $record[class_level]==2}-->集团级<!--{else}-->省级<!--{/if}--></td>
+  </tr>
+  <tr>
+    <td align="right"><strong>主办方：</strong></td>
+    <td align="left">$record[org_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>时间：</strong></td>
+    <td align="left">$record[starttime] ~ $record[endtime]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>地点：</strong></td>
+    <td align="left">$record[address]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>参与度：</strong></td>
+    <td align="left"><!--{if $record[class_result]==1}-->牵头人<!--{else}--> 参与人<!--{/if}--></td>
+  </tr>
+  <!-- {/if} -->
+  <!-- {if $type=='research'} -->
+  <tr>
+    <td width="80" align="right"><strong>专项课题名称：</strong></td>
+    <td align="left">$record[name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>讲师：</strong></td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>组织部门：</strong></td>
+    <td align="left">$record[org_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>研讨次数：</strong></td>
+    <td align="left">$record[join_num] 次</td>
+  </tr>
+  <!-- {/if} -->
+  <!-- {if $type=='tu'} -->
+  <tr>
+    <td width="80" align="right"><strong>课程辅导名称：</strong></td>
+    <td align="left">$record[name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>讲师：</strong></td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>组织部门：</strong></td>
+    <td align="left">$record[org_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>辅导课时：</strong></td>
+    <td align="left">$record[tu_num] 小时</td>
+  </tr>
+  <!-- {/if} -->
+</table>
+<!--{if $_G['forum']['ismoderator'] || $lecturer[id]==$record[teacher_id]}-->
+<div style="float: right;" class="bm">
+	<table>
+		<tr>
+			<td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$record[id]&lecturerecord_action=edit&type=$type">编辑</a> | <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$record[id]&lecturerecord_action=delete">删除</a></td>
+		</tr>
+	</table>
+</div>
+<!--{/if}-->
+</div>

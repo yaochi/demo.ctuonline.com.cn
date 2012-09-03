@@ -1,0 +1,269 @@
+<link rel="stylesheet" type="text/css"
+	href="data/cache/style_{STYLEID}_home_space.css?{VERHASH}" />
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="source/plugin/notice/js/notice_common.js?{VERHASH}"></script>
+<!-- CUSTOM -->
+<link rel="stylesheet"
+	href="source/plugin/suggestbox/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/suggestbox/assets/js/learning.js?{VERHASH}"></script>
+
+<div class="mn">
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=passsuggest" class="z">返回列表</a>
+	<div id="toolbar">
+		<!--  <h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>-->
+	</div>
+</div>
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=create'">
+			<p class="sb_title">我要建议</p>
+		</div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=passsuggest'">
+			<p class="sb_title">智慧结晶</p>
+		</div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(2);
+
+</script>
+
+
+
+
+<form
+	action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=suggestbox&plugin_op=createmenu&suggestbox_action=saveUpdate"
+	method="post" id="forum1" onsubmit="return validate_update(this);">
+<input type="hidden" name="suggestid" id="suggestid"
+	value="$suggest['suggestId']">
+<table width="100%" id="classtable" cellspacing="0" cellpadding="0"
+	border="1" class="tfm tablezykd view" frame="hsides">
+	<tr>
+		<th align="left" width="13%">姓名</th>
+		<td width="37%"><input type="text" value="$suggest['name']" size="20"
+			id="name" name="name" class="px"  readonly></td>
+		<th width="13%">网大帐号</th>
+		<td colspan="" width="37%"><input type="text" value="$suggest['regname']"
+			size="20" id="regname" name="regname" class="px" readonly /></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$suggest['corpname']" size="20"
+			id="corpname" name="corpname" class="px" readonly/></td>
+		<th>部门名称</th>
+		<td><input type="text" value="$suggest['deptname']" size="20"
+			id="deptname" name="deptname" class="px" readonly/></td>
+	</tr>
+
+	<tr>
+		<th>职务</th>
+		<td><input type="text" value="$suggest['duty']" size="20"
+			id="duty" name="duty" class="px"  /></td>
+		<th align="left">联系手机</th>
+		<td colspan=""><input type="text" value="$suggest['telephone']"
+			size="20" id="telephone" name="telephone" class="px" readonly/></td>
+	</tr>
+
+	<tr>
+		<th>意见</th>
+		<td colspan="5" valign="top" width="87%"><textarea class="pt" id="suggest"
+			name="suggest" cols="40" rows="5" readonly>{echo $suggest['suggest']}</textarea>
+			<!--{if $repl}-->
+			  <div style="background-color:#FFF4DD;color: #FF6600;font-size:12px;">完善建议</div>
+		<p id="learnchievoptionid">
+		<!--{loop $repl $key $repl}-->
+
+         <!--{if $repl[isadmin]==0}-->
+		<li style="list-style-type:none;margin:5px 0;">
+			<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($repl["replydateline"])}</span>
+			<strong style="color:#ff8c00;"><!--{eval echo user_get_user_name_by_username($repl[authorer]);}--></strong> &nbsp; <img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px;padding-left:8px; color:#ff8c00;">$repl[replmessage]</div>
+
+		</li>
+		<!--{else}-->
+		<li style="list-style-type:none;margin:5px 0 7px;">
+			<span style="display:inline-block; width:96px; color:#666;">{eval echo dgmdate($repl["replydateline"])}</span>
+			<strong><!--{eval echo user_get_user_name_by_username($repl[authorer]);}--></strong> &nbsp; <img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复" title="回复" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px;padding-left:8px; ">$repl[replmessage]</div>
+
+		</li>
+		<!--{/if}-->
+
+		<!--{/loop}-->
+		</p>
+       <!--{/if}-->
+		</td>
+	</tr>
+    	<tr>
+		<th>管理员采纳建议点评</th>
+		<td colspan="5" valign="top">$suggest['review']
+		</td>
+	</tr>
+</table>
+
+</form>
+
+
+
+
+
+<div id="f_pst" class="pl">
+							<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=suggestbox&plugin_op=createmenu&suggestbox_action=saveCommonRespond&suggestid=$suggest['suggestId']" onsubmit="return validate_reply(this);">
+											{hook/viewthread_fastpost_content}
+											<input type="hidden" name="formhash" value="{FORMHASH}" />
+											<input type="hidden" name="subject" value="" />
+											<input type="hidden" name="usesig" value="$usesigcheck" />
+											<!--{if $_G['forum']['allowfeed']}-->
+												<input type="hidden" name="addfeed" value="$addfeedcheck" />
+											<!--{/if}-->
+
+											<span id="fastpostreturn"></span>
+
+												<div id="div_main_content" class="mtm mbm">
+						<h3 class="bbs pbn">
+							<!--{if !empty($arryreply)}-->
+							<a href="#f_pst" class="y xi2 xw0">提出评论</a>
+							<!--{/if}-->
+							评论(<span id="comment_replynum">$countreply</span> 意见评论)
+						</h3>
+
+						<!--{loop $replys $key $reply}-->
+							<div id="op_$reply[id]" class="xld xlda">
+                          	<dl class="bbda cl">
+                          	<dd class="m avt"><a href="home.php?mod=space&uid=$reply[authoreruid]" class="perPanel"><!--{avatar($reply[authoreruid], small)}--></a></dd>
+                          	<dt>
+                          	<!--{if $reply[authoreruid]}-->
+			       <a class="perPanel" href="home.php?mod=space&uid=$reply[authoreruid]" id="author_$reply[id]"><!--{eval echo user_get_user_name($reply[authoreruid]);}-->
+			       </a>
+			<!--{else}-->
+			 {lang anonymous}
+			<!--{/if}-->
+			<span class="xg1 xw0">{eval echo dgmdate($reply[replydateline])}</span>
+		     </dt>
+                          	<dd class="z">
+                          	<div class="pcb">
+                          	<h2> $reply[replmessage]</h2>
+
+                          	</div>
+                          	</dd>
+                          	</dl>
+                        </div>
+
+			<!--{/loop}--></div>
+            <!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+
+											<!--{if empty($_G[gp_from]) && $_G[setting][fastsmilies]}--><div id="fastsmilies" class="y"></div><!--{/if}-->
+
+											<div class="tedt">
+												<div class="bar">
+													<span class="y">
+														{hook/viewthread_fastpost_func_extra}
+														<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+															<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=fastpostmessage&from=fastpost" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> $_G['setting']['magics']['doodle']</a>
+															<span class="pipe">|</span>
+														<!--{/if}-->
+
+													</span>
+													{eval $seditor = array('fastpost', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+													{hook/viewthread_fastpost_ctrl_extra}
+													{subtemplate common/seditor}
+												</div>
+												<div class="area">
+													<textarea rows="5" cols="80" name="replmessage" id="fastpostmessage" onKeyDown="seditor_ctlent(event, <!--{if $_G['gp_ordertype'] != 1}-->'fastpostvalidate($(\'fastpostform\'))'<!--{else}-->'$(\'fastpostform\').submit()'<!--{/if}-->);" tabindex="4" class="pt"></textarea>
+												</div>
+											</div>
+											<!--{if checkperm('seccode') && ($secqaacheck || $seccodecheck)}-->
+												{block sectpl}<sec> <span id="sec<hash>" onclick="showMenu(this.id)"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div>{/block}
+												<div class="mtm">{template common/seccheck}</div>
+											<!--{/if}-->
+											<p class="ptm">
+												<button type="submit" name="replysubmit" id="fastpostsubmit" value="replysubmit" tabindex="5" class="pn vm"><strong>提交回复</strong></button>
+
+											</p>
+								<!--{if empty($_G[gp_from])}-->
+										</td>
+									</tr>
+								</table>
+								<!--{/if}-->
+							</form>
+							</div>
+<script type="text/javascript">
+function validate_update(obj){
+var corpname=$('corpname');
+   if(corpname.value=="")
+  {
+		showDialog("请填入公司名称！");
+		corpname.focus();
+		return false;
+  }
+          var deptname=$('deptname');
+   if(deptname.value=="")
+  {
+		showDialog("请填入部门名称！");
+		deptname.focus();
+		return false;
+  }
+          var duty=$('duty');
+   if(duty.value=="")
+  {
+		showDialog("请填入职务名称！");
+		duty.focus();
+		return false;
+  }
+  var telephone=$('telephone');
+     if(telephone.value=="")
+  {
+		showDialog("请填入手机号码或联系电话！");
+		telephone.focus();
+		return false;
+  }
+        var suggest=$('suggest');
+   if(suggest.value=="")
+  {
+		showDialog("请填写意见或建议！");
+		suggest.focus();
+		return false;
+  }
+}
+function validate_reply(obj){
+     var replmessage=$('fastpostmessage');
+     str   =   replmessage.value.replace(/^\s+|\s+$/g,"");
+   if(str=="")
+  {
+		showDialog("回复内容不能为空！");
+		replmessage.focus();
+		return false;
+  }
+
+}
+function accept(){
+var suggestid=$('suggestid').value;
+var fid=$('fid').value;
+var url="forum.php?mod=group"+"&"+"action=plugin&fid="+$_G[fid]+"&plugin_name=suggestbox&plugin_op=createmenu&suggestbox_action=passSuggest&suggestid="+suggestid;
+getJSONP(url,'adopt');
+}
+function adopt(data){
+if(data.data==1){
+showDialog("已采纳该建议！");
+return false;
+}
+}
+
+</script>
+</div>

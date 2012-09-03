@@ -1,0 +1,415 @@
+<div class="module cl">
+	<div class="qpdiym cl">
+		<div class="qpfm_mask xw1 xs2"><img src="static/image/common/loading.gif" class="mrngroup"/>发布中...</div>
+		<div class="qpfm">
+			<form method="post" autocomplete="off" id="quickPostForm" action="forum.php?mod=post&action=newthread&fid={$_G[fid]}&handlekey=qpfm" onsubmit="qpfmSubmit(this);return false;">
+            <!--{if $is_enable_category}-->
+	            <select name="category" id="quickCategory" style="margin-left:3px;padding:6px 4px;display:none;">
+	            	<!-- {if !$required} --><option value="0">--请选择--</option><!--{/if}-->
+	            	<!-- {if $categorys}-->
+			            <!-- {loop $categorys $id $cat}-->
+			            	<option value="{$id}">{$cat[name]}</option>
+			            <!--{/loop}-->
+	            	<!-- {/if}  -->
+
+	            </select>
+            <!--{/if}-->
+				<input type="text" name="subject" id="quickSubject" class="xg0" value="工作学习中有什么收获和体会？生活中有什么新鲜事？写在这里与大家分享…" onfocus="qpfm_Open(this);" />
+				<textarea name="message" id="quickMessage" lang="zh-cn" style="display:none;" class="xg0"></textarea>
+				<a class="qpfm_close" href="javascript:;" onclick="qpfm_Close(this);"style="display:none;"></a>
+				<div class="qpfm_container">
+					<input type="submit" name="quickSubmit" id="addsubmit_btn" value="提交" disabled="disabled" />
+					<p style="margin: 10px 0 0 10px; *margin-top: 5px;"><input type="checkbox" name="isanonymity" class="pc" value="-1" tabindex="1"><label for="isanonymity" class="mlngroup">匿名发布</label></p>
+				</div>
+				<input type="hidden" name="addfeed" value="1" />
+				<input type="hidden" name="fid" value="39" />
+				<input type="hidden" name="htmlon" value="1" />
+				<input type="hidden" name="plugin_name" value="topic" />
+				<input type="hidden" name="plugin_op" value="groupmenu" />
+				<input type="hidden" name="special" value="0" />
+				<input type="hidden" name="wysiwyg" value="1" />	
+				<input type="hidden" name="topicsubmit" value="false" />
+				<input type="hidden" name="anonymity" value="">
+			</form>
+			<div id="return_qpfm" style="display: none;"></div>
+		</div>
+		<div class="nvShadow">
+			<!--[if gte IE 7]><img src="static/image/common/esn/nv_shadow3.png" /><![endif]-->
+			<!--[if !IE]>--><img src="static/image/common/esn/nv_shadow3.png" /><!--<![endif]-->		
+		</div>
+	</div>
+	<div class="xld xlda gfdiym gfslim" style="margin: 10px 14px;<!--{if $parameter[blockheight] != 0}--> height:{$parameter[blockheight]}px; overflow:auto;<!--{/if}-->">
+		<h1 class="wx xs4">最新动态</h1>
+		<dl class="cl"> 
+			<dd class="cl">
+			<!--{loop $feed_users $day $users}-->
+			
+			<!--{loop $users $user}-->
+			
+			<?php $daylist = $feed_list[$day][$user[uid]]; ?>
+	
+			<ul class="bbda el">
+			<!--{loop $daylist $value}-->
+				<li class="cl" id="feed_{$value[feedid]}_li" >
+					<img src="{$value[icon_image]}" class="t" />
+					<div class="cl" {$value[style]}>
+						{$value[title_template]}
+						<!--{if $value['new']}-->
+						<span style="color:red;">New</span> 
+						<!--{/if}-->
+						<span class="xg1"><?php echo dgmdate($value[dateline], 'u'); ?></span>
+				
+				
+						<div class="ec">
+				
+							<!--{if empty($_G['home']['tpl'][hidden_hot]) && $value[hot]}-->
+							<div class="hot brm"><a href="home.php?mod=spacecp&ac=feed&feedid=$value[feedid]"><em>{$value[hot]}</em>热度</a></div>
+							<!--{/if}-->
+				
+							<!--{if $value['image_1']}-->
+							<a href="{$value[image_1_link]}"{$value[target]}><img src="{$value[image_1]}" alt="" class="tn" /></a>
+							<!--{/if}-->
+							<!--{if $value['image_2']}-->
+							<a href="{$value[image_2_link]}"{$value[target]}><img src="{$value[image_2]}" alt="" class="tn" /></a>
+							<!--{/if}-->
+							<!--{if $value['image_3']}-->
+							<a href="{$value[image_3_link]}"{$value[target]}><img src="{$value[image_3]}" alt="" class="tn" /></a>
+							<!--{/if}-->
+							<!--{if $value['image_4']}-->
+							<a href="{$value[image_4_link]}"{$value[target]}><img src="{$value[image_4]}" alt="" class="tn" /></a>
+							<!--{/if}-->
+				
+							<!--{if $value['body_template']}-->
+							<div class="d"<?php if($value['image_3']){ ?> style="clear: both; zoom: 1;"<?php } ?> style="padding-top: 0px;">
+								{$value[body_template]}
+							</div>
+							<!--{/if}-->
+		
+							<!--{if $value['body_general']}-->
+							<div class="quote<?php if($value['image_1']){ ?> z<?php } ?>"><blockquote>{$value[body_general]}</blockquote></div>
+							<!--{/if}-->
+						</div>
+					</div>
+					
+					<!--{if $value['idtype']=='doid'}-->
+					<div id="{$key}_$value[id]" style="display:none;"></div>
+					<!--{elseif $value['idtype']}-->
+					<div id="feedcomment_$value[feedid]" style="display:none;"></div>
+					<!--{/if}-->
+				</li>
+			<!--{/loop}-->
+			</ul>
+			<!--{/loop}-->
+			<!--{/loop}-->
+			</dd>
+		</dl>
+	</div>
+	<!--{if $multi}--><div class="pgs cl">{$multi}</div><!--{/if}-->
+</div>
+<script src="static/js/kindeditor/kindeditor.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	jQuery(".qpdiym").each(function() {
+		if(jQuery(this).parent().parent().parent().hasClass("brs")){
+			jQuery(this).addClass("brtln brtrn");
+		}
+		
+		jQuery("#quickSubject", this).width(jQuery("#quickPostForm", this).width() - 16)
+									 .data("oriWidth", jQuery("#quickPostForm", this).width() - 16);
+		
+	});
+	
+	jQuery('input[name=isanonymity]').on("click", function() {
+		var targetForm = jQuery(this).parent().parent().parent();
+		if(jQuery(this).attr('checked') == 'checked') {
+			jQuery("input[name=anonymity]", targetForm).val("-1");
+			targetForm.data("isanonymity", true);
+		} else {
+			jQuery("input[name=anonymity]", targetForm).val("");
+			targetForm.data("isanonymity", false);
+		}
+	});
+	
+	var publishedForm;
+	var published = false;
+		
+	function qpfm_Open(source) {
+		var targetForm = jQuery(source).parent();
+		if(targetForm.data("isOpened") == undefined || targetForm.data("isOpened") == false) {
+			targetForm.data("oriWidth", targetForm.width());
+			targetForm.width("auto");
+			
+			if(jQuery("#quickCategory", targetForm).length>0){ //快速分类
+				jQuery("#quickCategory", targetForm).show();
+				var w1 = jQuery("#quickSubject", targetForm).width()
+				   ,w2 = jQuery("#quickCategory", targetForm).outerWidth(true);
+				jQuery("#quickSubject", targetForm).width(w1-w2-4);
+			}
+			
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) == 6) {
+				targetForm.css("margin", 0);
+				targetForm.height(276);
+			} else {
+				targetForm.animate({
+					height: 276,
+					marginTop: 0,
+					marginRight: 0,
+					marginBottom: 0,
+					marginLeft: 0
+				}, 300, 'easeOutQuad', function(){});
+			}
+			
+			jQuery(".qpfm_close", targetForm).css("display", "block");
+			
+			jQuery("#quickSubject", targetForm).val("话题标题");
+			jQuery("#quickSubject", targetForm).blur();
+			jQuery("#quickSubject", targetForm).on("focus", inputFocus);
+			jQuery("#quickSubject", targetForm).on("blur", inputBlur);
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 9) {
+				jQuery("#quickSubject", targetForm).on("propertychange", inputMustListener);
+			} else {
+				jQuery("#quickSubject", targetForm).on("input", inputMustListener);
+			}
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 8) {
+				jQuery("#quickSubject", targetForm).css("marginLeft", 0);
+			}
+			
+			jQuery(".qpfm_container", targetForm).slideDown("fast");
+			
+			KindEditor.basePath = 'static/js/kindeditor/';
+			var blogEditor = KindEditor.create(jQuery("#quickMessage", targetForm), 
+			{
+				resizeType: 0,
+				items : [
+						'source', '|', 'undo', 'redo', '|',   'cut', 'copy', 'paste',
+						'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+						'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+						'superscript', 'clearhtml', 'quickformat', 'selectall', 'fullscreen', '/',
+						'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+						'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','media',
+						'insertfile', 'table', 'hr', 'pagebreak',
+						'link', 'unlink'
+						],
+				width: "100%", 
+				height: "204px",
+				afterChange: function() {
+								var mustFlag;
+								try{
+								    if(blogEditor.html() == "" || jQuery("#quickSubject", targetForm).val() == "话题标题" || jQuery("#quickSubject", targetForm).val() == "") {
+								    	mustFlag = false;
+								    } else mustFlag = true;
+								}catch(e) {};
+								
+								if(mustFlag) {
+									jQuery("#addsubmit_btn", targetForm).addClass("on");
+									jQuery("#addsubmit_btn", targetForm).removeAttr("disabled");
+								} else {
+									jQuery("#addsubmit_btn", targetForm).removeClass("on");
+									jQuery("#addsubmit_btn", targetForm).attr("disabled", "disabled");
+								}
+				
+							 }
+			});
+			
+			targetForm.data("isOpened", true);
+			targetForm.data("blogEditor", blogEditor);
+			targetForm.data("isanonymity", false);
+		}
+	}
+	
+	function qpfm_Close(source) {
+		var targetForm = jQuery(source).parent();
+		var blogEditor = targetForm.data("blogEditor");
+		
+		var run = function() {
+			if(blogEditor) {
+				blogEditor.html("");
+				blogEditor.remove();
+				blogEditor = null;
+			}
+			
+			if(jQuery("#quickCategory", targetForm).length>0){ //快速分类
+				jQuery("#quickCategory", targetForm).hide();
+				jQuery("#quickSubject", targetForm).width(jQuery("#quickSubject", targetForm).data("oriWidth"));
+			}
+
+			if(!jQuery("#quickSubject", targetForm).hasClass("xg0")) {
+				jQuery("#quickSubject", targetForm).addClass("xg0");
+			}
+			jQuery("#quickSubject", targetForm).val("工作学习中有什么收获和体会？生活中有什么新鲜事？写在这里与大家分享…");
+			jQuery("#quickSubject", targetForm).off("focus", inputFocus);
+			jQuery("#quickSubject", targetForm).off("blur", inputBlur);
+			jQuery("#quickSubject", targetForm).blur();
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 9) {
+				jQuery("#quickSubject", targetForm).off("propertychange", inputMustListener);
+			} else {
+				jQuery("#quickSubject", targetForm).off("input", inputMustListener);
+			}
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 8) {
+				jQuery("#quickSubject", targetForm).css("marginLeft", "-12");
+			}
+			
+			jQuery("input[name=anonymity]", targetForm).val("");
+			jQuery('input[name=isanonymity]', targetForm).attr('checked', false);
+			
+			jQuery("#addsubmit_btn", targetForm).removeClass("on");
+			jQuery("#addsubmit_btn", targetForm).attr("disabled", "disabled");
+			jQuery(".qpfm_container", targetForm).slideUp("fast");
+			
+			jQuery(".qpfm_close", targetForm).css("display", "none");
+			if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) == 6) {
+				targetForm.height(36);
+				targetForm.css("margin", 12);
+				targetForm.width(targetForm.data("oriWidth"));
+				//alert(targetForm.width());
+			} else {
+				targetForm.animate({
+					height: 36, 
+					margin: 12
+				}, 300, 'easeOutExpo', function(){
+					targetForm.width(targetForm.data("oriWidth"));
+				});
+			}
+
+			targetForm.data("isOpened", false);
+			targetForm.data("isanonymity", false);
+			targetForm.data("blogEditor", null);
+			
+			published = false;
+		}
+		
+		if(!published && !blogEditor.isEmpty()) {
+			showDialog("确定放弃您所填写内容?", "confirm", "", function(){ run() });
+		} else run();
+	}
+	
+	function qpfmSubmit(source) {
+		publishedForm = jQuery(source);
+		var qpfm_mask = jQuery(".qpfm_mask", jQuery(source).parent().parent());
+		qpfm_mask.css("display", "block");
+		qpfm_mask.css("height", jQuery(source).outerHeight());
+		qpfm_mask.css("lineHeight", jQuery(source).outerHeight() + "px");
+		qpfm_mask.animate({
+			opacity: 0.95
+		}, 500, function(){
+			ajaxpost("quickPostForm", 'return_qpfm');
+		});
+	}
+
+	function succeedhandle_qpfm(url, msg, values) {
+		published = true;
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).stop();
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).css("opacity", 0);
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).css("display", "none");
+		
+		var subject = jQuery("#quickSubject", publishedForm).val();
+		var message = jQuery("textarea[name=message]", publishedForm).val();
+		var str = '';
+		str += '<li class="cl"><img class="t" src="static/image/feed/thread.gif"><div class="cl">';
+		if(publishedForm.data("isanonymity")) {
+			str += '<a class="perPanel" target="_blank" href="home.php?mod=space&uid=-1">匿名</a>';
+		} else if(REPEATID > 0) {
+			var repeatInfo = jQuery('#repeat_'+REPEATID).data('repeatInfo');
+			str += '<a class="perPanel" target="_blank" href="forum.php?mod=group&fid=' + repeatInfo.fid + '">'+ repeatInfo.name +'</a>';
+		} else {
+			//str += '<a class="perPanel" target="_blank" href="home.php?mod=space&uid={$value[uid]}">{$value[username]}</a>';
+			str += '<a class="perPanel" target="_blank" href="home.php?mod=space&uid='+UID+'">'+REALNAME+'</a>';
+		}
+		str += '&nbsp;发表了新话题&nbsp;<span style="color:red;">New</span><span class="xg1"><span>刚刚</span></span>';
+		str += '<div class="ec"><div class="d" style="padding-top: 0px;"><b><a href="forum.php?mod=viewthread&tid='+values.tid+'">'+subject+'</a></b><br>'+message+'</div></div></li>';
+		if(jQuery("ul.bbda", publishedForm.parent().parent().parent()).length == 0) {
+			jQuery("dd.cl", publishedForm.parent().parent().parent()).append("<ul class='bbda el'></ul");
+			jQuery("ul.bbda", publishedForm.parent().parent().parent()).append(str);
+		} else {
+			jQuery("ul.bbda", publishedForm.parent().parent().parent()).first().prepend(str);
+		}		
+		showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>发布成功</span>", 3000);
+		
+		qpfm_Close(jQuery(".qpfm_close", publishedForm));
+		publishedForm = null;
+	}
+	
+	function errorhandle_qpfm(url, msg, values) {
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).stop();
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).css("opacity", 0);
+		jQuery(".qpfm_mask", publishedForm.parent().parent()).css("display", "none");
+		published = false;
+		showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>" + url + "</span>", 3000);
+	}
+	
+	function inputFocus() {
+		if(jQuery(this).val() == "话题标题") {
+			jQuery(this).removeClass("xg0");
+			jQuery(this).val("");
+		}
+	}
+	
+	function inputBlur() {
+		if(jQuery(this).val() == "") {
+			jQuery(this).addClass("xg0");
+			jQuery(this).val("话题标题");
+		}
+	}
+	
+	function inputMustListener() {
+		var mustFlag;
+		var targetForm = jQuery(this).parent();
+		var blogEditor = targetForm.data("blogEditor");
+		try{
+		    if(blogEditor.html() == "" || jQuery("#quickSubject", targetForm).val() == "话题标题" || jQuery("#quickSubject", targetForm).val() == "") {
+		    	mustFlag = false;
+		    } else mustFlag = true;
+		}catch(e) {};
+		
+		if(mustFlag) {
+			jQuery("#addsubmit_btn", targetForm).addClass("on");
+			jQuery("#addsubmit_btn", targetForm).removeAttr("disabled");
+		} else {
+			jQuery("#addsubmit_btn", targetForm).removeClass("on");
+			jQuery("#addsubmit_btn", targetForm).attr("disabled", "disabled");
+		}
+	}
+	
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	var KEFlag = false;
+	var subjectObj = jQuery("#quickSubject");
+	var messageObj = jQuery("#quickMessage");
+	var published = false;
+	var blogEditor;
+	
+	function quickPostSubmit(){
+		jQuery(".quick_mask").css("display", "block");
+		jQuery(".quick_mask").css("height","237px");
+		jQuery(".quick_mask").css("lineHeight", "237px");
+		jQuery(".quick_mask").animate({
+			opacity: 0.95
+		}, 1000,function(){
+			blogEditor.sync(); 
+			ajaxpost('quickPostForm','return_quick');
+		});
+	}
+	
+	
+
+	function succeedhandle_quick(url, msg, values) {
+		jQuery(".quick_mask").stop();
+		jQuery(".quick_mask").animate({
+			opacity:"0",
+			height:"37px"
+		},1000,'easeOutExpo',function(){
+			jQuery(".quick_mask").css("display", "none").css("height","0");
+		});
+		var subject = subjectObj.val();
+		var message = messageObj.val();
+		if(subject=='标题'){subject = '';}
+		var str = '';
+		str += '<li class="cl"><img class="t" src="static/image/feed/thread.gif"><div class="cl">';
+		str += '<a class="perPanel" target="_blank" href="home.php?mod=space&uid='+UID+'">'+REALNAME+'</a>&nbsp;发表了新话题<span class="xg1"><span style="color:red;">New</span><span>刚刚</span></span>';
+		str += '<div class="ec"><div class="d" style="padding-top: 0px;"><b><a href="forum.php?mod=viewthread&tid='+values.tid+'">'+subject+'</a></b><br>'+message+'</div></div></li>';
+		jQuery("#mfeed dd ul.bbda").first().prepend(str);
+		published = true;
+		cancel();
+	}
+</script>	
+

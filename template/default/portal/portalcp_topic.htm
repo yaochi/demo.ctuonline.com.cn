@@ -1,0 +1,99 @@
+<!--{template common/header}-->
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="portal.php">{lang portal}</a> &rsaquo;
+	<!--{if $topic}-->
+	<a href="portal.php?mod=portalcp&ac=topic&topicid=$topic[topicid]">{lang topic_edit}</a>
+	<!--{else}-->
+	<a href="portal.php?mod=portalcp&ac=topic">{lang topic_add}</a>
+	<!--{/if}-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx">{lang portal}</label>
+		</div>
+		<!--{if $op == 'add' || $op == 'edit'}-->
+		<div class="bm">
+			<h1 class="mt"><!--{if $topic}-->{lang topic_edit}<!--{else}-->{lang topic_add}<!--{/if}--></h1>
+			<form id="topicform" name="topicform" method="post" autocomplete="off" enctype="multipart/form-data" action="portal.php?mod=portalcp&ac=topic&op=$op&topicid=$topic[topicid]">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<tr>
+						<th><strong class="rq">*</strong>{lang topic_submit}</th>
+						<td><input type="text" name="title" value="$topic[title]" class="px" /></td>
+					</tr>
+					<tr>
+						<th><strong class="rq">*</strong>{lang topic_static_name}</th>
+						<td><input type="text" name="name" value="$topic[name]" class="px" />
+							<p class="xg2">{lang topic_static_name_comment}</p>
+						</td>
+					</tr>
+					<tr>
+						<th>{lang topic_description}</th>
+						<td><textarea name="summary" rows="4" cols="60" class="pt">$topic[summary]</textarea></td>
+					</tr>
+					<tr>
+						<th>{lang topic_cover}</th>
+						<td>
+							<input name="cover_tg" type="radio" class="pr" onclick="document.getElementById('cover_tg_1').style.display='block';document.getElementById('cover_tg_2').style.display='none';" /> {lang link_to_internet}
+							<input name="cover_tg" type="radio" class="pr" onclick="document.getElementById('cover_tg_1').style.display='none';document.getElementById('cover_tg_2').style.display='block'" /> {lang upload_from_local}
+							<p id="cover_tg_1"><input type="text" name="cover" value="" class="px" /></p>
+							<p id="cover_tg_2" style="display: none;"><input type="file" name="cover" /></p>
+							<!--{if $topic[cover]}-->
+							<p>
+								{lang topic_cover_current}:
+								<a href="$topic[cover]" target="_blank"><img src="$topic[cover]" alt="$topic[title]" width="160" height="160" /></a>
+							</p>
+							<!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<th>{lang tplname}</th>
+						<td>
+
+					<!--{if empty($topicid)}-->
+							<select name="primaltplname">
+								<!--{loop $tpls $k $v}-->
+								<option value="$k">$v</option>
+								<!--{/loop}-->
+							</select>
+							<p class="xg2">{lang topic_tplname_comment}</p></td>
+					<!--{else}-->
+					<!--{eval $topic['primaltplname'] = str_replace('portal/', '', $topic['primaltplname']).'.htm'}-->
+						<span>$topic[primaltplname]</span>
+					<!--{/if}-->
+					</tr>
+					<tr>
+						<th>{lang topic_additional}</th>
+						<td>
+							<label for="useheader"><input type="checkbox" id="useheader" name="useheader" class="pc"<!--{if $topic[useheader]}--> checked="checked"<!--{/if}--> /> {lang topic_navs}</label>
+							&nbsp;
+							<label for="usefooter"><input type="checkbox" id="usefooter" name="usefooter" class="pc"<!--{if $topic[usefooter]}--> checked="checked"<!--{/if}--> /> {lang topic_page_bottom}</label>
+						</td>
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<input type="hidden" name="editsubmit" value="true" />
+							<input type="hidden" name="formhash" value="{FORMHASH}" />
+							<button type="submit" name="editsubmit_btn" id="editsubmit_btn" value="true" class="pn pnp"><strong>{lang submit}</strong></button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--{elseif $op == 'diy'}-->
+
+		{lang topic_custom_start}
+
+		<!--{/if}-->
+	</div>
+	<div class="sd">
+		<!--{template common/userabout}-->
+	</div>
+</div>
+
+
+<!--{template common/footer}-->

@@ -1,0 +1,164 @@
+<script src="static/js/forum_calendar.js"></script>
+<script type="text/JavaScript">parent.document.title = '中国电信网上大学 管理中心 - 统计 - 轻博客平台运营统计';if(parent.$('admincpnav')) parent.$('admincpnav').innerHTML='统计&nbsp;&raquo;&nbsp;轻博客平台运营统计';</script>
+<div class="itemtitle">
+<h3>轻博客平台运营数据</h3>
+</div>
+<form id="cpform" action="admin.php?action=statistics&operation=operationform2&dis=2" autocomplete="off" method="post" name="cpform" onsubmit="return validate()">
+<input type="hidden" value="ae9f1d4b" name="formhash">
+<input type="hidden" value="" name="scrolltop" id="formscrolltop">
+<input type="hidden" value="" name="anchor">
+
+<label style="margin:0 5px 0 0;">内容类型:</label>
+
+<select name="typeid"><option <!--{if $typeid=='0'}-->selected="selected"<!--{/if}--> value="0">-全部-</option>
+<option <!--{if $typeid=='visit'}-->selected="selected"<!--{/if}--> value="visit">翼博登录用户数</option>
+<option <!--{if $typeid=='commpost'}-->selected="selected"<!--{/if}--> value="commpost">原创内容发表数</option>
+<option <!--{if $typeid=='feed'}-->selected="selected"<!--{/if}--> value="feed">转发数</option>
+<option <!--{if $typeid=='comment'}-->selected="selected"<!--{/if}--> value="comment">评论数</option>
+<option <!--{if $typeid=='addtag'}-->selected="selected"<!--{/if}--> value="addtag">新增标签数</option>
+<option <!--{if $typeid=='hottag'}-->selected="selected"<!--{/if}--> value="hottag">标签热度</option>
+</select>
+
+<label style="margin:0 5px 0 15px;">起始日期:</label>
+
+<input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-right: 5px;" value="$ybstarttime" name="ybstarttime" class="txt"> -- <input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-left: 5px;" value="$ybendtime" name="ybendtime" class="txt">
+<div class="fixsel">
+<input type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="operationformsubmit" id="operationformsubmit" class="btn">
+<!--{if $_GET['dis']=='2'}--><input type="button" value="导出明细"   class="btn" onclick="location.href='ybsticsexpt.php?operation=exporoptionfrom&ybstarttime=$ybstarttime&ybendtime=$ybendtime'"><!--{/if}-->
+
+</div>
+<script type="text/JavaScript">_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'operationformsubmit'); });</script>
+</form>
+  <table class="tb tb2 "  <!--{if $_GET['dis']=='2'}-->style=";"<!--{else}-->style="display:none;"<!--{/if}--> id="forresourcelistcount">
+    <tbody>
+      <tr class="header" id="thead">
+        <th width="50%">分类名称</th>
+        <th width="30%">统计数</th>
+      </tr>
+	  <!--{if $typeid=='0'}-->
+      <tr class="top">
+        <td ><span>翼博登录用户</span></td>
+        <td>$visitnum</td>
+      </tr>
+      <tr class="top">
+        <td><span>原创内容发表数</span></td>
+        <td>$commentpostnum</td>
+      </tr>
+      <tr class="top">
+        <td><span>转发数</span></td>
+         <td>$commentfeednum</td>
+      </tr>
+      <tr class="top">
+        <td><span>评论数</span></td>
+         <td>$commentnum</td>
+      </tr>
+       <tr class="top">
+        <td><span>新增标签数</span></td>
+        <td>$newtag</td>
+      </tr>
+      <tr class="top">
+        <td><span>标签热度</span></td>
+        <td>$hottag</td>
+      </tr>
+      <!--{elseif $typeid=='visit'}-->
+      <tr class="top">
+        <td ><span>翼博登录用户</span></td>
+        <td>$visitnum</td>
+      </tr>
+      <!--{elseif $typeid=='commpost'}-->
+      <tr class="top">
+        <td ><span>原创内容发表数</span></td>
+        <td>$commentpostnum</td>
+      </tr>
+       <!--{elseif $typeid=='feed'}-->
+      <tr class="top">
+        <td ><span>转发数</span></td>
+        <td>$commentfeednum</td>
+      </tr>
+       <!--{elseif $typeid=='comment'}-->
+      <tr class="top">
+        <td ><span>评论数</span></td>
+        <td>$commentnum</td>
+      </tr>
+       <!--{elseif $typeid=='addtag'}-->
+      <tr class="top">
+        <td ><span>新增标签数</span></td>
+        <td>$newtag</td>
+      </tr>
+       <!--{elseif $typeid=='hottag'}-->
+      <tr class="top">
+        <td ><span>标签热度</span></td>
+        <td>$commentnum</td>
+      </tr>
+	  <!--{/if}-->
+    </tbody>
+  </table>
+
+<script language="javascript">
+function getoffset(o){
+	var t = o.offsetTop,
+		l = o.offsetLeft;
+    while(o = o.offsetParent){
+         t += o.offsetTop;
+         l += o.offsetLeft;
+    }
+    return {top: t, left: l};
+}
+
+function setstyle(ele, css){
+	for(var i in css){
+		ele.style[i] = css[i];
+	}
+}
+
+function createHeader(){
+	var div = document.createElement('div');
+	document.body.appendChild(div);
+	div.innerHTML = '<table class="tb tb2 "><tr class="header">'+ $("thead").innerHTML +'</tr></table>';
+	setstyle(div,{
+		display 	: 'none',
+		position 	: 'fixed',
+		left 		: getoffset($("thead")).left + 'px',
+		top 		: '0px',
+		backgroundColor : '#FFFFFF',
+		borderBottom 	: '1px dotted #DEEFFB'
+	});
+	return div;
+}
+
+var thdiv = createHeader();
+
+function fixheader(){
+	var t1 = getoffset($("thead")).top;
+	var t2 = document.documentElement.scrollTop;
+	if (t2 >= t1) {
+		setstyle(thdiv,{
+			display	:'block',
+			width 	: $("thead").offsetWidth + 'px'
+		});
+	}else{
+		setstyle(thdiv,{display:'none'});
+	}
+}
+window.onscroll = fixheader;
+window.onresize = fixheader;
+
+function showDatarow(f, c1, c2, t, st) {
+	var rows = displayrow(f, c1, c2);
+	if (rows.length > 0 && rows[0].cells[1].firstChild.nodeName.toUpperCase() == 'IMG') {
+		var url = 'admin.php?action=statistics&operation=blogfeed&starttime=$starttime&endtime=$endtime&inajax=1';
+		getData(url + (st?'&secondtype='+st:'&firsttype='+t), function(d){
+			if (d && d != null) {
+				d = eval("(" + d + ")");
+				for (var i=0; i<rows.length; i++){
+					var o = rows[i];
+					o.cells[1].innerHTML = d[o.id];
+				}
+			}
+		});
+	}
+}
+function validate(){
+document.getElementById("forresourcelistcount").style.display ="";
+}
+</script>

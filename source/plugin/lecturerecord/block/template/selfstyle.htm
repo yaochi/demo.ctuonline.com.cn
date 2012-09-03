@@ -1,0 +1,574 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<style>
+
+	.tfm caption, .tfm th, .tfm td { padding: 6px 2px !important; }
+
+	#starttime, #endtime { margin-right: 0 !important; }
+
+	#class_result_row { display: none; }
+
+</style>
+
+<div id="create_lecturerecord" class="module cl"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+
+	<form id="formpost" method="post" action="{$lecbutton[formurl]}" target="_blank" onsubmit="return validate_from(this);" cellspacing="0" cellpadding="0" class="tfm">
+
+	<input type="hidden" name="orgname_input_id" id="orgname_input_id" />
+
+	<input type="hidden" name="type_lr" id="type_lr" value="apply"/>
+
+	<table>
+
+		<tr>
+
+			<th><span id="mc_all">授课名称:</span></th>
+
+			<td>
+
+			<input id="names" type="text" name="name" class="px pxn" style="width: 190px;"/></td>
+
+		</tr>
+
+		<tr>
+
+			<th>教学方式:</th>
+
+			<td>
+
+				<select id="type" name="type" onchange="change();">
+
+	  			<option value="1" selected>授课申报</option>
+
+	  			<option value="2">课程开发</option>
+
+	  			<option value="3">课程研究</option>
+
+	  			<option value="4">课题辅导</option>
+
+				</select>
+
+			</td>
+
+		</tr>
+
+		<tr id="bjmc_1">
+
+			<th>班级名称:</th>
+
+			<td><input id="class_name" type="text" name="class_name" class="px pxn" style="width: 190px;"/>
+
+			</td>
+
+		</tr>
+
+		<tr id="jb_12">
+
+			<th>班级级别:</th>
+
+			<td>
+
+			<select id="class_level" name="class_level">
+
+	  		<option value="2" selected>集团级</option>
+
+	 		<option value="1">省级</option>
+
+			</select></td>
+
+		</tr>
+
+		<tr>
+
+			<th><span id="org_all">主办方</span>:</th>
+
+			<td>
+
+				<input type="text" readonly="readonly" name="orgname_input" value="" class="px pxn" id="orgname_input" style="width: 130px;"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+
+				<a href="#" onclick="clearorg();">清除</a>
+
+			</td>
+
+		</tr>
+
+		<tr id="sj_12">
+
+			<th>时间:</th>
+
+			<td>
+
+				<input type="text" readonly="readonly" class="px pxn" name="starttime" id="starttime" onclick="showcalendar(event, this, true)" style="width: 81px;"/>
+
+			      ~
+
+			    <input type="text" readonly="readonly" class="px pxn" name="endtime" id="endtime" onclick="showcalendar(event, this, true)" style="width: 81px;"/>
+
+			</td>
+
+		</tr>
+
+		<tr id="dd_12">
+
+			<th>地点:</th>
+
+			<td>
+
+			<input type="text" name="jgname_input" value="" class="px pxn" id="jgname_input" style="width: 130px;">
+
+			</td>
+
+		</tr>
+
+		<tr id="rs_1">
+
+			<th>人数:</th>
+
+			<td><input type="text" class="px pxn" name="class_stud_num" id="class_stud_num" style="width: 81px;"/>人</td>
+
+		</tr>
+
+		<tr id="class_time_1">
+
+			<th>课程时长:</th>
+
+			<td><input type="text" class="px pxn" name="class_time" id="class_time" style="width: 81px;"/>小时</td>
+
+		</tr>
+
+		<tr id="pgf_1">
+
+			<th>评估分:</th>
+
+			<td><input type="text" class="px pxn" name="class_result" id="class_result" style="width: 81px;"/>分</td>
+
+		</tr>
+
+		<tr id="cyd_2" style="display: none">
+
+			<th>参与度:</th>
+
+			<td>
+
+			<select id="class_result1" name="class_result1">
+
+	  		<option value="1" selected>集团级</option>
+
+	 		<option value="0.5">省级</option>
+
+			</select></td>
+
+		</tr>
+
+		<tr id="ytcs_3" style="display: none">
+
+			<th>研讨次数:</th>
+
+			<td><input type="text" class="px pxn" name="join_num" id="join_num" style="width: 81px;"/>次</td>
+
+		</tr>
+
+		<tr id="fdks_4" style="display: none">
+
+			<th>辅导课时:</th>
+
+			<td><input type="text" class="px pxn" name="tu_num" id="tu_num" style="width: 81px;"/>小时</td>
+
+		</tr>
+
+		<tr>
+
+			<th></th>
+
+			<td class="pns">
+
+				<button type="submit" class="pn"><em>提交</em></button>
+
+			</td>
+
+		</tr>
+
+	</table>
+
+	</form>
+
+</div>
+
+<script type="text/javascript">
+
+function clearorg(){
+
+    $("orgname_input_id").value = "";
+
+    $("orgname_input").value = "";
+
+}
+
+
+
+function clearaddress(){
+
+    $("jgname_input_id").value = "";
+
+    $("jgname_input").value = "";
+
+}
+
+
+
+function change(){
+
+	var type=$("type").value;
+
+	$("bjmc_1").style.display = "none";
+
+	$("jb_12").style.display = "none";
+
+	$("sj_12").style.display = "none";
+
+	$("dd_12").style.display = "none";
+
+	$("rs_1").style.display = "none";
+
+	$("class_time_1").style.display = "none";
+
+	$("pgf_1").style.display = "none";
+
+	$("cyd_2").style.display = "none";
+
+	$("ytcs_3").style.display = "none";
+
+	$("fdks_4").style.display = "none";
+
+    if(type==1){
+
+    	document.getElementById("mc_all").innerHTML = "授课名称";
+
+    	document.getElementById("org_all").innerHTML = "主办方";
+
+    	$("bjmc_1").style.display = "";
+
+    	$("jb_12").style.display = "";
+
+    	$("sj_12").style.display = "";
+
+    	$("dd_12").style.display = "";
+
+    	$("rs_1").style.display = "";
+
+    	$("class_time_1").style.display = "";
+
+    	$("pgf_1").style.display = "";
+
+    }else if(type==2){
+
+    	document.getElementById("mc_all").innerHTML = "课程名称";
+
+    	document.getElementById("org_all").innerHTML = "主办方";
+
+    	$("jb_12").style.display = "";
+
+    	$("sj_12").style.display = "";
+
+    	$("dd_12").style.display = "";
+
+    	$("cyd_2").style.display = "";
+
+    }else if(type==3){
+
+    	document.getElementById("mc_all").innerHTML = "课程名称";
+
+    	document.getElementById("org_all").innerHTML = "组织部门";
+
+    	$("ytcs_3").style.display = "";
+
+    }else{
+
+    	document.getElementById("mc_all").innerHTML = "课题名称";
+
+    	document.getElementById("org_all").innerHTML = "组织部门";
+
+    	$("fdks_4").style.display = "";
+
+    }
+
+	}
+
+</script>
+
+<script type="text/javascript">
+
+	var deliverMethodFlag = false;
+
+
+
+
+
+
+
+	function hideField(flag) {
+
+		deliverMethodFlag = flag;
+
+
+
+		if(deliverMethodFlag) {
+
+			$("class_time_row").style.display = "none";
+
+			$("class_result_row").style.display = document.all ? "block" : "table-row";
+
+			$("type").value = 2;
+
+		} else {
+
+			$("class_time_row").style.display = document.all ? "block" : "table-row";
+
+			$("class_result_row").style.display = "none";
+
+			$("type").value = 1;
+
+		}
+
+	}
+
+
+
+	function validate_from(obj) {
+
+
+
+		var name = $('names');
+
+		if (name) {
+
+			var slen = strlen(name.value);
+
+			if (slen < 1) {
+
+				showDialog("请填写授课名称");
+
+				name.focus();
+
+				return false;
+
+			}
+
+		}
+
+
+
+		var orgname_input = $('orgname_input');
+
+		if (orgname_input) {
+
+			var slen = strlen(orgname_input.value);
+
+			if (slen < 1) {
+
+				showDialog("请选择主办方");
+
+				$('orgname_input').focus();
+
+				return false;
+
+			}
+
+		}
+
+
+
+		var starttime = $('starttime');
+
+		if (starttime) {
+
+			var slen = strlen(starttime.value);
+
+			if (slen < 1) {
+
+				showDialog("请选择开始时间");
+
+				starttime.focus();
+
+				return false;
+
+			}
+
+		}
+
+
+
+		var endtime = $('endtime');
+
+		if (endtime) {
+
+			var slen = strlen(endtime.value);
+
+			if (slen < 1) {
+
+				showDialog("请选择结束时间");
+
+				endtime.focus();
+
+				return false;
+
+			}
+
+		}
+
+
+
+		var starttime = $('starttime');
+
+		var endtime = $('endtime');
+
+		var start = parsedate(starttime.value);
+
+		var end = parsedate(endtime.value);
+
+		if(start>=end){
+
+			showDialog('结束时间必须大于开始时间');
+
+			endtime.focus();
+
+			return false;
+
+		}
+
+
+
+		var address = $('address');
+
+		if (address) {
+
+			var slen = strlen(address.value);
+
+			if (slen < 1) {
+
+				showDialog("请填写地点");
+
+				address.focus();
+
+				return false;
+
+			}
+
+		}
+
+
+
+		var class_stud_num = $('class_stud_num');
+
+		if (class_stud_num) {
+
+			var s = class_stud_num.value;
+
+			var patrn =/^[0-9]*$/;
+
+			if (!patrn.exec(s) || s<=0) {
+
+				showDialog("人数输入有误");
+
+				class_stud_num.focus();
+
+				return false;
+
+			}
+
+		}
+
+var class_time = $('class_time');
+
+			if (class_time) {
+
+				var s = class_time.value;
+
+				var patrn =/^[0-9]*$/;
+
+				if (!patrn.exec(s) || s<=0) {
+
+					showDialog("课程时长输入有误");
+
+					class_time.focus();
+
+					return false;
+
+				}
+
+
+
+		}
+
+		var class_result=$('class_result');
+      if(class_result){
+      var s = class_result.value;
+
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+
+			if (!patrn.exec(s) || (strlen(s)>4) || s<=0 || s>5) {
+
+				showDialog("评估分应大于0，小于等于5，例如4.8");
+
+				class_result.focus();
+
+				return false;
+
+			}
+      }
+
+
+		var estimate_score = $('estimate_score');
+
+		if (estimate_score) {
+
+			var s = estimate_score.value;
+
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+
+			if (!patrn.exec(s) || (strlen(s)>4) || s<=0 || s>5) {
+
+				showDialog("评估分应大于0，小于等于5,例如4.8");
+
+				estimate_score.focus();
+
+				return false;
+
+			}
+
+            }
+
+
+
+		if($('type').value==2){
+
+		var class_result = $('class_result');
+
+			if (class_result) {
+
+				var s = class_result.value;
+
+				var patrn =/^[1-5]|[0-9].[0-9]*$/;
+
+				if (!patrn.exec(s) ||(strlen(s)>4)||s<=0||s>5) {
+
+					showDialog("评估结果应大于0，小于等于5，例如4.8");
+
+					class_result.focus();
+
+					return false;
+
+				}
+
+			}
+
+		}
+
+	}
+
+
+
+
+
+
+</script>

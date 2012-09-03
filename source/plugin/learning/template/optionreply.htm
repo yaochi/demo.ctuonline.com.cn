@@ -1,0 +1,129 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2></h2>
+	</div>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+			<p class="sb_title">我要提交</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">成果展示</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+        <p class="sb_title">学习力排行榜</p>
+        </div>
+        <div class="stationSplit"></div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(1);
+</script>
+<!--{if $_G['forum']['ismoderator']!=1}-->
+ <div id="fspanel">
+           <table>
+   <tr>
+   <td><span class="rq">状态说明：</span></td>
+   <td><span class="rq">待审核</span>&nbsp;——&nbsp;管理员审核意见中.</td>
+   </tr>
+    <tr>
+   <td></td>
+   <td><span class="rq">待提交</span>&nbsp;——&nbsp;管理员已回复,请完善后再次提交.</td>
+   </tr>
+   </table>
+ </div>
+ <!--{/if}-->
+<div class="bm pgs ptn cl"> </div>
+<div id="lecturerlist" class="tl" style="position: relative;">
+	<!--{if !$learnexcit}-->
+	<h3 class="mbm mlwgroup">当前没有待审核评估列表</h3>
+	<!--{else}-->
+
+	<table cellspacing="0" cellpadding="0" border="0">
+		<thead>
+			<tr>
+				<td class="icn">&nbsp;</td>
+				<td class="icn">&nbsp;</td>
+				<td >名称</td>
+				<td  class="by">提交人</td>
+				<td class="by">证明人</td>
+				<td class="by">发布时间</td>
+				<!--{if $_G['forum']['ismoderator']!=1}-->
+				<td  class="by">状态</td>
+				<!--{/if}-->
+			</tr>
+		</thead>
+	<tbody>
+	<!--{loop $learnexcit $key $learn}-->
+		<tr class="line{eval echo ($key%2)}">
+			<td>&nbsp;</td>
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id="">
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionview&learnid=$learn[id]&tap=1&uid=$learn[uid]&examinestatus=$learn[examinestatus]">
+			<!--{if mb_strlen($learn[learnname],'utf-8') > 10}-->
+			{echo  mb_substr($learn[learnname],0,10,'utf-8')}...
+			<!--{else}-->
+			{echo $learn[learnname]}
+			<!--{/if}-->
+			 </a>
+				</span>
+				</td>
+			<td>
+				<em>$learn[subrealname]</em>
+			</td>
+			<td>
+				<em>$learn[Witnessrealname]</em>
+			</td>
+			<td >
+			<em>{eval echo dgmdate($learn[subdateline])}
+			</em>
+			</td>
+			<!--{if $_G['forum']['ismoderator']!=1}-->
+			<td >
+			<!--{if $learn[remindstat]==1}-->
+			待审核
+			<!--{elseif $learn[remindstat]==0}-->
+			待提交
+			<!--{/if}-->
+			</td>
+			<!--{/if}-->
+		</tr>
+		 <!--{/loop}-->
+       </tbody>
+	</table>
+	<!--{/if}-->
+</div>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+<style>
+
+a:link {
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: none;
+}
+a:active {
+ text-decoration: none;
+}
+
+</style>

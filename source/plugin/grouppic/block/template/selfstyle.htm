@@ -1,0 +1,6 @@
+<div class="module cl"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+	<a href="{$item[url]}" target="_blank" class="diyavt z" style="margin: 5px;">
+		<img src="{$item[imglink]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}" alt="{$item[title]}" /></a>
+	<!--{/loop}-->
+</div>

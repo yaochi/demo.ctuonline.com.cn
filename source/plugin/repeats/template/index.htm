@@ -1,0 +1,120 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/shlecturer/js/shlecturermanage_moderate.js"></script>
+<!--{/if}-->
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"]==$_G['forum']['founderuid'] }-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&repeats_action=authorize" class="fourWord y">&#43;&nbsp;马甲授权</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="mn">
+	
+		<div class="bm">
+			<h1 class="wx xg1 xs3">专区马甲改名</h1>
+			<table cellspacing="0" cellpadding="0" class="tfm">
+				<tbody>
+					<tr><th></th><td></td></tr>
+					<tr>
+						<th class="vm"><strong class="rq y">*</strong>马甲名称:</th>
+						<td><input type="text" id="repeatsname" name="repeatsname" class="px" size="36" tabindex="1" value="$repeats[name]" autocomplete="off" tabindex="1" />
+							<button type="submit" class="pn pnp" style="vertical-align: 1px;"
+								onclick="showWindow('repeatsid','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=repeats&plugin_op=groupmenu&repeats_action=changename&repeatsid=$repeats[id]&repeatsname='+$('repeatsname').value,'get');"><strong>改名</strong></button>
+						</td>
+					</tr>
+					<tr>
+						<th></th>	
+						<td class="clpt">
+							<span id="checkrepeatsname" class="xcred" style="display:none;">该马甲名已存在 请勿重复创建</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr class="l">
+		<div class="bm">
+			<h1 class="wx xg1 xs3">马甲授权</h1>
+			<form enctype="multipart/form-data" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=repeats&plugin_op=groupmenu&repeats_action=delete" name="manage" method="post" autocomplete="off">
+				<input type="hidden" value="734fac48c6e8d107705174313b630794" name="hash"/>
+			
+				<h3 class="xw1" style="line-height:50px;">马甲拥有者</h3>
+					<ul class="ml mls cl" id="authorize">
+					<!--{loop $alluserlist $user}-->
+					
+					<li class="avt">
+						<!--{if $user['level'] == 1}-->
+							<em class="gm"></em>
+						<!--{elseif $user['level'] == 2}-->
+							<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+						<!--{/if}-->
+						{echo discuz_uc_avatar($user[uid], 'small')}
+						<p>$alluserrealname[$user[uid]][realname]</p>
+						<p><!--{if $_G['uid'] == $_G['forum']['founderuid']&& $user[uid]!=$_G['forum']['founderuid']}--><input type="checkbox" class="pc" name="muid[]" value="$user[uid]" /><!--{/if}--></p>
+					</li>
+				   
+					<!--{/loop}-->
+				</ul>
+				<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+			<div class="hm"><button id="anthorBtn" type="submit" class="pn pnp" value="1"><strong>取消授权</strong></button></div>
+			
+		</form>
+	</div>
+</div>
+
+<script>
+	//if(BROWSER.ie) {
+	//	$("repeatsname").attachEvent("onPropertyChange", checkDuplicated);
+	//} else {
+	//	$("repeatsname").addEventListener("input", checkDuplicated, false);
+	//}
+	//attachEventListener($("repeatsname"), "blur", checkDuplicated, false);
+    //
+	//var old_repeatsname = '$repeats[name]';
+    //
+	//function checkDuplicated() {
+	//	if ($("repeatsname").value == old_repeatsname) return false; //如果和原马甲名相同，不做重名判断
+	//
+	//	var checkTimeoutProcess;
+	//	$("checkrepeatsname").style.display = "none";
+	//	isDuplicated = false;
+	//	
+	//	var callurl = "forum.php?mod=group"+"&"+"action=plugin&fid="+$_G[fid]+"&plugin_name=repeats&plugin_op=groupmenu&repeats_action=checkrepeatsname&name=" + encodeURI($("repeatsname").value);
+	//	clearTimeout(checkTimeoutProcess);
+	//	checkTimeoutProcess = setTimeout(function(){
+	//		getJSONP(callurl, "processDuplicated");
+	//	}, 2000);	
+	//}
+	//
+	//function processDuplicated(data) {
+	//	if(data.s == 1) {
+	//		$("checkrepeatsname").style.display = "";
+	//		isDuplicated = true;		
+	//	}
+	//}
+
+jQuery(function(){
+
+	jQuery('#anthorBtn').attr('disabled','disabled');
+	
+	jQuery('#authorize').on('click', 'input:[type=checkbox]', function(){
+		var flag = false;
+		jQuery('#authorize input:[type=checkbox]').each(function(){
+			if (jQuery(this).attr('checked')=='checked'){
+				flag = true;
+				return false;
+			}
+		});
+		if (flag) {
+			jQuery('#anthorBtn').removeAttr('disabled');
+		}else{
+			jQuery('#anthorBtn').attr('disabled','disabled');
+		}
+		
+	});
+
+});
+
+</script>

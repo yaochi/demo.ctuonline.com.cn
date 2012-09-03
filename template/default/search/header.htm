@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+		<title>{if !empty($topic['title'])}$topic['title'] {/if}{if !empty($_G['home_tpl_titles'])}{loop $_G['home_tpl_titles'] $value}$value - {/loop}{/if}{if !empty($navtitle)}$navtitle{/if} $_G['setting']['bbname'] $_G['setting']['seotitle'] - Powered by Discuz!</title>
+		$_G['setting']['seohead']
+		<meta name="keywords" content="{if !empty($metakeywords)}$metakeywords,{/if}$_G['setting']['seokeywords']" />
+		<meta name="description" content="{if !empty($metadescription)}$metadescription{/if}$_G['setting']['bbname'] $_G['setting']['seodescription'] - Discuz! Board" />
+		<meta name="generator" content="Discuz! $_G['setting']['version']" />
+		<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+		<meta name="copyright" content="2001-2010 Comsenz Inc." />
+		<meta name="MSSmartTagsPreventParsing" content="True" />
+		<meta http-equiv="MSThemeCompatible" content="Yes" />
+		{csstemplate}
+		<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '{if $_G['setting']['creditnotice']}$_G['setting']['creditnames']{/if}'</script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+	</head>
+
+	<body id="nv_search">
+		<div id="append_parent"></div><div id="ajaxwaitid"></div>
+		<div id="hd">
+			<div id="pt" class="cl">
+				<div class="snv y">
+					<ul>
+						<!--{loop $_G['setting']['navs'] $navsid $nav}-->
+							<!--{if $nav['available']}-->
+								<!--{if $navsid == 6 && !empty($_G['setting']['plugins']['jsmenu'])}-->
+									$nav[nav]
+								<!--{else}-->
+									<!--{if !$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)}-->$nav[nav]<!--{/if}-->
+								<!--{/if}-->
+							<!--{/if}-->
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<div class="z">
+					<p>
+					<!--{if $_G['uid']}-->
+						<strong><a href="home.php?mod=space" class="noborder" target="_blank"><!--{eval echo user_get_user_name($_G[uid]);}--></a></strong>
+						<!--{if $_G['group']['allowinvisible']}--><span id="loginstatus" class="xg1"><a href="member.php?mod=switchstatus" title="{lang login_switch_invisible_mode}" onclick="ajaxget(this.href, 'loginstatus');doane(event);"><!--{if $_G['session']['invisible']}-->{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}--></a></span><!--{/if}-->
+						<span class="pipe">|</span><a href="home.php?mod=space&do=home">{lang my_space}</a>
+						<span class="xg1"><a href="home.php?mod=spacecp">{lang setup}</a></span>
+		
+						<span class="pipe">|</span><a href="home.php?mod=space&do=notice" id="myprompt" <!--{if $_G[member][newprompt]}-->class="new"<!--{/if}-->>{lang notice}<!--{if $_G[member][newprompt]}-->($_G[member][newprompt])<!--{/if}--></a><span id="myprompt_check"></span>
+						<span class="pipe">|</span><a href="home.php?mod=space&do=pm" id="pm_ntc"<!--{if $_G[member][newpm]}-->class="new"<!--{/if}-->>{lang pm_center}<!--{if $_G[member][newpm]}-->($_G[member][newpm])<!--{/if}--></a>
+		
+						<!--{if $_G['group']['allowmanagearticle'] || $_G['group']['allowdiy']}--><span class="pipe">|</span><a href="portal.php?mod=portalcp">{lang portal_manage}</a><!--{/if}-->
+						<!--{if $_G['uid'] && $_G['adminid'] > 1}--><span class="pipe">|</span><a href="forum.php?mod=modcp&fid=$_G[fid]" target="_blank">{lang forum_manager}</a><!--{/if}-->
+						<!--{if $_G['uid'] && ($_G['adminid'] == 1 || $_G['member']['allowadmincp'])}--><span class="pipe">|</span><a href="admin.php" target="_blank">{lang admincp}</a><!--{/if}-->
+						<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
+					<!--{elseif !empty($_G['cookie']['loginuser'])}-->
+						<strong><a id="loginuser" class="noborder">$_G['cookie']['loginuser']</a></strong>
+						<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href);hideWindow('register');">{lang activation}</a>
+						<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
+					<!--{else}-->
+						<a href="member.php?mod=register" onclick="showWindow('register', this.href);hideWindow('login');" class="noborder">$_G['setting']['reglinkname']</a>
+						<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href);hideWindow('register');">{lang login}</a>
+					<!--{/if}-->
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--{if !empty($_G['setting']['plugins']['jsmenu'])}-->
+			<ul class="p_pop h_pop" id="plugin_menu" style="display: none">
+			<!--{loop $_G['setting']['plugins']['jsmenu'] $module}-->
+			     <!--{if !$module['adminid'] || ($module['adminid'] && $_G['adminid'] > 0 && $module['adminid'] >= $_G['adminid'])}-->
+			     <li>$module[url]</li>
+			     <!--{/if}-->
+			<!--{/loop}-->
+			</ul>
+		<!--{/if}-->
+		<!--{loop $_G['setting']['subnavs'] $subnav}-->
+			$subnav
+		<!--{/loop}-->

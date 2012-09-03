@@ -1,0 +1,25 @@
+html,body{ margin:0px; padding:0px; }
+
+ul,li,img,p{ list-style:none; margin:0px; padding:0px;}
+
+
+.clear{ clear:both;}
+.left{ float:left;}
+.right{ float:right;}
+
+.xxyd{font-size:14px;}
+.xxyd_bt{font-size:14px; clear:both; background:url(bgx.gif) repeat-x; height:38px;  padding-left:50px;}
+.xxyd_bt a{ text-decoration:none; color:#FFF;float:left; width:87px; height:32px; line-height:32px; margin-top:3px; text-align:center; margin-right:6px; display:block;}
+.xxyd_bt a:hover{ background:url(bg02.gif) no-repeat; font-weight:bold;  color:#1d569c; display:block}
+.xxyd_bt a.hover{ background:url(image/bg02.gif) no-repeat; font-weight:bold;  color:#1d569c; display:block}
+
+/*
+.xxyd{font-size:14px;}
+.xxyd_bt{font-size:14px; clear:both; background:url(../image/bgx.gif) repeat-x; height:38px;}
+.xxyd_bt ul{ padding-left:50px;}
+.xxyd_bt ul a{ text-decoration:none;}
+.xxyd_bt ul li{ float:left; width:87px; height:32px; line-height:32px; margin-top:3px; text-align:center; margin-right:6px; color:#FFF}
+.xxyd_bt ul li a{ color:#FFF;}
+.xxyd_bt ul li.hover{ background:url(../image/bg02.gif) no-repeat; font-weight:bold;  color:#1d569c;}
+.xxyd_bt ul li.hover a{ background:url(../image/bg02.gif) no-repeat; font-weight:bold;  color:#1d569c;}
+*/

@@ -1,0 +1,70 @@
+{template common/header}
+<div id="main_messaqge">
+<h3 class="flb"><em>请对于您将要采纳的意见点评一下</em> <!--{if $_G[inajax]}--><span><a
+	href="javascript:;"
+	onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');"
+	class="flbc" title="意见回复"></a></span><!--{/if}--></h3>
+<span id="fastpostreturn"></span>
+<div class="tedt">
+<div class="bar">
+{hook/viewthread_fastpost_func_extra}
+<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=fastpostmessage&from=fastpost" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> $_G['setting']['magics']['doodle']</a>
+<span class="pipe">|</span>
+<!--{/if}-->
+<span class="y">
+<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=fastpostmessage&from=fastpost" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> $_G['setting']['magics']['doodle']</a>
+<span class="pipe">|</span>
+<!--{/if}-->
+</span>
+{eval $seditor = array('fastpost', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+{hook/viewthread_fastpost_ctrl_extra}
+{subtemplate common/seditor}
+</div>
+<div class="area">
+<textarea rows="5" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, <!--{if $_G['gp_ordertype'] != 1}-->'fastpostvalidate($(\'fastpostform\'))'<!--{else}-->'$(\'fastpostform\').submit()'<!--{/if}-->);" tabindex="4" class="pt"></textarea>
+</div>
+</div>
+<!--{if checkperm('seccode') && ($secqaacheck || $seccodecheck)}-->
+{block sectpl}<sec> <span id="sec<hash>" onclick="showMenu(this.id)"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div>{/block}
+<div class="mtm">{template common/seccheck}</div>
+<!--{/if}-->
+<p class="ptm" id="aplCtrl">
+<button type="button" id="btnsubmit" name="btnsubmit" value="true"
+	class="pn pnc" onclick="savereply()"><strong>点评</strong></button>
+</p>
+
+<script type="text/javascript">
+
+function cleanWindow(isForced) {
+var aplInput = $("fastpostmessage");
+var loadingimg = $("main_messaqge").getElementsByTagName("img")[0];
+var promptInfo = $("main_messaqge").getElementsByTagName("p")[0];
+isForced ? aplInput.value = "" : "";
+isForced ? promptInfo.style.display = "none" : "";
+$("aplCtrl").style.display = "block";
+}
+function savereply(){
+	var suggestid =$('suggestid').value;
+	var message=$("fastpostmessage");
+	var carclurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=createmenu"+"&"+"suggestbox_action=passSuggest"+"&"+"suggestid="+suggestid+"&replymessage="+encodeURI(message.value);
+      getJSONP(carclurl,"replydata");
+	}
+function replydata(data){
+	if(data.data==1){
+	    showDialog('采纳建议成功！');
+        cleanWindow(true);
+	    hideWindow('$_G[gp_handlekey]');
+	    window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=passsuggest";
+
+	   //&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=viewmenu&learning_action=achieview&learnid=learid&tap=2
+	   //$("btnsubmit").load("forum.php?mod=group",{"action":"plugin","fid":"791","plugin_name":"learning","plugin_op":"viewmenu","learning_action":"achieview","learnid":"+learid+","tap":"2"});
+	}else{
+	 showDialog('您的建议还未完善！');
+	 return;
+	}
+	}
+</script>
+</div>
+{template common/footer}

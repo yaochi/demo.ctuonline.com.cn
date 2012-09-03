@@ -1,0 +1,185 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang pm}');}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">个人</a> &rsaquo;
+	<a href="home.php?mod=space&do=pm">{lang news}</a>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+
+		<div class="bm">
+			<h1 class="mt"><img alt="pm" src="{STATICURL}image/feed/pm.gif" class="vm" /> {lang news}</h1>
+			<ul class="tb cl">
+				<li class="a"><a href="home.php?mod=space&do=pm">{lang pm}</a></li>
+				<!--{if false}-->
+				<li$actives[notice]><a href="home.php?mod=space&do=notice">{lang notice}</a></li>
+				<!--{/if}-->
+				<!--{if $_G['setting']['my_app_status']}-->
+				<li><a href="home.php?mod=space&do=notice&view=userapp">{lang applications_news}</a></li>
+				<!--{/if}-->
+				<li class="o"><a href="home.php?mod=spacecp&ac=pm">{lang send_pm}</a></li>
+			</ul>
+
+			<p class="tbmu">
+				<a href="home.php?mod=space&do=pm&filter=newpm"$actives[newpm]>{lang unread_pm}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&filter=privatepm"$actives[privatepm]>{lang private_pm}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&filter=systempm"$actives[systempm]>{lang system_pm}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&filter=announcepm"$actives[announcepm]>{lang announce_pm}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&subop=ignore"$actives[ignore]>{lang ignore_list}</a>
+			</p>
+			<!--{if $touid}-->
+			<p class="tbmu">
+				{lang your_history}:
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$touid&daterange=1"$actives[1]>{lang last_day_1}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$touid&daterange=2"$actives[2]>{lang last_day_2}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$touid&daterange=3"$actives[3]>{lang last_day_3}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$touid&daterange=4"$actives[4]>{lang this_week}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$touid&daterange=5"$actives[5]>{lang all}</a>
+			</p>
+			<!--{/if}-->
+
+			<!--{if $_GET['subop'] == 'view'}-->
+
+				<!--{if $list}-->
+					<div id="pm_ul" class="xld xlda">
+						<!--{loop $list $key $value}-->
+						<dl class="cl bbda" id="pmlist_$value[pmid]">
+							<dd class="m avt">
+								<!--{if $value[msgfromid]}-->
+								<a href="home.php?mod=space&uid=$value[msgfromid]"><!--{avatar($value[msgfromid],small)}--></a>
+								<!--{else}-->
+								<img src="{IMGDIR}/systempm.gif" alt="systempm" />
+								<!--{/if}-->
+							</dd>
+							<dt>
+								<!--{if $value[msgfromid]}--><a href="home.php?mod=space&uid=$value[msgfromid]" class="xi2">$listrealname[$value[msgfromid]][realname]</a> <!--{/if}--><span class="xg1 xw0"><!--{date($value[dateline], 'u')}--></span>
+							</dt>
+							<dd>$value[message]</dd>
+						</dl>
+						<!--{/loop}-->
+					</div>
+				<!--{else}-->
+					<div class="emp">
+						{lang no_corresponding_pm}
+					</div>
+				<!--{/if}-->
+				<div id="pm_append" class="xld xlda">
+				</div>
+
+				<!--{if $touid && $list}-->
+					<div id="pm_ul_post" class="xld xlda">
+						<a name="bottom"></a>
+						<dl class="cl">
+							<dd class="m avt">
+								<a href="home.php?mod=space&uid=$space[uid]"><!--{avatar($space[uid],small)}--></a>
+							</dd>
+							<dt><a href="home.php?mod=space&uid=$space[uid]" class="xi2">$listrealname[$space[uid]][realname]</a></dt>
+							<dd>
+								<form id="pmform" class="pmform" name="pmform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=send&touid=$touid&pmid=$pmid&daterange=$daterange" onsubmit="parsepmcode(this);">
+									<div class="tedt">
+										<div class="bar">
+											{eval $seditor = array('reply', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+											{subtemplate common/seditor}
+										</div>
+										<div class="area">
+											<textarea rows="3" cols="40" name="message" class="pt" id="replymessage" onkeydown="ctrlEnter(event, 'pmsubmit');"></textarea>
+										</div>
+									</div>
+									<p class="mtn">
+										<button type="submit" name="pmsubmit" id="pmsubmit" value="true" class="pn"><strong>{lang reply}</strong></button>
+									</p>
+									<input type="hidden" name="formhash" value="{FORMHASH}" />
+								</form>
+							</dd>
+						</dl>
+					</div>
+				<!--{/if}-->
+
+			<!--{elseif $_GET['subop'] == 'ignore'}-->
+
+				<form id="ignoreform" name="ignoreform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=ignore">
+					<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+						<caption>
+							{lang ignore_member_pm_message}
+						</caption>
+						<tr>
+							<td><textarea id="ignorelist" name="ignorelist" cols="80" rows="5" class="pt" style="width: 95%;" onkeydown="ctrlEnter(event, 'ignoresubmit');">$ignorelist</textarea></td>
+						</tr>
+						<tr>
+							<td><button type="submit" name="ignoresubmit" id="ignoresubmit" value="true" class="pn"><strong>{lang save}</strong></button></td>
+						</tr>
+					</table>
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+				</form>
+
+			<!--{else}-->
+
+				<!--{if $count}-->
+					<div class="xld xlda">
+					<!--{loop $list $key $value}-->
+						<dl id="pmlist_{if $value[touid]}$value[touid]{else}$value[pmid]{/if}" class="bbda cl">
+							<dd class="m avt">
+								<!--{if $value[touid]}-->
+								<a href="home.php?mod=space&uid=$value[touid]"><!--{avatar($value[touid],small)}--></a>
+								<!--{else}-->
+								<img src="{IMGDIR}/systempm.gif" alt="systempm" />
+								<!--{/if}-->
+							</dd>
+							<dt>
+								<!--{if $_G['gp_filter']!='announcepm'}-->
+									<!--{if $_G['gp_filter']=='systempm'}-->
+										<a class="d" href="home.php?mod=spacecp&ac=pm&op=delete&folder=inbox&pmid=$value[pmid]&handlekey=delpmhk_{$value[pmid]}" id="a_delete_$value[pmid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a>
+									<!--{else}-->
+										<a class="d" href="home.php?mod=spacecp&ac=pm&op=delete&folder=inbox&deluid=$value[touid]&handlekey=delpmhk_{$value[pmid]}" id="a_delete_$value[pmid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a>
+									<!--{/if}-->
+								<!--{/if}-->
+								<!--{if $value[touid]}-->
+								<a href="home.php?mod=space&uid=$value[touid]" class="xi2">$listrealname[$value[touid]][realname]</a>
+								<!--{/if}-->
+								<span class="xg1 xw0"><!--{date($value[dateline], 'u')}--></span>
+							</dt>
+							<dd{if $value[new]} class="xw1"{/if}>$value[message]</dd>
+							<dd class="pns">
+								<!--{if $value[touid]}-->
+								<a href="home.php?mod=space&do=pm&subop=view&pmid=$value[pmid]&touid=$value[touid]&daterange=$value[daterange]#bottom" class="xi2">{lang see_details} &rsaquo;</a>
+								<!--{else}-->
+								<a href="home.php?mod=space&do=pm&subop=view&pmid=$value[pmid]" class="xi2">{lang see_details} &rsaquo;</a>
+								<!--{/if}-->
+							</dd>
+						</dl>
+					<!--{/loop}-->
+					</div>
+					<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+				<!--{else}-->
+					<div class="emp">
+						{lang no_corresponding_pm}
+					</div>
+				<!--{/if}-->
+
+			<!--{/if}-->
+
+		</div>
+	</div>
+	<div class="sd">
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{template common/footer}-->

@@ -1,0 +1,36 @@
+<script type="text/javascript">
+var msgstr = '{lang doing_you_can}';
+function handlePrompt(type) {
+	var msgObj = $('message');
+	if(type) {
+		if(msgObj.value == msgstr) {
+			msgObj.value = '';
+			msgObj.className = 'xg2';
+		}
+	} else {
+		if(msgObj.value == ''){
+			msgObj.value = msgstr;
+			msgObj.className = 'xg1';
+		}
+	}
+}
+</script>
+<form method="post" autocomplete="off" id="doingform" action="home.php?mod=spacecp&ac=doing&view=$_GET[view]" class="dfm mbw cl">
+	<input type="hidden" name="addsubmit" value="true" />
+	<input type="hidden" name="refer" value="$theurl" />
+	<input type="hidden" name="topicid" value="$topicid" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="mifm z">
+		<em></em>
+		<div class="brm">
+			<div style="position:relative;padding:5px;">
+				<textarea name="message" id="message" class="xg1" onclick="handlePrompt(1);" onblur="handlePrompt(0);" onkeyup="textCounter(this, 'maxlimit', 140)" onkeydown="ctrlEnter(event, 'add');" rows="4">{lang doing_you_can}</textarea>
+				<input type="submit" name="add" id="add" class="brm" value="{lang publish}" />
+			</div>
+		</div>
+	</div>
+	<div class="lmt z xg1">
+		<!-- <p class="mbn"><input type="checkbox" name="to_signhtml" id="to_sign" class="vm" value="1" /> <label for="to_sign">{lang doing_update_personal_signature}</label></p> -->
+		{lang doing_maxlimit_char}
+	</div>
+</form>

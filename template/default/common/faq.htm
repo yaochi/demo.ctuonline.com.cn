@@ -1,0 +1,76 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G['setting']['bbname']</a> &rsaquo; <!--{if empty($_G[gp_action])}-->{lang faq}<!--{else}--><a href="misc.php?mod=faq">{lang faq}</a> $navigation<!--{/if}--></div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch"><label for="">{lang faq}</label></div>
+		<div class="bm">
+			<!--{if empty($_G[gp_action])}-->
+				<div class="lum">
+					<!--{loop $faqparent $fpid $parent}-->
+						<h2 class="blocktitle"><a href="misc.php?mod=faq&action=faq&id=$fpid">$parent[title]</a></h2>
+						<ul name="$parent[title]">
+							<!--{loop $faqsub[$parent[id]] $sub}-->
+								<li><a href="misc.php?mod=faq&action=faq&id=$sub[fpid]&messageid=$sub[id]">$sub[title]</a></li>
+							<!--{/loop}-->
+						</ul>
+					<!--{/loop}-->
+				</div>
+			<!--{elseif $_G[gp_action] == 'faq'}-->
+				<!--{loop $faqlist $faq}-->
+				<div>
+					<div id="messageid$faq[id]_c" class="umh{if $messageid != $faq[id]} umn{/if}">
+						<h3 onclick="toggle_collapse('messageid$faq[id]', 1, 1);">$faq[title]</h3>
+						<div class="umh_act">
+							<p class="umh_cb" onclick="toggle_collapse('messageid$faq[id]', 1, 1);">[ {lang open} ]</p>
+						</div>
+					</div>
+					<div class="um" id="messageid$faq[id]" style="{if $messageid != $faq[id]} display: none {/if}">$faq[message]</div>
+				</div>
+				<!--{/loop}-->
+			<!--{elseif $_G[gp_action] == 'search'}-->
+				<!--{if $faqlist}-->
+					<!--{loop $faqlist $faq}-->
+						<div>
+							<div class="umh searchfaq"><h3>$faq[title]</h3></div>
+							<div class="um">$faq[message]</div>
+						</div>
+					<!--{/loop}-->
+				<!--{else}-->
+					<p class="nodata">{lang faq_search_nomatch}</p>
+				<!--{/if}-->
+			<!--{elseif $_G[gp_action] == 'plugin'}-->
+				{eval include(template($_G['gp_id']));}
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="sd">
+		<div class="ch">
+			<label class="wx">{lang faq}</label>
+		</div>
+		<div class="bm lum">
+			<ul>
+				<!--{loop $faqparent $fpid $parent}-->
+					<li name="$parent[title]"><a href="misc.php?mod=faq&action=faq&id=$fpid">$parent[title]</a></li>
+				<!--{/loop}-->
+				<!--{if !empty($_G['setting']['plugins']['faq'])}-->
+					<!--{loop $_G['setting']['plugins']['faq'] $id $module}-->
+						<li><a href="misc.php?mod=faq&action=plugin&id=$id">$module[name]</a></li>
+					<!--{/loop}-->
+				<!--{/if}-->
+			</ul>
+		</div>
+		<div class="bn gsh">
+			<form method="post" autocomplete="off" action="misc.php?mod=faq&action=search&searchsubmit=yes" class="pns">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="searchtype" value="all" />
+				<input type="text" name="keyword" size="16" value="$keyword" class="px vm" />
+				<button type="submit" name="searchsubmit" class="pn vm"><span>{lang search}</span></button>
+			</form>
+		</div>
+		{hook/faq_extra}
+	</div>
+</div>
+
+{subtemplate common/footer}

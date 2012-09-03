@@ -1,0 +1,183 @@
+<style>
+    <!--
+	.zjsjdr{ clear:both; display:block;}
+	.zjsjdr li{ width:49%; float:left; margin-right:6px; margin-bottom:5px;}
+	.zjsjdr_c{ overflow:hidden;}
+	.zjsjdr_bt{ font-size:14px; font-weight:bold; color: #666; height:20px; line-height:20px; padding-bottom:10px;}
+	.zjsjdr_nr{border:1px dotted #d6d6d6;background:#F8F8F8; overflow: hidden; padding:20px; zoom:1;}
+	#stacoursemanage #importform { padding:0px; border:none;}
+
+	-->
+    </style>
+<div id="stacoursemanage">
+	<div class="bm mbm">
+		<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=generate&type=1" class="xi2 y">导出已设置名单</a>
+		<h1 class="wx xg1 xs3 pbw">统计信息</h1>
+		<p>已设自己岗位人数：$total_station[self]/$total_station[menbernum]</p>
+		<p>已设感兴趣岗位人数：$total_station[interest]/$total_station[menbernum]</p>
+	</div>
+	<hr class="l" />
+	<div class="bm" style="padding: 10px 15px 0 15px;">
+		<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=down" class="xi2 y">下载数据导入模板</a>
+		<h1 class="wx xg1 xs3 ">组件数据导入</h1>
+	</div>
+<script language="javascript">
+<!--
+function setTab(name,cursel,n){
+for(i=1;i<=n;i++){
+var menu=document.getElementById(name+i);
+var con=document.getElementById("con_"+name+"_"+i);
+menu.className=i==cursel?"hover":"";
+con.style.display=i==cursel?"block":"none";
+}
+}
+-->
+</script>
+	<div class="bm">
+		<ul class="tb cl gwkclist">
+			<li id="two1" onclick="setTab('two',1,3)" class="hover">岗位</li>
+			<li id="two2" onclick="setTab('two',2,3)">课程</li>
+			<li id="two3" onclick="setTab('two',3,3)">关联关系</li>
+		</ul>
+	</div>
+
+	<div class="bm mtm mbm" id="con_two_1" style="display:block;">
+    <form enctype="multipart/form-data" id="importform1" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=upload&type=1" class="reHeight">
+    	<input type="hidden" name="max_file_size" value="2000000">
+    	<ul class="zjsjdr">
+        	<li>
+       	    	<div class="zjsjdr_c">
+                    <div class="zjsjdr_bt">岗位表</div>
+                    <div class="zjsjdr_nr">
+                        <div id="importpanel" class="z">
+                            <p>请选择文件以导入</p>
+                            <input type="file" name="station" size="20" class="pf mtn" id="station">
+                        </div>
+                        <button type="submit" name="importbtn1" class="pn pnp y mtn mlwgroup" value="1" onclick="return validate(1);"><strong>开始导入</strong></button>
+                    </div>
+
+          		 </div>
+
+			</li>
+        </ul>
+
+		<p class="xg1 ptm cl clear">
+			数据可包括岗位信息、课程属性、岗位课程匹配信息<br />
+			请勿选择大于2 MB的文件；导入后将会覆盖组件之前所有数据
+		</p>
+        </form>
+        </div>
+
+	<div class="bm mtm mbm" id="con_two_2" style="display:none;">
+    <form enctype="multipart/form-data" id="importform2" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=upload&type=2" class="reHeight">
+		<input type="hidden" name="max_file_size" value="2000000">
+		<ul class="zjsjdr">
+        	<li>
+       	    	<div class="zjsjdr_c">
+                    <div class="zjsjdr_bt">课程表</div>
+                    <div class="zjsjdr_nr">
+                    <div id="importpanel" class="z">
+                        <p>请选择文件以导入</p>
+                        <input type="file" name="course" size="20" class="pf mtn" id="course">
+                    </div>
+                    <button type="submit" name="importbtn1" class="pn pnp y mtn mlwgroup" value="1" onclick="return validate(2);"><strong>开始导入</strong></button>
+                    </div>
+                    </div>
+
+			</li>
+        </ul>
+
+		<p class="xg1 ptm cl clear">
+			数据可包括岗位信息、课程属性、岗位课程匹配信息<br />
+			请勿选择大于2 MB的文件；导入后将会覆盖组件之前所有数据
+		</p>
+        </form>
+	</div>
+	<div class="bm mtm mbm" id="con_two_3" style="display:none;">
+		<form enctype="multipart/form-data" id="importform3" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=upload&type=3" class="reHeight">
+		<input type="hidden" name="max_file_size" value="2000000">
+        <ul class="zjsjdr">
+        	<li>
+       	    	<div class="zjsjdr_c">
+                    <div class="zjsjdr_bt">课程岗位关联表</div>
+                    <div class="zjsjdr_nr">
+                        <div id="importpanel" class="z">
+                        <input type="hidden" id="station_input_id" name="station_input_id"/>
+
+					<input type="text"  size="10" name="station_input" id="station_input" value="" readonly="readonly" style="width: 130px;">
+
+					<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=select_station&type=1&namevalue=namevalue&orgid=0&orgname="  onclick="showWindow('orgtree', this.href, 'get', 0);">选择岗位</a>
+                            <p>请选择文件以导入</p>
+                            <input type="file" name="station_course" size="20" class="pf mtn" id="station_course">
+                        </div>
+                        <button type="submit" name="importbtn1" class="pn pnp y mtn mlwgroup" value="1" onclick="return validate(3);"><strong>开始导入</strong></button>
+                      </div>
+          	 	 </div>
+			</li>
+        </ul>
+        <p class="xg1 ptm cl clear">
+			数据可包括岗位信息、课程属性、岗位课程匹配信息<br />
+			请勿选择大于2 MB的文件；导入后将会覆盖组件之前所有数据
+		</p>
+
+
+
+        </form>
+	</div>
+	<hr class="l" />
+	<div class="bm mtm mbm">
+		<h1 class="wx xg1 xs3 pbw">强制重设岗位</h1>
+			<p>
+				管理员可使用本功能强制要求专区成员统一重新设置自己的岗位<br />
+				成员进入组件后将会看到相应提示<br />
+				“我感兴趣的岗位”不受影响
+			</p>
+			<button type="submit" name="forceSet" onclick="showWindow('a_favorite','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=confirm&type=1', 'get', 0);" class="pn pnp mtw" value="1"><strong>强制重设</strong></button>
+	</div>
+	<hr class="l" />
+	<div class="bm mtm mbm">
+		<h1 class="wx xg1 xs3 pbw">清空组件数据</h1>
+			<p>
+				管理员可使用本功能将组件数据全部清空；成员进入组件后将被要求重设自己的岗位
+			</p>
+			<button type="submit" name="forceSet" onclick="showWindow('a_favorite','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=confirm&type=2', 'get', 0);"  class="pn pnp mtw" value="1"><strong>清空数据</strong></button>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	function validate(type) {
+	var status=true;
+	var temp;
+		if(type==1)
+		{
+			temp=vd_upload("station");
+			if(!temp) return false;
+		}else if(type==2)
+		{
+			temp=vd_upload("course");
+			if(!temp) return false;
+		}else if(type==3)
+		{
+			temp=vd_upload("station_course");
+			if(!temp) return false;
+		}else{
+			return false;
+		}
+
+	return true;
+
+	}
+
+	function vd_upload(name){
+		var uploadFile = $(name);
+		if(uploadFile) {
+			var slen = strlen(uploadFile.value);
+			if (slen < 1) {
+				showDialog("请完整选择导入的文件");
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+</script>

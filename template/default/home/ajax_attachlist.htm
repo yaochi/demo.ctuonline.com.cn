@@ -1,0 +1,36 @@
+<table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%">
+<!--{loop $attachlist $attach}-->
+	<tbody id="attach_$attach[aid]">
+		<tr>
+			<td class="attswf">
+				<p id="attach$attach[aid]">
+					<span>$attach[filetype]<span class="lighttxt" id="attachname$attach[aid]" >{$attach[filename]}</span></span>
+					<!--{if $_G['setting']['allowattachurl']}-->
+						<a href="javascript:;" class="atturl" title="{lang e_attach_url}" onclick="insertText('attach://$attach[aid].{echo fileext($attach[filenametitle])}')"><img src="{IMGDIR}/attachurl.gif" /></a>
+						<!--{if ($attachmcode = parseattachmedia($attach))}--><a href="javascript:;" class="atturl" title="{lang e_attach_mediacode}" onclick="insertText('$attachmcode')"><img src="{IMGDIR}/attachmediacode.gif" /></a><!--{/if}-->
+					<!--{/if}-->
+					<!--{if $attach['id']}-->
+						<input type="hidden" name="attachupdate[{$attach[aid]}]" id="attachupdate{$attach[aid]}" size="2" />&nbsp;
+						<!--{if !empty($allowuploadnum)}--><a href="javascript:;" onclick="uploadWindow(function (aid, url, name){$('attachupdate$attach[aid]').value = aid;$('attachname$attach[aid]').title = '';$('attachname$attach[aid]').innerHTML = name;}, 'file')">{lang update}</a></span><!--{/if}-->
+					<!--{/if}-->
+				</p>
+				<span id="attachupdate$attach[aid]"></span>
+				<input name="attachnew[{$attach[aid]}]" type="hidden"/>
+				<!--{if $attach['isimage']}--><img src="{echo getforumimg($attach[aid], 1, 110, 110, 'fixnone')}" id="image_$attach[aid]" width="{if $attach[width] < 110}$attach[width]{else}110{/if}" style="position:absolute;top:-10000px" /><!--{/if}-->
+			</td>
+			<td class="attc"><a id="delAttach$attach[aid]" href="javascript:;" class="d" onclick="delAttach($attach[aid],{if !$attach[pid]}1{else}0{/if})">{lang e_attach_del}</a></td>
+		</tr>
+	</tbody>
+	<script type="text/javascript">
+	if(!$('postbox')){
+		$('delAttach$attach[aid]').style.display = 'none';
+	}
+	</script>
+<!--{/loop}-->
+</table>
+<!--{if $_G[inajax]}-->
+	<script type="text/javascript" reload="1">
+	ATTACHNUM['attachunused'] += {echo count($attachlist)};
+	updateattachnum('attach');
+	</script>
+<!--{/if}-->

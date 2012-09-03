@@ -1,0 +1,186 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<form action="{eval echo join_plugin_action('update')}" method="post" onsubmit="return validate_from(this);">
+<input type="hidden" name="type" value="dev" />
+<input type="hidden" name="orgname_input_id" id="orgname_input_id" value="$record[org_id]"/>
+<input type="hidden" name="teacherids" id="teacherids"/>
+<input type="hidden" name="recordid" id="recordid" value="$record[id]"/>
+<input type="hidden" name="teacherid" id="teacherid" value="$record[teacher_id]"/>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_skjl">
+  <tbody>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>讲师名称：</td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td align="right" width="150"><span class="hongse">*</span>课程开发名称：</td>
+    <td align="left"><input type="text" class="zybjan" name="name" id="name" value="$record[name]"/></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>主办方：</td>
+    <td align="left">
+    	<input type="text" name="orgname_input" value="$record[org_name]" class="zybjan" id="orgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>时间：</td>
+    <td align="left"><input type="text" value="$record[starttime]" name="starttime" id="starttime" class="zbbjan2" onclick="showcalendar(event, this, true)">
+      ~
+    <input type="text" value="$record[endtime]" name="endtime" id="endtime" class="zbbjan2" onclick="showcalendar(event, this, true)"></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>地点：</td>
+    <td align="left"><input type="text" value="$record[address]" name="address" id="address" class="zybjan"></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>满意度评估：</td>
+    <td align="left">
+    	<input type="text" class="zbbjan2" name="class_result" id="class_result" value="$record[class_result]"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left"><input type="submit" value="保存修改"
+				class="ckxq_sy left" name="recordbutton" id="recordbutton""></td>
+  </tr>
+</tbody></table>
+<input type="hidden" name="aid" id="aid" {if $lecturer[attachment]}value="$lecturer[aid]" {/if}tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<div id="postbox"></div>
+</form>
+<script type="text/javascript">
+	function validate_attfrom(obj) {
+		if($(editorid + '_attachlist')) {
+			$('postbox').appendChild($(editorid + '_attachlist'));
+			$(editorid + '_attachlist').style.display = 'none';
+		}
+		if($(editorid + '_imgattachlist')) {
+			$('postbox').appendChild($(editorid + '_imgattachlist'));
+			$(editorid + '_imgattachlist').style.display = 'none';
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	var editorid = '$editorid';
+	var textobj = $(editorid + '_textarea');
+	var wysiwyg = (BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9));
+	var allowswitcheditor = parseInt('1');
+	var allowhtml = parseInt('0');
+	var allowsmilies = parseInt('1');
+	var allowbbcode = parseInt('1');
+	var allowimgcode = parseInt('1');
+	var fontoptions = new Array({lang e_fontoptions});
+	var custombbcodes = new Array();
+	var extensions = '';
+	var id = '$record[id]';
+	var idtype = '<!--{if !empty($record['id'])}-->recordid<!--{/if}-->';
+</script>
+
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}home_post.js?{VERHASH}"></script>
+<iframe name="attachframe" id="attachframe" style="display: none;" onload="uploadNextAttach();"></iframe>
+<script type="text/javascript">
+		var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0};
+		function switchImagebutton(btn) {		
+			var btns = ['www', 'imgattachlist', 'albumlist'];
+			btns.push('local');
+			switchButton(btn, btns);
+			$(editorid + '_image_menu').style.height = '';
+		}
+		
+		function switchAttachbutton(btn) {
+			var btns = ['attachlist'];
+			btns.push('upload');
+			switchButton(btn, btns);
+		}
+		ATTACHNUM['attachused'] = {echo @count($attachs['used'])};
+		ATTACHNUM['attachunused'] = {echo @count($attachs['unused'])};
+		{if !empty($attachs['used']) || !empty($attachs['unused'])}
+			//$(editorid + '_attach').evt = false;
+			updateattachnum('attach');
+		{else}
+			switchAttachbutton('upload');
+		{/if}
+		
+	{if !empty($attachs['unused']) || !empty($imgattachs['unused'])}
+		var msg = '<form id="unusedform"><div class="c ufl" style="{if count($attachs[unused]) + count($imgattachs[unused]) > 10}height:180px;{/if}overflow-y:auto;overflow-x:hidden"><p class="xg2">{lang attachment_uploaded}</p>'
+		{loop $attachs['unused'] $attach}
+			+ '<p id="unusedrow$attach[aid]"><a href="javascript:;" class="d" onclick="unusedoption(2, $attach[aid])">{lang delete}</a><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /> <span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></p>'
+		{/loop}
+		{loop $imgattachs['unused'] $attach}
+			+ '<p id="unusedrow$attach[aid]"><a href="javascript:;" class="d" onclick="unusedoption(3, $attach[aid])">{lang delete}</a><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /> <span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></p>'
+		{/loop}
+		+ '</div><div class="o pns"><input name="chkall" checked type="checkbox" class="pc" onclick="checkall(this.form, \'unused\', \'chkall\')" /> {lang checkall}<button type="button" value="true" class="pn" onclick="unusedoption(0)"><span>{lang ignore}</span></button> <button type="button" value="true" class="pn pnc" onclick="unusedoption(1)"><span>{lang use}</span></button> </div></form>';
+		showDialog(msg, 'info', '', '', 1);
+	{/if}
+	addAttach();
+	id = '';
+	idtype = '';
+</script>
+
+<script type="text/javascript">
+	function validate_from(obj) {
+
+		var name = $('name');
+		if (name) {
+			var slen = strlen(name.value);
+			if (slen < 1) {
+				showDialog("请填写课程开发名称");
+				name.focus();
+				return false;
+			}
+		}
+
+		var starttime = $('starttime');
+		if (starttime) {
+			var slen = strlen(starttime.value);
+			if (slen < 1) {
+				showDialog("请选择时间");
+				starttime.focus();
+				return false;
+			}
+		}
+
+		var endtime = $('endtime');
+		if (endtime) {
+			var slen = strlen(endtime.value);
+			if (slen < 1) {
+				showDialog("请选择时间");
+				endtime.focus();
+				return false;
+			}
+		}
+
+		var orgname_input_id = $('orgname_input_id');
+		if (orgname_input_id) {
+			var slen = strlen(orgname_input_id.value);
+			if (slen < 1) {
+				showDialog("请选择主办方");
+				$('orgname_input').focus();
+				return false;
+			}
+		}
+
+		var address = $('address');
+		if (address) {
+			var slen = strlen(address.value);
+			if (slen < 1) {
+				showDialog("请填写地点");
+				address.focus();
+				return false;
+			}
+		}
+
+		var class_result = $('class_result');
+		if (class_result) {
+			var s = class_result.value;
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+			if (!patrn.exec(s) ||(strlen(s)>4)||s<=0||s>5) {
+				showDialog("评估结果应大于0，小于等于5");
+				class_result.focus();
+				return false;
+			}
+		}
+	}
+</script>

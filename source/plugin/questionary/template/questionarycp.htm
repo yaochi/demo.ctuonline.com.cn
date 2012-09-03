@@ -1,0 +1,121 @@
+{subtemplate common/header}
+<div class="wp">
+   <div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+	<div id="ct" class="wp cl n">
+	<div class="mn">
+	<div class="c_ny_left">
+	<div class="wjsl">
+	<div class="" style="border-bottom:1px solid #dcdcdc;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="79%"><div class="bm pl">
+	<div class="ih pbm bbs cl" style="border-bottom:none;">
+		<div class="ih">
+			<dl class="z clml">
+		    	<dt class="ptn">
+		        	<button name="answer" value="ture" class="pn" onclick="javascript:history.back(-1);">
+						<span>返回</span>
+					</button>
+				</dt>
+		       	<dd>
+		        	<!-- {if $_G[forum][type]=='activity'} -->
+						<div id="ptttt" class="wp">
+							{eval echo get_activitynav($_G[forum]);}
+							<!--  
+							<a href="forum.php?mod=activity&fid=$_G[forum][fid]&fup=$_G[forum][fup]" class="avt">活动首页</a> 
+							&rsaquo; 问卷
+							-->						 
+						</div>
+					<!-- {/if} -->
+		         </dd>
+		     </dl>
+	     </div>
+	     
+	</div></td>
+    <td width="21%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="49%" align="right">本问卷由</td>
+        <td width="51%" rowspan="3"><p><a href="home.php?mod=space&uid=$questionary[uid]" class="tx_zqsy"><img src="uc_server/avatar.php?uid=$questionary[username]&size=small" width="48" height="48" border="0" /></a></p></td>
+      </tr>
+      <tr>
+        <td align="right"><a href='home.php?mod=space&uid=$questionary[uid]'>{eval echo user_get_user_name_by_username($questionary[username])}</a></td>
+        </tr>
+      <tr>
+        <td align="right">创建</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+</div>
+	<div class="wjsl_bt">
+	<div class="wjsl_bt_left">
+	<p class="a" style="color:#333333;font-size:24px;font-weight:bold;">$questionary[questname]</p>
+	<p class="b">参加数：$questionary[joiner] | {eval echo dgmdate($questionary[dateline])}<!-- {if ($_G[uid]==$questionary[uid]||$_G['forum']['ismoderator']) } --><!-- {if $questionary[joiner]==0} -->| <a href="{eval echo join_plugin_action2('upload',array('questid'=>$questionary[questid]))}">编辑</a> <!-- {/if} --> | <a href="javascript:del(this);">删除</a> <!-- {/if} --></p>
+	</div>
+	<!-- {if $questionary[scored]==1} -->
+	<div class="wjsl_bt_right">
+	<div class="ckwj_pjf">
+	<p>$prescore</p>
+	<p>平均分</p>
+	</div>
+	</div>
+	<!-- {/if} -->
+	<div class="clear"></div>
+	</div>
+	<div class="wjsl_nr">
+	<div class="wjjs">$questionary[questdescr]</div>
+	<!--{loop $questionlist $key $value}-->
+					<input type="hidden" name="questionid[]" value="$value[questionid]" />
+	<div class="wjwt">
+	<div class="wjwt_bt">{eval echo($key); }.$value[question]<!-- {if $questionary[scored]==1} --><span style="color:red;">[ $value[questionscore] 分]</span><!-- {/if} --><!-- {if $value[multiple]==1 } --><span>[ 多选题，最多$value[maxchoices]项 ]</span><!-- {/if} --></div>
+	<div class="wjwt_daan">
+	<!--{loop $questionlist[$key]['option'] $optionkey $optionvalue}-->
+	  <p><span class="a">$optionvalue[questionoption]</span><span style="width:175px; float:left;">
+	  <div class="pbg" style=" width:175px; clear:both;">
+	  <div style="width: $questionlist[$key]['width'][$optionkey]; background-color: #$questionlist[$key]['colors'][$optionkey];" class="pbr"></div></div>
+	  </span><span>$questionlist[$key]['percent'][$optionkey]%</span><span>($optionvalue[choices])</span></p>
+	 <!--{/loop}-->
+	  <div class="clear"></div>
+	  </div>
+	</div>
+	<!--{/loop}-->
+	<div class="wjtj"><input name="submit" type="button" onclick="location.href='{eval echo join_plugin_action2('index')}'" class="ckxq_sy left" value="返回列表" />
+	<div class="clear"></div>
+	</div>
+	</div>
+	<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	</div>
+	
+	</div>
+{subtemplate common/footer}
+<div id="fwin_mods" class="fwinmask" style="position: absolute; z-index: 201; left: 500px; top: 280px; display:none"><table cellspacing="0" cellpadding="0" class="fwin"><tbody><tr><td class="t_l"></td><td ondblclick="hideWindow('mods')" class="t_c"></td><td class="t_r"></td></tr><tr><td ondblclick="hideWindow('mods')" class="m_l">&nbsp;&nbsp;</td><td id="fwin_content_mods" class="m_c" fwin="mods">
+<div id="floatlayout_topicadmin" class="tm_c" fwin="mods">
+<h3 class="flb" id="fctrl_mods" style="cursor: move;">
+<span>
+<a title="关闭" onclick="$('fwin_mods').style.display = 'none';" class="flbc" href="javascript:;">关闭</a>
+</span>
+</h3>
+<form action="{eval echo join_plugin_action2('upload',array('questid'=>$questionary[questid],'op'=>del))}" autocomplete="off" method="post" id="moderateform" fwin="mods">
+<div class="c">
+<div class="tplw">
+<ul class="llst">
+<li>
+<input type="hidden" value="delete" name="operations[]">
+<p>您确认要 <strong>删除</strong> 问卷吗?</p>
+</li>
+</ul>
+</div>
+</div>
+<p class="o pns">
+<button value="确定" class="pn pnc" type="submit" id="modsubmit" name="modsubmit" fwin="mods"><span>确定</span></button>
+</p>
+</form>
+</div>
+</td><td ondblclick="hideWindow('mods')" class="m_r"></td></tr><tr><td class="b_l"></td><td ondblclick="hideWindow('mods')" class="b_c"></td><td class="b_r"></td></tr></tbody></table></div>
+
+<script>
+function del(obj){
+	$('fwin_mods').style.display = '';
+}
+</script>

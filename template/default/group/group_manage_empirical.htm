@@ -1,0 +1,22 @@
+<form action="forum.php?mod=group&action=manage&op=manageempirical&m=save&fid=$_G[fid]" method="post">
+<table class="tb tb2 nobdb">
+    <tbody>
+        <tr><th>是否启用</th><th>动作名称</th><th>经验值</th><th>周期</th></tr>
+        <!--{loop $group_empirical_op_settings $id $values}-->
+        <tr class="hover">
+            <td class="td28">
+                <!--{if $values[status]=='Y'}-->
+                <input type="checkbox" name="status[$id]" checked="true" value="Y"/>
+                <!--{else}-->
+                <input type="checkbox" name="status[$id]" value="N"/>
+                <!--{/if}-->
+            </td>
+            <td class="td28">$values["name"]</td>
+            <td class="td28"><input type="text" value="$values['value']" name="values[$id]" /></td>
+            <td class="td28"><a href="forum.php?mod=group&action=manage&op=settingempirical&id=$values[id]&fid=$_G[fid]">设置</a></td>
+        </tr>
+       <!--{/loop}-->
+       <tr><td colspan="4"><input type="submit" value="提交" class="btn"/></td></tr>
+    </tbody>
+</table>
+</form>

@@ -1,0 +1,213 @@
+<!--create by songsp 2010-11-25-->
+<!--{if $bclist}-->
+<form name="adform" class="bm" method="post" action="forum.php?mod=group&action=manage&op=managecontent&fid=$_G['gp_fid']" id="adform" onsubmit="return checkform();">
+ <table class="tbcommon tb2 fixpadding">
+   <tr><th class="partition" colspan="5">以下为专区首页内容(不包含专区成员和DIY工具模块的内容)</th></tr>
+<!--{loop $bclist $bid $value}-->
+<!--{if $value && ($value['listadata'] || $value['top'] )}-->
+
+	
+	<!--{if $value['blockclass']== 'html_html'}--> <!--DIY工具-->
+
+	<!--{elseif $value['blockclass']== 'pluginmenu'}--> <!--专区组件-->
+
+
+	<!--{elseif $value['blockclass']== 'foruminfo'}--> <!--专区信息-->
+
+	<!--{elseif $value['blockclass']== 'groupmember'}--> <!--专区成员-->
+
+	<!--{elseif $value['blockclass']== 'groupdoc'}--> <!--文档-->
+
+
+
+
+	
+
+	<!--{else}-->
+
+
+		<tr class="header" >
+		  <th colspan='4'>$blocknames[$value['blockclass']]</th>
+		  <th></th>
+		  <th></th>
+		</tr>
+	
+		
+		<!--{if $value['top']}--> <!--焦点模式-->
+			<!--{if $value['blockclass']=='ranking' && ( $value['top']['contenttype']=='forum' || $value['top']['contenttype']=='member' ) }--><!--过滤到排行榜的专区和成员-->
+			<!--{else}-->
+			<tr class="hover">      
+				
+				<td class="td25"><input class="checkbox" type="checkbox" name="is_delete[{$value[blockclass]}][{$value[top][contenttype]}][{$value[top][id]}]" value="1" /></td>
+				<td ><a href="{$value[top][url]}" title="$value[top][name]" target="_blank">$value[top][name]</a></td>
+				<td ><a href="javascript:deleteone('is_delete[{$value[blockclass]}][{$value[top][contenttype]}][{$value[top][id]}]');" class="act">删除</a></td>
+			</tr>
+			<!--{/if}-->
+		<!--{/if}-->
+
+
+
+
+		<!--{loop $value['listadata'] $tid $item}-->
+			
+			<!--{if $value['blockclass']=='ranking' && ( $item['contenttype']=='forum' || $item['contenttype']=='member' ) }--><!--过滤到排行榜的专区和成员-->
+			<!--{else}-->
+			<tr class="hover">      
+				
+				<td class="td25"><input class="checkbox" type="checkbox" name="is_delete[{$value[blockclass]}][{$item[contenttype]}][{$item[id]}]" value="1" /></td>
+				<td ><a href="{$item[url]}" title="$item[name]<!--{if !$item[name]}-->$item[title]<!--{/if}-->" target="_blank">$item[name]<!--{if !$item[name]}-->$item[title]<!--{/if}--></a></td>
+				<td ><a href="javascript:deleteone('is_delete[{$value[blockclass]}][{$item[contenttype]}][{$item[id]}]');" class="act">删除</a></td>
+			</tr>
+			<!--{/if}-->
+
+		<!--{/loop}-->
+
+		<tr class="hover"><td colspan='4'></td></tr>
+	<!--{/if}-->
+			
+
+
+<!--{/if}-->
+
+<!--{/loop}-->
+<tr>
+<th class="partition" >
+<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll('prefix', this.form, 'delete')" />
+        <label for="chkall">删除</label>
+</th>
+<th >
+        <div class="fixsel">
+            <button id="newspecial" class="pn pnc" type="submit" name="adsubmit">
+				<span>提交</span>
+			</button>
+        </div></th>   
+</th>
+</tr>
+
+
+ </table>
+<input type='hidden' name='delsubmit' value='1'/>
+</form>
+<!--{else}-->
+			
+	<p>{lang group_no_content_manage}</p>
+<!--{/if}-->
+
+
+<script src="static/js/common.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+function deleteone(objname){
+	var obj = document.getElementsByName(objname);
+	var len = obj.length;
+	
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj[i];
+		
+		objtmp.checked='checked';
+	}
+	flag = confirm('该操作为物理删除，删除后将无法恢复。确定删除记录?');
+			
+	if(flag){
+		document.adform.submit();
+	}
+	
+
+}
+
+
+
+// @zic from Discuz!X source code
+// 2010-8-4
+// 多行记录选中
+function checkAll(type, form, value, checkall, changestyle) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(type == 'option' && e.type == 'radio' && e.value == value && e.disabled != true) {
+			e.checked = true;
+		} else if(type == 'value' && e.type == 'checkbox' && e.getAttribute('chkvalue') == value) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle) {
+				multiupdate(e);
+			}
+		} else if(type == 'prefix' && e.name && e.name != checkall && (!value || (value && e.name.match(value)))) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle && e.parentNode && e.parentNode.tagName.toLowerCase() == 'li') {
+				e.parentNode.className = e.checked ? 'checked' : '';
+			}
+		}
+	}
+}
+/*
+ * @zic
+ * 2010-8-10
+ * 检查表单
+ */
+function checkform(){
+    var flag = true;
+	
+	flag = confirm('该操作为物理删除，删除后将无法恢复。确定删除记录?');
+	/*
+    // 取出“是否删除”的所有对象
+    var obj = getArrObj("is_delete");
+
+    // 判断是否勾选删除
+    flag = alertDelete(obj);
+    
+    //alert("in checkform, flag="+flag);
+
+	*/
+
+    return flag;
+}
+
+/* 
+* 循环取出对象;
+*/
+function getArrObj(inputName){
+
+	// 取出
+	var obj = new Array();
+	<!--{loop $adEntitys $adEntity}-->
+	var tmp = inputName+"[{$adEntity[id]}][]";
+	obj.push(document.getElementsByName(tmp));
+	<!--{/loop}-->
+	
+	return obj;
+}
+
+// 有删除时提示
+// update 2010-08-26
+function alertDelete(obj){
+	var len = obj.length;
+	var flag = false;
+	
+	var i = 0;
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj.pop();
+		
+		// 判断每行首个元素是否勾选
+		if(objtmp.item(0).checked){			
+			// 如果取消删除，则清空删除	
+			flag = confirm('确定删除记录?');
+			
+			if(!flag){
+				objtmp.item(0).value = 0;
+				objtmp.item(0).checked = "";
+                                //var form = document.getElementsByName("adform");
+                                //checkAll('prefix', form, '');
+			}
+			//alert(objtmp.item(0).checked);
+			return flag;
+		}
+	}	
+	//alert("no delete Item");
+	return true;
+
+}
+
+</script>
+

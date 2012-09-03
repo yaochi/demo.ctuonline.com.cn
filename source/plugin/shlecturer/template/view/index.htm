@@ -1,0 +1,230 @@
+<div class="mn">
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/shlecturer/js/shlecturer_common.js?{VERHASH}"></script>
+
+<div style="padding: 0 15px">
+<div class="pxjs" style="width: auto;">
+<div class="pxjs_nr1"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="pxjs_table">
+  <tr>
+    <td colspan="4" align="left">
+	<div class="jsjj">
+	<dl>
+	<dd><p class="dtx">
+	<!--{if !$lecturer[imgurl]}-->
+	<!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->
+		<img src="static/image/images/def_lecturer.png" class="lbimg" />
+		<!--{if $lectureruid}--></a><!--{/if}-->
+	<!--{else}-->
+	<!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->
+		<img src="$lecturer[imgurl]" class="lbimg" />
+		<!--{if $lectureruid}--></a><!--{/if}-->
+	<!--{/if}-->	
+	</p></dd>
+	<dt><span class="a"><!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->$lecturer[name]<!--{if $lectureruid}--></a><!--{/if}--></span><!--{if $lecturer[isinnerlec]=='1'&&$lectureruid}-->(<a href="home.php?mod=space&uid=$lectureruid" style="color:#999999">查看讲师个人空间</a>)<!--{/if}--></dt>
+	<dt>
+		<!--{if $lecturer['gender']==1}-->
+		男
+		<!--{elseif $lecturer['gender']==2}-->
+		女
+		<!--{else}-->
+		保密
+		<!--{/if}-->
+	</dt>
+	<dt>$lecturer['orgname']</dt>
+	<dt><span>星级：</span> <ul class="clearR" style="padding-top:3px;"><!--{eval echo misc_shlecturer_num_str($lecturer['stars']); }--></ul>	</dt>
+    <dt>
+    
+    <div id="attusrs" style="height:auto;">
+<div style="height:30px; line-height:30px;">
+<span class="xg1" style="margin-bottom:2px;">喜欢人数：<!--{if $lecturer['fonders']}-->$lecturer['fonders']<!--{else}-->0<!--{/if}--></span>
+
+</div>
+<div>
+
+<!--{if !$isfondered&&$_G[uid]}-->
+  <button id='fonderbutton' onclick="ajaxgets('forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=viewmenu&diy=&lecid=$lecturer[id]&shlecturer_action=fonder&'),'attusrs'" class="pn z mrngroup" type="button" style="margin:0px 0px 0px 5px;"><em>我喜欢</em></button><!--{/if}-->
+
+</div>
+</div>
+    
+    </dt>
+	</dl>
+
+                                                                  
+   </div>
+   	
+	</td>
+    </tr>
+  <tr>
+    <td width="18%" align="right" valign="top"><strong>背景介绍</strong></td>
+    <td colspan="3">$lecturer['bginfo']</td>
+  </tr>
+  <tr>
+    <td width="18%" align="right" valign="top"><strong>个人特色</strong></td>
+    <td colspan="3">$lecturer['perspecial']</td>
+  </tr>
+ 
+  <!--{if $lecturer['isinnerlec']==1}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td colspan="3"><!--{if $lecturer['rank']==1}-->
+		集团级
+		<!--{elseif $lecturer['rank']==2}-->
+		公司级
+		<!--{elseif $lecturer['rank']==3}-->
+		直属单位级
+		<!--{elseif $lecturer['rank']==4}-->
+		其他
+		<!--{else}-->
+		<!--{/if}-->	</td>
+  </tr>
+  <!--{elseif $lecturer['isinnerlec']==2}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td colspan="3"><!--{if $lecturer['rank']==1}-->
+		客座教授
+		<!--{elseif $lecturer['rank']==2}-->
+		荣誉教授
+		<!--{elseif $lecturer['rank']==3}-->
+		专家教授
+		<!--{elseif $lecturer['rank']==4}-->
+		讲师
+		<!--{/if}-->	</td>
+  </tr>
+  <!--{/if}-->
+     <!--{loop $lecturer['teachdirection'] $key $value}-->
+   <tr>
+    <td align="right" valign="top"><strong>授课方向</strong></td>
+    <td width="34%" valign="top"><!--{if $value==1}-->
+		市场类
+		<!--{elseif $value==2}-->
+		销售与服务类
+		<!--{elseif $value==3}-->
+		产品类
+		<!--{elseif $value==4}-->
+		企业信息化类
+		<!--{elseif $value==5}-->
+		维护与服务支撑类
+		<!--{elseif $value==6}-->
+		网发建设类
+		<!--{elseif $value==7}-->
+		综合类
+		<!--{else}-->
+		<!--{/if}-->	</td>
+
+    	<td width="12%" valign="top"><strong>特色课程</strong></td>
+    <td width="36%" valign="top"><!--{loop $lecturer['courses'][$key] $course}-->$course<br /><!--{/loop}--></td>
+   </tr>
+  <!--{/loop}-->
+  <tr>
+    <td align="right"><strong>联系电话</strong></td>
+    <td colspan="3">$lecturer['tel']</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>Email</strong></td>
+    <td colspan="3">$lecturer['email']</td>
+  </tr>
+  <tr>
+    <td align="right" valign="top"><strong>现场讲课录像</strong></td>
+    <td colspan="3">
+		<div class="pattl mlwgroup mrwgroup">
+		<!--{if !empty($imagelist)}-->
+		<!--{loop $imagelist $attach}--> 
+				<dl class="tattl attm">
+					<dt>					</dt>
+					<dd>
+						<p class="imgt">
+							<a href="home.php?mod=attachment{$is_archive}&aid={$attach[aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]" class="bold" target="_blank">$attach[filename]</a>
+							<em>($attach[attachsize])</em>						</p>
+						<div class="attp" id="aid$attach[aid]_menu" style="display: none">
+							<div class="crly">
+								<p class="y">$attach[dateline] {lang upload}</p>
+								<p>{lang downloads}:$attach[downloads]</p>
+							</div>
+							<div class="mncr"></div>
+						</div>
+						<p>						</p>
+						<p>
+						<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
+							<a href="javascript:;"><img class="zoom" onclick="zoom(this, this.src)" src="{$attach[url]}$attach[attachment].thumb.jpg" alt="$attach[filename]" /></a>
+						<!--{else}-->						
+							<img class="zoom" src="{$attach[url]}$attach[attachment]" file="{$attach[url]}$attach[attachment]" $attach[attachwidth] id="aimg_$attach[aid]" alt="$attach[filename]" onclick="zoom(this, this.src)" />
+						<!--{/if}-->
+						</p>
+					</dd>
+				</dl>
+		<!--{/loop}-->
+		<!--{/if}-->
+		<!--{if !empty($attachlist)}-->
+		<!--{loop $attachlist $attach}--> 
+			<dl class="tattl">
+				<dt>
+					$attach[filetype]				</dt>
+				<dd>
+					<p class="attnm">
+						<a href="home.php?mod=attachment&aid={$attach[aidencode]}" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]">$attach[filename]</a>
+						($attach[attachsize])
+						<div class="attp" id="aid$attach[aid]_menu" style="display: none">
+							<div class="crly">
+								<p class="y">$attach[dateline] {lang upload}</p>
+								<p>下载次数:$attach[downloads]</p>
+								<!--{if !$attach['attachimg'] && $_G['getattachcredits']}-->{lang attachcredits} $_G[getattachcredits]<br /><!--{/if}-->
+							</div>
+							<div class="mncr"></div>
+						</div>
+					</p>
+					<p>					</p>
+				</dd>
+			</dl>
+		<!--{/loop}-->
+		<!--{/if}-->
+			<div class="hm" style="margin: 20px 0 5px 0">			</div>
+		</div>     </td>
+  </tr>
+</table>
+</div>
+<div class="pxjs_nr2">
+<!--{if $_G['forum']['ismoderator']}-->
+	<span style="float:right;"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=viewmenu&diy=&lecid=$lecturer[id]&shlecturer_action=edit">编辑</a>|<a onclick="return checklec(this.href);" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=groupmenu&diy=&lecid=$lecturer[id]&shlecturer_action=delete">删除</a></span>
+	<!--{/if}-->
+<div class="pxjs_nr2">
+<div class="bt">学员评价<!--{if $commentreplynum}--> ( 共 <span id="comment_replynum">$commentreplynum</span> 条评价)<!--{/if}-->  </div>
+<div class="nr">
+	<div class="bm">
+		<!--评价-->
+		<!--{eval $comment_idtype = 'shlecturerid';}-->
+		<!--{eval $id = $lecturer['id'];}-->
+		<!--{eval $comment_refer = 'forum.php?mod=group&action=plugin&fid='.$_G[fid].'&plugin_name=shlecturer&plugin_op=viewmenu&diy=&lecid='.$lecturer[id].'&shlecturer_action=view';}-->
+		<!--{eval $comment_list = $commentlist;}-->
+		<!--{eval $comment_needreplynum = true;}-->
+		<!--{eval $comment_replynum = $commentreplynum;}-->
+		
+		<!--{template home/space_comment_view}-->
+	</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	function checklec(url) {
+		var msg = '';
+		msg = msg + '<div>是否删除?</div>';
+		if (msg) {
+			showDialog(msg, 'confirm', '',  function(){location.href=url});
+			return false;
+		}
+	}
+	function ajaxgets(url, showid){
+		var x = new Ajax();
+		x.showId = $(showid);
+		x.get(url, function(s, x) {
+			$('attusrs').innerHTML=s;
+		});
+	}
+	
+</script>
+</div>
+</div>

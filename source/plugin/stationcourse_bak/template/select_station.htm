@@ -1,0 +1,12 @@
+{template common/header}
+<script type="text/javascript" src="source/plugin/stationcourse/js/stationcourse.js"></script>
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">岗位树</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('orgtree')" title="关闭">关闭</a></span>
+    </h3>
+    <span>当前岗位</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="curorgname" style="color:red">$curorgname</span>
+    $s
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="submiselectorg('$namevalue')"><strong>选择岗位</strong></button></p>
+</div>
+{template common/footer}

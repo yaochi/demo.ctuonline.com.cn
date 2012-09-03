@@ -1,0 +1,14 @@
+{template common/header}
+
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">知识分类</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('win_kcategory')" title="关闭">关闭</a></span>
+    </h3>
+    <span>当前知识分类</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="curcategroyname" style="color:red"></span>
+	<div id="kcategory"></div>
+    $t
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="submitselectkcategory('$namevalue')"><strong>选择分类</strong></button></p>
+</div>
+
+{template common/footer}

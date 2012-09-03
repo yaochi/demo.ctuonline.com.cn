@@ -1,0 +1,28 @@
+<!--TODO 使用帖子权限-->
+<div id="mdly" style="display: none;">
+	<input type="hidden" name="optgroup" />
+	<input type="hidden" name="operation" />
+	<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">缩小</a>
+	<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+	<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>个: </span></h6>
+	<p>
+	<!--{if $_G['group']['allowdelpost']}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(3, 'delete');return false;">删除</a></strong>
+		<span class="pipe">|</span>
+	<!--{/if}-->
+	<!--{if $allowedittype}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(2, 'type');return false;">分类</a></strong>
+	<!--{/if}-->
+	</p>
+	<p>
+		<!--{if $_G['group']['allowstickthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'stick');return false;">置顶</a>
+		<!--{/if}-->
+		<!--{if $_G['group']['allowdigestthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'digest');return false;">精华</a>
+		<!--{/if}-->
+		<!--{if $_G['group']['allowhighlightthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'highlight');return false;">高亮</a>
+		<!--{/if}-->
+	</p>
+</div>

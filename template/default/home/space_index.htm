@@ -1,0 +1,59 @@
+<!--{template home/space_header}-->
+<div id="ct" class="wp w cl">
+	<div id="diypage" class="area">
+		<div id="frame1" class="frame cl" noedit="1">
+			<div id="frame1_left" style="width:{$widths[0]}px" class="z column">
+				<!--{if empty($leftlist)}-->
+				<div id="left_temp" class="move-span temp"></div>
+				<!--{/if}-->
+				<!--{loop $leftlist $key $value}-->
+				<div id="$key" class="block move-span">
+					$value
+				</div>
+				<!--{/loop}-->
+			</div>
+
+			<div id="frame1_center" style="width:{$widths[1]}px" class="z column">
+				<!--{if empty($centerlist)}-->
+				<div id="center_temp" class="move-span temp"></div>
+				<!--{/if}-->
+				<!--{loop $centerlist $key $value}-->
+					<div id="$key" class="block move-span">
+						$value
+					</div>
+				<!--{/loop}-->
+			</div>
+
+			<!--{if (strlen($userdiy['currentlayout']) > 3) }-->
+			<div id="frame1_right" style="width:{$widths[2]}px" class="z column">
+				<!--{if empty($rightlist)}-->
+				<div id="right_temp" class="move-span temp"></div>
+				<!--{/if}-->
+				<!--{loop $rightlist $key $value}-->
+				<div id="$key" class="block move-span">
+					$value
+				</div>
+				<!--{/loop}-->
+			</div>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	fetchUAuth('$space[uid]',function($1){jQuery('#proauth').html($1);});
+	fetchFeedAuth('#ct');
+</script>
+<!--{template common/footer}-->
+<!--{if $_G['myspace']['profile']}-->
+<script src="static/js/home_provincegroup.js?EPT" type="text/javascript"></script>
+<script type="text/javascript">
+addLoadListener(load);
+function load(){
+	var regname=document.getElementById("regname").value;
+	var did="progroup";
+	sendrequest(regname,did);
+}
+</script>
+<!--{/if}-->
+
+

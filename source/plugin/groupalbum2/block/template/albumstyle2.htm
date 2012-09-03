@@ -1,0 +1,14 @@
+<div class="module cl ml mla"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul>
+	<!--{loop $listdata $item}-->
+	<li style="height: auto;">
+		<div class="c">
+			<a href="{$item[url]}" target="_blank"><img src="{$item[pic]}" width="120px" height="120px" alt="{$item[title]}" /></a>
+		</div>
+		<p class="ptn">
+			<a href="{$item[url]}" title="{$item[title]}" target="_blank" class="xi2"}>{$item[title]}</a> ({$item[picnum]})
+		</p>
+	</li>
+	<!--{/loop}-->
+	</ul>
+</div>

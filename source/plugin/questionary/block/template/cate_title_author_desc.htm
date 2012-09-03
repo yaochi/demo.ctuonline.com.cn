@@ -1,0 +1,11 @@
+<div class="module cl xld b_quest"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl>
+        <dt class="xs2">
+            <a href="{$item[url]}" title="" target="_blank"><span class="xi2">[{$item[category]}]&nbsp;</span>{$item[name]}</a>
+            &nbsp;<span class="xi2">{$item[username]}</span>
+        </dt>
+        <dd><div>{$item[questdescr]}</div></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

@@ -1,0 +1,275 @@
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexorg" class="z">返回列表</a>
+	<div id="toolbar">
+
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<form action="{eval echo join_plugin_action('viewcompare')}" autocomplete="off" method="post" id="moderateform" fwin="mods" onsubmit="return validate();">
+<div id="fspanel">
+<!--{if $compare}-->
+<p>                           &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							<select id="orgid_lef" name="orgname_lef" style="width: 150px;" onchange ="starcomparelef()">
+							<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $orglef_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+                                 &nbsp;~~&nbsp;
+							<select id="orgid_rig" name="orgname_rig" style="width: 150px;" onchange ="starcomparerig()">
+							<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $orgrig_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+							   &nbsp;~~&nbsp;
+							<select id="orgid_align" name="orgname_align" style="width: 150px;" onchange ="starcomparealign()">
+							<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $orgalign_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+                            </p>
+                             <!--{else}-->
+                              <p style="text-align: center;">没有可对比的机构信息</p>
+                            <!--{/if}-->
+
+</div>
+<!--{if $compare}-->
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<td width="50">机构名称</td>
+<td style="text-align: left;" id="orgref_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$orgleflist[id]">$orgleflist[name]<!--{if !$orgriglist[released]}-->(未审核)<!--{/if}--></a></td>
+<td style="text-align: left;"  id="orgrig_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$orgriglist[id]">$orgriglist[name]<!--{if !$orgriglist[released]}-->(未审核)<!--{/if}--></a></td>
+<td style="text-align: left;"  id="orgalign_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$orgalignlist[id]">$orgalignlist[name]<!--{if !$orgalignlist[released]}-->(未审核)<!--{/if}--></a></td>
+</tr>
+<tr>
+<td width="50">推荐部门</td>
+<td style="text-align: left;" id="orglef_sugestorgname">$orgleflist[sugestorgname] </td>
+<td style="text-align: left;" id="orgrig_sugestorgname">$orgriglist[sugestorgname]</td>
+<td style="text-align: left;" id="orgalign_sugestorgname">$orgalignlist[sugestorgname]</td>
+</tr>
+<tr>
+<td width="50">机构级别</td>
+<td align="left" title="$orgleflist[totalstars]" id="orglef_title"><span class="$orgleflist[stars]" id="orglef_stars"></span></td>
+<td align="left" title="$orgriglist[totalstars]" id="orgrig_title"><span class="$orgriglist[stars]" id="orgrig_stars"></span></td>
+<td align="left" title="$orgalignlist[totalstars]" id="orgalign_title"><span class="$orgalignlist[stars]" id="orgalign_stars"></span></td>
+</tr>
+<tr>
+<td width="50">拥有讲师</td>
+<td style="text-align: left;"  id="lec_lef"><!--{if $leclist}-->
+			<!--{loop $leclist $lec}-->
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lec[lecid]" >$lec[lecname]<!--{if !$lec[released]}-->(未审核)<!--{/if}--></a>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无讲师！</p>
+			<!--{/if}-->
+			</td>
+<td style="text-align: left;" id="lec_rig">
+<!--{if $lecriglist}-->
+			<!--{loop $lecriglist $lec}-->
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lec[lecid]">$lec[lecname]<!--{if !$lec[released]}-->(未审核)<!--{/if}--></a>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无讲师！</p>
+			<!--{/if}-->
+</td>
+<td style="text-align: left;" id="lec_align">
+<!--{if $lecalignlist}-->
+			<!--{loop $lecalignlist $lec}-->
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lec[lecid]">$lec[lecname]<!--{if !$lec[released]}-->(未审核)<!--{/if}--></a>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无讲师！</p>
+			<!--{/if}-->
+</td>
+</tr>
+<tr>
+<td width="50">拥有课程</td>
+<td style="text-align: left;" id="orglef_class"><!--{if $classlist}-->
+			<!--{loop $classlist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+		<!--{else}-->
+			暂无课程！
+		<!--{/if}--></td>
+		<td style="text-align: left;" id="orgrig_class"><!--{if $classriglist}-->
+			<!--{loop $classriglist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+		<!--{else}-->
+			<p>暂无课程！</p>
+		<!--{/if}--></td>
+		<td style="text-align: left;" id="orgalign_class"><!--{if $classalignlist}-->
+			<!--{loop $classalignlist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+		<!--{else}-->
+			<p>暂无课程！</p>
+		<!--{/if}--></td>
+</tr>
+<tr>
+<td width="50">描述</td>
+<td style="text-align: left;" id="orglef_desc"><a href="javaScript:" onclick="descview($orgleflist[id])">查看</a></td>
+<td style="text-align: left;" id="orgrig_desc"><a href="javaScript:" onclick="descview($orgriglist[id])">查看</a></td>
+<td style="text-align: left;" id="orgalign_desc"><a href="javaScript:" onclick="descview($orgalignlist[id])">查看</a></td>
+</tr>
+</tbody>
+</table>
+<!--{/if}-->
+</form>
+<script type="text/javascript">
+function validate(){
+var orglef_id=$('orgid_lef');
+var orgrig_id=$('orgid_rig');
+if(orglef_id.value=='-1'){
+showDialog('请选择要对比的机构！');
+return false;
+}if(orgrig_id.value=='-1'){
+showDialog('请选择要对比的机构！');
+return false;
+}
+}
+function starcomparelef(){
+var org_id=document.getElementById('orgid_lef').value;
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"diy="+"&"+"extraresource_action=compareorg"+"&"+"orgid="+org_id;
+getJSONP(url,"urldata");
+}
+function urldata(data){
+if(data.is['released']==0){
+document.getElementById('orgref_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"(未审核)</a>";
+}else{
+document.getElementById('orgref_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"</a>";
+}
+document.getElementById('orglef_sugestorgname').innerHTML=data.is['sugestorgname'];
+document.getElementById('orglef_stars').className=data.is['stars'];
+document.getElementById('orglef_desc').innerHTML="<a href='javaScript:' onclick='descview("+data.is['id']+")'>查看</a>";
+document.getElementById('orglef_title').title=data.is['totalstars'];
+var classnamelef_str='';
+var lecnamelef_str='';
+if(data.class==null){
+document.getElementById('orglef_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+classnamelef_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</ar><br>";
+document.getElementById('orglef_class').innerHTML=classnamelef_str;
+}
+classnamelef_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</ar><br>";
+document.getElementById('orglef_class').innerHTML=classnamelef_str;
+}
+}
+if(data.lec==null){
+document.getElementById('lec_lef').innerHTML='暂无讲师！';
+}else{
+for(var i=0;i<data.lec.length;i++){
+if(data.lec[i]['released']==0){
+lecnamelef_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"(未审核)</a>"+"\n";
+document.getElementById('lec_lef').innerHTML=lecnamelef_str;
+}else{
+lecnamelef_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"</a>"+"\n";
+document.getElementById('lec_lef').innerHTML=lecnamelef_str;
+}
+}
+}
+}
+function starcomparerig(){
+var org_id=document.getElementById('orgid_rig').value;
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"diy="+"&"+"extraresource_action=compareorg"+"&"+"orgid="+org_id;
+getJSONP(url,"urlrigdata");
+}
+function urlrigdata(data){
+if(data.is['released']==0){
+document.getElementById('orgrig_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"(未审核)</a>";
+}else{
+document.getElementById('orgrig_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"</a>";
+}
+
+document.getElementById('orgrig_sugestorgname').innerHTML=data.is['sugestorgname'];
+document.getElementById('orgrig_stars').className=data.is['stars'];
+document.getElementById('orgrig_desc').innerHTML="<a href='javaScript:' onclick='descview("+data.is['id']+")'>查看</a>";;
+document.getElementById('orgrig_title').title=data.is['totalstars'];
+var classnamerig_str='';
+var lecnamerig_str='';
+if(data.class==null){
+document.getElementById('orgrig_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+classnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</a><br>";
+document.getElementById('orgrig_class').innerHTML=classnamerig_str;
+}else{
+classnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</a><br>";
+document.getElementById('orgrig_class').innerHTML=classnamerig_str;
+}
+}
+}
+if(data.lec==null){
+document.getElementById('lec_rig').innerHTML='暂无讲师！';
+}else{
+for(var i=0;i<data.lec.length;i++){
+if(data.lec[i]['released']==0){
+lecnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"(未审核)</a>"+"\n";
+document.getElementById('lec_rig').innerHTML=lecnamerig_str;
+}else{
+lecnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"</a>"+"\n";
+document.getElementById('lec_rig').innerHTML=lecnamerig_str;
+}
+}
+}
+}
+function starcomparealign(){
+var org_id=document.getElementById('orgid_align').value;
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"diy="+"&"+"extraresource_action=compareorg"+"&"+"orgid="+org_id;
+getJSONP(url,"urlaligndata");
+}
+function urlaligndata(data){
+if(data.is['released']==0){
+document.getElementById('orgalign_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"(未审核)</a>";
+}else{
+document.getElementById('orgrig_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id="+data.is['id']+"'>"+data.is['name']+"</a>";
+}
+
+document.getElementById('orgrig_sugestorgname').innerHTML=data.is['sugestorgname'];
+document.getElementById('orgalign_stars').className=data.is['stars'];
+document.getElementById('orgalign_desc').innerHTML="<a href='javaScript:' onclick='descview("+data.is['id']+")'>查看</a>";
+document.getElementById('orgalign_title').title=data.is['totalstars'];
+var classnamerig_str='';
+var lecnamerig_str='';
+if(data.class==null){
+document.getElementById('orgalign_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+classnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</a><br>";
+document.getElementById('orgalign_class').innerHTML=classnamerig_str;
+}else{
+classnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</a><br>";
+document.getElementById('orgalign_class').innerHTML=classnamerig_str;
+}
+}
+}
+if(data.lec==null){
+document.getElementById('lec_align').innerHTML='暂无讲师！';
+}else{
+for(var i=0;i<data.lec.length;i++){
+if(data.lec[i]['released']==0){
+lecnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"(未审核)</a>"+"\n";
+document.getElementById('lec_align').innerHTML=lecnamerig_str;
+}else{
+lecnamerig_str+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec[i]['lecid']+"'>"+data.lec[i]['lecname']+"</a>"+"\n";
+document.getElementById('lec_align').innerHTML=lecnamerig_str;
+}
+}
+}
+}
+function descview(id){
+showWindow('orgdescview','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=orgdescrview&id='+id,'get',0);
+}
+</script>
+
+

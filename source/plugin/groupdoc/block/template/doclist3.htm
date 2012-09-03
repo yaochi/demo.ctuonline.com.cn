@@ -1,0 +1,12 @@
+<div class="module cl xld xlda"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+		<dl class="cl">
+			<dd class="m">
+				<a href="home.php?uid={$item[uid]}" target="_blank" class="avt"><img src="uc_server/avatar.php?uid={$item[uid]}&amp;size=small"></a>
+			</dd>
+			<dt class="clpb"><a href="{$item[url]}" title="{$item[title]}" target="_blank"><span class="xi2">[{$item[typename][name]}]</span>&nbsp;{$item[shorttitle]}</a></dt>
+			<dd class="clmb"><div>{$item[context]}</div></dd>
+			<dd class="clmb">作者: <a href="home.php?uid={$item[uid]}">{$item[username]}</a></dd>
+		</dl>
+	<!--{/loop}-->
+</div>

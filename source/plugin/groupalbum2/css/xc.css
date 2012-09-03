@@ -1,0 +1,28 @@
+*{ margin:0; padding:0;}
+
+/* ПаІб */
+.clear{ clear:both;}
+.left{ float:left;}
+.right{ float:right;}
+
+.zzm_xc{ width:614px; font-size:12px;}
+.zzm_xc p{ margin:0; padding:0;}
+.zzm_xc .menu{ padding:16px 0; clear:both;}
+.zzm_xc .nr{clear:both;}
+.zzm_xc .nr ul{}
+.zzm_xc .nr .xx { position: absolute; bottom: 20px; }
+.zzm_xc .nr li{height:140px;width:140px; float:left; display:block; text-align:center; position: relative;}
+.zzm_xc .nr li input{
+	margin-top:3px !important;
+	margin-top:0px;
+	position: relative;
+	bottom: -10px;
+	left:65px !important;
+	left:-5px;
+}
+.zzm_xc .nr img {background:none repeat scroll 0 0 #FFFFFF; border:1px solid #CCCCCC; max-height:120px;max-width:120px;padding:2px; }
+
+.zzm_xc .nr2{ padding:16px 0;clear:both;}
+.zzm_xc .nr3{ padding:16px 0;clear:both;}
+
+.ckxq_sy{ display:block; background:url(../images/sy_07.jpg) no-repeat; width:81px; height:31px; margin:0 auto; line-height:31px; text-align:center; color:#333; border:none;}

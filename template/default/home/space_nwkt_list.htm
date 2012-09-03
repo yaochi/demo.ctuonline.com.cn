@@ -1,0 +1,203 @@
+<!--{eval 
+	$_G[home_tpl_titles] = array('{lang nwkt}');
+	$_G[home_tpl_spacetitle] = "{lang nwkt}";
+	$_G[home_tpl_spacemenus][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=nwkt&view=me\">{lang they_nwkt}</a>";
+	$friendsname = array(1 => '{lang friendname_1}',2 => '{lang friendname_2}',3 => '{lang friendname_3}',4 => '{lang friendname_4}');
+}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=nwkt">{lang nwkt}</a>
+	<!--{if $_GET['view']=='me'}-->
+	 &rsaquo; <a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=me">{$space[username]}{lang somebody_nwkt}</a>
+	<!--{/if}-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_nwkt_header}
+		</div>
+		<div class="bm">
+		<!--{if $space[self]}-->
+			<h1 class="mt"><span class="icn_nwkt replaced z mrngroup" style="margin-top: 4px;"></span>{lang nwkt}</h1>
+			<ul class="tb cl">
+				<li$actives[we]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=we">{lang friend_nwkt}</a></li>
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=me">{lang my_nwkt}</a></li>
+				<li$actives[all]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=all">{lang view_all}</a></li>
+				<li class="o"><a href="home.php?mod=spacecp&ac=nwkt">{lang post_new_nwkt}</a></li>
+			</ul>
+		<!--{else}-->
+			<!--{template home/space_menu}-->
+		<!--{/if}-->
+		
+			<!-- filter & sort Panel begin -->
+			<div id="fspanel">
+				<table>
+				<!--{if $classarr}-->
+					<tr>
+						<th>分类:</th>
+						<td class="piped">
+							<a {if $_GET[classid] == 0} class="a"{/if} href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=$_GET['view']&going=$_GET['going']&orderby=$_GET['orderby']&orderseq=$_GET['orderseq']">{lang all_classes}</a>
+							<!--{loop $classarr $classid $classname}-->
+							<a {if $_GET[classid]==$classid} class="a"{/if} href="home.php?mod=space&uid=$space[uid]&do=nwkt&classid=$classid&view=$_GET['view']&going=$_GET['going']&orderby=$_GET['orderby']&orderseq=$_GET['orderseq']">$classname</a>
+							<!--{/loop}-->
+						</td>
+					</tr>
+				<!--{/if}-->
+					  <tr>
+					    <th>状态:</th>
+					    <td class="piped">
+					    <!--{eval $going = array(0 => '全部', 1=> '正在进行', 2=>'未开始', 3=> '已结束');}-->
+					    <!--{loop $going $key $value}-->
+					    	<a {if $_GET[going]==$key} class="a"{/if} href="home.php?mod=space&uid=$space[uid]&do=nwkt&classid=$_GET['classid']&view=$_GET['view']&going=$key&orderby=$_GET['orderby']&orderseq=$_GET['orderseq']" >$value</a>
+					    <!--{/loop}-->
+						</td>
+					  </tr>
+					  <tr>
+					    <th>排序:</th>
+					    <td class="piped">
+					    <!--{eval $orderby = array('dateline' => '默认', 'viewnum'=> '按点击数');}-->
+					    <!--{loop $orderby $key $value}-->
+					    	<a {if ($_GET[orderby]==$key || (!$_GET[orderby] && $key == 'dateline'))} class="a"{/if} href="home.php?mod=space&uid=$space[uid]&do=nwkt&classid=$_GET['classid']&view=$_GET['view']&going=$_GET['going']&orderby=$key&orderseq=$_GET['orderseq']" >$value</a>
+					    <!--{/loop}-->
+						</td>
+					  </tr>
+					  <tr>
+					  	<th>规则:</th>
+					    <td class="piped">
+					    <!--{eval $orderseq = array(0 => '最新', 1=> '最旧');}-->
+					    <!--{loop $orderseq $key $value}-->
+					    	<a {if $_GET[orderseq]==$key} class="a"{/if} href="home.php?mod=space&uid=$space[uid]&do=nwkt&classid=$_GET['classid']&view=$_GET['view']&going=$_GET['going']&orderby=$_GET['orderby']&orderseq=$key" >$value</a>
+					    <!--{/loop}-->
+						</td>
+					  </tr>
+					</table>
+			</div>
+			<!-- filter & sort Panel end -->
+
+		<!--{if $searchkey}-->
+			<p class="tbmu">{lang follow_search_nwkt} <span style="color: red; font-weight: 700;">$searchkey</span> {lang doing_record_list}</p>
+		<!--{/if}-->
+
+
+<!--{else}-->
+<!--{template home/space_header}-->
+
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang nwkt}<!--{if $space[self]}--> <span class="xs1 xw0">( <a href="home.php?mod=spacecp&ac=nwkt">{lang post_new_nwkt}</a> )</span><!--{/if}--></h1>
+<!--{/if}-->
+
+		<!--{if $count}-->
+			<div class="xld {if empty($diymode)}xlda nwkt{/if}">
+			<!--{loop $list $k $value}-->
+				<div class="bbda">
+					<dl class="reHeight">
+						<dd class="m">
+							<img src="$value['thumb']" width="80" height="80" />
+						</dd>
+						<dd class="avt">
+							<div class="avt"><a href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+
+							<p><a title="<!--{eval echo user_get_user_name_by_username($value[username]);}-->" href="home.php?mod=space&uid=$value[uid]"><!--{eval echo user_get_user_name_by_username($value[username]);}--></a></p>
+						</dd>
+						<dd id="inform">
+							<!--{if $value['secondman_names']}-->
+								<div class="tag"><span class="tag_teacher replaced z">讲师</span></div>
+								<strong class="mlngroup xg1 z" title="{$value['secondman_names']}">$value['secondman_names_short']</strong>
+							<!--{/if}-->
+							<div class="tag"><span class="tag_date replaced z clearL{if $value['secondman_names'] == null} clmt{/if}">课堂时间</span></div>
+							<!--{if $value['going']}-->
+							<div class="tag"><span class="tag_live1 replaced mlngroup z{if $value['secondman_names'] == null} clmt{/if}">正在进行</span></div>
+							<!--{/if}-->
+							<p class="hm xg1 z clearL">
+								<em>$value[starttime]</em><br />
+								&ndash;<br />
+								<em>$value[endtime]</em>
+							</p> 
+						</dd>
+						<dt class="xs2">
+							<a href="home.php?mod=space&uid=$value[uid]&do=nwkt&id=$value[nwktid]">$value[subject]</a>
+						</dt>
+						<dd>
+							<span class="xg1">$value[dateline]</span>
+						</dd>
+						<dd class="rightPadding">
+							$value[message]
+						</dd>					
+					</dl>
+					<div class="xg1 extraInfo">
+						<!--{if $value['invite']}--><div class="tag"><span class="tag_invited replaced z">您已被邀请</span></div><!--{/if}-->
+						<!--{if $classarr[$value[classid]]}--><a href="home.php?mod=space&uid=$value[uid]&do=nwkt&classid=$value[classid]&view=me">{$classarr[$value[classid]]}</a><span class="pipe">|</span><!--{/if}-->
+						<!--{if $value[viewnum]}-->$value[viewnum] 个查看<span class="pipe">|</span><!--{/if}-->
+						<!--{if $value[replynum]}-->$value[replynum] {lang nwkt_replay}<!--{else}-->{lang no_nwkt_replay}<!--{/if}-->
+					</div>
+				</div>
+			<!--{/loop}-->
+			<!--{if $pricount}-->
+				<p class="mtm hm xg1 mbm">{lang hide_nwkt}</p>
+			<!--{/if}-->
+			</div>
+			<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+		<!--{else}-->
+			<div class="emp">{lang no_related_nwkt}</div>
+		<!--{/if}-->
+
+
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<div class="bn gsh">
+			<h2>{lang search_nwkt}</h2>
+			<form method="get" autocomplete="off" action="home.php" class="pns">
+				<input type="hidden" name="searchmode" value="1" />
+				<input type="hidden" name="do" value="nwkt" />
+				<input type="hidden" name="mod" value="space" />
+				<input type="hidden" name="view" value="$_GET[view]" />
+				<input type="hidden" name="classid" value="$_GET['classid']" />
+				<input type="hidden" name="going" value="$_GET['going']" />
+				<input type="hidden" name="orderby" value="$_GET['orderby']" />
+				<input type="hidden" name="orderseq" value="$_GET['orderseq']" />
+				<input type="hidden" name="searchsubmit" value="1" />
+				<input type="text" name="searchkey" class="px vm" size="15" value="{lang doing_enter_keywords}" onclick="if(this.value=='{lang doing_enter_keywords}')this.value='';" />
+				<button type="submit" class="pn vm"><em>{lang search}</em></button>
+			</form>
+		</div>
+		<hr class="da" />
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<script type="text/javascript">
+	function fuidgoto(fuid) {
+		window.location.href = 'home.php?mod=space&do=nwkt&view=we&fuid='+fuid;
+	}
+</script>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

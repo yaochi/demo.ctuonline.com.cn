@@ -1,0 +1,201 @@
+<!--{eval 
+	$_G[home_tpl_titles] = array('{lang reward}');
+	$_G[home_tpl_spacemenus][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=reward&view=me\">{lang they_reward}</a>";
+}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;我要提问</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+		  <tr id="nav_category" >
+		    <th>分类:</th>
+		    <td class="piped">
+			<!--{if $is_enable_category}-->
+				<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&view=$view" title="所有分类" style="{if $category_id==''}font-weight:bold;color:#000;{/if}">全部  <!--{if $category_id==''}-->($_G['forum_threadcount'])<!--{/if}--></a>
+		        <!--{loop $categorys $id $cat}-->			
+						<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=$view&category_id=$id" title="$cat[name]" style="{if $category_id==$id}font-weight:bold;color:#000;{/if}">$cat[name] <!--{if $category_id==$id}-->($_G['forum_threadcount'])<!--{/if}--></a>
+				<!--{/loop}-->
+			<!--{/if}-->
+			</td>
+		  </tr>
+		  <tr>
+		    <th>状态:</th>
+		    <td class="piped">
+		    	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=all&category_id=$category_id" title="查看全部提问" style="{if $view=='all'}font-weight:bold;color:#000;{/if}">全部 <!--{if $view=='all'}-->($_G['forum_threadcount'])<!--{/if}--> </a>
+		    	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=notsolved&category_id=$category_id" title="查看未解决提问" style="{if $view=='notsolved'}font-weight:bold;color:#000;{/if}">未解决 <!--{if $view=='notsolved'}-->($_G['forum_threadcount'])<!--{/if}--></a>
+		    	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=solved&category_id=$category_id" title="查看已解决提问" style="{if $view=='solved'}font-weight:bold;color:#000;{/if}">已解决 <!--{if $view=='solved'}-->($_G['forum_threadcount'])<!--{/if}--></a>
+			</td>
+		  </tr>
+	</table>
+</div>
+<!-- filter & sort Panel end -->
+
+<div id="threadlist" class="tl bm cl" style="position: relative;">
+<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="listextra" value="$extra" />
+	<input type="hidden" name="frommodcp" value="3">
+			<!-- {if $keyword} -->
+				<p class="tbmu cl">
+					<span>以下是搜索问题<span style="color:red;">$keyword</span>得到的结果。
+					</span>
+				</p>
+			<!-- {/if} -->
+			<!-- {if $duplicatenav} -->
+			<p class="tbmu cl">
+				<span>
+					<strong>分类：</strong>		
+					 <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&view=$view" title="所有分类" style="{if $category_id==''}font-weight:bold;color:#000;{/if}">全部</a>			
+					 <!--{loop $categorys $id $cat}-->
+					 	<span>|</span>
+					 	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=$view&category_id=$id" title="$cat[name]" style="{if $category_id==$id}font-weight:bold;color:#000;{/if}">$cat[name]</a>
+					 <!--{/loop}-->
+				</span>
+				<br/>
+				<span>
+					<strong>状态：</strong>					
+					<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=all&category_id=$category_id" title="查看全部提问" style="{if $view=='all'}font-weight:bold;color:#000;{/if}">全部</a>
+					<span>|</span>
+					<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=notsolved&category_id=$category_id" title="查看未解决提问" style="{if $view=='notsolved'}font-weight:bold;color:#000;{/if}">未解决</a>
+					<span>|</span>
+					<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu&keyword=$keyword&view=solved&category_id=$category_id" title="查看已解决提问" style="{if $view=='solved'}font-weight:bold;color:#000;{/if}">已解决</a>
+				</span>
+				<!--{eval $flag = array(0 => '{lang all}', 1 => '{lang unresolved}', -1 => '{lang has_been_resolved}');}-->	
+			</p>
+			<!-- {/if} -->
+
+		<!--{if $_G['forum_threadlist']}-->
+			<ul class="rwdl cl">
+				<!--{loop $_G['forum_threadlist'] $key $thread}-->				
+				<!-- {if $thread[price]==0} -->
+					<li class="bbda free">						
+						<div class="uslvd {if $thread[question_status]=='Y'} slvd{/if}">							
+							<em><!--{if $thread[question_status]=='Y'}-->已解决<!--{else}-->未解决<!--{/if}--></em>
+						</div>
+						<h4>
+							<!--{if !$_G['gp_archiveid'] && $_G['forum']['ismoderator']}-->
+								<!--{if $thread['fid'] == $_G[fid] && $thread['digest'] >= 0}-->
+									<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
+										<input onclick="tmodclickqbar(this)" type="checkbox" name="moderate[]" value="$thread[tid]" />
+									<!--{else}-->
+										<input type="checkbox" disabled="disabled" />
+									<!--{/if}-->
+								<!--{else}-->
+									<input type="checkbox" disabled="disabled" />
+								<!--{/if}-->
+							<!--{/if}-->
+							<!-- {if $qisprefix&&$qis_enable_category} -->
+								<span style="color:grey;">[{$thread['category_name']}]</span>
+							<!-- {/if} -->							
+							<a href="forum.php?mod=viewthread&tid=$thread[tid]&fid=$thread[fid]&plugin_name=qbar&extra=$extra"$thread[highlight]><strong>$thread[subject]</strong></a>
+							<!--{if $thread[recommendicon]}-->
+								<img src="{IMGDIR}/recommend_$thread[recommendicon].gif" class="vm" alt="{lang thread_recommend}" title="{lang thread_recommend}" />
+							<!--{/if}-->
+							<!--{if $thread[heatlevel]}-->
+								<img src="{IMGDIR}/hot_$thread[heatlevel].gif" class="vm" alt="$thread[heatlevel] {lang heats}" title="$thread[heatlevel] {lang heats}" />
+							<!--{/if}-->
+							<!--{if $thread['digest']>0}-->
+								<img src="{IMGDIR}/digest_$thread[digest].gif" class="vm" alt="精华 $thread[digest]" title="精华 $thread[digest]" />
+							<!--{/if}-->
+							<!--{if $thread['rate'] > 0}-->
+								<img src="{IMGDIR}/agree.gif" class="vm" alt="{lang rate_credit_add}" title="{lang rate_credit_add}" />
+							<!--{/if}-->
+							<!-- {if $thread[displayorder]>0} -->
+								<img src="{IMGDIR}/esn/pin1.gif" alt="置顶" />	
+							<!-- {/if} -->
+						</h4>
+						<!--{if $thread[repeats]}-->
+						<p class="mtm"><a href="forum.php?mod=group&fid=$thread[repeats][fid]" class="yhma">$thread[repeats][name]</a><span class="xg1">$thread[dateline]</span></p>
+						<!--{else}-->
+						<p class="mtm"><a href="home.php?mod=space&uid=$thread[authorid]"><!--{eval echo user_get_user_name($thread[authorid]);}--></a><span class="xg1">$thread[dateline]</span></p>
+						<!--{/if}-->
+						<p class="mtm xg1">
+							<!--{if $thread[replies]}-->已有 $thread[replies] 个<!--{else}-->暂无<!--{/if}-->回答<span class="pipe">|</span><a href="forum.php?mod=post&action=reply&fid=$thread[fid]&tid=$thread[tid]&special=3">我来回答</a>
+						</p>
+					</li>
+				<!-- {else} -->
+					<li class="bbda">
+						<div class="uslvd {if $thread[price] < 0} slvd{/if}">
+							<cite><!--{eval echo abs($thread['price']);}--><span>经验值</span></cite>
+							<em><!--{if $thread[price] < 0}-->已解决<!--{else}-->未解决<!--{/if}--></em>
+						</div>
+						<h4>
+							<!--{if !$_G['gp_archiveid'] && $_G['forum']['ismoderator']}-->
+								<!--{if $thread['fid'] == $_G[fid] && $thread['digest'] >= 0}-->
+									<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
+										<input onclick="tmodclickqbar(this)" type="checkbox" name="moderate[]" value="$thread[tid]" />
+									<!--{else}-->
+										<input type="checkbox" disabled="disabled" />
+									<!--{/if}-->
+								<!--{else}-->
+									<input type="checkbox" disabled="disabled" />
+								<!--{/if}-->
+							<!--{/if}-->	
+							<!--{if !empty($_G[setting][pluginhooks][forumdisplay_thread][$key])}-->
+									<label>{hook/forumdisplay_thread $key}</label>
+							<!--{/if}-->
+								<!--{if $thread['moved']}-->
+									<!--{if $_G['forum']['ismoderator']}-->
+										<a href="forum.php?mod=topicadmin&action=moderate&optgroup=3&operation=delete&tid=$thread[moved]" onclick="showWindow('mods', this.href);return false">{lang thread_moved}:</a>
+									<!--{else}-->
+										{lang thread_moved}:
+									<!--{/if}-->
+								<!--{/if}-->
+							$thread[typehtml]	
+							<!-- {if $qisprefix&&$qis_enable_category} -->
+								<span style="color:grey;">[{$thread['category_name']}]</span>
+							<!-- {/if} -->
+							<a href="forum.php?mod=viewthread&tid=$thread[tid]&fid=$thread[fid]&plugin_name=qbar&extra=$extra"$thread[highlight] ><strong>$thread[subject]</strong></a>
+							<!--{if $thread[recommendicon]}-->
+								<img src="{IMGDIR}/recommend_$thread[recommendicon].gif" class="vm" alt="{lang thread_recommend}" title="{lang thread_recommend}" />
+							<!--{/if}-->
+							<!--{if $thread[heatlevel]}-->
+								<img src="{IMGDIR}/hot_$thread[heatlevel].gif" class="vm" alt="$thread[heatlevel] {lang heats}" title="$thread[heatlevel] {lang heats}" />
+							<!--{/if}-->
+							<!--{if $thread['digest']>0}-->
+								<img src="{IMGDIR}/digest_$thread[digest].gif" class="vm" alt="精华 $thread[digest]" title="精华 $thread[digest]" />
+							<!--{/if}-->
+							<!--{if $thread['rate'] > 0}-->
+								<img src="{IMGDIR}/agree.gif" class="vm" alt="{lang rate_credit_add}" title="{lang rate_credit_add}" />
+							<!--{/if}-->						
+						</h4>																													
+						<p class="mtm"><a href="home.php?mod=space&uid=$thread[authorid]"><!--{eval echo user_get_user_name($thread[authorid]);}--></a><span class="xg1">$thread[dateline]</span></p>
+						<p class="mtm xg1">
+							<!--{if $thread[replies]}-->已有 $thread[replies] 个<!--{else}-->暂无<!--{/if}-->回答<span class="pipe">|</span><a href="forum.php?mod=post&action=reply&fid=$thread[fid]&tid=$thread[tid]&special=3">我来回答</a>
+						</p>
+					</li>				
+				<!-- {/if} -->												
+				<!--{/loop}-->
+				<!--{if count($_G['forum_threadlist'])%2!=0}-->
+					<li class="bbda">&nbsp;</li>
+				<!--{/if}-->
+			</ul>			
+			<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+		<!--{else}-->
+			<div class="emp">还没有相关的提问。</div>
+		<!--{/if}-->
+	<!--{if $_G['forum']['ismoderator'] && $_G['forum_threadcount']}-->
+		{template forum/qbaradmin_modlayer}
+	<!--{/if}-->
+</form>
+<div style="height:50px;"></div> 
+</div>
+<script type="text/javascript">
+	function fuidgoto(fuid) {
+		window.location.href = 'home.php?mod=space&do=reward&view=we&{if $_G[gp_flag]}flag=$_G[gp_flag]&{/if}fuid='+fuid;
+	}
+	function filterFlag(flag) {
+		window.location.href = 'home.php?mod=space&do=$_G[gp_do]&{if $_G[gp_order]}order=hot&{/if}view=$_G[gp_view]&{if $_G[gp_fuid]}fuid=$_G[gp_fuid]&{/if}flag='+flag;
+	}
+</script>

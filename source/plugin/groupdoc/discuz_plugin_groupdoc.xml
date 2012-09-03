@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X1]]></item>
+    <item id="Data">
+        <item id="plugin">
+            <item id="name"><![CDATA[专区文档]]></item>
+            <item id="version"><![CDATA[1.0]]></item>
+            <item id="identifier"><![CDATA[groupdoc]]></item>
+			<item id="description"><![CDATA[专区文档，用户可以在专区上传文档。]]></item>
+            <item id="directory"><![CDATA[groupdoc/]]></item>
+			<item id="copyright"><![CDATA[free]]></item>
+        </item>
+        <item id="intro"><![CDATA[]]></item>
+        <item id="installfile"><![CDATA[install.php]]></item>
+        <item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+        <item id="version"><![CDATA[X1]]></item>
+    </item>
+</root>

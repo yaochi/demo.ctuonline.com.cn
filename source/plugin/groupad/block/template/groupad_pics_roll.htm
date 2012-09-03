@@ -1,0 +1,22 @@
+<!--广告：从左至右滚动-->
+<!--用户可自由填写项:	* 滚动速度（快、慢）
+-->
+<div class="module cl xld scrolladdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul id="{$ul}">
+	<!--{loop $listdata $item}-->
+		<li>
+			<!--{if $item['isSelf']}-->		
+			<a href="{$item['url']}" target="_blank" class="avtad">
+				<img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}">
+			</a>
+			<!--{else}-->
+			<a href="{$item['url']}" class="avtad">
+				<img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}">
+			</a>
+			<!--{/if}-->
+		</li>
+	<!--{/loop}-->						
+	</ul>    		
+</div>
+
+<script type="text/javascript">scrollads("{$ul}", "{$speed}");</script>

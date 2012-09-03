@@ -1,0 +1,380 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/lecturermanage/assets/js/lecturer_common.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/lecturermanage/assets/style/lecturemanage.css?{VERHASH}" type="text/css" />
+<!--{if $type==2}-->
+<style>
+	.deliCourses .icn, .deliCourses .updateTime { display: none; }
+</style>
+<!--{/if}-->
+
+<div class="mn">
+	<form action="{eval echo join_plugin_action('save')}" method="post" onsubmit="return validate_form(this);" enctype="multipart/form-data">
+		<div class="bm cl">
+			<input type="hidden" id="createtype" name="createtype" value="1" />
+			<input type="hidden" id="admintype" name="admintype" value="$type" />
+			<input type="hidden" id="lectype" name="lectype" value="5" />
+			<input type="hidden" id="addedcourses" name="addedcourses" value="" />
+			<input type="hidden" id="deletedcourses" name="deletedcourses" value="" />
+			<input type="hidden" id="modifiedcourses" name="modifiedcourses" value="" />
+			<input type="hidden" name="aid" id="aid" {if $lecturer[attachment]}value="$lecturer[aid]" {/if}tabindex="1" />
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div id="postbox">
+				<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+				  <tr>
+					<th>
+						<strong class="rq">*</strong>
+						讲师类型:
+					</th>
+				    <td>
+				    	<input type="radio" checked="checked" name="isinnerlec" class="pr" value="0"/>内部讲师
+						<input type="radio" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=index_outter&select=index';" name="isinnerlec" class="pr" value="1"/>外部讲师
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						讲师:
+				  	</th>
+				    <td>
+				    	<input type="text" readonly="readonly" name="firstman_names" id="firstman_names" value="$lecturer[name]" class="px z" style="width: 130px;" ondblclick="showWindow('query', 'misc.php?mod=queryuser&id=firstman_names', 'get', 0);" />
+						<input type="hidden" id="firstman_names_uids" name="firstman_names_uids" value="">
+						<div class="pns z" style="margin-top: 2px;">
+							<button type="button" name="selectMembers" onclick="showWindow('query', 'misc.php?mod=queryuser&id=firstman_names', 'get', 0);" class="pn"><em>选择人员</em></button>
+							<button type="button" name="cleanName" onclick="clearname();" class="pn"><em>清空</em></button>
+						</div>
+				    </td>
+				  </tr>
+				  <!--{if $type==1}-->
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						讲师级别:
+				  	</th>
+				    <td id="lectLevel" class="lectLevel">
+			    		<a href="javascript:;" id="clv1" class="clv1" style="display: inline-block;" hidefocus="true"></a>
+			    		<a href="javascript:;" id="network" class="network" style="display: inline-block;" hidefocus="true"></a>
+			    		<a href="javascript:;" id="other" class="other act" style="display: inline-block;" hidefocus="true"></a>
+			    		<a href="javascript:;" id="clv2" class="clv2" hidefocus="true"></a>
+			    		<a href="javascript:;" id="clv3" class="clv3" hidefocus="true"></a>
+				    </td>
+				  </tr>
+				  <!--{/if}-->
+				  <!--{if $type==2}-->
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						讲师级别:
+				  	</th>
+				    <td id="lectLevel" class="lectLevel">
+				    	<div class="z">
+				    		<select id="prolv1" size="10" name="$plevel">
+				    		<!--{loop $levels $level}-->
+				    			<option value="$level[id]">$level[levelname]</option>
+				    		<!--{/loop}-->		 	
+			    			</select>
+				    		<span onclick="" id="addPlv1" class="addicn mtm" style="display: inline-block;" title="新增级别"></span>
+				    		<span onclick="" id="delPlv1" class="delicn mtm" style="display: none;" title="删除此级别"></span>
+				    		<span onclick="" id="renPlv1" class="renicn mtm" style="display: none;" title="重命名此级别"></span>
+				    	</div>
+				    	<div class="z">
+				    		<select id="prolv2" size="10"></select>
+				    		<span onclick="" id="addPlv2" class="addicn mtm" style="display: none;" title="新增级别"></span>
+				    		<span onclick="" id="delPlv2" class="delicn mtm" style="display: none;" title="删除此级别"></span>
+				    		<span onclick="" id="renPlv2" class="renicn mtm" style="display: none;" title="重命名此级别"></span>
+				    	</div>
+				    	<div class="z">
+				    		<select id="prolv3" size="10"></select>
+				    		<span onclick="" id="addPlv3" class="addicn mtm" style="display: none;" title="新增级别"></span>
+				    		<span onclick="" id="delPlv3" class="delicn mtm" style="display: none;" title="删除此级别"></span>
+				    		<span onclick="" id="renPlv3" class="renicn mtm" style="display: none;" title="重命名此级别"></span>
+				    	</div>			    		
+				    </td>
+				  </tr>
+				   <!--{/if}-->
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						背景介绍:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="bginfo" id="bginfo" class="pt"></textarea>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						主要培训课程:
+				  	</th>
+				    <td>
+				    	<table id="deliCourses" class="deliCourses">
+				    		<tr>
+				    			<td class="icn"></td>
+				    			<td class="courseName pns">
+				    				<button type="button" id="addCourseBtn" name="addCourse" class="pn"><em>+ 添加课程</em></button>
+				    			</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    	</table>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+						培训经历:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="trainingexperience" id="trainingexperience" class="pt"></textarea>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+						培训特点:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="trainingtrait" id="trainingtrait" class="pt"></textarea>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						授课方向:
+				  	</th>
+				    <td>
+				    	<select name="teachdirection" class="ps">
+							<option value="1">领导力发展与管理类</option>
+							<option value="2">营销类</option>
+							<option value="3">技术类</option>
+						</select>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						讲师照片:
+				  	</th>
+				    <td>
+				    	<label class="pns">
+				    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $lecturer[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button>
+							<div id="lecturerattach_image" class="diyavt mtm"></div>
+				     	</label>
+				     	<p class="xg1 mtm">
+				     		图片上传后系统会自动缩略成120x120像素大小 不保持长宽比<br />
+				     		图片格式支持jpg, gif；文件尺寸小于100 kB；
+				     	</p>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						联系电话:
+				  	</th>
+				    <td>
+				    	<input type="text" name="tel" id="tel" onblur="checkTel()" class="px" />
+						<span class="xcred" id="sdTel" style="display:none;">格式不正确，请输入正确的电话或手机号码</span>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						Email:
+				  	</th>
+				    <td>
+				    	<input type="text" name="email" id="email" onblur="checkEmail()" class="px" />
+						<span class="xcred" id="sdEmail" style="display:none;">格式不正确，请输入正确的邮箱地址</span>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th></th>
+				  	<td>
+				  		<button type="submit" id="issuance" class="pn pnp"><strong>保存修改</strong></button>
+				  	</td>
+				  </tr>
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+<!--{if $type==1}-->
+<script type="text/javascript" charset="utf-8">
+	var form = document.forms[0];
+	var lectLevelAnchors = $("lectLevel").getElementsByTagName("a");
+	var courses = $("deliCourses").getElementsByTagName("tr");
+	var lectType = $("lectype").value.split(",")[0];
+	var isNetworkLect = false;
+	
+	addLoadListener(initLectLevel);	
+	attachEventListener($("addCourseBtn"), "click", function(){
+		if($("lectype").value == 5) {
+			addCourse($('deliCourses'), $("createtype").value);
+		} else {
+			showWindow('addCourse', 'forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=operate&oper=addcourse');
+		}
+	}, false);
+	
+	for(var i = 0; i < courses.length; i++) {
+		var pattern = /^course_/;
+		if(pattern.test(courses[i].id)) {
+			var tempInputs = courses[i].getElementsByTagName("input");
+			for(var j = 0; j < tempInputs.length; j++) {
+				if(BROWSER.ie) {
+					tempInputs[j].attachEvent("onPropertyChange", modiCourse);
+				} else {
+					tempInputs[j].addEventListener("input", modiCourse, false);
+				}
+			}
+			var tempSelections = courses[i].getElementsByTagName("select");
+			for(var j = 0; j < tempSelections.length; j++) {
+				attachEventListener(tempSelections[j], "change", modiCourse, false);
+			}
+		}
+	}
+	
+	function initLectLevel(){
+		for(var i = 0; i < lectLevelAnchors.length; i++) {
+			attachEventListener(lectLevelAnchors[i], "click", corpLectLevelUC, false);
+			if(BROWSER.ie && BROWSER.ie < 8) {
+				attachEventListener(lectLevelAnchors[i], "focus", function(event) {
+					getEventTarget(event).blur();
+				}, false);
+			}
+		}
+	}
+</script>
+<!--{/if}-->
+<!--{if $type==2}-->
+<script type="text/javascript" charset="utf-8">
+	var proLectLevels = $("lectLevel").getElementsByTagName("select");
+			
+	for(var i = 0; i < proLectLevels.length; i++) {
+		attachEventListener(proLectLevels[i], "change", proLectLevelsUC, false);
+	}
+
+	for(var i = 1; i <= 3; i++) {
+		attachEventListener($("addPlv" + i), "click", proLectLevelsAddUC, false);
+		attachEventListener($("delPlv" + i), "click", proLectLevelsDelUC, false);
+		attachEventListener($("renPlv" + i), "click", proLectLevelsRenUC, false);		
+	}
+	
+	attachEventListener($("addCourseBtn"), "click", function(){
+		addCourse($('deliCourses'), $("createtype").value);
+	}, false);
+</script>
+<!--{/if}-->
+<script type="text/javascript">
+	function validate_attfrom(obj) {
+		if($(editorid + '_attachlist')) {
+			$('postbox').appendChild($(editorid + '_attachlist'));
+			$(editorid + '_attachlist').style.display = 'none';
+		}
+		if($(editorid + '_imgattachlist')) {
+			$('postbox').appendChild($(editorid + '_imgattachlist'));
+			$(editorid + '_imgattachlist').style.display = 'none';
+		}
+	}
+
+	 function checkTel(){
+     var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+	 var cr=document.getElementById('tel').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdTel").style.display="";
+        $('tel').value="";
+		$('tel').focus();
+	   }else{
+	    document.getElementById("sdTel").style.display="none";
+	   }
+      }
+
+	   function checkEmail(){
+     var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	 var cr=document.getElementById('email').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdEmail").style.display="";
+        $('tel').value="";
+		$('tel').focus();
+	   }else{
+	    document.getElementById("sdEmail").style.display="none";
+	   }
+      }	
+</script>
+
+<script type="text/javascript">
+	function validate_form(obj) {
+		var bginfo = $('bginfo');
+		if (bginfo) {
+			var slen = strlen(bginfo.value);
+			if (slen < 1) {
+				showDialog("请填写背景介绍");
+				bginfo.focus();
+				return false;
+			}
+		}
+			var courses = $('courses');
+		if (courses) {
+			var slen = strlen(courses.value);
+			if (slen < 1) {
+				showDialog("请填写主要培训课程");
+				courses.focus();
+				return false;
+			}
+		}
+		var tel = $('tel');
+		if (tel) {
+			var slen = strlen(tel.value);
+			if (slen < 1) {
+				showDialog("请填写联系电话");
+				tel.focus();
+				return false;
+			}
+		}
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1) {
+				showDialog("请填写email");
+				email.focus();
+				return false;
+			}
+		}
+		var aid = $('aid');
+		if (aid) {
+			var slen = strlen(aid.value);
+			if (slen < 1 || slen > 80) {
+				showDialog("请上传讲师照片");
+				bginfo.focus();
+				return false;
+			}
+		}
+		var firstman_names_uids = $('firstman_names_uids');
+	
+		if (firstman_names_uids) {
+			var slen = strlen(firstman_names_uids.value);
+			var str = firstman_names_uids.value;
+			if(str!=''){
+				var x = new Ajax();
+				x.myget("misc.php?mod=isteacher"+"&"+"id="+firstman_names_uids.value, function(s){if(s.indexOf("error")>-1){showDialog("该用户已经是讲师");return false;}});
+			}
+			if (slen > 0) {
+				if (str.indexOf(',') > 1) {
+					showDialog("只能推荐一人成为讲师，请重新选择");
+					$('firstman_names').value='';
+		            $('firstman_names_uids').value='';
+					$('firstman_names').focus();
+					return false;
+				}
+			} else {
+				showDialog("请选择一个讲师");
+				$('firstman_names').focus();
+				return false;
+			}
+		}
+	
+	}
+</script>

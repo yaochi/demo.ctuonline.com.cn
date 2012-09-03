@@ -1,0 +1,315 @@
+{subtemplate common/header}
+	<div id="pt" class="wp">
+		
+        <a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav
+    </div>
+
+	{ad/text/wp a_t}
+
+	<style id="diy_style" type="text/css"></style>
+
+	<div id="ct" class="wp cl {if $action != 'create'}w{/if}">
+		
+		<!--{if $action != 'create'}-->
+			<div id="hero" class="actbg{if ($action !='create' && ($status !== 2 && $status !== 3))} bbs{/if}">
+				<div class="actpadding1">
+					<div class="ih">
+						<div class="icn avt"><a href=""><img src="$_G[forum][icon]"></a></div>
+						<dl class="z clml">
+							<dt class="ptn">$_G[parenet][name]</dt>
+							<dd>$activitynav</dd>
+						</dl>
+					</div>
+					<div class="ihy y">
+						<div class="icn avt"><!--{if $repeats}--><a class="avt" href="forum.php?mod=group&fid=$repeats[fid]"><img src="data/attachment/group/$repeats[icon]"></a><!--{else}--><a href="home.php?mod=space&uid=$_G[forum][founderuid]"><img src="uc_server/avatar.php?uid=$_G[forum][founderuid]&amp;size=small"><!--{/if}--></a></div>
+						<dl class="y">
+							本活动由<br />
+							<!--{if $repeats}--><a class="perPanel" href="forum.php?mod=group&fid=$repeats[fid]">$repeats[name]</a><!--{else}-->
+							<a class="perPanel" href="home.php?mod=space&uid=$_G[forum][founderuid]">{eval echo user_get_user_name($_G[forum][founderuid])}</a><!--{/if}--><br />
+							创建
+                        </dl>
+					</div>
+				</div>
+				
+				<div id="actfh">
+					<div class="h mbw cl{if $action == 'index' && ($status == 2 || $status ==3)} gst{else} bm mrngroup{/if}">
+						<dl>
+							<dd class="y mtn" style="width: 130px;">
+								<em class="fct y">
+									<a href="home.php?mod=spacecp&ac=share&type=activity&id=$_G[forum][fid]&handlekey=sharehk_$_G[forum][fid]&subject={echo base64_encode($_G[forum][name]);}&subjectlink={echo base64_encode('forum.php?mod=activity&fid='.$_G[forum][fid]);}&authorid=$_G[forum][founderuid]&author={echo base64_encode(user_get_user_name_by_username($_G[forum][foundername]));}&image={echo base64_encode($_G['forum']['banner']);}&fid=$_G[parent][fid]" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr">分享</a>
+									<a href="home.php?mod=spacecp&amp;ac=favorite&amp;type=activity&amp;id=$_G[forum][fid]&amp;handlekey=forumactivity" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr ofav">收藏</a>
+								</em>
+							</dd>
+							<dt class="ph">
+								$_G[forum][name]
+                                <!--{if $_G[forum][digest]}-->
+								<img class="digest mlngroup" src="{IMGDIR}/digest_1.gif" alt="精华活动" title="精华活动">
+								<!--{/if}-->
+               				</dt>
+               				<dd>
+								<!--{if $status != 2 && $status != 3}-->
+									<cite class="xg1 clearL">
+										查看数：$_G[activity][viewnum]<span class="pipe">|</span>
+										<!--{if $is_enable_category}-->
+                                        分类：$categorys[$_G[forum][category_id]][name]<span class="pipe">|</span>
+                                        <!--{/if}-->
+										创建时间：$_G[forum][dateline]
+										
+										<!--{if $_G[uid] && ($_G[forum][jointype]==0 || $_G[forum][jointype]==2) && !$is_in_cur_group && $is_in_parent_group && !$_G[activity][joinflag]}-->
+										<span class="pipe">|</span><span class="xcred">该活动报名已经截止</span>
+										<!--{/if}-->	
+									</cite>
+								<!--{/if}-->
+							</dd>
+						</dl>
+					</div>
+				</div>
+				
+				<div class="reHeight{if $action == 'index' && ($status == 2 || $status == 3)} gst{else} vlda{/if}">
+					<div id="fh" class="m z clbg">
+						<div id="actdetail" class="reHeight{if $action == 'index' && ($status == 2 || $status == 3)} clp{/if}">
+							<!--{if $_G[activity][type] !='live'}-->
+							<div class="actlist mrngroup">
+                                <!--{if $_G[activity][str_start_time]}-->
+								<p class="date z"><em class="brs">$_G[activity][str_start_time][mday]</em><br />
+                					<span class="xs0 xg1"><!--{$_G[activity][str_start_time][year]}-->年<!--{$_G[activity][str_start_time][mon]}-->月</span></p>
+									<span class="dash z xg1">&ndash;</span><p class="date z"><em class="brs">$_G[activity][str_end_time][mday]</em><br />
+                					<span class="xs0 xg1"><!--{$_G[activity][str_end_time][year]}-->年<!--{$_G[activity][str_end_time][mon]}-->月</span></p>
+                                    <!--{/if}-->
+							</div>
+							<!--{/if}-->
+							<div id="attusrs" {if $_G[activity][type] !='live'}style="margin-left: 10px;"{/if}>
+								<div>
+									<span class="xg1">已参加人数</span>
+									<em id="number">$_G[forum][membernum]</em>
+								</div>
+                                <!--{if $_G[uid] && ($_G[forum][jointype]==0 || $_G[forum][jointype]==2) && !$is_in_cur_group && $is_in_parent_group && $_G[activity][joinflag]}-->
+                                    <button type="button" class="pn z mrngroup" onclick="location.href='forum.php?mod=activity&amp;action=join&amp;fid=$_G[fid]'"><em>我要参加</em></button>
+                                <!--{/if}-->
+							</div>
+							
+							<!--{if $_G[uid] && ($status == 2 || $status == 3) &&($_G[forum][gviewperm]==0 || $_G[forum][gviewperm]==2) && !$is_in_cur_group && !$is_in_parent_group && $_G[activity][joinflag]}-->
+                                	 	<span class="xcred">请先加入该活动所属专区：<a href='forum.php?mod=group&fid=$_G[forum][fup]'>$_G[parent][name]</a></span>
+			                <!--{/if}-->
+			                            
+							<!--{if $status != 2 && $status != 3 && $_G[activity][type]=='live'}-->
+							<div id="result_info_message" class="actrates">
+								<div class="first">
+									<p>
+										内容：<br />
+										讲师表现：</p>	
+									<div>					
+										<ul>
+											<li><span id ="contentsorce1" class="replaced grStr" onmouseover="myonselectstart('contentsorce', 1)">1</span></li>
+											<li><span id ="contentsorce2" class="replaced grStr" onmouseover="myonselectstart('contentsorce', 2)">2</span></li>
+											<li><span id ="contentsorce3" class="replaced grStr" onmouseover="myonselectstart('contentsorce', 3)">3</span></li>
+											<li><span id ="contentsorce4" class="replaced grStr" onmouseover="myonselectstart('contentsorce', 4)">4</span></li>
+											<li><span id ="contentsorce5" class="replaced grStr" onmouseover="myonselectstart('contentsorce', 5)">5</span></li>
+										</ul>
+										<ul class="clearL">
+											<li><span id ="teachersorce1" class="replaced grStr" onmouseover="myonselectstart('teachersorce', 1)">1</span></li>
+											<li><span id ="teachersorce2" class="replaced grStr" onmouseover="myonselectstart('teachersorce', 2)">2</span></li>
+											<li><span id ="teachersorce3" class="replaced grStr" onmouseover="myonselectstart('teachersorce', 3)">3</span></li>
+											<li><span id ="teachersorce4" class="replaced grStr" onmouseover="myonselectstart('teachersorce', 4)">4</span></li>
+											<li><span id ="teachersorce5" class="replaced grStr" onmouseover="myonselectstart('teachersorce', 5)">5</span></li>
+										</ul>
+									</div>
+								</div>
+								<button type="button" class="pn" onclick="submit_sorce()"><em>评价</em></button>
+							</div>
+							<!--{/if}-->
+							
+							<div class="m y cl" style="margin-left: 10px; width: 170px;">
+							<!--{if $_G['forum']['banner']}-->
+								<img class="y" src="$_G['forum']['banner']" width="140" height="140" />
+								<!--{elseif $img_activity}-->
+								<img class="y" src="$img_activity" width="140" height="140" />
+								<!--{else}-->
+								<img class="y" src="static/image/images/def_activity.png" width="140" height="140" />
+								<!--{/if}-->
+								<div style="clear:both;"></div>
+                                <!--{if $_G[activity][type]=='live'}-->
+								<div class="actrates rateResult">
+									<p class="mlngroup">
+										<span class="xi2"><!--{eval echo floor($_G[activity][live_num]/$_G[activity][live_count]);}--></span>&nbsp;分<br />
+										<span class="xi2"><!--{eval echo floor($_G[activity][teacher_num]/$_G[activity][teacher_count]);}--></span>&nbsp;分</p>
+									<div style="width:65px;">
+										<ul>
+											<!--{eval echo misc_activity_num_str(floor($_G[activity][live_num]/$_G[activity][live_count])); }-->
+										</ul>
+										<ul class="clearR">
+                                            <!--{eval echo misc_activity_num_str(floor($_G[activity][teacher_num]/$_G[activity][teacher_count])); }-->
+										</ul>
+									</div>
+									<p>
+										内容：<br />
+										讲师表现：</p>
+								</div>
+                                <!--{/if}-->
+							</div>
+					
+							<p class="xg1 clearL{if ($status !== 2 && $status !== 3)} mtm{/if}">$_G['forum']['description']</p>
+						</div>
+						
+						<!--{if $status != 2 && $status != 3}-->
+						<p class="bmr pbn reHeight">
+                        	<!--{if $is_in_cur_group }-->
+	                        <button type="button" class="pn y" onclick="showDialog('{lang group_exit_activity}', 'confirm', '', function(){location.href='forum.php?mod=activity&amp;action=out&amp;fid=$_G[fid]'})"><em>退出活动</em></button>
+	                        <!--{/if}-->
+	                        <!--{if ($_G['forum']['jointype'] != '3' || $_G['forum']['ismoderator']) && $is_in_cur_group}-->
+	                        <button type="button" class="pn y" onclick="showWindow('invite','misc.php?mod=invitegroupothers&amp;action=group&amp;id=$_G[fid]')"><em>邀请专区其它成员</em></button>
+	                        <!--{/if}-->
+						
+                            
+							<!--{if CURMODULE == 'group'}-->{hook/group_navlink}<!--{else}-->{hook/forumdisplay_navlink}<!--{/if}-->
+						</p>
+						<!--{/if}-->
+					</div>					
+					
+					<!--{if $status != 2 && $status != 3}-->
+					<div id="ppc_menu" class="y sd" style="padding-top:0; margin-top: -8px; min-height: 270px;">
+						{subtemplate common/activity}
+					</div>
+					<!--{/if}-->
+				</div>
+			</div>			
+		<!--{/if}-->
+		
+		<!--{if $action != 'index' }-->
+		<div class="reHeight {if $action != 'create'} vlda{/if}">
+			<div class="mn">
+				<!--{if $action == 'create'}-->
+                    {subtemplate group/group_create}
+                <!--{elseif $action == 'list'}-->
+                    {subtemplate group/group_list}
+                <!--{elseif $action == 'memberlist'}-->
+                    {subtemplate group/group_memberlist}
+                <!--{elseif $action == 'invite'}-->
+                    {subtemplate group/group_invite}
+                <!--{elseif $action == 'manage'}-->
+                    {subtemplate group/activity_manage}
+                <!--{elseif $action == 'plugin'}-->
+                    {eval include join_plugin_template($_G['gp_plugin_name'], $_G["gp_".$_G["gp_plugin_name"]."_action"]);}
+                <!--{/if}-->
+				<!--{if CURMODULE == 'group'}-->{hook/group_bottom}<!--{else}-->{hook/forumdisplay_bottom}<!--{/if}-->
+			</div>
+
+			<div class="sd pph">
+				<!--{if $action == 'plugin'}-->
+					<div id="plgnav" class="bbs"></div>
+				<!--{/if}-->
+			</div>
+		<!--{elseif ($status != 2 && $status != 3)}-->
+			<div class="vlda reHeight">
+				<div class="mn">
+					<div class="actpadding2">
+						<!--{if $_G[activity][type] =='live'}-->
+						<h2 class="title clmb"><!--{if $_G[forum][fup]=='37'}-->主讲嘉宾<!--{else}-->讲师介绍<!--{/if}--></h2>
+						<div class="module cl xld lecturerdiym">
+							<!--{loop $_G[activity][teacher] $teacher}-->
+						    <dl class="cl">
+						        <dd class="m" style="margin-right:12px;">
+						            <a href="{$teacher[url]}" target="_blank" class="avt">
+						                <!--讲师照片-->
+						                <!--{if !$teacher[imgurl]}-->
+											<img src="static/image/images/def_lecturer.png" alt="$teacher[name]" style="width: 120px; height: 120px" />
+										<!--{else}-->
+											<img src="$teacher[imgurl]" alt="$teacher[name]" style="width: 120px; height: 120px" />
+										<!--{/if}-->
+						            </a>
+						        </dd>
+						        <dt><a href="{$teacher[url]}" title="$_G[activity][teacher][name]" target="_blank" class="xs2">$teacher[name]</a></dt>
+						        <dd><div class="xg1 oneLine" style="display:none">$teacher[orgname]</div></dd>
+						        <dd><div style="text-overflow: ellipsis; ">$teacher[about]</div></dd>
+						    </dl>
+						    <!--{/if}-->
+						</div>
+						<h2 class="title clmb">课程安排</h2>
+						<div class="reHeight mbm">
+                            <!--{loop $_G[activity][live] $k $live}-->
+							<div class="module cl" style="margin:10px">
+							    <p class="xg1 xs3 pns">
+							        第<!--{eval echo $k+1;}-->讲：
+							        <em>$live[starttime] - $live[endtime]</em>
+							        <!--{if $live[whatstatus]=='0'}-->
+									<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn mlngroup" style="left:10px;" onclick="javascript:window.location.target='_blank'; window.location.href='forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp';"><em>预告</em></button>
+									<!--{elseif $live[whatstatus]=='1'}-->
+									<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn pnor mlngroup" style="left:10px;" onclick="javascript:window.location.target='_blank'; window.location.href='forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp';"><em>进入</em></button>
+									<!--{elseif $live[whatstatus]=='2'}-->
+									<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn mlngroup" style="left:10px;" onclick="javascript:window.location.target='_blank'; window.location.href='forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp';"><em>学习</em></button>
+									<!--{/if}-->
+							    </p>
+							</div>
+                           
+                            <!--{/if}-->
+						</div>
+                         <!--{/if}-->
+						<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+					</div>
+				</div>
+				<div class="sd pph">
+					<div class="actpadding2">
+						<h2 class="title clmb">组织者</h2>
+						<ul class="ml mls cl mbm">
+							<li>
+								<!--{if $repeats}-->
+								<a class="avt" href="forum.php?mod=group&fid=$repeats[fid]"><img src="data/attachment/group/$repeats[icon]">
+								<p><a class="perPanel" href="forum.php?mod=group&fid=$repeats[fid]">$repeats[name]</a></p>
+								<!--{else}-->
+                                <a href="home.php?mod=space&uid=$_G[forum][founderuid]" class="avt"><img src="uc_server/avatar.php?uid=$_G[forum][founderuid]&amp;size=small"></a>
+								<p><a href="home.php?mod=space&uid=$_G[forum][founderuid]"><!--{eval echo user_get_user_name_by_username($_G[forum][foundername]);}--></a></p><!--{/if}-->
+							</li>
+						</ul>
+						
+						<h2 class="title clmb">最新参加成员</h2>
+						<ul class="ml mls cl">
+                            <!--{loop $new_join_user $user}-->
+							<li>
+							<!--{if $user[uid]==$_G[forum][founderuid] && $repeats}-->
+								<a class="avt" href="forum.php?mod=group&fid=$repeats[fid]"><img src="data/attachment/group/$repeats[icon]">
+								<p><a class="perPanel" href="forum.php?mod=group&fid=$repeats[fid]">$repeats[name]</a></p>
+							<!--{else}-->
+								<a href="home.php?mod=space&amp;uid=$user[uid]" class="avt"><img src="uc_server/avatar.php?uid=$user[uid]&amp;size=small"></a>
+								<p><a href="home.php?mod=space&uid=$user[uid]"><!--{eval echo user_get_user_name_by_username($user[username]);}--></a></p>
+							<!--{/if}-->
+							</li>
+                            <!--{/loop}-->
+						</ul>
+						<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+					</div>
+				</div>
+			</div>
+			<div class="mw mtm">
+					<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+			</div>
+		</div>
+		<!--{/if}-->
+		
+	</div>
+    <script type="text/javascript">
+        function submit_sorce(){
+            url = "ajax.php?mod=activity"+"&cur_content_sorce="+cur_content_sorce+"&cur_teacher_sorce="+cur_teacher_sorce+"&m=sorce&fid=$_G[fid]&rnd="+Math.random();
+            var x = new Ajax();
+            x.get(url, function(content){if(content=="no"){showDialog('您已经进行过评价');}else{$("result_info_message").innerHTML='<p class="thanks">感谢您的评价</p>';window.location.reload();} });
+        }
+        var cur_content_sorce = 0;
+        var cur_teacher_sorce = 0;
+        function myonselectstart(prefix, id){
+            if(prefix=="contentsorce"){
+                cur_content_sorce = id;
+            }else{
+                cur_teacher_sorce = id;
+            }
+            for(var i=1; i<=5; i++){
+                className = $(prefix+i).className;
+                if(id<i){
+                    className = className.replace("blStr", "grStr");
+                }else{
+                   className =  className.replace("grStr", "blStr");
+                }
+                $(prefix+i).className = className;
+            }
+        }
+    </script>
+{subtemplate common/footer}
+

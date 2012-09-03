@@ -1,0 +1,96 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<div class="mn">
+
+<div class="bbsgroup" id="plgnav">
+<a class="z" href="forum.php?mod=group&fid=$_G[fid]" id="backbtn">返回首页</a>
+</div>
+
+<div class="sszy">
+<form action="{eval echo join_plugin_action('search')}" method="post">
+<input type="hidden" name="page" value="1"/>
+<input type="hidden" name='posttype' value="1"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td align="right" valign="top">资源类型：</td>
+    <td valign="top"> <label>
+      <input type="radio" name="rtype" <!--{if $rtype==4 }-->checked="checked"<!--{/if}--> value="4" />
+    </label>
+      课程 
+      <input type="radio" name="rtype" <!--{if $rtype==2 }-->checked="checked"<!--{/if}--> value="2" />
+      案例 
+      <input type="radio" name="rtype" <!--{if $rtype==1 }-->checked="checked"<!--{/if}--> value="1" />
+      文档</td>
+    <td align="right" valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right" valign="top">资源名称：</td>
+    <td valign="top" ><input type="text" class="zybjan" name="title" value="$title" /></td>
+  </tr>
+  <tr>
+    <td align="right">上传时间：</td>
+    <td align="left"><input type="text" readonly="readonly" class="zbbjan2" value="$uploadtimefrom" name="uploadtimefrom" id="uploadtimefrom" onclick="showcalendar(event, this, true)" />
+      ~
+    <input type="text" readonly="readonly" class="zbbjan2" value="$uploadtimeto" name="uploadtimeto" id="uploadtimeto" onclick="showcalendar(event, this, true)" /><span class="b mlngroup"><a href="#" onclick="cleartime()">清除</a></span></td>
+	
+  </tr>
+  <tr>
+    <td colspan="4" align="center" valign="top">    
+    <button name="Submit2" type="submit" class="pn"><b>搜索资源</b></button>
+    </td>
+    </tr>
+</table>
+</form>
+</div>
+
+
+<div class="ssjg">
+<!--{if $resources }-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td width="12%">搜索结果：</td>
+    <td width="88%" class="huise">有 $total 项符合的查询结果</td>
+  </tr>
+  <tr>
+  	<td colspan="2">$multipage</td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jglb">
+      <tr class="qcbj">
+        <td class="xiaxian">标题 </td>
+        <td width="10%" align="center" class="xiaxian">类型</td>
+        <td width="12%" align="center" class="xiaxian">上传时间</td>
+        <td width="17%" align="center" class="xiaxian">上传机构</td>
+      </tr>
+      <!--{loop $resources $resource}-->
+      <tr class="qcbj">
+        <td width="42%"><a href="$resource[titlelink]">$resource[title]</a></td>
+        <td align="center">
+        	<!--{if $resource[typeid]==1 }-->
+        	文档
+        	<!--{elseif $resource[typeid]==2}-->
+        	案例
+        	<!--{elseif $resource[typeid]==4}-->
+        	课程
+        	<!--{/if}-->
+        </td>
+        <td align="center">{date($resource[uploaddate], 'u')}</td>
+        <td align="center" class="qcxian">$resource[orgname]</td>
+      </tr>
+      <!--{/loop}-->
+    </table></td>
+    </tr>
+</table>
+<!--{else}-->
+暂无符合条件的资源
+<!--{/if}-->
+</div>
+</div>
+<script type="text/javascript">
+	function cleartime(){
+	    $("uploadtimefrom").value = "";
+	    $("uploadtimeto").value = "";
+	}
+	
+</script>

@@ -1,0 +1,29 @@
+<!--{eval 
+	$_G[home_tpl_titles] = array('{lang task}');
+}-->
+<!--{template common/header}-->
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=task">{lang task}</a>
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div class="bm">
+		<!--{if empty($do)}-->
+			{subtemplate home/space_task_list}
+		<!--{elseif $do == 'view'}-->
+			{subtemplate home/space_task_detail}
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+	</div>
+</div>
+{subtemplate common/footer}

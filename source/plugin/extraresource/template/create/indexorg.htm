@@ -1,0 +1,191 @@
+﻿<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="mn">
+<div class="bm cl">
+
+<h1 class="mt">推荐资源</h1>
+<div id="postbox">
+<form action="{eval echo join_plugin_action2('createorg')}" autocomplete="off" method="post"  onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<table width="81%" cellspacing="0" cellpadding="0" border="0" class="tfm" style="width:770px !important;">
+  <tbody><tr>
+    <th style="border-bottom:1px dashed #d5d5d5;"><strong>资源类型：</strong></th>
+    <td style="border-bottom:1px dashed #d5d5d5;">
+	<label><input name="extratype" type="radio" value="class" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexclass&';" /> 
+	课程</label>
+	<label><input name="extratype" type="radio" value="lec" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexlec&';" /> 
+	讲师</label>
+	<label><input name="extratype" type="radio" value="org" checked="checked"  /> 
+	培训机构</label>
+	</td>
+  </tr>
+ </tbody>
+ </table>
+<!-- 机构--> 
+<table width="97%" name="orgtable" id="orgtable" cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd1" style="margin-top:11px;">
+  <tbody>
+    <tr>
+      <th><strong class="rq y">*</strong><strong>培训机构名称：</strong></th>
+      <td><input type="text" class="px" id="orgname" name="orgname"><span id="checklecturer" class="xcred" style="display:none;">该机构已存在 请勿重复创建</span></td>
+    </tr>
+    <tr>
+      <th><strong class="rq y">*</strong><strong>简介：</strong></th>
+      <td valign="top"><textarea class="pt" id="orgdescr" name="orgdescr" cols="40" rows="5"></textarea></td>
+    </tr>
+    <tr>
+      <th><strong>机构Logo：</strong></th>
+      <td><label>
+    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updateextraorgattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span>{lang upload}</span></button>
+     	</label>    <div id="extraorgattach_image"></div></td>
+   
+    </tr>
+    <tr>
+      <th><strong>机构所属讲师：</strong></th>
+      <td><div id="extralec"></div>
+	  <a href="#" onclick="showWindow('lecwindow', 'misc.php?mod=queryextralec&fid=$_G[fid]', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加讲师</a></td>
+    </tr>
+    <tr>
+      <th><strong>机构拥有课程：</strong></th>
+      <td><div id="extraclass"></div>
+	  <a href="#" onclick="showWindow('classwindow', 'misc.php?mod=queryextraclass&fid=$_G[fid]', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加课程</a></td>
+    </tr>
+    <tr>
+      <th><strong class="rq y">*</strong><strong>请进行打分：</strong></th>
+      <td><table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="orgtotalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>公司实力：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="orgstarsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>价格水平：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="orgstarstwo" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>服务态度：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="orgstarsthree" value="" size="2" /></td>
+      </tr>
+    </table></td>
+    </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+  </tbody>
+</table>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+	if(BROWSER.ie) {
+		$("orgname").attachEvent("onPropertyChange", checkDuplicated);
+	} else {
+		$("orgname").addEventListener("input", checkDuplicated, false);
+	}
+	attachEventListener($("orgname"), "blur", checkDuplicated, false);
+
+function checkDuplicated() {
+		var checkTimeoutProcess;
+		$("checklecturer").style.display = "none";
+		isDuplicated = false;
+		
+		var callurl = "forum.php?mod=group"+"&"+"action=plugin&fid="+$_G[fid]+"&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=checkorg&name=" + encodeURI($("orgname").value);
+		clearTimeout(checkTimeoutProcess);
+		checkTimeoutProcess = setTimeout(function(){
+			getJSONP(callurl, "processDuplicated");
+		}, 2000);	
+	}
+	
+	function processDuplicated(data) {
+		if(data.s == 1) {
+			$("checklecturer").style.display = "";
+			isDuplicated = true;		
+		}
+	}
+
+
+
+
+function validate_from(obj) {
+		var orgname = $('orgname');
+		if (orgname) {
+			var slen = strlen(orgname.value);
+			if (slen < 1) {
+				showDialog("请填写机构名称");
+				orgname.focus();
+				return false;
+			}
+		}
+		var orgdescr = $('orgdescr');
+		if (orgdescr) {
+			var slen = strlen(orgdescr.value);
+			if (slen < 1) {
+				showDialog("请填写机构简介");
+				orgdescr.focus();
+				return false;
+			}
+		}
+		var flag=0;
+		for(var i=0;i<4;i++){
+			if($('stars2-input'+i).value==''){
+				flag++;
+			}
+		}
+		if(flag!=0){
+			showDialog("请完成全部打分后提交");
+			return false;
+		}
+
+}
+
+</script>
+

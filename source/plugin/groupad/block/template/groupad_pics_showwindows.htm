@@ -1,0 +1,48 @@
+﻿<!--广告：豆瓣式-->
+<div id="{$div}" class="module cl xld doubandiym brs"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<div id="{$div_content}" class="dbContent cl">    
+		<!--{loop $listdata $item}-->
+			<!--{if $item['isSelf']}-->
+			<a href="{$item['url']}" title="{$item['content']}" target="_blank"
+				<!--{if $item['point']==1}--> style="display: block;" 
+				<!--{else}--> style="display: none;"
+				<!--{/if}-->>
+				<img src="{$item['media_dir']}" alt="{$item['content']}" width="{$item['width']}" height="{$item['height']}" /></a>
+			<!--{else}-->
+			<a href="{$item['url']}" title="{$item['content']}"
+				<!--{if $item['point']==1}--> style="display: block;"
+				<!--{else}--> style="display: none;"
+				<!--{/if}-->>
+				<img src="{$item['media_dir']}" alt="{$item['content']}" width="{$item['width']}" height="{$item['height']}" /></a>
+			<!--{/if}-->
+		<!--{/loop}-->
+		<div class="dbShadow cl">
+			<!--[if IE 6]><img style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='static/image/images/doubandiym_shadow.png', sizingMethod='scale')" alt="" width="6" height="100%" /><![endif]-->
+			<!--[if gte IE 7]><img src="static/image/images/doubandiym_shadow.png" alt="" width="6" height="100%" /><![endif]-->
+			<!--[if !IE]>--><img src="static/image/images/doubandiym_shadow.png" alt="" width="6" height="100%" /><!--<![endif]-->
+		</div>
+	</div>
+	<div id="{$div_menu}" class="dbMenu">
+		<ul>
+			<!--{loop $listdata $item}-->
+				<!--{if $item['isSelf']}-->
+				<li <!--{if $item['point']==1}--> class="on"
+				<!--{/if}-->
+				<!--{if $item['point']==$num_rows}--> class="last"
+				<!--{/if}-->>
+					<a href="{$item['url']}" title="{$item['content']}" target="_blank">{$item['content']}</a></li>
+				<!--{else}-->
+				<li <!--{if $item['point']==1}--> class="on"
+				<!--{/if}-->
+				<!--{if $item['point']==$num_rows}--> class="last"
+				<!--{/if}-->>
+					<a href="{$item['url']}" title="{$item['content']}">{$item['content']}</a></li>
+				<!--{/if}-->
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	doubandiym("{$div}");
+</script>

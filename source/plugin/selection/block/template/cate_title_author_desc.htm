@@ -1,0 +1,15 @@
+<div class="module cl xld b_select"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl>
+        <dt class="xs2">
+        <table width="100%">
+        <tr  style="text-indent:20px;width=100%;">
+            <td width="70%" ><a href="{$item[url]}" title="" target="_blank">{$item[name]}</a></td>
+            <td class="xi2" >作者:<a href="home.php?mod=space&uid={$item[uid]}">{$item[author]}</a></td>
+        </tr>
+        </table>
+        </dt>
+        <dd><div style="text-indent:20px;">{$item[about]}</div></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

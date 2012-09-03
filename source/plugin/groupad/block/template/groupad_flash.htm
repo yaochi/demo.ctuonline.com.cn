@@ -1,0 +1,13 @@
+<!--广告：Flash-->
+ <!--{loop $listdata $item}-->       
+ <div class="module portal_block_summary"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+         <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" width="{$item[width]}" height="{$item[height]}" id="myMovieName">
+                <param name=movie value="{$item[media_dir]}" />
+                <param name=quality value=high />
+                <param name=bgcolor value=#fff />
+                <param name=wmode value=transparent/>
+         <embed src="{$item[media_dir]}" quality=high bgcolor=#fff width="{$item[width]}" height="{$item[height]}" name="myMovieName" align="" type="application/x-shockwave-flash" pluginspace="http://www.macromedia.com/go/getflashplayer"></embed>
+         </object>
+		 <!--{/loop}-->
+</div>
+             

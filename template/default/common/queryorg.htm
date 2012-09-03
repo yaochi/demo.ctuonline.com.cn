@@ -1,0 +1,13 @@
+{template common/header}
+
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">组织机构</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('orgtree')" title="关闭">关闭</a></span>
+    </h3>
+    <span>当前组织机构</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="curorgname" style="color:red">$curorgname</span>
+    $s
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="submiselectorg('$namevalue')"><strong>选择机构</strong></button></p>
+</div>
+
+{template common/footer}

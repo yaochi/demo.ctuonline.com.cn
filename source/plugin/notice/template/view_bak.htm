@@ -1,0 +1,84 @@
+<fieldset>
+    <legend>查看通知公告</legend>
+	<table class="tfm pmform">
+        <tr>
+        	<th><label for="filename">标题</label></th>
+        	<td><input type="text" name="noticetitle" readonly="readonly" value="$notice['title']" class="px"/></td>
+        </tr>
+        <tr>
+       		<th><label for="text">内容</label></th>
+			<td>
+				<div class="edt">
+					<div class="area">
+						<textarea name="content" id="e_textarea" class="pt" tabindex="1" rows="15" readonly="readonly">$notice["content"]</textarea>
+					</div>
+					{subtemplate common/editor}
+				</div>
+			</td>
+		</tr>
+    </table>
+</fieldset>
+
+
+{subtemplate common/editor_menu}
+{subtemplate forum/editor_menu_forum}
+
+<script type="text/javascript">
+	var editorsubmit = $('postsubmit');
+	var editorform = $('postform');
+	var allowpostattach = parseInt('{$_G['group']['allowpostattach']}');
+	var allowpostimg = parseInt('$allowpostimg');
+	var pid = parseInt('$pid');
+	var extensions = '{$_G['group']['attachextensions']}';
+	var imgexts = '$imgexts';
+	var postminchars = parseInt('$_G['setting']['minpostsize']');
+	var postmaxchars = parseInt('$_G['setting']['maxpostsize']');
+	var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
+	var seccodecheck = parseInt('$seccodecheck');
+	var secqaacheck = parseInt('$secqaacheck');
+	var typerequired = parseInt('{$_G[forum][threadtypes][required]}');
+	var sortrequired = parseInt('{$_G[forum][threadsorts][required]}');
+	var special = parseInt('$special');
+	var isfirstpost = {if $isfirstpost}1{else}0{/if};
+	var allowposttrade = parseInt('{$_G['group']['allowposttrade']}');
+	var allowpostreward = parseInt('{$_G['group']['allowpostreward']}');
+	var allowpostactivity = parseInt('{$_G['group']['allowpostactivity']}');
+	var sortid = parseInt('$sortid');
+	var special = parseInt('$special');
+	var fid = $_G['fid'];
+
+	{if $isfirstpost && !empty($_G[forum][threadtypes][types])}
+		simulateSelect('typeid');
+	{/if}
+	{if !$isfirstpost && $thread['special'] == 5 && empty($firststand) && $_G[gp_action] != 'edit'}
+		simulateSelect('stand');
+	{/if}
+	{if !$special && $_G[forum][threadsorts] && ($_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost && !$thread[sortid])}
+		simulateSelect('sortid');
+		function switchsort() {
+			if($('sortid').value) {
+				saveData(1);
+				{if $isfirstpost && $sortid}
+					ajaxget('forum.php?mod=post&action=threadsorts&sortid=' + $('sortid').value + '&fid=$_G[fid]{if !empty($modelid)}&modelid=$modelid{/if}{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+				{else}
+					location.href = 'forum.php?mod=post&action=$_G[gp_action]&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra{if !$sortid}&cedit=yes{/if}&sortid=' + $('sortid').value;
+				{/if}
+				Editorwin = 0;
+			}
+		}
+	{/if}
+	{if $isfirstpost}
+		{if $sortid}
+			ajaxget('forum.php?mod=post&action=threadsorts&sortid=$sortid&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}&inajax=1{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+		{elseif $_G['forum']['threadsorts']['required'] && !$special}
+			{eval $threadsortids = array_keys($threadsorts[types]);}
+			ajaxget('forum.php?mod=post&action=threadsorts&sortid={$threadsortids[0]}&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}&inajax=1{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+		{/if}
+	{/if}
+
+	{if $_G[gp_action] == 'newthread' && $_G['setting']['sitemessage'][newthread] || $_G[gp_action] == 'reply' && $_G['setting']['sitemessage'][reply]}
+		showPrompt('custominfo', 'click', '{if $_G[gp_action] == 'newthread'}{echo trim($_G['setting']['sitemessage'][newthread][array_rand($_G['setting']['sitemessage'][newthread])])}{elseif $_G[gp_action] == 'reply'}{echo trim($_G['setting']['sitemessage'][reply][array_rand($_G['setting']['sitemessage'][reply])])}{/if}', $_G['setting']['sitemessage'][time]);
+	{/if}
+	{if $_G['setting']['swfupload'] != 1 && $_G['group']['allowpostattach']}addAttach();{/if}
+	{if $_G['setting']['swfupload'] != 1 && $allowpostimg}addAttach('img');{/if}
+</script>

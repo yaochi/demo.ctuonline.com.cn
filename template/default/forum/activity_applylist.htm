@@ -1,0 +1,127 @@
+{template common/header}
+<!--{if empty($_G['gp_infloat'])}-->
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; $navigation</div>
+<div id="ct" class="wp cl w">
+	<div class="mn mw">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][2][filename]">$_G[setting][navs][2][navname]</a></label>
+		</div>
+		<div class="bw pbm">
+<!--{/if}-->
+
+<form id="applylistform" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&applylistsubmit=yes&infloat=yes{if !empty($_G['gp_from'])}&from=$_G['gp_from']{/if}"{if !empty($_G['gp_infloat']) && empty($_G['gp_from'])} onsubmit="ajaxpost('applylistform', 'return_$_G['gp_handlekey']', 'return_$_G['gp_handlekey']', 'onerror');return false;"{/if}>
+	<div class="f_c">
+	<h3 class="flb">
+		<em id="return_$_G['gp_handlekey']"><!--{if $isactivitymaster}-->{lang activity_applylist_manage}<!--{else}-->{lang activity_applylist}<!--{/if}--></em>
+		<span>
+			<!--{if !empty($_G['gp_infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_G['gp_handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>	
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="operation" value="" />
+	<!--{if !empty($_G['gp_infloat'])}--><input type="hidden" name="handlekey" value="$_G['gp_handlekey']" /><!--{/if}-->
+	<div class="c floatwrap">
+	<!--{if !empty($_G['gp_uid']) && $isactivitymaster}-->
+		{eval $apply = $applylist[0];}
+		<input type="hidden" name="applyidarray[]" value="$apply[applyid]" />
+		<table class="list" cellspacing="0" cellpadding="0" style="width:200px">
+			<tr>
+				<th>{lang activity_join_members}</th>
+				<td><a target="_blank" href="home.php?mod=space&uid=$apply[uid]">$apply[username]</a></td>
+			</tr>
+			<tr>
+				<th>{lang activity_linkman}</th>
+				<td>$apply[contact]</td>
+			</tr>
+			<tr>
+				<th>{lang leaveword}</th>
+				<td>$apply[message]</td>
+			</tr>
+			<tr>
+				<th>{lang activity_payment}</th>
+				<td><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></td>
+			</tr>
+			<tr>
+				<th>{lang activity_jointime}</th>
+				<td>$apply[dateline]</td>
+			</tr>
+		</table>		
+	<!--{else}-->		
+		<table class="list" cellspacing="0" cellpadding="5">
+			<thead>
+				<tr>
+					<!--{if $isactivitymaster}--><td>&nbsp;</td><!--{/if}-->
+					<td>{lang activity_join_members}</td>
+					<!--{if $isactivitymaster}--><td>{lang activity_linkman}</td><!--{/if}-->
+					<td>{lang leaveword}</td>
+					<td>{lang activity_payment}</td>
+					<td>{lang activity_jointime}</td>
+					<!--{if $isactivitymaster}--><td>{lang status}</td><!--{/if}-->
+				</tr>
+			</thead>
+			<!--{loop $applylist $apply}-->
+				<tr>
+					<!--{if $isactivitymaster}-->
+						<td><input class="checkbox" type="checkbox" name="applyidarray[]" value="$apply[applyid]" /></td>
+					<!--{/if}-->
+					<td>
+						<a target="_blank" href="home.php?mod=space&uid=$apply[uid]">$apply[username]</a>
+						<!--{if $apply[uid] != $_G[uid]}-->
+							<a href="home.php?mod=spacecp&ac=pm&op=showmsg&handlekey=showmsg_$apply[uid]&touid=$apply[uid]&pmid=0&daterange=2" onclick="hideMenu('aplayuid{$apply[uid]}_menu');showWindow('sendpm', this.href)"><img src="{IMGDIR}/pmto.gif" title="{lang send_pm}" style="vertical-align:middle" /></a>
+						<!--{/if}-->
+					</td>
+					<!--{if $isactivitymaster}-->
+						<td><input type="text" size="10" class="txt" value="$apply[contact]" readonly="readonly" /></td>
+					<!--{/if}-->
+					<td><input type="text" size="15" class="txt" value="$apply[message]" readonly="readonly" /></td>
+					<td><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></td>
+					<td>$apply[dateline]</td>
+					<!--{if $isactivitymaster}-->
+						<td><!--{if $apply[verified]}-->{lang activity_allow_join}<!--{else}-->{lang activity_cant_audit}<!--{/if}--></td>
+					<!--{/if}-->
+				</tr>
+			<!--{/loop}-->
+		</table>	
+	<!--{/if}-->
+	</div>	
+</div>
+<!--{if !empty($_G['gp_uid']) && $isactivitymaster}-->
+	<!--{if empty($_G['gp_infloat'])}--><div class="m_c"><!--{/if}-->
+	<div class="o pns">
+	{lang activity_ps}: <input name="reason" class="txt" />
+	<!--{if $_G['gp_operation'] == 'delete'}-->
+		<button class="pn pnc" type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='delete';"><span>{lang activity_refuse}</span></button>
+	<!--{else}-->
+		<button class="pn pnc" type="submit" value="true" name="applylistsubmit"><span>{lang confirm}</span></button>
+	<!--{/if}-->	
+	</div>
+	<!--{if empty($_G['gp_infloat'])}--></div><!--{/if}-->
+<!--{else}-->
+	<!--{if $isactivitymaster}-->
+		<!--{if empty($_G['gp_infloat'])}--><div class="m_c"><!--{/if}-->
+		<div class="o pns">
+		<label class="z"><input class="checkbox header pc" type="checkbox" name="chkall" onclick="checkall(this.form, 'applyid')" /> {lang checkall}</label>
+		<label>{lang activity_ps}: <input name="reason" class="txt" /></label>
+		<button class="pn pnc" type="submit" value="true" name="applylistsubmit"><span>{lang confirm}</span></button>
+		<button class="pn" type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='delete';"><span>{lang activity_refuse}</span></button>
+		</div>
+		<!--{if empty($_G['gp_infloat'])}--></div><!--{/if}-->
+	<!--{/if}-->
+<!--{/if}-->
+</form>
+
+<!--{if !empty($_G['gp_infloat'])}-->
+<script type="text/javascript" reload="1">
+function succeedhandle_$_G['gp_handlekey'](locationhref) {
+	ajaxget('forum.php?mod=viewthread&tid=$_G[tid]&viewpid=$_G[gp_pid]', 'post_$_G[gp_pid]');
+	hideWindow('$_G['gp_handlekey']');
+}
+</script>
+<!--{/if}-->
+
+<!--{if empty($_G['gp_infloat'])}-->
+	</div>
+	</div>
+</div>
+<!--{/if}-->
+{template common/footer}

@@ -1,0 +1,23 @@
+<div class="tl">
+	<div class="sttl mbn">
+		<h2><!--{if $keyword}-->结果: <em>找到 “<span class="emfont">$keyword</span>” 相关内容 $countdata 个</em>
+		<!--{else}-->
+			结果: <em>找到相关主题 $countdata 个</em>
+		<!--{/if}--></h2>
+	</div>
+	<!--{if empty($datalist)}-->
+		<p class="emp xs2 xg2">{lang search_nomatch}</p>
+	<!--{else}-->
+		<div class="slst mtw">
+			<ul>
+				<!--{loop $datalist $item}-->
+				<li class="pbw">
+					<h3 class="xs2"><a href="$item[url]" target="_blank">$item[name]</a></h3>
+					<p>$item[description]</p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+	<!--{/if}-->
+	<!--{if !empty($multipage)}--><div class="pgs cl">$multipage</div><!--{/if}-->
+</div>

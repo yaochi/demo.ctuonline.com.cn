@@ -1,0 +1,90 @@
+
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+			<p class="sb_title">我要提交</p>
+		</div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">成果展示</p>
+		</div>
+		<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+        <p class="sb_title">学习力排行榜</p>
+      </div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(2);
+</script>
+
+<div class="fpr bbsgroup mtw" id="lectSearchDiv"></div>
+
+   <div id="fspanel">
+	<table>
+		<tr id="nav_category">
+			<tr id="nav_order">
+		  	<th>排序:</th>
+		    <td class="piped">
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=selection&plugin_op=groupmenu&getorder=dateline&getrole=$getrole" <!--{if ($getorder==''|| $getorder=='dateline')}--> class="a" <!--{/if}--> >按创建时间</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=selection&plugin_op=groupmenu&getorder=dateline&getrole=$getrole" <!--{if ($getorder==''|| $getorder=='dateline')}--> class="" <!--{/if}--> >按浏览数</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=selection&plugin_op=groupmenu&getorder=dateline&getrole=$getrole" <!--{if ($getorder==''|| $getorder=='dateline')}--> class="" <!--{/if}--> >按热度间</a>
+				<a href="forum.php?mod=$mod&amp;action=plugin&amp;fid=$_G['fid']&amp;plugin_name=selection&amp;plugin_op=groupmenu&amp;getorder=scored&amp;getrole=$getrole"  class="<!--{if $getorder=='scored'}-->a<!--{/if}--> last"  >按最后发表</a>
+			</td>
+		  </tr>
+		  	<th>规则:</th>
+		    <td class="piped">
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&examinestatus=$examinestatus&tap=2&orderby=DESC"  class="<!--{if $orderby=='DESC'|| $orderby=='DESC'}-->a<!--{/if}-->>最新</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&examinestatus=$examinestatus&tap=2&orderby=ASC"  class=" <!--{if $orderby=='ASC'}-->a<!--{/if}-->>最旧</a>
+			</td>
+		  </tr>
+		</table>
+	</div>
+
+
+<div class="bm pgs ptn cl"> </div>
+
+<div id="lecturerlist" class="tl mgh" style="position: relative;">
+	<!--{if !learnexcit}-->
+	<p class="xg1 hm">当前没有相关学习评估列表</p>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" border="0">
+		<thead>
+			<tr>
+				<td class="icn">&nbsp;</td>
+				<th>主题</th>
+				<td class="by">作者/时间</td>
+				<td class="by" style="text-align:center;">浏览</td>
+			</tr>
+		</thead>
+	<tbody>
+	<!--{loop $learnexcit $learn}-->
+		<tr>
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id=""><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=viewmenu&learning_action=achieview&learnid=$learn[id]">$learn[learnname]</a></span></td>
+			<td>
+				<cite><a href="forum.php?mod=group&amp;fid=792"></a></cite>
+				<em>$learn[subrealname]/{eval echo dgmdate($learn[subdateline])}</em>
+			</td>
+			<td style="text-align:center;">$learn[pageviews]</td>
+		</tr>
+       <!--{/loop}-->
+	</tbody>
+	</table>
+	<!--{/if}-->
+</div>
+
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->

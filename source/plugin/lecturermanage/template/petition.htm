@@ -1,0 +1,228 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/lecturermanage/assets/js/lecturer_common.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/lecturermanage/assets/style/lecturemanage.css?{VERHASH}" type="text/css" />
+<style>
+	.deliCourses .icn, .deliCourses .dataSource, .deliCourses .updateTime { display: none; }
+</style>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>自我申请</h2>
+	</div>
+</div>
+<div class="bm reHeight">
+	<form action="{eval echo join_plugin_action('save')}" method="post" onsubmit="return validate_form(this);" enctype="multipart/form-data">
+		<input type="hidden" name="createtype" id="createtype" value="1"/>
+		<input type="hidden" name="lectype" id="lectype" value="5"/> 
+		<input type="hidden" id="addedcourses" name="addedcourses" value="" />
+		<input type="hidden" id="admintype" name="admintype" value="0" />
+		<input type="hidden" name="aid" id="aid" tabindex="1" />
+		<input type="hidden" name="realname" id="realname" value="$userinfo[realname]" />
+		<input type="hidden" name="orgid" id="orgid" value="$org[id]" />
+		<input type="hidden" name="orgname" id="orgname" value="$org[name]" />
+		<input type="hidden" name="orgname_all" id="orgname_all" value="$org[orgname_all]" />
+		<input type="hidden" name="gender" id="gender" value="$userinfo[gender]" />
+		<div id="postbox" class="mtm">
+			<span class="xg1">您在成功提交申请后，将自动成为《培训师家园》的成员。</span>
+			<table border="0" cellspacing="0" cellpadding="0" class="tfm mtm">
+				<tr style="background-color: #f8f8f8;">
+					<th class="xg1">
+						姓名:
+					</th>
+				    <td class="xg1">
+				    	$userinfo[realname]
+				    </td>
+			  	</tr>
+			  	<tr style="background-color: #f8f8f8;">
+					<th class="xg1">
+						性别:
+					</th>
+				    <td class="xg1">
+				    	<!--{if $userinfo[gender]==1}-->
+				    	男
+				    	<!--{elseif $userinfo[gender]==2}-->
+				    	女
+				    	<!--{else}-->
+				    	保密
+				    	<!--{/if}-->
+				    </td>
+			  	</tr>
+			  	<tr style="background-color: #f8f8f8;">
+					<th class="xg1">
+						工作单位:
+					</th>
+				    <td class="xg1">
+				    	$org[orgname_all]
+				    </td>
+			  	</tr>
+			  	<tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						背景介绍:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="bginfo" id="bginfo" class="pt"></textarea>
+				    </td>
+			  	</tr>
+			  	<tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						主要培训课程:
+				  	</th>
+				  	<td>
+					 	<table id="deliCourses" class="deliCourses">
+					    <tr>
+					    	<td class="courseName pns">
+					    	<button type="button" id="addCourseBtn" name="addCourse" class="pn"><em>+ 添加课程</em></button>
+					    	</td>
+					    	<td></td>
+					    	<td></td>
+					    	<td></td>
+					    </tr>
+					    </table>
+					</td>
+				</tr>
+				  <tr>
+				  	<th>
+						培训经历:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="trainingexperience" id="trainingexperience" class="pt"></textarea>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+						培训特点:
+				  	</th>
+				    <td>
+				    	<textarea rows="5" cols="40" name="trainingtrait" id="trainingtrait" class="pt"></textarea>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						授课方向:
+				  	</th>
+				    <td>
+				    	<select name="teachdirection" class="ps">
+							<option value="1">领导力发展与管理类</option>
+							<option value="2">营销类</option>
+							<option value="3">技术类</option>
+						</select>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						讲师照片:
+				  	</th>
+				    <td>
+				    	<label class="pns">
+				    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $lecturer[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button>
+							<div id="lecturerattach_image" class="diyavt mtm"></div>
+				     	</label>
+				     	<p class="xg1 mtm">
+				     		图片上传后系统会自动缩略成120x120像素大小 不保持长宽比<br />
+				     		图片格式支持jpg, gif；文件尺寸小于100 kB；
+				     	</p>
+				    </td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						联系电话:
+				  	</th>
+				    <td>
+				    	<input type="text" name="tel" id="tel" onblur="checkTel()" class="px" />
+						<span class="xcred" id="sdTel" style="display:none;">格式不正确，请输入正确的电话或手机号码</span>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th>
+				  		<strong class="rq">*</strong>
+						Email:
+				  	</th>
+				    <td>
+				    	<input type="text" name="email" id="email" onblur="checkEmail()" class="px" />
+						<span class="xcred" id="sdEmail" style="display:none;">格式不正确，请输入正确的邮箱地址</span>
+					</td>
+				  </tr>
+				  <tr>
+				  	<th></th>
+				  	<td>
+				  		<button type="submit" id="issuance" class="pn pnp"><strong>提交申请</strong></button>
+				  	</td>
+				  </tr>
+			</table>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	function validate_form(obj) {
+		
+		var bginfo = $('bginfo');
+		if (bginfo) {
+			var slen = strlen(bginfo.value);
+			if (slen < 1) {
+				showDialog("请填写背景介绍");
+				bginfo.focus();
+				return false;
+			}
+		}
+
+		var coursexperience = $('coursexperience');
+		if (coursexperience) {
+			var slen = strlen(coursexperience.value);
+			if (slen < 1) {
+				showDialog("请填写授课经验");
+				coursexperience.focus();
+				return false;
+			}
+		}
+
+        var tel = $('tel');
+		var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+		if (tel) {
+			var slen = strlen(tel.value);
+			if (!patrn.exec(tel.value)) {
+				showDialog("请正确填写联系电话");
+				tel.focus();
+				return false;
+			}
+		}
+
+        var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1 || slen > 80||(!patrn.exec(email.value))) {
+				showDialog("请正确填写Email");
+				email.focus();
+				return false;
+			}
+		}
+
+
+		var aid = $('aid');
+		if (aid) {
+			var slen = strlen(aid.value);
+			if (slen<1) {
+				showDialog("请上传照片");
+				$('lecturerattach_image').focus();
+				return false;
+			}
+		}
+	}
+</script>
+<script type="text/javascript" charset="utf-8">
+	attachEventListener($("addCourseBtn"), "click", function(){
+		addCourse($('deliCourses'), $("createtype").value);
+	}, false);
+</script>

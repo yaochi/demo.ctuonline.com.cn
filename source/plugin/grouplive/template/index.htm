@@ -1,0 +1,118 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/grouplive/js/moderate.js?{VERHASH}"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;新增直播</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+	<!--{if $categorys}-->
+		<tr id="nav_category">
+			<th>分类:</th>
+			<td class="piped">
+                            <!--{if $_G['gp_typeid']}--><a href="{eval echo join_plugin_action2('index', array('timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $key, 'display' => $_GET['display']));}">全部</a><!--{else}--><a class="a">全部($count)</a><!--{/if}-->
+				<!--{loop $categorys $id $value}-->
+					<!--{if $_G['gp_typeid'] != $id}-->
+						<a href="{eval echo join_plugin_action2('index', array('typeid' => $id, 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}">$value['name']</a>
+					<!--{else}-->
+						<a class="a">$value['name']($count)</a>
+					<!--{/if}-->
+				<!--{/loop}-->
+			</td>
+		</tr>
+	<!--{/if}-->
+	</table>
+</div>
+<!-- filter & sort Panel end -->
+
+<!--{if $count}-->
+<div  id="threadlist" style="position: relative;" class="wdlb_nr">
+	<div class="wd5">
+	<form method="post" autocomplete="off" name="moderate" id="moderate" action="{eval echo join_plugin_action2('topicadmin', array('fid' => $_G['fid'], 'infloat' => '1'))}">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="listextra" value="$extra" />
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zblb">
+				<tr>
+					<td width="49%" height="30" align="center"><a href="{echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'orderby' => 'subject', 'orderseq' => $_GET['orderby'] != 'subject' || $_GET['orderseq']?0:1));}">标题</a><!--{if $_GET['orderby'] == 'subject'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/grouplive/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/grouplive/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+					<td width="19%"><a href="{echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'orderby' => 'st', 'orderseq' => $_GET['orderby'] != 'st' || $_GET['orderseq']?0:1));}">直播状态</a><!--{if $_GET['orderby'] == 'st'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/grouplive/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/grouplive/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+					<td width="18%"><a href="{echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'orderby' => 'starttime', 'orderseq' => (!$_GET['orderby'] || $_GET['orderby'] != 'starttime') || $_GET['orderseq']? 0 : 1));}">直播时间</a><!--{if !$_GET['orderby'] || $_GET['orderby'] == 'starttime'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/grouplive/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/grouplive/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+					<td width="14%"><a href="{echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'orderby' => 'playnum', 'orderseq' => $_GET['orderby'] != 'playnum' || $_GET['orderseq']?0:1));}">点播次数</a><!--{if $_GET['orderby'] == 'playnum'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/grouplive/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/grouplive/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+				</tr>
+				<!--{loop $list $key $value}-->
+						<tr id="$value[liveid]" <!--{eval echo $key % 2 == 1? "class=a": ""}-->>
+							<td height="64">
+							<p>
+								<span>
+							<!--{if $_G['forum']['ismoderator']}-->
+								<!--{if $value['fid'] == $_G[fid] && $value['digest'] >= 0}-->
+									<!--{if $value['displayorder'] <= 3 || $_G['adminid'] == 1}-->
+										<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$value[liveid]" />
+									<!--{else}-->
+										<input type="checkbox" disabled="disabled" />
+									<!--{/if}-->
+								<!--{else}-->
+									<input type="checkbox" disabled="disabled" />
+								<!--{/if}-->
+							<!--{/if}-->
+								</span>
+								<span id="live_$value[liveid]" class="a"><a href="{eval echo join_plugin_action2('livecp', array('liveid' => $value['liveid'], 'op' => 'join'));}" target="_blank" $value[highlight]><!--{if $allowprefix && !empty($categorys[$value['typeid']])}-->[ {echo $categorys[$value['typeid']]['name'];} ]<!--{/if}-->$value[subject]</a>
+								<!--{if $value['displayorder'] == 0}-->
+									<!--{if $value[recommendicon]}-->
+										<img src="{IMGDIR}/recommend_$value[recommendicon].gif" class="vm" alt="推荐" title="推荐" />
+									<!--{/if}-->
+									<!--{if $value['digest'] > 0}-->
+										<img src="{IMGDIR}/digest_$value[digest].gif" class="vm" alt="精华 $value[digest]" title="精华 $value[digest]" />
+									<!--{/if}-->
+								<!--{/if}-->
+								</span>
+							</p>
+							<p>
+								<!--{if !empty($_G['uid']) && ($value['uid'] == $_G['uid'] || checkperm_group('managelive'))}-->
+								<span class="left"><a href="{echo join_plugin_action2('livecp', array('liveid' => $value['liveid'], 'op' => 'edit'));}" id="live_edit_$value[id]"  <!--{if $value[type] != 3}-->onclick="showWindow(this.id, this.href, 'get', 0);"<!--{/if}--> >编辑属性</a>
+								 <!--{if $value[type] == 3}-->
+								$_config[expert][liveurl] |<a
+			href="$_G[config][expert][liveurl]/manage/reply.do?action=list&liveid=$value[newliveid]"
+			target="_blank" id="" title="对本次新平台直播的所有跟贴内容操作">跟贴管理</a> | <a
+			href="$_G[config][expert][liveurl]/manage/stats.do?action=view&liveid=$value[newliveid]"
+			target="_blank"  title="显示本次新平台直播的内容相关的统计">统计</a> |
+			<a href="$_G[config][expert][liveurl]/guest/guest.do?action=login&liveid=$value[newliveid]" id="btnCopy" title="点击之后取得嘉宾入口的地址" target="_blank">嘉宾入口</a>
+								<!--{/if}-->
+								| <a href="{echo join_plugin_action2('livecp', array('liveid' => $value['liveid'], 'op' => 'delete'));}" id="live_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a></span>
+								<!--{/if}-->
+								</span>
+							</p>
+							</td>
+							<td>
+								$value[status]
+							</td>
+							<td>
+								$value[time]
+							</td>
+							<td>
+								$value[playnum]
+							</td>
+						</tr>
+				<!--{/loop}-->
+		</table>
+		<!--{if $_G['forum']['ismoderator'] && $count}-->
+			{template grouplive:topicadmin_modlayer}
+		<!--{/if}-->
+	</form>
+	</div>
+</div>
+<div class="bm pgs ptn cl">
+	$multi
+</div>
+<!--{else}-->
+	<div class="emp">没有可浏览的列表。.</div>
+<!--{/if}-->
+<div style="height:60px"></div>

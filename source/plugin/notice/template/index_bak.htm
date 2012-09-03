@@ -1,0 +1,110 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/notice/js/notice_moderate.js"></script>
+<!--{/if}-->
+<div id="noticelist" class="tl mgh" style="position: relative;">
+
+<div>
+	<label for="filename">选择类别</label>
+	<select name="typename" class="ps" onchange="location.href=this.options[this.selectedIndex].value;">
+		<option value='forum.php?mod=group&action=plugin&fid=42&plugin_name=notice&plugin_op=groupmenu'>全部</option>
+		<!--{loop $categorys $category}-->
+		<!--{if $gettype==$category["id"]}-->
+		<option value='forum.php?mod=group&action=plugin&fid=42&plugin_name=notice&plugin_op=groupmenu&gettype=$noticetype["id"]' selected="selected">$category["name"]</option>
+		<!--{else}-->
+		<option value='forum.php?mod=group&action=plugin&fid=42&plugin_name=notice&plugin_op=groupmenu&gettype=$noticetype["id"]'>$category["name"]</option>
+       	<!--{/if}-->
+		<!--{/loop}-->
+	</select>
+</div>
+
+<div class="bm pgs ptn cl">
+	$multipage
+	<span <!--{if $_G[setting][visitedforums]}-->id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id})"<!--{/if}--> class="pgb y"><a href="http://localhost/forum/forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=notice&plugin_op=groupmenu">返回首页</a></span>
+</div>
+
+<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=noticemoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="listextra" value="$extra" />
+<table cellpadding="0" cellspacing="0" border="0">
+	<thead>
+	    <tr class="header">
+	    	<td class="icn">&nbsp;</td>
+		    <!--{if $_G['forum']['ismoderator']}--><td class="icn">&nbsp;</td><!--{/if}-->
+		    <th>标题</th>
+		    <td class="by">创建时间</td>
+		    <td class="by">作者</td>
+		    <!--{if $_G['forum']['ismoderator']}--><td class="by">操作</td><!--{/if}-->
+	    </tr>
+    </thead>
+    <!--{loop $notices $notice}-->
+    <tr>
+    	<td class="icn">
+			<a href="{eval echo join_plugin_action('view', array(noticeid=>$notice['id']))}" title="新窗口打开" target="_blank">
+			<!--{if in_array($notice['displayorder'], array(1, 2, 3, 4))}-->
+				<img src="{IMGDIR}/pin_1.gif" alt="置顶" />
+			<!--{else}-->
+				<img src="{IMGDIR}/folder_new.gif" />
+			<!--{/if}-->
+		</td>
+    	<!--{if $_G['forum']['ismoderator']}-->
+		<td class="o">
+			<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$notice[id]" />
+		</td>
+		<!--{/if}-->
+        <td><a href="{eval echo join_plugin_action('view', array(noticeid=>$notice['id']))}" $notice[highlight]>$notice["title"]</a>
+        <!--{if $notice['digest'] > 0}-->
+			<img src="{IMGDIR}/digest_$notice[digest].gif" class="vm" alt="{lang thread_digest} $thread[digest]" title="精" />
+		<!--{/if}-->
+        </td>
+        <td>{date($notice["create_time"], 'u')}</td>
+        <td>
+        	<!--{if $notice["status"]==1}-->
+        	有效
+        	<!--{/if}-->
+        	<!--{if $notice["status"]==2}-->
+        	已失效
+        	<!--{/if}-->
+        </td>
+        <td>
+        <!--{if $_G['forum']['ismoderator']}-->
+        <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=notice&plugin_op=createmenu&diy=&noticeid=$notice['id']&notice_action=edit&isedit=true">编辑</a>
+        &nbsp;
+        <a href="{eval echo join_plugin_action('delete', array(noticeid=>$notice['id']))}">删除</a>
+        <!--{/if}-->
+        </td>
+    </tr>
+    <!--{/loop}-->
+    </tbody>
+</table>
+<!--{if $_G['forum']['ismoderator']}-->
+	<div id="mdly" style="display: none;">
+		<input type="hidden" name="optgroup" />
+		<input type="hidden" name="operation" />
+		<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+		<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+		<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+		<p>
+		<!--{if $_G['group']['allowdelpost']}-->
+			<strong><a href="javascript:;" onclick="tmodnotices(3, 'delete');return false;">删除</a></strong>
+		<!--{/if}-->
+		</p>
+		<p>
+			<!--{if $_G['group']['allowstickthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'stick');return false;">置顶</a>
+			<!--{/if}-->
+			<!--{if $_G['group']['allowdigestthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'digest');return false;">精华</a>
+			<!--{/if}-->
+			<!--{if $_G['group']['allowhighlightthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'highlight');return false;">高亮</a>
+			<!--{/if}-->
+		</p>
+	</div>
+<!--{/if}-->
+</form>
+<div class="bm pgs ptn cl">
+	$multipage
+	<span <!--{if $_G[setting][visitedforums]}-->id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id})"<!--{/if}--> class="pgb y"><a href="http://localhost/forum/forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=notice&plugin_op=groupmenu">返回首页</a></span>
+</div>
+</div>
+<br/><br/>

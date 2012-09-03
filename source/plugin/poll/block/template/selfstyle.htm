@@ -1,0 +1,27 @@
+<div class="module cl xld b_poll polldiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+			<!--{loop $listdata $item}-->
+			<dl class="reHeight">
+				<dt class="xs2">
+					<a href="{$item[url]}" title="{$item[name]}" target="_blank">{$item[name]}</a>
+				</dt>
+				<dd id="polldiymimg"></dd>
+				<dd>
+					<form method="post" autocomplete="off" action="forum.php?mod=misc&action=votepoll&fid={$_G[fid]}&tid={$item[tid]}">
+						<ul>
+						<!--{loop $item[options] $key $option}-->
+							<li>
+								<label>
+									<input type="{$item[type]}" name="pollanswers[]" id="option_{$key}" class="pc" value="{$option[polloptionid]}" />
+									{$option[polloption]}
+								</label>
+							</li>
+						<!--{/loop}-->
+						</ul>
+						<!--{if $item[allvote]}-->
+						<p class="ptn pns">
+						<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn"><em>投票</em></button></p><!--{/if}-->
+					</form>
+				</dd>
+			</dl>
+			<!--{/loop}-->
+</div>

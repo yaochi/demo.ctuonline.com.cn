@@ -1,0 +1,287 @@
+<!--{eval 
+	$_G['home_tpl_titles'] = array($nwkt['subject'], '{lang nwkt}');
+	$_G['home_tpl_spacemenus'][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=$do&view=me\">{lang they_nwkt}</a>";
+	$_G['home_tpl_spacemenus'][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=nwkt&id=$nwkt[nwktid]\">{lang view_nwkt}</a>";
+	$friendsname = array(1 => '{lang friendname_1}',2 => '{lang friendname_2}',3 => '{lang friendname_3}',4 => '{lang friendname_4}');
+}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}home_post.js?{VERHASH}"></script>
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=nwkt">{lang nwkt}</a>
+	 &rsaquo; <a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=me">{$space[username]}{lang somebody_nwkt}</a>
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn blackboard {if $space[self]}me{/if}">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_nwkt_header}
+		</div>
+		<div class="bm">
+		<!--{if $space[self]}-->
+			<h1 class="mt"><img alt="nwkt" src="{STATICURL}image/feed/nwkt.gif" class="vm" /> {lang nwkt}</h1>
+			<ul class="tb cl">
+				<li$actives[we]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=we">{lang friend_nwkt}</a></li>
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=me">{lang my_nwkt}</a></li>
+				<li$actives[all]><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=all">{lang view_all}</a></li>
+				<li class="o"><a href="home.php?mod=spacecp&ac=nwkt">{lang post_new_nwkt}</a></li>
+			<!--{if $_G[referer]}-->
+				<li class="y"><a href="$_G[referer]">&laquo; {lang previous_page}</a></li>
+			<!--{/if}-->
+			</ul>
+		<!--{else}-->
+			<div id="whiteih"><!--{template home/space_menu}--></div>
+		<!--{/if}-->
+
+
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn blackboard">
+			<div class="bm mySpace">
+				<h1 class="mt">{lang nwkt}</h1>
+<!--{/if}-->
+
+			<script type="text/javascript" charset="{CHARSET}" src="{$_G[setting][jspath]}home_calendar.js?{VERHASH}"></script>
+			<div class="vw mtm mbm nwkt">
+				<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_group_viewthread.css?{VERHASH}" />
+				<div class="pc">
+					<div class="pcb">
+						<div class="pcbs">
+						
+							<div class="detail pbm cl">
+								<!--{if $nwkt['thumb']}-->
+								<div class="nwktimg y">
+									<div class="pin"></div>
+									<a href="javascript:;"><img src="$nwkt['thumb']" onclick="zoom(this, '$nwkt[attachurl]')" width="140" height＝"140"/></a>
+								</div>
+								<!--{/if}-->
+				
+								<dl>
+									<dt class="oneLine">
+										<strong class="z">$nwkt[subject]</strong>
+										<!--{if $nwkt['going']}-->
+										<div class="tag z"><span class="tag_live1 replaced mlngroup">正在进行</span></div>
+										<!--{/if}-->
+									</dt>
+									<!--{if $nwkt['secondman_names']}-->
+									<dd class="mtm xs2 lecturer clearL z" title="{$nwkt['secondman_names']}">$nwkt['secondman_names_short']</dd>
+									<!--{/if}-->
+									<dd>
+										<div id="divdate" class="hm z{if $nwkt['secondman_names'] == null } clearL clml{/if}">
+											<em>$nwkt['starttime']</em><br>
+											&ndash;<br>
+											<em>$nwkt['endtime']</em>
+										</div>
+									</dd>
+								  <div class="z" style="margin: 30px 0 0 18px;">
+                                        <!--{if strtotime($nwkt['endtime'])>strtotime(date("Y-m-d H:i:s"))}-->
+                                        <button class="pn" name="enterBtn" value="true" tabindex="1" onclick="window.open('home.php?mod=spacecp&ac=nwkt&nwktid=$nwkt[nwktid]&op=join')">
+                                        <span>参加</span>
+                                        </button>
+                                        <!--{/if}-->
+								  </div>
+								</dl>
+							</div>
+
+<div class="spi {if !$space[self]}mtw{/if}">
+	<dl>
+		<!--{if $nwkt['firstman_names']}-->
+		<dt>主持人:</dt>
+		<dd>$nwkt['firstman_names']</dd>
+		<!--{/if}-->
+		<!--{if $nwkt['secondman_names']}-->
+		<dt>讲师:</dt>
+		<dd>$nwkt['secondman_names']</dd>
+		<!--{/if}-->
+		<!--{if $nwkt['guest_names']}-->
+		<dt>嘉宾:</dt>
+		<dd>$nwkt['guest_names']</dd>
+		<!--{/if}-->
+		<!--{if $classarr[classname]}-->
+		<dt>{lang nwkt_category}:</dt>
+		<dd>$classarr[classname]</dd>
+		<!--{/if}-->
+	</dl>
+</div>
+
+<table cellspacing="0" cellpadding="0" class="mtm mlwgroup mrwgroup">
+	<tr>
+		<td class="t_f xg2" id="postmessage_$nwkt[nwktid]">$nwkt[message]</td>
+	</tr>
+</table>
+
+<div class="pattl mlwgroup mrwgroup">
+	<p class="xi2 xs2 xw1 mbm">参考资料</p>
+<!--{if !empty($imagelist)}-->
+<!--{loop $imagelist $attach}--> 
+		<dl class="tattl attm">
+			<dt>
+			</dt>
+			<dd>
+				<p class="imgt">
+					<a href="home.php?mod=attachment{$is_archive}&aid={$attach[aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]" class="bold" target="_blank">$attach[filename]</a>
+					<em>($attach[attachsize])</em>
+				</p>
+				<div class="attp" id="aid$attach[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attach[dateline] {lang upload}</p>
+						<p>{lang downloads}:$attach[downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+				<p>
+				</p>
+				<p>
+				<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
+					<a href="javascript:;"><img class="zoom" onclick="zoom(this, this.src)" src="{$attach[url]}$attach[attachment].thumb.jpg" alt="$attach[filename]" /></a>
+				<!--{else}-->						
+					<img class="zoom" src="{$attach[url]}$attach[attachment]" file="{$attach[url]}$attach[attachment]" $attach[attachwidth] id="aimg_$attach[aid]" alt="$attach[filename]" onclick="zoom(this, this.src)" />
+				<!--{/if}-->
+				</p>
+			</dd>
+		</dl>
+<!--{/loop}-->
+<!--{/if}-->
+<!--{if !empty($attachlist)}-->
+<!--{loop $attachlist $attach}--> 
+	<dl class="tattl">
+		<dt>
+			$attach[filetype]
+		</dt>
+		<dd>
+			<p class="attnm">
+				<a href="home.php?mod=attachment&aid={$attach[aidencode]}" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attach[aid]">$attach[filename]</a>
+				($attach[attachsize])
+				<div class="attp" id="aid$attach[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attach[dateline] {lang upload}</p>
+						<p>{lang downloads}:$attach[downloads]</p>
+						<!--{if !$attach['attachimg'] && $_G['getattachcredits']}-->{lang attachcredits} $_G[getattachcredits]<br /><!--{/if}-->
+					</div>
+					<div class="mncr"></div>
+				</div>
+			</p>
+			<p>
+			</p>
+		</dd>
+	</dl>
+<!--{/loop}-->
+<!--{/if}-->
+	<div class="hm" style="margin: 20px 0 5px 0">
+		<button class="pn" name="uplodaBtn" value="true" tabindex="1" onclick="showWindow('nwkt_upload_$nwkt[nwktid]', 'home.php?mod=spacecp&ac=nwkt&nwktid=$nwkt[nwktid]&op=attach&handlekey=uploadnwkthk_{$nwkt[nwktid]}', 'get', 0);"><span>上传...</span></button>
+	</div>
+</div>
+
+
+						
+						</div>
+					</div>
+				</div>					
+				<div class="o cl">
+					<a href="home.php?mod=spacecp&ac=favorite&type=nwkt&id=$nwkt[nwktid]&spaceuid=$nwkt[uid]&handlekey=favoritenwkthk_{$nwkt[nwktid]}" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr ofav">{lang favorite}</a>
+					<a onclick="showWinCover(this.id, this.href, 'get',0);" href="home.php?mod=spacecp&ac=forward&feedid=$feedid&diy=yes" id="transmit" class="oshr">{lang share}</a>
+	                <!--{if ($_G[uid] == $nwkt[uid] || checkperm('managenwkt'))&& strtotime($nwkt['starttime'])>strtotime(date("Y-m-d H:i:s"))}-->
+					<a href="home.php?mod=spacecp&ac=nwkt&nwktid=$nwkt[nwktid]&op=edit">{lang edit}</a><span class="pipe">|</span>
+					<a href="home.php?mod=spacecp&ac=nwkt&nwktid=$nwkt[nwktid]&op=delete&handlekey=delnwkthk_{$nwkt[nwktid]}" id="nwkt_delete_$nwkt[nwktid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a><span class="pipe">|</span>
+					<!--{/if}-->
+					<!--{if checkperm('managenwkt')}-->
+					<!--IP: $nwkt[postip]<span class="pipe">|</span>-->
+					<a href="home.php?mod=spacecp&ac=nwkt&nwktid=$nwkt[nwktid]&op=edithot&handlekey=nwkthothk_{$nwkt[nwktid]}" id="nwkt_hot_$nwkt[nwktid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang hot}</a><span class="pipe">|</span>
+					<!--{/if}-->
+					
+				</div>
+
+			</div>
+
+			<div id="click_div">
+				<!--{template home/space_click}-->
+			</div>
+			<!--评论-->
+			<!--{eval $comment_noreply = $nwkt['noreply'];}-->
+			<!--{eval $comment_idtype = 'feed';}-->
+			<!--{eval $comment_refer = "home.php?mod=space&uid=$nwkt[uid]&do=$do&id=$id";}-->
+			<!--{eval $comment_replynum = $count;}-->
+			<!--{eval $comment_needreplynum = true;}-->
+			<!--{eval $comment_list = $list;}-->
+			<!--{eval $id = $feedid;}-->
+			
+			<!--{template home/space_comment_view}-->
+
+			<script type="text/javascript">
+			function addFriendCall(){
+				var el = $('friendinput');
+				if(!el || el.value == "")	return;
+				var s = '<input type="checkbox" name="fusername[]" class="pc vm" value="'+el.value+'" id="'+el.value+'" checked="checked">';
+				s += ' <label for="'+el.value+'">'+el.value+'</label>';
+				s += '<br />';
+				$('friends').innerHTML += s;
+				el.value = '';
+			}
+			resizeImg('div_main_content','450');
+
+			var elems = selector('dd[class~=magicflicker]');
+			for(var i=0; i<elems.length; i++){
+				magicColor(elems[i]);
+			}
+			</script>
+
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<!--{if $otherlist}-->
+		<div class="bn">
+			<a href="home.php?mod=space&uid=$nwkt[uid]&do=nwkt&view=me" class="y">{lang all}</a>
+			<h2>{lang author_newest_nwkt}</h2>
+			<ul class="xl">
+				<!--{loop $otherlist $value}-->
+				<li><a href="home.php?mod=space&uid=$value[uid]&do=nwkt&id=$value[nwktid]">$value[subject]</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<hr class="da" />
+		<!--{/if}-->
+
+		<!--{if $newlist}-->
+		<div class="bn">
+			<h2>{lang popular_nwkt_review}</h2>
+			<ul class="xl">
+				<!--{loop $newlist $value}-->
+				<li><em><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a></em><a href="home.php?mod=space&uid=$value[uid]&do=nwkt&id=$value[nwktid]">$value[subject]</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+		{hook/space_nwkt_side_bottom}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

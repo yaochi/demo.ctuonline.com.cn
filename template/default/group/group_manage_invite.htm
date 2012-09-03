@@ -1,0 +1,57 @@
+<div class="bm">
+	<form method="post" autocomplete="off" action="home.php?mod=spacecp&amp;ac=invite&amp;appid=0&amp;ref">
+		<table cellspacing="0" cellpadding="0" width="100%" class="tfm mbm">
+			<caption class="cl">
+				<h2 class="wx">专区邀请链接</h2>
+				<p>您可以通过QQ、MSN等IM工具，或者发送邮件，把下面的链接告诉你的好友，邀请他们加入进来。</p>
+			</caption>
+			<tr>
+				<td>
+					<a onclick="javascript:setCopy('$inviteurl', '复制链接');return false;" href="$inviteurl" class="xw1">$inviteurl (复制)</a>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="formhash" value="970256cc" />
+	</form>
+	<hr class="da" style="margin: 0;" />
+	<script src="http://widgets.manyou.com/misc/scripts/ab.js" type="text/javascript" charset="utf-8"></script>
+	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=invite&type=mail&appid=0&fid={$_G['fid']}&ref">
+		<input type="hidden" name="sitename" value="{$_G['forum']['name']}" />
+		<table cellspacing="0" cellpadding="0" class="tfm mbm">
+			<caption>
+				<h2 class="wx">给好友发送 Email 邀请</h2>
+				<p>通过Email发送邮件的方式，邀请你的好友。多个Email使用","分割。</p>
+			</caption>
+			<tr>
+				<td>
+					<p class="d">好友Email地址</p>
+					<textarea name="email" id="email" rows="3" class="pt" style="width:95%;"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p class="d">想对好友说的话</p>
+					<input type="text" name="saymsg" id="saymsg" onkeyup="showPreview(this.value, 'sayPreview')" class="px" style="width:95%;">
+				</td>
+			</tr>
+			<tr>
+				<td><button type="submit" name="emailinvite" value="true" class="pn pnp"><strong>邀请</strong></button></td>
+			</tr>
+		</table>
+		<hr class="da" style="margin: 0;" />
+		<table cellspacing="0" cellpadding="0" width="100%" class="tfm" style="table-layout: fixed;">
+			<caption><h2 class="wx">预览邀请函</h2></caption>
+			<tr>
+				<td valign="top" width="140"><div class="avt avtm"><img src="$_G['forum']['icon']" /></div></td>
+				<td valign="top">
+					<h4>Hi，我是{eval echo user_get_user_name_by_username($_G['username'])}，邀请你也加入{eval echo $_G['forum']['name']}。</h4>
+					<p class="mtm">邀请附言:</p>
+					<p id="sayPreview" class="exfm" style="width: 420px;"></p>
+					<h4 class="mtm">请你点击以下链接，接受邀请:</h4>
+					<p>$inviteurl</p>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="formhash" value="970256cc" />
+	</form>
+</div>

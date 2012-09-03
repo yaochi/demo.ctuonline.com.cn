@@ -1,0 +1,91 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="$_G[setting][navs][1][filename]">{lang portal}</a> &rsaquo;
+	<!--{loop $cat[ups] $value}--> <a href="portal.php?mod=list&catid=$value[catid]">$value[catname]</a> &rsaquo;<!--{/loop}-->
+	&nbsp;$cat[catname]
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][1][filename]">{lang portal}</a></label>
+		</div>
+		<div class="bm">
+			<div class="cl">
+				<h1 class="ph z">$cat[catname]</h1>
+				<!--{if $_G['group']['allowpostarticle'] || $_G['group']['allowmanagearticle']}-->
+				<button type="button" onclick="window.location.href='portal.php?mod=portalcp&ac=article&catid=$cat[catid]'" class="pn y"><span class="y">{lang article_publish}</span></button>
+				<!--{/if}-->
+			</div>
+			<!--{if $cat[subs]}-->
+			<p>
+				{lang sub_category}:&nbsp;&nbsp;
+				<!--{eval $i = 1;}-->
+				<!--{loop $cat[subs] $value}-->
+				<!--{if $i != 1}--><span class="pipe">|</span><!--{/if}--><a href="portal.php?mod=list&catid=$value[catid]">$value[catname]</a><!--{eval $i--;}-->
+				<!--{/loop}-->
+			</p>
+			<!--{/if}-->
+		</div>
+
+		<hr class="l" />
+		<div class="bm">
+			<div class="xld">
+			<!--{loop $list $value}-->
+				<dl class="bbda cl">
+					<dt class="xs2"><a href="portal.php?mod=view&aid=$value[aid]" target="_blank">$value[title]</a></dt>
+					<!--{if $value[pic]}--><dd class="atc"><img src="$value[pic]" alt="$value[title]" /></dd><!--{/if}-->
+					<dd class="xs2">
+						$value[summary]
+					</dd>
+					<dd>
+						<!--{if $value[catname] && $cat[subs]}-->{lang category}: <label><a href="portal.php?mod=list&catid=$value[catid]" class="xi2">$value[catname]</a></label>&nbsp;&nbsp;<!--{/if}-->
+						<span class="xg1"> $value[dateline]</span>
+						<!--{if $_G['group']['allowmanagearticle'] || ($_G['group']['allowpostarticle'] && $value['uid'] == $_G['uid'])}-->
+						<span class="xg1">
+							<span class="pipe">|</span>
+							<label><a href="portal.php?mod=portalcp&ac=article&op=edit&aid=$value[aid]">{lang edit}</a></label>
+							<span class="pipe">|</span>
+							<label><a href="portal.php?mod=portalcp&ac=article&op=delete&aid=$value[aid]" id="article_delete_$value[aid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a></label>
+						</span>
+						<!--{/if}-->
+					</dd>
+				</dl>
+			<!--{/loop}-->
+			</div>
+		</div>
+		<!--{if $multi}--><div class="bm cl">$multi</div><!--{/if}-->
+	</div>
+	<div class="sd pph">
+		<!--{template common/userabout}-->
+
+<!--{if $cat[others]}-->
+		<div class="bn">
+			<h2>{lang category_related}</h2>
+			<ul class="xl xl2 cl">
+				<!--{loop $cat[others] $value}-->
+				<li><a href="portal.php?mod=list&catid=$value[catid]">$value[catname]</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+<!--{/if}-->
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+{subtemplate common/footer}

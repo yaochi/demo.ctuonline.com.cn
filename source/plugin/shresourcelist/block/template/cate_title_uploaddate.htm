@@ -1,0 +1,10 @@
+<div class="module cl xl xl1"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li>
+            <em>{$item[uploaddate]}</em>
+            <a href="{$item[titlelink]}" title="{$item[title]}" target="_blank"><span class="xi2">[{$item[category]}]&nbsp;</span>{$item[title]}</a>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

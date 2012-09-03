@@ -1,0 +1,70 @@
+	<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+	
+	<div class="mn">
+<!--{if $questid>0&&$_GET['op']!=edit}-->	
+<form method="post" autocomplete="off" id="questionform" action="{eval echo join_plugin_action2('create',array(questid=>$questid,questionid=>$questionid,op=>$_GET['op']))}">	
+<h2>添加问卷问题</h2>
+<table cellspacing="0" cellpadding="0" class="tfm">
+	<tr>
+	<td>
+	题目：<textarea class="pt" name="question" id="question" value="" size="100" height="80">$question[question]</textarea>
+	</td>
+	</tr>
+	<tr><td>
+	最多可选项：<input type="text" id="maxchoices" name="maxchoices" value="$question[maxchoices]" size="3"  class="px" style="width: 5%;" /></td>
+</tr>
+	<!-- {if $questionid>0 && $_GET['op']==editquestion}-->
+		<!-- {loop $questionoption $key $value} -->
+		<tr><td>
+		<input type="hidden" name="questionoptionid[]" value="$value[qoptionid]" />
+			选项：<input type="text" id="questionoption[]" name="questionoption[]" value="$value[questionoption]" size="60"  class="px" style="width: 60%;" /></td>
+		<td>权重：<input type="text" id="weight[]" name="weight[]" value="$value[weight]" size="3"  class="px" style="width: 15%;" /></td></tr>
+		<tr><td>
+		<!-- {/loop} -->
+	<!-- {else} -->
+		<tr><td>
+			选项1：<input type="text" id="questionoption[]" name="questionoption[]" value="" size="60"  class="px" style="width: 60%;" /></td>
+		<td>权重：<input type="text" id="weight[]" name="weight[]" value="" size="3"  class="px" style="width: 15%;" /></td></tr>
+		<tr><td>
+			选项2：<input type="text" id="questionoption[]" name="questionoption[]" value="" size="60"  class="px" style="width: 60%;" /></td>
+		<td>权重：<input type="text" id="weight[]" name="weight[]" value="" size="3"  class="px" style="width: 15%;" /></td></tr>
+		<tr><td>
+			选项3：<input type="text" id="questionoption[]" name="questionoption[]" value="" size="60"  class="px" style="width: 60%;" /></td>
+		<td>权重：<input type="text" id="weight[]" name="weight[]" value="" size="3"  class="px" style="width: 15%;" /></td></tr>
+	<!-- {/if} -->
+	</table>
+	<input type="hidden" name="questid" value="questid" />
+<input type="hidden" name="questionsubmit" value="true" />
+	<input type="submit" id="questionbutton" name="questionbutton" value="确定" />
+	<input type="hidden" name="formhash" value="d71737a2" />
+</form>
+<!--{else}-->
+<form method="post" autocomplete="off" id="questionaryform" action="{eval echo join_plugin_action2('create',array(questid=>$questid,op=>$_GET['op']))}">	
+	<h2><!-- {if $_GET['op']==edit} -->编辑问卷<!-- {else} -->创建问卷<!--{/if}--></h2>
+	<table cellspacing="0" cellpadding="0" class="tfm">
+	<tr>
+	<td>标题：<input type="text" id="questname" name="questname" value="$questionary[questname]" size="60"  class="px" style="width: 63%;" /></td>
+	</tr>
+	<tr>
+	<td>
+	简介：<textarea class="pt" name="questdescr" id="questdescr" value="" size="100" height="80">$questionary[questdescr]</textarea>
+	</td>
+	</tr>
+	<tr><td>
+<input type="checkbox" name="visible" id="visible" value="1" class="pc" checked="checked"> <label for="makefeed">是否允许查看结果</label>
+</td></tr>
+	</table>
+	<input type="hidden" name="questionarysubmit" value="true" />
+	<input type="submit" id="questionarybutton" name="questionarybutton" value="提交" />
+	<input type="hidden" name="formhash" value="d71737a1" />
+	</form>
+	<!--{/if}-->
+
+	</div>
+
+
+	

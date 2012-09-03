@@ -1,0 +1,416 @@
+<script src="static/js/forum_calendar.js"></script>
+<script type="text/JavaScript">parent.document.title = '中国电信网上大学 管理中心 - 统计 - 轻博客动态统计';if(parent.$('admincpnav')) parent.$('admincpnav').innerHTML='统计&nbsp;&raquo;&nbsp;轻博客动态统计';</script>
+<div class="itemtitle">
+  <h3>轻博客动态统计</h3>
+</div>
+<form id="cpform" action="admin.php?action=statistics&operation=blogfeed" autocomplete="off" method="post" name="cpform">
+<input type="hidden" value="ae9f1d4b" name="formhash">
+<input type="hidden" value="" name="scrolltop" id="formscrolltop">
+<input type="hidden" value="" name="anchor">
+
+<label style="margin:0 5px 0 0;">内容类型:</label>
+
+<select name="typeid"><option <!--{if $typeid=='0'}-->selected="selected"<!--{/if}--> value="0">-全部-</option>
+<option <!--{if $typeid=='blog'}-->selected="selected"<!--{/if}--> value="blog">记录</option>
+<option <!--{if $typeid=='album'}-->selected="selected"<!--{/if}--> value="album">图片</option>
+<option <!--{if $typeid=='activitys'}-->selected="selected"<!--{/if}--> value="activitys">活动</option>
+<option <!--{if $typeid=='doc'}-->selected="selected"<!--{/if}--> value="doc">文档</option>
+<option <!--{if $typeid=='group'}-->selected="selected"<!--{/if}--> value="group">专区</option>
+<option <!--{if $typeid=='notice'}-->selected="selected"<!--{/if}--> value="notice">通知公告</option>
+<option <!--{if $typeid=='nwkt'}-->selected="selected"<!--{/if}--> value="nwkt">你我课堂</option>
+<option <!--{if $typeid=='poll'}-->selected="selected"<!--{/if}--> value="poll">投票</option>
+<option <!--{if $typeid=='thread'}-->selected="selected"<!--{/if}--> value="thread">话题</option>
+<option <!--{if $typeid=='live'}-->selected="selected"<!--{/if}--> value="live">直播</option>
+<option <!--{if $typeid=='questionary'}-->selected="selected"<!--{/if}--> value="questionary">问卷</option>
+<option <!--{if $typeid=='resourcelist'}-->selected="selected"<!--{/if}--> value="resourcelist">资源列表</option>
+<option <!--{if $typeid=='reward'}-->selected="selected"<!--{/if}--> value="reward">提问吧</option>
+<option <!--{if $typeid=='link'}-->selected="selected"<!--{/if}--> value="link">链接</option>
+<option <!--{if $typeid=='video'}-->selected="selected"<!--{/if}--> value="video">视频</option>
+<option <!--{if $typeid=='music'}-->selected="selected"<!--{/if}--> value="music">音乐</option>
+<option <!--{if $typeid=='class'}-->selected="selected"<!--{/if}--> value="class">课程</option>
+<option <!--{if $typeid=='case'}-->selected="selected"<!--{/if}--> value="case">案例</option>
+</select>
+
+<label style="margin:0 5px 0 15px;">起始日期:</label>
+
+<input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-right: 5px;" value="$starttime" name="starttime" class="txt"> -- <input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-left: 5px;" value="$endtime" name="endtime" class="txt">
+<div class="fixsel">
+<input type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="blogfeedsubmit" id="submit_blogfeedsubmit" class="btn">
+</div>
+<script type="text/JavaScript">_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'blogfeedsubmit'); });</script>
+</form>
+  <table class="tb tb2 ">
+    <tbody>
+      <tr class="header" id="thead">
+        <th width="50%">分类名称</th>
+        <th width="30%">专区数</th>
+        <th width="20%">操作</th>
+      </tr>
+	  <!--{if $typeid=='0'}-->
+      <tr class="top">
+        <td colspan="3"><span>个人</span><a class="addtr" onclick="showDatarow(this, 'top', ['hover', 'second'], 'personal');" href="###"></a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="albumcount">
+        <td><p>图片类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'album')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=album&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orialbumcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=album&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="foralbumcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=album&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="videocount">
+        <td><p>视频类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'video')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=video&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orivideocount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=video&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forvideocount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=video&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="musiccount">
+        <td><p>音乐类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'music')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=music&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orimusiccount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=music&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="formusiccount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=music&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="linkcount">
+        <td><p>链接类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'link')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=link&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orilinkcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=link&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forlinkcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=link&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="blogcount">
+        <td><p>记录类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'blog')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=blog&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oriblogcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=blog&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forblogcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=blog&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="top">
+        <td colspan="3"><span>专区</span><a class="addtr" onclick="showDatarow(this, 'top', ['hover', 'second'], 'group')" href="###"></a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="groupcount">
+        <td><p>专区类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'group')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=group&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="origroupcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=group&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forgroupcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=group&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="noticecount">
+        <td><p>专区通知类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'notice')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=notice&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orinoticecount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=notice&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="fornoticecount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=notice&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="activityscount">
+        <td><p>活动类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'activitys')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=activitys&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oriactivityscount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=activitys&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="foractivityscount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=activitys&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="threadcount">
+        <td><p>话题类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'thread')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=thread&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orithreadcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=thread&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forthreadcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=thread&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="pollcount">
+        <td><p>投票类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'poll')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=poll&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oripollcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=poll&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forpollcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=poll&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="questionarycount">
+        <td><p>问卷类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'questionary')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=questionary&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oriquestionarycount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=questionary&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forquestionarycount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=questionary&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="livecount">
+        <td><p>直播类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'live')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=live&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orilivecount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=live&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forlivecount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=live&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="rewardcount">
+        <td><p>提问吧类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'reward')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=reward&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orirewardcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=reward&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forrewardcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=reward&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="resourcelistcount">
+        <td><p>资源列表类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'resourcelist')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=resourcelist&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oriresourcelistcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=resourcelist&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forresourcelistcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=resourcelist&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="top">
+        <td colspan="3"><span>知识中心</span><a class="addtr" onclick="showDatarow(this, 'top', ['hover', 'second'], 'know')" href="###"></a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="classcount">
+        <td><p>课程类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'class')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=class&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oriclasscount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=class&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forclasscount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=class&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="doccount">
+        <td><p>文档类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'doc')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=doc&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oridoccount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=doc&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="fordoccount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=doc&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="casecount">
+        <td><p>案例类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'case')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=case&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="oricasecount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=case&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="forcasecount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=case&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="top">
+        <td colspan="3"><span>app</span><a class="addtr" onclick="showDatarow(this, 'top', ['hover', 'second'], 'app')" href="###"></a></td>
+      </tr>
+      <tr class="hover" style="display:none;" id="nwktcount">
+        <td><p>你我课堂类动态<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', 'nwkt')" href="###"></a></p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=nwkt&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="orinwktcount">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=nwkt&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="fornwktcount">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=nwkt&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+	  <!--{else}-->
+	    <tr class="hover" id="{$typeid}count">
+        <td><p>$namearray[$typeid]<a class="addtr" onclick="showDatarow(this, 'hover', ['second'], '', '{$typeid}')" href="###"></a></p></td>
+        <td>$count</td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=$typeid&actid=0&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="ori{$typeid}count">
+        <td><p class="title">原创</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=$typeid&actid=1&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+      <tr class="second" style="display:none;" id="for{$typeid}count">
+        <td><p class="title">转发</p></td>
+        <td><img src="static/image/admincp/loading.gif"></td>
+        <td><a href="admin.php?action=export&operation=exportfeedblog&typeid=$typeid&actid=2&starttime=$starttime&endtime=$endtime" class="act">导出明细</a></td>
+      </tr>
+	  <!--{/if}-->
+    </tbody>
+  </table>
+
+<script language="javascript">
+function getoffset(o){
+	var t = o.offsetTop,
+		l = o.offsetLeft;
+    while(o = o.offsetParent){
+         t += o.offsetTop;
+         l += o.offsetLeft;
+    }
+    return {top: t, left: l};
+}
+
+function setstyle(ele, css){
+	for(var i in css){
+		ele.style[i] = css[i];
+	}
+}
+
+function createHeader(){
+	var div = document.createElement('div');
+	document.body.appendChild(div);
+	div.innerHTML = '<table class="tb tb2 "><tr class="header">'+ $("thead").innerHTML +'</tr></table>';
+	setstyle(div,{
+		display 	: 'none',
+		position 	: 'fixed',
+		left 		: getoffset($("thead")).left + 'px',
+		top 		: '0px',
+		backgroundColor : '#FFFFFF',
+		borderBottom 	: '1px dotted #DEEFFB'
+	});
+	return div;
+}
+
+var thdiv = createHeader();
+
+function fixheader(){
+	var t1 = getoffset($("thead")).top;
+	var t2 = document.documentElement.scrollTop;
+	if (t2 >= t1) {
+		setstyle(thdiv,{
+			display	:'block',
+			width 	: $("thead").offsetWidth + 'px'
+		});
+	}else{
+		setstyle(thdiv,{display:'none'});
+	}
+}
+window.onscroll = fixheader;
+window.onresize = fixheader;
+
+function showDatarow(f, c1, c2, t, st) {
+	var rows = displayrow(f, c1, c2);
+	if (rows.length > 0 && rows[0].cells[1].firstChild.nodeName.toUpperCase() == 'IMG') {
+		var url = 'admin.php?action=statistics&operation=blogfeed&starttime=$starttime&endtime=$endtime&inajax=1';
+		getData(url + (st?'&secondtype='+st:'&firsttype='+t), function(d){
+			if (d && d != null) {
+				d = eval("(" + d + ")");
+				for (var i=0; i<rows.length; i++){
+					var o = rows[i];
+					o.cells[1].innerHTML = d[o.id];  
+				}
+			}
+		});
+	}
+}
+</script>

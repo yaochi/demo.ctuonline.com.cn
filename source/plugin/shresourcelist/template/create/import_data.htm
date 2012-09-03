@@ -1,0 +1,159 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<!--{if $soure=='caseanddoc'}-->
+<body onload="deal()">
+<input type="hidden" name="docu" id="docu" value="$len[docu]" />
+<input type="hidden" name="case" id="case" value="$len[case]" />
+<input type="hidden" name="per" id="per" value="$len[per]" />
+<input type="hidden" name="index" id="index" value="1" />
+<input type="hidden" name="stamp" id="stamp" value="docu" />
+<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
+<div id="postbox">
+<table id="info" border="0" cellspacing="0" cellpadding="0" class="tfm">
+<tr><td><span>总共需要导入文档$len[docu]条，</span><span>案例$len[case]条。</span></td></tr>
+<tr><td><span id="docu_1">正在导入文档第1-$len[per]条</span></td></tr>
+</table>
+</div>
+</body>
+<script type="text/javascript" charset="utf-8">
+var per=$('per').value;
+
+function deal(){
+    var fid=$('fid').value;
+    var page=$('index').value;
+    var ac=$('stamp').value;
+    var len=$(ac).value;
+    var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid="+fid+"&plugin_name=shresourcelist&plugin_op=createmenu&shresourcelist_action=import_dc&ac="+ac+"&len="+len+"&page="+page+"&per="+per;
+    getJSONP(callurl, "ajax_deal");
+}
+
+function ajax_deal(data){
+    if(data.s) {
+        var old=data.ac+"_"+data.page;
+        var act;
+        if(data.ac=="docu") act="文档";
+        else act="案例";
+        var len=$(data.ac).value;
+        if(data.page*per<len) end_old=data.page*per;
+        else end_old=len;
+        var content=act+"第"+((data.page-1)*per+1)+"--"+end_old+"条导入完成";
+        $(old).innerHTML=content;
+        
+        var ac=$('stamp').value;
+        if(data.page==Math.ceil(len/per))
+        {
+            if(ac=="docu")
+            {
+                $('stamp').value="case";
+                $('index').value=1; 
+                var newInfo = infoTable.insertRow(-1);
+                var otd = document.createElement("td"); 
+                otd.innerHTML = "<span>文档导入完成</span> "; 
+                newInfo.appendChild(otd); 
+            }else{
+                var newInfo = infoTable.insertRow(-1);
+                var otd = document.createElement("td"); 
+                otd.innerHTML = "<span>案例导入完成</span> "; 
+                newInfo.appendChild(otd); 
+                var newInfo = infoTable.insertRow(-1);
+                var otd = document.createElement("td"); 
+                otd.innerHTML = "<span>所有导入完成</span> "; 
+                newInfo.appendChild(otd);
+                return ;
+            }
+        }else{
+            $('index').value=++data.page; 
+        }
+        var ac_new=$('stamp').value;
+        var page_new=$('index').value;
+        var len_new=$(ac).value;
+        var start=(page_new-1)*per+1;
+        var end=len_new;
+        if(len>page_new*per) end=page_new*per;
+        var act_new;
+        if(ac_new=="docu") act_new="文档";
+        else act_new="案例";
+        infoTable=$('info');
+       	var newInfo = infoTable.insertRow(-1);
+	    //newInfo.id = ac_new+"_"+page_new;
+        var otd = document.createElement("td"); 
+        otd.innerHTML = "<span id=\""+ac_new+"_"+page_new+"\">正在导入"+act_new+"第"+start+"-"+end+"条</span> "; 
+        newInfo.appendChild(otd); 
+        }
+        deal();
+}
+</script>
+<!--{/if}-->
+<!--{if $soure=='course'}-->
+<body>
+<div id="setper" style="display: ">
+<input type="text" name="per_set" id="per_set" value="" />
+<button id="button1" name="button1" type="button" onclick="javascript:setper();"><b>开始</b></button>
+</div>
+<input type="hidden" name="course" id="course" value="$len[course]" />
+<input type="hidden" name="per" id="per" value="50" />
+<input type="hidden" name="index" id="index" value="1" />
+<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
+<div id="postbox">
+<table id="info" border="0" cellspacing="0" cellpadding="0" class="tfm">
+<tr><td><span>总共需要导入课程$len[course]条。</span></td></tr>
+</table>
+</div>
+</body>
+<script type="text/javascript" charset="utf-8">
+function setper(){
+	var per_set=$('per_set').value;
+	if(!per_set) return false;
+	$('per').value=per_set;	
+	$('setper').style.display='none';
+	deal();
+}
+
+function add_Row(index,start,end){
+	infoTable=$('info');
+   	var newInfo = infoTable.insertRow(-1);
+    var otd = document.createElement("td"); 
+    otd.innerHTML = "<span id=\"course_"+index+"\">正在导入课程第"+start+"-"+end+"条</span> "; 
+    newInfo.appendChild(otd); 	
+}
+
+function change(index,start,end){
+	var old="course_"+index;
+	var content="课程第"+start+"--"+end+"条导入完成";
+    $(old).innerHTML=content;
+}
+
+function deal(){
+	var per=$('per').value;
+    var fid=$('fid').value;
+    var index=$('index').value;
+    var len=$('course').value;
+
+    var start=(index-1)*per+1;
+    var end=index*per;
+
+    if(start>len){
+    	infoTable=$('info');
+   	 	var newInfo = infoTable.insertRow(-1);
+     	var otd = document.createElement("td"); 
+     	otd.innerHTML = "<span>课程导入完成</span> "; 
+     	newInfo.appendChild(otd);
+     	return ; 
+    }
+    if(len<end) end=len;
+    add_Row(index,start,end);
+    var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid="+fid+"&plugin_name=shresourcelist&plugin_op=createmenu&shresourcelist_action=import_kc&start="+start+"&end="+end;
+    getJSONP(callurl, "ajax_deal");
+}
+
+function ajax_deal(data){
+	var per=$('per').value;
+    var index=$('index').value;
+    var len=$('course').value;
+    if(data.s) {
+    	change(index,data.start,data.end);
+        $('index').value=++index;
+    }
+        deal();
+}
+</script>
+<!--{/if}-->

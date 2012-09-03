@@ -1,0 +1,16 @@
+<!--{loop $listdata $item}-->
+ <div class="module cl xld mbn mtn questdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+ 	<table>
+ 		<tr>
+ 			<td>
+ 				<div class="mtm mlwgroup mrwgroup">
+	 				<a href="{$item[url]}" title="{$item[name]}" target="_blank" class="xs2">{$item[name]}</a>
+	 				<p class="ptm pns">
+						<button type="button" onclick="window.open('{$item[url]}');" class="pn pnbr"><em>参与</em></button>
+					</p>
+				</div>
+ 			</td>
+ 		</tr>
+ 	</table>
+</div>
+<!--{/loop}-->

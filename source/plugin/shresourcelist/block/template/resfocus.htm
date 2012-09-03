@@ -1,0 +1,45 @@
+<div id="{$resblockid}" class="module cl xld resdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<dl class="cl mbm">
+    	<div class="reHeight mbn">
+       		<dd class="y" style="margin:3px 0 0 12px;">
+            	<a href="{$top[titlelink]}" target="_blank" class="diyavt"><img src="{$top[imglink]}" alt="" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}"></a>
+        	</dd>
+        	<dt><a href="{$top[titlelink]}" title="{$top[title]}" target="_blank" class="xs2"><span class="xi2">[{$top[type]}]</span>&nbsp;{$top[title]}</a></dt>
+        	<dd class="xg1 clmb">{$top[uploaddate]}</dd>
+        	<dd class="mtn">{$top[about]}</dd>
+    	</div>
+    	<dd class="hm z brsgroup" style="padding-right:10px"><em class="xi2 xs3"><!--{if $top[readnum]>999 }-->999+<!--{else}-->{$top[readnum]}<!--{/if}--></em><br /><span class="xg1">浏览数</span></dd>
+    	<dd class="hm z" style="padding:0 10px;"><em class="xi2 xs3">{$top[averagescore]}</em><br /><span class="xg1">平均分</span></dd>
+    	<dd class="oneLine mbn xg1" style="position: relative;" title="{$top[fixobject]}"><span class="replaced tag_properUser mrngroup" style="position: absolute;">适用对象</span>适用对象&nbsp;{$top[fixobject]}</dd>
+    	<dd class="oneLine xg1" style="position: relative;" title="{$top[orgname]}"><span class="replaced tag_upOrg mrngroup" style="position: absolute;">上传机构</span>上传机构&nbsp;{$top[orgname]}</dd>
+	</dl>
+	<hr class="da">
+    <ul class="xl mtn">
+    	<!--{loop $listdata $item}-->
+    	<li>
+			<em class="xg1">{$item[uploaddate]}</em>
+			<a href="{$item[url]}" title="{$item[title]}" target="_blank"><span class="xi2">[{$item[type]}]</span>&nbsp;{$item[title]}</a>
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	var nodes = document.getElementById("{$resblockid}").getElementsByTagName("dl");
+	for (var i = 0; i < nodes.length; i++) {
+		var divNode = nodes[i].getElementsByTagName("div");
+		var ddNodes = nodes[i].getElementsByTagName("dd");
+		var length = divNode[0].offsetWidth - ddNodes[ddNodes.length-4].offsetWidth - ddNodes[ddNodes.length-3].offsetWidth - 10;
+		ddNodes[ddNodes.length-2].style.width = length + "px";
+		ddNodes[ddNodes.length-1].style.width = length + "px";
+		
+		for (var k = ddNodes.length-4; k < ddNodes.length-2; k++) {
+			var childNodes = ddNodes[k].childNodes;
+			for (var j = 0; j < childNodes.length; j++) {
+				if(childNodes[j].nodeType == 3) {
+					ddNodes[k].removeChild(childNodes[j]);
+				}
+			}
+		}
+	}
+</script>

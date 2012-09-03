@@ -1,0 +1,102 @@
+<div class="mn">
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/lecturermanage/js/lecturer_common.js?{VERHASH}"></script>
+
+<div class="pxjs" style="width: auto;">
+<div class="pxjs_nr1"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="pxjs_table">
+  <tr>
+    <td colspan="2" align="left">
+	<div class="jsjj">
+	<dl>
+	<dd><p class="dtx">
+	<!--{if !$lecturer[imgurl]}-->
+	<!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->
+		<img src="static/image/images/def_lecturer.png" class="lbimg" />
+		<!--{if $lectureruid}--></a><!--{/if}-->
+	<!--{else}-->
+	<!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->
+		<img src="$lecturer[imgurl]" width="117" height="117" />
+		<!--{if $lectureruid}--></a><!--{/if}-->
+	<!--{/if}-->
+	</p></dd>
+	<dt><span class="a"><!--{if $lectureruid}--><a href="home.php?mod=space&uid=$lectureruid"><!--{/if}-->$lecturer[name]<!--{if $lectureruid}--></a><!--{/if}--></span><!--{if $lecturer[isinnerlec]=='1'&&$lectureruid}-->(<a href="home.php?mod=space&uid=$lectureruid" style="color:#999999">查看讲师个人空间</a>)<!--{/if}--></dt>
+	<dt>
+		<!--{if $lecturer['gender']==1}-->
+		男
+		<!--{elseif $lecturer['gender']==2}-->
+		女
+		<!--{else}-->
+		保密
+		<!--{/if}-->
+	</dt>
+	<dt>$lecturer['orgname']<!--{if $lecturer['isinnerlec']==1}-->-内训师<!--{/if}--></dt>
+	<dt>$lecturer['position']</dt>
+	</dl>
+	</div>
+	</td>
+    </tr>
+  <tr>
+    <td width="18%" align="right" valign="top"><strong>简介</strong></td>
+    <td width="82%">$lecturer['about']</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>授课方向</strong></td>
+    <td><!--{if $lecturer['teachdirection']==1}-->
+		领导力发展与管理类
+		<!--{elseif $lecturer['teachdirection']==2}-->
+		营销类
+		<!--{elseif $lecturer['teachdirection']==3}-->
+		技术类
+		<!--{elseif $lecturer['teachdirection']==4}-->
+		通用类
+		<!--{else}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <!--{if $lecturer['isinnerlec']==1}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td><!--{if $lecturer['rank']==1}-->
+		集团级
+		<!--{elseif $lecturer['rank']==2}-->
+		省级
+		<!--{elseif $lecturer['rank']==3}-->
+		地市级
+		<!--{elseif $lecturer['rank']==4}-->
+		其他
+		<!--{else}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>已授学院课程</strong></td>
+    <td>$lecturer['courses']</td>
+  </tr>
+  <!--{elseif $lecturer['isinnerlec']==2}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td><!--{if $lecturer['rank']==1}-->
+		客座教授
+		<!--{elseif $lecturer['rank']==2}-->
+		荣誉教授
+		<!--{elseif $lecturer['rank']==3}-->
+		专家教授
+		<!--{elseif $lecturer['rank']==4}-->
+		讲师
+		<!--{/if}-->
+	</td>
+  </tr>
+  <!--{/if}-->
+</table>
+
+</div>
+<!--{if $_G['forum']['ismoderator']}-->
+	<span style="float:right;">
+	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=viewmenu&diy=&lecid=$lecturer[id]&lecturer_action=edit">编辑</a>|
+	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=groupmenu&diy=&lecid=$lecturer[id]&lecturer_action=delete">删除</a>
+	</span>
+	<!--{/if}-->
+</div>

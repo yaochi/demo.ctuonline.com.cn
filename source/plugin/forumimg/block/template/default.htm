@@ -1,0 +1,14 @@
+<div  <!--{if $parameter[blockheight] != 0}-->style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{if $_G['forum']['banner']}-->
+	<?php
+
+		$forum_img = $_G['forum']['banner'];
+		if(!stripos($_G['forum']['banner'],"group/")){
+
+			$forum_img = $_G['setting']['attachurl'] . 'group/' .$_G['forum']['banner'];
+		}
+	
+	?>
+	<img src="{$forum_img}" width="625" height="150" alt="" />
+	<!--{/if}-->
+</div>

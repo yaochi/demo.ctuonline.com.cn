@@ -1,0 +1,169 @@
+<div class="mifm_mask xw1 xs2"><img src="{IMGDIR}/loading.gif" class="mrngroup"/>发布中...</div>
+<div class="mifm" style="z-index: 99;">
+	<div id="mifm_navi">
+		<a href="javascript:mifmOpen('doingAdv');" id="editor_switch" class="y mlmgroup">高级功能</a>
+		<div class="pss y" style="display: none;">
+			<a href="javascript:;" onclick="setPssValue(this, 'anonymity');">
+				<span>公开发布</span>
+				<ul class="op0">
+					<li optval="0">公开发布</li>
+					<li optval="-1">匿名发布</li>
+				</ul>
+			</a>
+		</div>
+		<ul id="mifm_navilist">
+			<li><a href="javascript:mifmOpen('doing');" id="ar_doing"><span class="icn_doing"></span>记录</a></li><li style="display: none;"><a href="#" id="ar_help"><span class="icn_help"></span>提问</a></li><li><a href="home.php?mod=spacecp&ac=doc&op=select&fchannel=xmenua" id="ar_doc" onclick="showWinCover(this.id, this.href, 'get', 0);"><span class="icn_doc"></span>文档</a></li><li><a href="javascript:mifmOpen('share')" id="ar_share"><span class="icn_share"></span>分享</a></li><li><a href="javascript:mifmOpen('pic')" id="ar_pic"><span class="icn_pic"></span>图片</a></li><li><a href="javascript:mifmOpen('video')" id="ar_video"><span class="icn_video"></span>视频</a></li><!--<li><a href="javascript:mifmOpen('music')" id="ar_music"><span class="icn_music"></span>音乐</a></li>-->
+		</ul>
+	</div>
+	<form method="post" autocomplete="off" id="addPostForm" enctype="multipart/form-data" onsubmit="mifmSubmit(); return false;">
+		<div id="mifm_container">
+			<input type="text" name="titleinput" id="titleinput" class="xg0" />
+			<textarea name="msginput" id="msginput" lang="zh-cn" class="xg0">{lang doing_you_can}</textarea>
+			<a href="javascript:mifmClose();" id="mifm_close"></a>
+			<div id="imageinput"><p class="xg0"></p></div>
+			<div id="videoinput"></div>
+			<div id="videoinputminor"><p class="xg0"></p></div>
+			<input type="text" name="linkinput" id="linkinput" class="xg0" />
+		</div>
+		<p id="mifm_notice" class="mtm"></p>
+		<div id="atcontainer" style="display:none;"><input type="text" name="atinput" value="用户" class="xg0" /></div>
+		<div id="tagcontainer" style="display:none;"><input type="text" name="taginput" value="标签" class="xg0" /></div>
+		<input type="submit" name="addsubmit_btn" id="addsubmit_btn" value="{lang publish}" disabled="disabled" />
+		<input type="hidden" name="anonymity" value="0" />
+		<input type="hidden" name="addsubmit" value="true" />
+		<input type="hidden" value="true" name="blogsubmit">
+		<input type="hidden" name="spacenote" value="true" />
+		<input type="hidden" name="referer" value="home.php" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="atjson" style="width: 100%;" />
+	</form>
+	<div id="return_mifm" style="display: none;"></div>
+	<div class='acwrapper'></div>
+</div>
+
+
+<script type="text/javascript">
+	var published = false;
+	var mifmLastOpen;
+	var scriptLoaded = {"msginput": false, "kindeditor": false, "swfupload": false, "swfhandlers": false};
+	var msgstrPending = false;	//是否需要向发布框添加@专区
+	var msgstrPendingParam = {"msgstr": "", "fid": 0};
+	
+	jQuery("textarea[name=msginput]").on("focus", quickOpen);
+	
+	function mifmOpen(target) {
+		if(target != mifmLastOpen) {
+			var func = "mifm_" + target + "Open()";
+			func += ';jQuery("textarea[name=msginput]").data("open","'+target+'");';
+			
+			if(scriptLoaded.msginput) {
+				jQuery.globalEval(func);
+			} else {
+				jQuery("#msginput").val("打开中...");
+				jQuery.getScript('static/js/home_msginput.js', function() {
+					scriptLoaded.msginput  = true;
+					jQuery.globalEval(func);
+				});
+			}
+		}
+	}
+	
+	function mifmClose() { 
+		jQuery.globalEval("mifm_" + mifmLastOpen + "Close(1)");
+	}
+	
+	function quickOpen() {
+		mifmOpen("doing");
+	}
+	
+	function succeedhandle_mifm(url, msg, values) {
+		jQuery(".mifm_mask").stop();
+		jQuery(".mifm_mask").css("opacity", 0);
+		jQuery(".mifm_mask").css("display", "none");
+		published = true;
+		load_feed(flag,0,1,'','','','',true);
+		currNum++;
+		mifmClose();
+		try {
+			if(REPEATID > 0) {
+				jQuery("#flnums .flnum:eq(1)").text(parseInt(jQuery("#flnums .flnum:eq(1)").text())+1);
+			} else {
+				jQuery("#flnums .flnum:last").text(parseInt(jQuery("#flnums .flnum:last").text())+1);
+			}			
+		} catch(e) {};
+	}
+	
+	function errorhandle_mifm(url, msg, values) {
+		jQuery(".mifm_mask").stop();
+		jQuery(".mifm_mask").css("opacity", 0);
+		jQuery(".mifm_mask").css("display", "none");
+		published = false;
+		showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>" + url + "</span>", 3000);
+	}
+	
+	/* 监听自动添加@事件 */
+	jQuery(document).on("autoAddAt", "#ffp a", function() {
+		if(mifmLastOpen != null) {	//如果有输入新值，不改变@专区
+			var old_msginput = msgstrPendingParam.msgstr;
+			var msginput = jQuery("textarea[name=msginput]").val();
+			if (msginput != mifmData[mifmLastOpen].msgstr
+				&& msginput.length > old_msginput.length
+				&& msginput.indexOf(old_msginput)>-1)
+				return false;
+		}
+
+		msgstrPendingParam.msgstr = "@" + jQuery(this).attr("title") + " ";
+		msgstrPendingParam.fid = jQuery(this).data("id");
+		
+		if(mifmLastOpen == null) {
+		//	msgstrPending = true;
+		} else {
+		//	msgstrPending = false;
+			var msgobj = jQuery("textarea[name=msginput]");
+			msgobj.removeClass("xg0");
+			addAtGroup(msgstrPendingParam, msgobj);
+			//msgobj.val(msgstrPendingParam.msgstr);
+			//showLimitedGroupNotice(msgstrPendingParam.fid);
+		}
+	});
+	
+	function addAtGroup(o, msgobj) {
+		jQuery.getJSON("api/blog/api_forum.php?fid=" + o.fid, function(data){
+			if(data && data.message == 1) {
+				msgobj.val(o.msgstr);
+			}else{
+				msgobj.val('');
+			}
+		});
+	}
+
+	function showLimitedGroupNotice(fid) {
+		jQuery.getJSON("api/blog/api_forum.php?fid=" + fid, function(data){
+			if(data && data.message != 1) {
+				jQuery("#mifm_notice").show();
+				jQuery("#mifm_notice").text("提示: " + msgstrPendingParam.msgstr.replace("@", "") + "为封闭专区 您发表的内容将被所有人可见");
+			}else {
+				jQuery("#mifm_notice").hide();
+				jQuery("#mifm_notice").text('');
+			}
+		});
+	}
+	
+	function checkGroupLink() {
+		jQuery('#ffp a.xi2&.xw1').each(function(){
+			if (jQuery(this).data('type') && jQuery(this).data('type') == 'group') {
+				
+				msgstrPendingParam.msgstr = "@" + jQuery(this).attr("title") + " ";
+				msgstrPendingParam.fid = jQuery(this).data("id");
+				
+				var msgobj = jQuery("textarea[name=msginput]");
+				msgobj.removeClass("xg0");
+				addAtGroup(msgstrPendingParam, msgobj);
+				//msgobj.val(msgstrPendingParam.msgstr);
+				//showLimitedGroupNotice(msgstrPendingParam.fid);
+
+			}
+		});
+	}
+	
+</script>

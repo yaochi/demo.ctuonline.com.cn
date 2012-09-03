@@ -1,0 +1,90 @@
+﻿{subtemplate common/header}
+<link href="template/default/mobileapp/css/css.css" rel="stylesheet" type="text/css" />
+<script src="template/default/mobileapp/js/js.js" type="text/javascript"></script>
+<div id="pt" class="wp">
+<a class="nvhm" href="http://www.myctu.cn">中国电信网上大学</a>
+›
+<a href="mobileapp.php">移动学习应用</a>
+</div>
+<div class="wp">
+	<div class="wp cl"><img src="template/default/mobileapp/image/ydindex_03.jpg" width="970" height="196" /></div>
+	<div class="wp" style="padding-top:17px;">
+		<div class="ydsy_z">
+			<div class="ydsy_zbt"><span>热门下载</span></div>
+				
+				<div class="ydsy_znr box1">
+<dl>
+<!--{loop $hotlist[items] $value}-->
+<dd style="height: 66px;">
+<a target="_blank" title="$value[name]" href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]">
+<span style="display: none;" class="title1"><i class="a1"></i><em class="mark">$value[name]</em><em class="subMark">下载量：301055次</em></span>
+<p style="display: block;" class="fc">
+<img src="$value[logoURL]" alt="$value[name]" width="48" height="48" border="0">
+	<em class="fontBox">
+		<strong>$value[name]</strong>
+		<span>下载量:301055次</span>	</em></p>
+</a>
+<a style="display: block;" href="#" class="dl"></a>
+</dd>
+<!--{/loop}-->
+<p class="clear"></p>
+</dl>
+
+
+</div>
+				
+			<div class="ydsy_zj"></div>
+		</div>
+		<div class="ydsy_y">
+			<div class="ydsy_ybt">  
+				<ul class="ulline">
+				<li id="one1" onclick="setTab('one',1,3)" class="hover">微课</li>
+				<li id="one2" onclick="setTab('one',2,3)" >电子书</li>
+				<li id="one3" onclick="setTab('one',3,3)">应用</li> 
+				</ul>
+			</div>
+			<div class="ydsy_ynr">
+				<div id="con_one_1" style="display: block;">
+					<ul>
+					<!--{loop $list1[items] $value}-->
+						<li>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsImg"><img src="$value[logoURL]" width="70" height="70" border="0" /></a>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsName">$value[name]</a>
+							<span class="goodsType"><a href="mobileapp.php?mod=list&category_id=m001">微课</a> - <a href="#">英语</a></span>
+							<p class="goodsIntro">$value[shorDescription]</p>
+					  </li>
+					  <!--{/loop}-->
+					</ul>
+			  </div>
+				<div id="con_one_2" style="display: none;">
+					<ul>
+						<!--{loop $list2[items] $value}-->
+						<li>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsImg"><img src="$value[logoURL]" width="70" height="70" border="0" /></a>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsName">$value[name]</a>
+							<span class="goodsType"><a href="mobileapp.php?mod=list&category_id=m002">电子书</a> - <a href="#">英语</a></span>
+							<p class="goodsIntro">$value[shorDescription]</p>
+					  </li>
+					  <!--{/loop}-->
+					</ul>
+				</div>
+			  <div id="con_one_3" style="display: none;">
+					<ul>
+						<!--{loop $list3[items] $value}-->
+						<li>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsImg"><img src="$value[logoURL]" width="70" height="70" border="0" /></a>
+							<a href="mobileapp.php?mod=detail&id=$value[id]&version=$value[version]" class="goodsName">$value[name]</a>
+							<span class="goodsType"><a href="mobileapp.php?mod=list&category_id=m003">应用</a> - <a href="#">英语</a></span>
+							<p class="goodsIntro">$value[shorDescription]</p>
+					  </li>
+					  <!--{/loop}-->
+					</ul>
+				</div>
+				<div class="clear"></div>
+		  </div>
+		  <div class="ydsy_yj"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+{subtemplate common/footer}

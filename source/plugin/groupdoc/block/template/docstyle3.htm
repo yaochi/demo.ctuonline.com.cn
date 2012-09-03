@@ -1,0 +1,12 @@
+<div class="module cl drlistdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul>
+    	<!--{loop $listdata $item}-->
+        	<li>
+				<a href="{$item[url]}" target="_blank" class="avt"><img src="{$item[img]}" alt="{$item[title]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}"></a>
+				<p class="mtn xw1">
+					<a href="{$item[url]}" title="{$item[title]}" target="_blank" class="xs1">{$item[shorttitle]}</a>
+				</p>
+			</li>
+		<!--{/loop}-->
+	</ul>
+</div>

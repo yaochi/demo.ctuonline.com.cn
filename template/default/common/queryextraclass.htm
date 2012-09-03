@@ -1,0 +1,89 @@
+{template common/header}
+<script type="text/javascript">
+	function selectclass(){
+	var classid = document.getElementsByName("classid");
+	var val = "";
+	for(var i=0; i<classid.length; i++){
+		if(classid[i].checked){
+			val='<p><input type="hidden" name="classids[]" id="classids[]" value="'+classid[i].value+'" /><a href="javascript:;" onclick="deleteorg(this)" class="delicn y" title="删除此选项"></a>'+classid[i].title+'<div class="clear"></div></p>';
+		}
+	}
+	$("extraclass").innerHTML=$("extraclass").innerHTML+val;
+	hideWindow("classwindow");
+}
+</script>
+<div id="main_messaqge">
+    <h3 class="flb" id="fctrl_query" style="cursor: move;">
+<em id="returnmessage4" fwin="query">查找课程</em>
+<span>
+<a title="关闭" onclick="hideWindow('classwindow')" class="flbc" href="javascript:;">关闭</a></span>
+</h3>
+<div class="usd">
+<ul class="cl tbx">
+<li>
+<p>按课程名查找</p>
+<p class="mtn">
+<input type="text" autocomplete="off" value="" class="px" id="classname1" size="25" name="classname1" fwin="query">
+</p>
+</li>
+<li>
+<div style=" padding-top:18px; padding-left:5px;" class="tbx">
+<span class="a brs" onclick="queryclass()">查找课程</span>
+</div>
+</li>
+</ul>
+
+</div>
+
+
+
+
+<div class="czyh" style="width:400px;">
+<!--{if $classs}-->
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<th class="moderate"></th>
+<th class="lectName">课程名称</th>
+</tr>
+<!--{loop $classs $k $class}-->
+<tr class="line<!--{eval echo($k%2)}-->">
+<td class="moderate"><span><input type="radio" value="$class[id]" class="pc" name="classid" title="$class[name]" ></span></td>
+<td class="lectName"><a href="#">$class[name]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<div class="pgs cl bm mtm">$multipage</div>
+
+<!--{elseif $name}-->
+<p class="hm mtw mbw"><span class="xg1">找不到相应资源</span><br />
+<a id="class_create" href="forum.php?mod=group&action=plugin&fid=$fid&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexclass1&" onclick="showWindow(this.id, this.href, 'get', 0, 1);hideWindow('classwindow');">点击以推荐课程...</a></p>
+<!--{else}-->
+<!--{/if}-->
+</div>
+
+<p class="o pns"><button value="yes" name="querysubmit" onclick="selectclass()" class="pn pnc" type="submit"><strong>确定</strong></button></p>
+
+</div>
+</div>
+<script>
+	function queryclass(){
+		var classname=document.getElementById('classname1');
+		if(trim(classname.value).length<=0){
+			showDialog("请输入你要查询的课程名称");
+			return false;
+		}
+		var classnamevalue=encodeURIComponent(classname.value);
+		url = "misc.php?mod=queryextraclass"+"&fid="+$fid+"&name="+classnamevalue;
+		showWindow('classwindow', url, 'get', 0);
+		//var x = new Ajax();
+		//x.get(,function(s){
+			//	 alert(s);
+		//});
+	}
+	function queryteachercallback(s){
+		;
+	}
+	</script>
+{template common/footer}

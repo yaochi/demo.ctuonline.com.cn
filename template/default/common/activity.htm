@@ -1,0 +1,25 @@
+<h2 class="title xs2">活动组件</h2>
+
+    <div class="appl cl">
+        <ul>
+			<li <!--{if $action == 'index'}-->class="a"<!--{/if}-->><a href="forum.php?mod=activity&amp;fid=$_G[fid]#groupnav" title="">{lang home}</a></li>
+		    <!--{if $_G['forum']['ismoderator'] || $groupfmanager[uid] == $_G['uid']}--><li <!--{if $action == 'manage'}-->class="a"<!--{/if}-->><a href="forum.php?mod=activity&amp;action=manage&amp;fid=$_G[fid]#groupnav">管理活动</a></li><!--{/if}-->
+		    <!--{if CURMODULE == 'group'}-->{hook/group_nav_extra}<!--{else}-->{hook/forumdisplay_nav_extra}<!--{/if}-->
+        </ul>
+    </div>
+
+	<hr class="da" />
+
+	<div class="appl cl">
+        <ul>
+			
+			<!--{loop $_G["group_plugins"]["group_available"]["groupmenu"] $id $item}-->
+            <!--{if $id!='groupad'}-->
+            <li onmouseout="this.className=''" onmouseover="this.className='hvr'">
+                <a href="forum.php?mod=activity&action=plugin&fid=$_G[fid]&plugin_name=$id&plugin_op=groupmenu">
+                    <img alt="" src="static/image/plugins/$id.gif" width="16" height="16">$item["menu"]</a>
+            </li>
+            <!--{/if}-->
+            <!--{/loop}-->
+		</ul>
+</div>

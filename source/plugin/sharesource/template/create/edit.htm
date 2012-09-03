@@ -1,0 +1,173 @@
+<!--{template common/header}-->
+<script language="javascript" type="text/javascript"
+	src="source/plugin/sharesource/assets/js/my97datepicker/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript"
+	src="source/plugin/sharesource/assets/js/sharesource.js"></script>
+<link rel="stylesheet"
+	href="source/plugin/sharesource/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a>
+&rsaquo; <a href="group.php">专区</a> &rsaquo; <a
+	href="forum.php?mod=group&fid={$_G[fid]}">$_G[forum][name]</a>&rsaquo;
+<a
+	href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu">课程分享</a></div>
+<div class="cl"></div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<div id="plgnav" class="bbsgroup"><a id="backbtn"
+	href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=sharesource&plugin_op=groupmenu"
+	class="z">返回列表</a></div>
+
+
+<div class="mainbg">
+
+<form action="{eval echo join_plugin_action('alter')}" method="post"
+	onsubmit="return validate();" enctype="multipart/form-data"><input
+	name="id" value="$detail[id]" type="hidden" /> <input name="uid"
+	value="$detail[uid]" type="hidden" /> <input name="regname"
+	value="$detail[regname]" type="hidden" /> <input name="realname"
+	value="$detail[realname]" type="hidden" />
+<table id="classtable" cellspacing="0" cellpadding="0" border="0"
+	class="tfm tablezykd">
+
+	<tr>
+		<td colspan="4" align="left" class="lasttd">
+		<h3 class="mlmgroup mtn mbn">分享人信息<span style="color:red;">(*全为必填项）</h3>
+		</td>
+	</tr>
+
+	<tr>
+		<th>姓名</th>
+		<td class='w'><input type="text" value="$detail[contactor]"
+			size="20" id="contactor" name="contactor" class="px" /></td>
+		<th>联系方式</th>
+		<td class='w lasttd'><input type="text"
+			value="$detail[contactway]" size="20" id="contactway"
+			name="contactway" class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>省份</th>
+		<td class='w'><input type="text" value="$detail[province]"
+			size="20" id="province" name="province" class="px" /></td>
+		<th>本地网</th>
+		<td class='w lasttd'><input type="text" value="$detail[dept]"
+			size="20" id="dept" name="dept" class="px" /></td>
+	</tr>
+
+	<tr>
+		<td colspan="4" align="left" class="lasttd">
+		<h3 class="mlmgroup mtn mbn">咨询（培训）公司信息</h3>
+		</td>
+	</tr>
+
+	<tr>
+		<th>名称</th>
+		<td class='w'><input type="text" value="$detail[companyname]"
+			size="20" id="companyname" name="companyname" class="px" /></td>
+		<th>联系方式</th>
+		<td class='w lasttd'><input type="text"
+			value="$detail[companyway]" size="20" id="companyway"
+			name="companyway" class="px" /></td>
+	</tr>
+
+	<tr>
+		<td colspan="4" align="left" class="lasttd">
+		<h3 class="mlmgroup mtn mbn">课程信息<span style="color:red;">(*全为必填项）</h3>
+		</td>
+	</tr>
+
+	<tr>
+		<th>课程名称</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[coursename]" size="20" id="coursename"
+			name="coursename" class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>课程分类</th>
+		<td colspan="3" valign="top" class="lasttd"><select id="category"
+			name="category" class="ps">
+			<option value="0"<!--{if $detail[category]==0}-->
+			selected="selected"<!--{/if}-->>未选择</option>
+			<option value="1"<!--{if $detail[category]==1}-->
+			selected="selected"<!--{/if}-->>领导力与管理类</option>
+			<option value="2"<!--{if $detail[category]==2}-->
+			selected="selected"<!--{/if}-->>营销力与专业类</option>
+			<option value="3"<!--{if $detail[category]==3}-->
+			selected="selected"<!--{/if}-->>通用类</option>
+		</select></td>
+	</tr>
+
+	<tr>
+		<th>培训对象</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[trainobj]" size="20" id="trainobj" name="trainobj"
+			class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>讲师姓名</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[lecturer]" size="20" id="lecturer" name="lecturer"
+			class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>讲师简介</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[lecturerinfo]" size="20" id="lecturerinfo"
+			name="lecturerinfo" class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>培训时间</th>
+		<td colspan="3" valign="top" class="lasttd"><input id="start"
+			name="start" value="$detail[start]" type="text"
+			onClick="WdatePicker()" readonly />~<input id="end" name="end"
+			type="text" value="$detail[end]" onClick="WdatePicker()" /><span
+			style="color:red;">(*如果课程在一天内进行的，只需要填写开始日期）</span></td>
+	</tr>
+
+	<tr>
+		<th>培训时长</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[time]" id="time" name="time" size="5" />课时</span></td>
+	</tr>
+
+	<tr>
+		<th>课程优势</th>
+		<td colspan="3" valign="top" class="lasttd"><textarea class="pt"
+			id="advantage" name="advantage" cols="40" rows="3">$detail[advantage]</textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>课程局限</th>
+		<td colspan="3" valign="top" class="lasttd"><textarea
+			name="defect" cols="30" rows="3" id="defect" class="pt">$detail[defect]</textarea>
+		</td>
+	</tr>
+
+	<tr>
+		<th>满意度评估</th>
+		<td colspan="3" valign="top" class="lasttd"><input type="text"
+			value="$detail[degree]" id="degree" name="degree" size="5" />分.<span
+			style="color:red;">(*请填写0-5之间的数,如4.5）</span></td>
+	</tr>
+
+	<tr>
+		<th>体会与建议</th>
+		<td colspan="3" class="lasttd">
+		<p><span style="color:red;"><strong>*</strong>体会与建议长度不得小于5</span></p>
+		<textarea rows="6" cols="30" class="pt" id="exp" name="exp">$detail[exp]</textarea>
+		</td>
+	</tr>
+</table>
+<div class="btnarea">
+<button type="submit" class="pn pnc" name="button"><em>修改</em></button>
+</div>
+</form>
+</div>
+</div>
+<!--{template common/footer}-->

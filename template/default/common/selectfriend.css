@@ -1,0 +1,38 @@
+.clearfix{zoom:0;}
+.clearfix:after{content:'.';display:block;visibility:hidden;clear:both;height:0px;}
+#selectfriend{float:left;border:1px solid #808080;width:95%;line-height:19px;font-size:12px;margin:5px 0 10px 5px;}
+#selectfriend .shaw{float:left;width:99.8%;border:1px #fff solid;border-right:0;padding-top:1px;}
+#selectfriend .fribox{cursor:text;float:left;width:350px;border-top:1px #fff solid;border-left:1px #fff solid;position:relative;left:1px;}
+#selectfriend .fribox .fri{background:#E0E5EE;	display:block;	border:1px solid #CCD5E4;	float:left;	margin:1px 5px 1px 0;	padding:0 5px;	_padding:3px 5px 2px 5px;list-style:none;display:block;white-space: nowrap;}
+#selectfriend .fribox .fri img{border:0;cursor: pointer;}
+#selectfriend .fribox input{line-height:19px;width:30px;border:1px solid #fff;float:left;outline:none;}
+#selectfriend a.selbtn{display:block;width:16px;height:16px;float:right;margin:3px 3px 0;padding:3px 3px 0;background:url(static/image/home/xx_xx1.gif) no-repeat center;cursor:pointer;}
+#selectfriend a.on{display:block;width:16px;height:16px;float:right;margin:3px 3px 0;padding:3px 3px 0;cursor:pointer;background:url(static/image/home/xx_xs1.gif) no-repeat center;}
+#selectfriend .frisel a:hover.select{background:url(static/image/home/xx_xx2.gif) no-repeat center;}
+.default,.autobox{background:#EEEEEE; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; color: #666666; width: 220px; border-color:#98B1C8 #7F7F7F #7F7F7F #98B1C8;border-style:solid;border-width:1px 3px 3px 1px;padding:2px 5px;position:absolute;}
+.autobox{background:#fff;}
+.autobox div{width:98%;;margin:1px;padding:3px 0;cursor:text;background:#fff;border:1px solid #fff;border-bottom:1px solid #cccccc;}
+.frisel{float:right;position:relative;right:1px;}
+.frisel .allfriend{background:#FFFFFF;border:1px solid #98B1C8;padding:2px;position:absolute;right:-3px;width: 310px;display:none;}
+.frisel .allfriend ul {margin:0;padding:0;float:right;width: 300px; height: 100px; overflow-y: scroll; overflow-x: hidden;}
+.frisel .allfriend ul li{float:left;list-style:none; display:block; width:100%;white-space: nowrap;text-align:left;list-style:none;background:#FFFFFF;border-bottom:1px solid #EEEEEE;color:#666666;height:20px;padding:5px 10px;}/*zzm*/
+.frisel .allfriend ul li input{ margin-right:3px;}/*zzm*/
+.frisel .allfriend .sgt_on {background:#F2F6FB;border-bottom:1px solid #EEEEEE;color:#000000;height:20px;padding:2px 5px;}
+.frisel .allfriend .l {float:left;}
+.frisel .allfriend .r {float:right;padding-right: 20px;}
+.frisel .allfriend .sgt_of {background:#FFFFFF;border-bottom:1px solid #EEEEEE;color:#666666;height:20px;padding:2px 5px;}
+.p5{padding:5px;}
+.gbs1 {border:1px solid #E2E2E2;float:right;}
+.gb1-12, .gb2-12 {
+	background:#E5E5E5 none repeat scroll 0 0;
+	border-color:#FFFFFF #6A6A6A #6A6A6A #FFFFFF;
+	border-style:solid;
+	border-width:1px;
+	color:#333333;
+	cursor:pointer;
+	font-size:12px;
+	height:23px;
+	padding:3px 5px
+}
+.gb2-12{background:#dddddd;}
+.output{float:left;width:90%;font-size:12px;margin:10px 0 0 10px;}

@@ -1,0 +1,43 @@
+<div class="module cl appcdiym<!--{if $type != 'admin1' && $type != 'admin2'}--> full<!--{/if}-->">
+	<!-- {if $type == 'creater'} -->
+		<a class="btn_admin" href="forum.php?mod=group&action=manage&fid={$_G[fid]}#groupnav">
+			<span class="leftCap"></span><span class="RightCap"></span><div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+	<!-- {elseif $type == 'admin1'} -->
+		<a class="btn_exit z" href="javascript:;" onclick="showDialog('退出专区您在此专区中的经验值将不被保留。确定要退出该专区吗？', 'confirm', '', function(){location.href='forum.php?mod=group&action=out&fid={$_G[fid]}'})" onload="appcdiymBtnWidthAdjust(this);">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+		<a class="btn_admin" href="forum.php?mod=group&action=manage&fid={$_G[fid]}#groupnav">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+		<script type="text/javascript">
+			var parentWidth = jQuery(".btn_exit.z").parent().width();
+			jQuery(".btn_exit.z").width(parentWidth/2);
+		</script>
+	<!-- {elseif $type == 'admin2'} -->
+		<a class="btn_join z" href="forum.php?mod=group&action=join&fid={$_G[fid]}">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+		<a class="btn_admin" href="forum.php?mod=group&action=manage&fid={$_G[fid]}#groupnav">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+		<script type="text/javascript">
+			var parentWidth = jQuery(".btn_join.z").parent().width();
+			jQuery(".btn_join.z").width(parentWidth/2);
+		</script>
+	<!-- {elseif $type == 'member'} -->
+		<a class="btn_exit" href="javascript:;" onclick="showDialog('退出专区您在此专区中的经验值将不被保留。确定要退出该专区吗？', 'confirm', '', function(){location.href='forum.php?mod=group&action=out&fid={$_G[fid]}'})">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+	<!-- {elseif $type == 'notmember'} -->
+		<a class="btn_join" href="forum.php?mod=group&action=join&fid={$_G[fid]}">
+			<span class="leftCap"></span><span class="RightCap"></span>
+			<div class="repeatDIV"><div class="btnText"></div></div>
+		</a>
+	<!-- {/if} -->
+</div>

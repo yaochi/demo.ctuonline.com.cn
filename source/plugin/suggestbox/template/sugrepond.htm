@@ -1,0 +1,265 @@
+<link rel="stylesheet" type="text/css"
+	href="data/cache/style_{STYLEID}_home_space.css?{VERHASH}" />
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="source/plugin/notice/js/notice_common.js?{VERHASH}"></script>
+<!-- CUSTOM -->
+<link rel="stylesheet"
+	href="source/plugin/suggestbox/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/suggestbox/assets/js/learning.js?{VERHASH}"></script>
+
+<div class="mn">
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu" class="z">返回列表</a>
+	<div id="toolbar">
+		<!--  <h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>-->
+	</div>
+</div>
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=create'">
+			<p class="sb_title">我要建议</p>
+		</div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=passsuggest'">
+			<p class="sb_title">智慧结晶</p>
+		</div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(1);
+
+</script>
+	<div class="bm bbsgroup promptbg">
+		<p class="mtm">
+          	<table>
+		<tr>
+		<td><span class="rq">亲爱的学员：</span></td><td>为更好地为您提供学习力服务，请您对添翼振翅运营提出宝贵意见，采纳即奖励100学习力积分！</td>
+			</tr>
+			 </table>
+		</p>
+	</div>
+
+<div class="mainbg">
+<h3 class="mlmgroup mtn mbn">提交人信息<span style="color:red;">(均为必填项，通过审核，获得100积分)</span></h3>
+
+<div class="h pbn bbs mtm mbm">
+<form
+	action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=suggestbox&plugin_op=createmenu&suggestbox_action=saveUpdate"
+	method="post" id="forum1" onsubmit="return validate_update(this);">
+<input type="hidden" name="suggestid" id="suggestid"
+	value="$suggest['suggestId']">
+	<input type="hidden" name="uid" id="uid"
+	value="$suggest['uid']">
+<table width="97%" id="classtable" cellspacing="0" cellpadding="0"
+	border="1" class="tfm tablezykd" frame="hsides" style="">
+	<tr>
+		<th width="13%">姓名</th>
+		<td width="37%"><input type="text" value="$suggest['name']" size="20"
+			id="name" name="name" class="px" readonly></td>
+		<th width="13%">网大帐号</th>
+		<td width="37%"><input type="text" value="$suggest['regname']"
+			size="20" id="regname" name="regname" class="px" readonly /></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$suggest['corpname']" size="20"
+			id="corpname" name="corpname" class="px" /></td>
+		<th>部门名称</th>
+		<td><input type="text" value="$suggest['deptname']" size="20"
+			id="deptname" name="deptname" class="px" /></td>
+	</tr>
+
+	<tr>
+		<th>职务</th>
+		<td><input type="text" value="$suggest['duty']" size="20"
+			id="duty" name="duty" class="px"  /></td>
+		<th>联系手机</th>
+		<td><input type="text" value="$suggest['telephone']"
+			size="20" id="telephone" name="telephone" class="px"></td>
+	</tr>
+
+	<tr>
+		<th>意见</th>
+		<td colspan="3" valign="top" width="87%"><textarea class="pt" id="suggest"
+			name="suggest" cols="40" rows="5" >{echo $suggest['suggest']}</textarea>
+
+  <div style="background-color:#FFF4DD;color: #FF6600;font-size:12px;line-height:190%;">完善建议</div>
+
+		<p id="learnchievoptionid" width="10%">
+		<!--{loop $replys $key $reply}-->
+
+         <!--{if $reply[isadmin]==0}-->
+		<li style="list-style-type:none;padding-left:5px;">
+			<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($reply["replydateline"])}</span>
+			<strong style="color:#ff8c00;"><!--{eval echo user_get_user_name_by_username($reply[authorer]);}--></strong> &nbsp; <img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px; color:#ff8c00;">$reply[replmessage]</div>
+
+		</li>
+		<!--{else}-->
+		<li style="list-style-type:none;padding-left:5px;">
+			<span style="display:inline-block; width:96px; color:#666;">{eval echo dgmdate($reply["replydateline"])}</span>
+			<strong><!--{eval echo user_get_user_name_by_username($reply[authorer]);}--></strong> &nbsp; <img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$reply[replmessage]</div>
+
+		</li>
+		<!--{/if}-->
+
+		<!--{/loop}-->
+		</p>
+
+		<!--{if $_G['forum']['ismoderator']==1}-->
+		<input type="hidden" name="isadmin" id="isadmin"
+	value="0">
+	    <!--{else}-->
+	    <input type="hidden" name="isadmin" id="isadmin"
+	value="1">
+		<!--{/if}-->
+		<textarea class="pt" id="replmessage" name="replmessage"
+			cols="5" rows="2"></textarea>
+
+		</td>
+	</tr>
+
+
+</table>
+
+<div class="btnarea">
+<!--{if $_G['forum']['ismoderator']==1}-->
+<!--{if $_G['uid']==$suggest['uid']}-->
+<button type="submit" class="pn pnc" name="button" onClick=""><em>保存修改</em></button>
+<!--{else}-->
+<button type="button" class="pn pnc" name="button" onClick="amend()"><em>保存修改</em></button>
+<!--{/if}-->
+<button type="button" class="pn pnc" name="button" onClick="send()"><em>发送提醒</em></button>
+<button type="button" class="pn pnc" name="button" onClick="review()"><em>采纳建议</em></button>
+<!--{/if}-->
+<input type="hidden" value="savepost" id="savepost" name="savepost">
+<!--{if $_G['forum']['ismoderator']!=1}-->
+<!--{if $_G['uid']==$suggest['uid']}-->
+<button type="submit" class="pn pnc" name="button" onClick=""><em>保存修改</em></button>
+<button type="submit" class="pn pnc" name="button" onClick="savePut()"><em>再次提交</em></button>
+<!--{/if}-->
+<!--{/if}-->
+</div>
+</form>
+
+
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+function validate_update(obj){
+  var corpname=$('corpname');
+  var  newcorpname=corpname.value.replace(/^\s+|\s+$/g,"");
+
+ if(newcorpname=="")
+  {
+		showDialog("请填入公司名称！");
+		corpname.focus();
+		return false;
+  }
+    var deptname=$('deptname');
+    var  newdeptname=deptname.value.replace(/^\s+|\s+$/g,"");
+   if(newdeptname=="")
+  {
+		showDialog("请填入部门名称！");
+		deptname.focus();
+		return false;
+  }
+ var duty=$('duty');
+     var  newduty=duty.value.replace(/^\s+|\s+$/g,"");
+   if(newduty=="")
+  {
+		showDialog("请填入职务名称！");
+		duty.focus();
+		return false;
+  }
+  var telephone=$('telephone');
+  var  newtelephone=telephone.value.replace(/^\s+|\s+$/g,"");
+     if(newtelephone=="")
+  {
+		showDialog("请填入手机号码或联系电话！");
+		telephone.focus();
+		return false;
+  }
+ var suggest=$('suggest');
+  var  newsuggest=suggest.value.replace(/^\s+|\s+$/g,"");
+   if(newsuggest=="")
+  {
+		showDialog("请填写意见或建议！");
+		suggest.focus();
+		return false;
+  }
+}
+
+function validate_reply(obj){
+     var replmessage=$('replmessage');
+   if(replmessage.value=="")
+  {
+		showDialog("回复内容不能为空！");
+		replmessage.focus();
+		return false;
+  }
+
+}
+
+function review(){
+var suggestid=$('suggestid').value;
+showWindow('reviewwindow','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=suggestbox&plugin_op=createmenu&suggestbox_action=review&suggestid='+suggestid);
+
+}
+function amend(){
+	var suggestid =$('suggestid').value;
+	var replmessage=$('replmessage').value;
+	var  isadmin=$('isadmin').value;
+	if(replmessage==""){
+	return;
+	}
+	var carclurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=createmenu"+"&"+"suggestbox_action=saveRespond"+"&"+"suggestid="+suggestid+"&"+"isadmin="+isadmin+"&"+"replmessage="+encodeURI(replmessage);
+      getJSONP(carclurl,"replydata");
+	}
+
+	function replydata(data){
+	if(data.data==1){
+	    window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=sugrepond"+"&"+"suggestid="+data.suggestid;
+
+	}
+	}
+function send(){
+	var suggestid =$('suggestid').value;
+	var uid =$('uid').value;
+	var suggest=$('suggest').value;
+	var replmessage=$('replmessage').value;
+
+	var callurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=sengSuggestMessage"+"&"+"suggestid="+suggestid+"&"+"uid="+uid+"&"+"suggest="+encodeURI(suggest)+"&replmessage="+encodeURI(replmessage);
+	window.location.href=callurl;
+	}
+function successsend(data){
+if(data.s){
+showDialog("成功发送提醒！");
+ window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=index";
+}
+}
+function savePut(){
+var action="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=createmenu"+"&"+"suggestbox_action=savePut";
+ $('forum1').action=action;
+
+}
+</script>
+</div>

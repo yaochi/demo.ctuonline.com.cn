@@ -1,0 +1,132 @@
+</div>
+<!--{if empty($topic) || ($topic[usefooter])}-->
+	{eval $focusid = getfocus_rand($_G[basescript]);}
+	<!--{if $focusid !== null}-->
+		{eval $focus = $_G['cache']['focus']['data'][$focusid];}
+		<div class="focus" id="focus">
+			<h3 class="flb">
+				<em><!--{if $_G['cache']['focus']['title']}-->{$_G['cache']['focus']['title']}<!--{else}-->{lang focus_hottopics}<!--{/if}--></em>
+				<span><a href="javascript:;" onclick="setcookie('nofocus_$focusid', 1, 86400);$('focus').style.display='none'" class="flbc" title="{lang close}">{lang close}</a></span>
+			</h3>
+			<hr class="l" />
+			<div class="detail">
+				<h4><a href="{$focus['url']}" target="_blank">$focus['subject']</a></h4>
+				<p>
+					<!--{if $focus[image]}-->
+					<a href="{$focus['url']}" target="_blank"><img src="{$focus['image']}" onload="thumbImg(this, 1)" _width="58" _height="58" /></a>
+					<!--{/if}-->
+					$focus['summary']
+				</p>
+			</div>
+			<hr class="l" />
+			<a href="{$focus['url']}" class="moreinfo" target="_blank">{lang focus_show}</a>
+		</div>
+	<!--{/if}-->
+
+	{ad/footerbanner/wp a_f/1}{ad/footerbanner/wp a_f/2}{ad/footerbanner/wp a_f/3}
+	{ad/float/a_fl/1}{ad/float/a_fr/2}
+	{ad/couplebanner/a_fl a_cb/1}{ad/couplebanner/a_fr a_cb/2}
+
+	{hook/global_footer}
+	<div id="ft" class="wp cl">
+		<div id="flk" class="y">
+			<p>
+                <a href="home.php?mod=space&uid=<!--{eval echo getOfficialBlogUid();}-->">官方博客</a><span class="pipe">|</span>
+				<a href="javascript:;" id="allProvs">各省链接</a><span class="pipe">|</span>
+				<a href="help.php?id=contactus" target="_blank">服务中心</a><span class="pipe">|</span>
+				<a href="help.php" target="_blank">帮助</a>
+				<!--{if $_G['uid'] && (stripos($_SERVER['PHP_SELF'], 'group.php')||stripos($_SERVER['PHP_SELF'], 'forum.php')||stripos($_SERVER['PHP_SELF'], 'home.php'))}--><span class="pipe">|</span><a href="javascript:;" onclick="showWindow('miscreport', 'misc.php?mod=report&url=$_G[currenturl_encode]');return false;">{lang report_current_page}</a><!--{/if}-->
+				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+				{hook/global_footerlink}
+			</p>
+			<!--{if debuginfo()}-->
+			<!--Use white color to hide the information-->
+			<p class="xs0" style="color: white;">
+				{lang time_now}, <span id="debuginfo">Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}-->{if $_G['memory']}, {echo ucwords($_G['memory'])} On{/if}</span>.
+			</p>
+			<!--{/if}-->
+		</div>
+		<div id="frt">
+			<p>Copyright &copy; 2012 <a href="http://www.myctu.cn" target="_blank">China Telecom Online University.</a>&nbsp;All rights reserved.</p>
+			<p>
+				<!--{if $_G['setting']['icp']}-->
+				<a href="http://www.miibeian.gov.cn/" target="_blank">$_G['setting']['icp']</a>
+				<!--{/if}-->
+				Protected by <span id="kslogo" class="replaced">知道创宇</span>
+			</p>
+		</div>
+		<div id="allProvs_menu">
+			<div id="elaUp"></div>
+			<ul class="exLinksPanel portal piped">
+				<li class="elpL"></li>
+				<li class="exLinks"><a href="http://g.myctu.cn/sh" target="_blank" class="first">上海</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/333821/index.html" target="_blank">江西</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/31464/index.html" target="_blank">安徽</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/19350/index.html" target="_blank">福建</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/34548/index.html" target="_blank">广东</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/31431/index.html" target="_blank">海南</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/41023/index.html" target="_blank">湖南</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/310491/index.html" target="_blank">重庆</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/102223/index.html" target="_blank">湖北</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/172337/index.html" target="_blank">四川</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/60327/index.html" target="_blank">云南</a></li>
+				<li class="exLinks"><a href="http://www.ctuonline.com.cn/www/htmlresource/cms/244420/index.html" target="_blank" class="last">陕西</a></li>
+				<li class="elpR"></li>
+			</ul>
+		</div>
+		{eval updatesession();}
+	</div>
+<!--{/if}-->
+
+<!--{if $_G[uid] && !isset($_G['cookie']['checkpm'])&&$_G['cookie']['expert_Is']!=true}-->
+<script type="text/javascript" src="home.php?mod=spacecp&ac=pm&op=checknewpm&rand=$_G[timestamp]"></script>
+<!--{/if}-->
+
+<!--{if $_GET['diy'] == 'yes' && ($_G[mod] == 'topic' || ($_G[group][allowdiy] || $_G['forum']['ismoderator'])) && (empty($do) || $do != 'index') && !empty($_G['style']['tplfile'])}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}portal_diy.js?{VERHASH}"></script>
+<!--{/if}-->
+<!--{if $_GET['diy'] == 'yes' && $space['self'] && $_G[mod] == 'space' && $do == 'index'}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}space_diy.js?{VERHASH}"></script>
+<!--{/if}-->
+{eval output();}
+<script type="text/javascript" charset="utf-8">
+	var timeoutProcess1;
+	var timeoutProcess2;
+
+	if(BROWSER.ie) { 
+		var nv = $("nv");
+		if(nv){
+			var ul = nv.getElementsByTagName("ul");
+			if (ul.length>0 && ul[0] && ul[0].lastChild) ul[0].lastChild.style.background = "none"; 
+		}
+	}
+	
+	$("elaUp").style.marginLeft = getLeft($("allProvs")) - getLeft($("ft")) + 17 + "px";
+	
+	attachEventListener($("allProvs"), "mouseover", function() {
+		if($("allProvs_menu").style.display != "block") {
+			fadeIn($("allProvs_menu"), 150);
+		}
+	}, false);
+	
+	attachEventListener($("allProvs"), "mouseout", function() {
+		timeoutProcess1 = setTimeout(function() {
+			fadeOut($("allProvs_menu"), 150)
+		}, 2000);
+	}, false);
+	
+	attachEventListener($("allProvs_menu"), "mouseover", function() {
+		clearTimeout(timeoutProcess1);
+		clearTimeout(timeoutProcess2);
+	}, false);
+	
+	attachEventListener($("allProvs_menu"), "mouseout", function() {
+		timeoutProcess2 = setTimeout(function() {
+			fadeOut($("allProvs_menu"), 150)
+		}, 2000);
+	}, false);
+</script>
+</body>
+</html>

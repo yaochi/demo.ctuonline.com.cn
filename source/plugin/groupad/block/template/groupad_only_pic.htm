@@ -1,0 +1,14 @@
+<!--广告：图片（横幅）-->
+<div class="module cl"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+		<!--{if $item['isSelf']}-->
+        <a href="{$item['url']}" target="_blank" style="float: left; margin: 5px;">
+            <img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}" alt="">
+        </a>
+		<!--{else}-->
+		<a href="{$item['url']}" style="float: left; margin: 5px;">
+            <img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}" alt="">
+        </a>
+		<!--{/if}-->
+	<!--{/loop}-->
+</div>

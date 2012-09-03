@@ -1,0 +1,646 @@
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_group_viewthread.css?{VERHASH}" />
+<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{IMAGEMAXWIDTH}';var aimgcount = new Array();</script>
+<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<div class="mn">
+
+<div id="plgnav" class="bbsgroup"><a id="backbtn"
+	href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=groupmenu&learning_action=optionreply" class="z">返回列表</a>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="stacoursepanel">
+
+<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+<p class="sb_title">我要提交</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+<p class="sb_title">意见回复</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+<p class="sb_title">成果展示</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+<p class="sb_title">学习力排行榜</p>
+</div>
+<div id="stationArrow"></div>
+
+<div class="stationSplit"></div>
+
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	posArrow(1);
+</script>
+
+<div class="mainbg">
+<div class="bm bbsgroup promptbg">
+<p class="mtm"><span class="rq">亲爱的学员：</span>为鼓励优秀经验的快速复制，只要您提交以下内容，即能赢取相应积分！
+	<p></p>
+	<!--{if $punlishnum > 0 && $punlishnum==1}-->
+<span class="rq">亲爱的学员：<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=viewmenu&learning_action=alter&learnid=$pubisharr[0][id]&tap=1&uid=$pubisharr[0][uid]&examinestatus=$pubisharr[0][examinestatus]"><span class="rq">“您有 $punlishnum 个待提交评估，点击完善”</span></a></span>
+	<!--{elseif $punlishnum>1}-->
+	<span class="rq">亲爱的学员：<a href="javaScript:showleawindow()"><span class="rq">“您有 $punlishnum 个待提交评估，点击完善”</span></a></span>
+	<!--{/if}-->
+</div>
+<div class="promptShadow"></div>
+
+<h3 class="mlmgroup mtn mbn">提交人信息<strong class="rq">(均为必填项，通过审核，获得100积分)</strong></h3>
+<form action="{eval echo join_plugin_action('modify')}" method="post"
+	id="forum1" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<table width="97%" id="classtable" cellspacing="0" cellpadding="0"
+	border="1" class="tfm tablezykd" frame="hsides">
+<!--{loop $learnmv $lear}-->
+	<input type="hidden" value="savepublishtype" id="savepublishtype"
+		name="savepublishtype" />
+	<input type="hidden" value="$lear[id]" id="learid" name="learid" />
+	<input type="hidden" value="$tap" id="tap" name="tap" />
+	<input type="hidden" value="$examstatus" id="examstatus"
+		name="examstatus" />
+	<input type="hidden" value="$lear[uid]" id="uid" name="uid" />
+	<tr>
+		<th>姓名</th>
+		<td><input type="text" value="$lear[subrealname]" size="20"
+			id="subrealname" name="subrealname" class="px" readonly></td>
+		<th>网大帐号</th>
+		<td><input type="text" value="$lear[subusername]"
+			size="20" id="subusername" name="subusername" class="px" readonly /></td>
+	</tr>
+
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$lear[subcompanyname]" size="20" id="subcompany"
+			name="subcompany" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}--> /></td>
+		<th>部门名称</th>
+		<td><input type="text" value="$lear[subdeptname]" size="20" id="subdept"
+			name="subdept" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->/></td>
+	</tr>
+
+	<tr>
+		<th>联系手机</th>
+		<td><input type="text" value="$lear[subtel]" size="20" id="subtel" name="subtel" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->></td>
+		<th>职务</th>
+		<td><input type="text" value="$lear[subPost]" size="20" id="subpost" name="subpost" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->/></td>
+   </tr>
+
+	<tr>
+		<th>学习来源</th>
+		<td colspan="3" valign="top" style="width:85%;">
+		<p class="exampleBtn">隐藏样例</p>
+		<!--{if $_G[uid]==$lear[uid]}--><p class="filebtn xi2"><a href="javascript:;" onclick="learnviewuploadWindow(function (aid, url){learnviewupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',1,$lear[id])},'',1,$lear[id])">附件上传</a></p><!--{/if}-->
+		<p><strong>*</strong>学习成果来源于“添翼振翅” 哪一期培训？</p>
+		<p class="example">例如：我学习了第33期“福建盛辉物流集团行业应用实战案例”。<br>
+		</p>
+		<textarea class="pt" id="learnsource" name="learnsource" cols="40"
+			rows="3" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->>$lear[learnsource]</textarea>
+			  <input type="hidden" value="$attachlist[0][aid]" id="sorceaid" name="sorceaid">
+			<!--{if !empty($attachlist)}-->
+			<div class="pattl mlwgroup mrwgroup">
+			<dl class="tattl">
+			<dt>$attachlist[0][filetype]</dt>
+             <dd>
+              <p  class="attnm">
+				<a href="home.php?mod=learnattachment{$is_archive}&aid={$attachlist[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attachlist[0][aid]" class="bold">$attachlist[0][filename]</a>
+			   ($attachlist[0][attachsize])
+			   </p>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="delAttach($lear[id],$attachlist[0][aid])" class="d" href="###">删除</a>
+              </dd>
+			</dl>
+                 <div class="attp" id="aid$attachlist[0][aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attachlist[0][dateline]</p>
+						<p>下载次数:&nbsp;$attachlist[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+			</div>
+		<!--{/if}-->
+
+		<h3 class="learpsth">完善建议</h3>
+		<div class="pstl">
+		<p class="unf" id="learnsourceoptionid">
+		<!--{if $learsorcearr}-->
+		<!--{loop $learsorcearr $sorce}-->
+				<!--{if $sorce[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$sorce[optionmessage]</div>
+				<!--{elseif $sorce[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong >$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$sorce[optionmessage]</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+		<!--{/if}-->
+		</p>
+		<textarea class="pt" id="learnsourceoption" name="learnsourceoption"
+			cols="3" rows="2"></textarea>
+		</div>
+</td>
+	</tr>
+	<tr>
+		<th>学习收获</th>
+		<td colspan="3" valign="top">
+		<p class="exampleBtn">隐藏样例</p>
+	    <!--{if $_G[uid]==$lear[uid]}--><p class="filebtn xi2"><a href="javascript:;" onclick="learnviewuploadWindow(function (aid, url){learnviewupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',2,$lear[id])},'',2,$lear[id])">附件上传</a></p><!--{/if}-->
+		<p><strong>*</strong>关于知识、技能、态度等有哪些收获？</p>
+		<p class="example">例如：通过培训，我掌握到福建公司已拥有成熟的物流平台技术,<br>
+		且有成功签单经验，并愿意提供各兄弟公司相互合作的模式。</p>
+		<textarea name="learnHarvest" cols="30" rows="3" id="learnHarvest"
+			class="pt" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->>$lear[learnHarvest]</textarea>
+			 <input type="hidden" value="$attharachlist[0][aid]" id="harvestaid" name="harvestaid">
+			<!--{if !empty($attharachlist)}-->
+			<div class="pattl mlwgroup mrwgroup">
+			<dl class="tattl">
+				<dt>$attharachlist[0][filetype]</dt>
+             <dd>
+             <p class="attnm">
+				<a href="home.php?mod=learnattachment&aid={$attharachlist[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlist[0][aid]">$attharachlist[0][filename]</a>
+				($attharachlist[0][attachsize])</p>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="delAttach($lear[id],$attharachlist[0][aid])" class="d" href="###">删除</a>
+             </dd>
+			</dl>
+			<div class="attp" id="aid$attharachlist[0][aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlist[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlist[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+				</div>
+			<!--{/if}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<p class="unf" id="learnHarvestoptionid">
+		<!--{if $learnharvestarr}-->
+		<!--{loop $learnharvestarr $harst}-->
+
+				<!--{if $harst[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($harst[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$harst[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$harst[optionmessage]</div>
+				<!--{elseif $harst[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($harst[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong>$harst[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$harst[optionmessage]</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+		<!--{/if}-->
+		</p>
+		<textarea class="pt" id="learnHarvestoption" name="learnHarvestoption"
+			cols="3" rows="2"></textarea>
+		</div>
+			</td>
+	</tr>
+
+
+	<tr>
+		<th>学习行为</th>
+		<td colspan="3" valign="top">
+		<p class="exampleBtn">隐藏样例</p>
+	    <!--{if $_G[uid]==$lear[uid]}--><p class="filebtn xi2"><a href="javascript:;" onclick="learnviewuploadWindow(function (aid, url){learnviewupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',3,$lear[id])},'',3,$lear[id])">附件上传</a></p><!--{/if}-->
+		<p><strong>*</strong>所学知识对您的行为有何影响？</p>
+		<p class="example">例如：训后，我联系到福建公司相关项目经理，与客户三方开展了为期5个月的合作探索，<br>
+		最终确定合作模式。其中：（1）一方负责提供硬件，另一方负责软件平台;<br>
+		（2）一方负责维护，另一方负责维护培训（3）一方提交需求，另一方对应开发和地图数据更新;<br>
+		（4）一方收取客户定位收入，另一方收取平台建设、开发费用、租费<br>
+		</p>
+		<textarea rows="3" cols="30" class="pt" id="learnaction"
+			name="learnaction" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->>$lear[learnaction]</textarea>
+			<input type="hidden" value="$attharachlistaction[0][aid]" id="actionaid" name="actionaid">
+			<!--{if !empty($attharachlistaction)}-->
+			<div class="pattl mlwgroup mrwgroup">
+           <dl class="tattl">
+				<dt>$attharachlistaction[0][filetype]</dt>
+             <dd>
+              <p class="attnm">
+		 <a href="home.php?mod=learnattachment{$is_archive}&aid={$attharachlistaction[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlistaction[0][aid]" class="bold">$attharachlistaction[0][filename]</a>
+				($attharachlistaction[0][attachsize])&nbsp;&nbsp;&nbsp;&nbsp;</p><a onclick="delAttach($lear[id],$attharachlistaction[0][aid])" class="d" href="###">删除</a>
+             </dd>
+             </dl>
+                 <div class="attp" id="aid$attharachlistaction[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlistaction[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlistaction[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+			</div>
+		<!--{/if}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<p class="unf" id="learnactionoptionid">
+		<!--{if $learnactiontarr}-->
+  				 <!--{loop $learnactiontarr $actionarr}-->
+
+				<!--{if $actionarr[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($actionarr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$actionarr[authorer]&nbsp;</strong>
+			<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$actionarr[optionmessage]</div>
+				<!--{elseif $actionarr[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($actionarr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong>$actionarr[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$actionarr[optionmessage]</div>
+				<!--{/if}-->
+					<!--{/loop}-->
+   			<!--{/if}-->
+		</p>
+		<textarea class="pt" id="learnactionoption" name="learnactionoption"
+			cols="3" rows="2"></textarea>
+		</div>
+			</td>
+	</tr>
+	<tr>
+		<th>学习成果</th>
+		<td colspan="3">
+		<p class="exampleBtn">隐藏样例</p>
+	   <!--{if $_G[uid]==$lear[uid]}--><p class="filebtn xi2"><a href="javascript:;" onclick="learnviewuploadWindow(function (aid, url){learnviewupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',4,$lear[id])},'',4,$lear[id])">附件上传</a></p><!--{/if}-->
+		<p><strong>*</strong>行为改变带来什么成果？</p>
+		<p class="example">例如：第一期拓展”两客一危“营运车辆3500户，年收入294万元；<br>
+		非“两客一危”车辆定位终端3000部，年收入180万元；总计收入约474万元，一年收回成本。</p>
+		<textarea rows="3" cols="30" class="pt" id="learnachievements"
+			name="learnachievements" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->>$lear[learnachievements]</textarea>
+			<input type="hidden" value="$attharachlisthievements[0][aid]" id="chievementsaid" name="chievementsaid">
+			<!--{if !empty($attharachlisthievements)}-->
+			<div class="pattl mlwgroup mrwgroup">
+                  <dl class="tattl">
+				<dt>$attharachlisthievements[0][filetype]</dt>
+             <dd>
+             <p class="attnm">
+		 <a href="home.php?mod=learnattachment{$is_archive}&aid={$attharachlisthievements[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlisthievements[0][aid]" class="bold">$attharachlisthievements[0][filename]</a>
+				($attharachlisthievements[0][attachsize])</p><a onclick="delAttach($lear[id],$attharachlisthievements[0][aid])" class="d" href="###">删除</a>
+             </dd>
+             </dl>
+                 <div class="attp" id="aid$attharachlisthievements[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlisthievements[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlisthievements[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+			</div>
+			<!--{/if}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<p class="unf" id="learnchievoptionid">
+		<!--{if $learnachievarr}-->
+  				 <!--{loop $learnachievarr $chev}-->
+				<!--{if $chev[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($chev[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$chev[authorer]&nbsp;</strong>
+			<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+			<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$chev[optionmessage]</div>
+				<!--{elseif $chev[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($chev[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong >$chev[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$chev[optionmessage]</div>
+				<!--{/if}-->
+					<!--{/loop}-->
+   			<!--{/if}-->
+   			</p>
+   			<textarea class="pt" id="learnachievoption" name="learnachievoption"
+			cols="3" rows="2"></textarea>
+		<div class="cl cm" id="learnsourcecomment">
+			<strong class="rq">信心指数:</strong>您觉得所取得的成果有<input type="text" value="$lear[confidenceindex]" id="confidenceindex" name="confidenceindex" size="3"/>%是由培训项目所贡献的.<span style="color:red;">(请填写1-100之间的整数）</span>
+		</div>
+			</td>
+	</tr>
+	<tr>
+		<th>学习名称</th>
+		<td colspan="3">
+		<p><strong>*</strong>为本次学习评估起标题，便于大家搜索、分享 。</p>
+		<textarea name="learnname" cols="30" rows="3" id="learnname"
+			class="pt" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->>$lear[learnname]</textarea>
+			<div class="cl cm" id="learnnam">
+                    <h3 class="learpsth">完善建议</h3>
+                    <div class="pstl">
+                    <p class="unf" id="learnnameoptionid">
+                    <!--{if $learnnamearr}-->
+                     <!--{loop $learnnamearr $learnamearr}-->
+
+				<!--{if $learnamearr[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($learnamearr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$learnamearr[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+					<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$learnamearr[optionmessage]</div>
+				<!--{elseif $learnamearr[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px; ">{eval echo dgmdate($learnamearr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong >$learnamearr[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$learnamearr[optionmessage]</div>
+				<!--{/if}-->
+					<!--{/loop}-->
+                    <!--{/if}-->
+                    </p>
+                    </div>
+                    <textarea class="pt" id="learnoptionname" name="learnoptionname"
+			cols="5" rows="2"></textarea>
+			</div>
+			</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+		<h3 class="mlmgroup mtn mbn">证明人信息<strong class="rq">(均为必填项，协助通过审核，获得30积分)</strong></h3>
+		</td>
+	</tr>
+
+	<tr>
+		<th>姓名</th>
+		<td><input type="text" value="$lear[Witnessrealname]" size="20" id="witnessrealname"
+			name="witnessrealname" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->></td>
+		<th>网大账号</th>
+		<td><input type="text" value="$lear[Witnessusername]" size="20"
+			id="witnessusername" name="witnessusername" class="px" onblur="changename()" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}--> /></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$lear[Witnesscompanyname]" size="20" id="witnesscompanyname"
+			name="witnesscompanyname" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->></td>
+		<th>部门名称</th>
+		<td><input type="text" value="$lear[Witnessdeptname]" size="20" id="witnessdeptname"
+			name="witnessdeptname" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->/></td>
+	</tr>
+	<tr>
+					<th>联系手机</th>
+					<td><input type="text" value="$lear[Witnesstel]" size="20" id="witnesstel" name="witnesstel" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}--> /></td>
+					<th>职务</th>
+					<td><input type="text" value="$lear[WitnessPost]" size="20" id="witnesspost" name="witnesspost" class="px" <!--{if $_G[uid]!=$lear[uid]}-->readonly<!--{/if}-->/></td>
+				</tr>
+					<!--{/loop}-->
+</table>
+</div>
+<div class="btnarea">
+<!--{if $_G['forum']['ismoderator']==1}-->
+		 <span style="color:red;">是否额外获得积分：</span>
+		 <input type="checkbox" name="chievementbox" id="chievementbox" value=""/>
+		 <p></p>
+	<button type="submit" class="pn pnc" name="button4" onClick="onsavepublish(4)"><em>保存</em></button>
+    <button type="button" onclick="sendmessage()" class="pn pnc"><em>发送提醒</em></button>
+	<button type="button" onclick="releaseclick()" class="pn pnc"><em>审批通过</em></button>
+<!--{else}-->
+<!--{if $examstatus==2}-->
+<button type="submit" class="pn pnc" name="button4" onClick="onsavepublish(1)"><em>保存修改</em></button>
+<button type="submit" class="pn pnc" name="button4" onClick="onsavepublish(2)"><em>再次提交</em></button>
+<!--{/if}-->
+<!--{/if}-->
+</div>
+</form>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript">
+var learid=$('learid').value;
+var tap=$('tap').value;
+var uid=$('uid').value;
+var subrealname=$('subrealname');
+var subusername=$('subusername');
+var subcompanyname=$('subcompany');
+var subdept=$('subdept');
+var subtel=$('subtel');
+var subpost=$('subpost');
+var examstatus=$('examstatus').value;
+var witnessusername=$('witnessusername');
+var witnessrealname=$('witnessrealname');
+var witnesscompanyname=$('witnesscompanyname');
+var witnessdeptname=$('witnessdeptname');
+var witnesspost=$('witnesspost');
+var witnesstel=$('witnesstel');
+var learnlesssource=$('learnsource');
+var learnHarvest=$('learnHarvest');
+var learnaction=$('learnaction');
+var learnachievements=$('learnachievements');
+var learnname=$('learnname');
+var learnsourceoption=$('learnsourceoption');
+var learnHarvestoption=$('learnHarvestoption');
+var learnactionoption=$('learnactionoption');
+var learnachievoption=$('learnachievoption');
+var learnoptionname=$('learnoptionname');
+var confidenceindex=$('confidenceindex');
+var sorceaid=$('sorceaid');
+var harvestaid=$('harvestaid');
+var actionaid=$('actionaid');
+var chievementsaid=$('chievementsaid');
+function validate_from(obj){
+var savetype=$('savepublishtype').value;
+if(subcompanyname.value==""){
+showDialog('请输入公司名称！');
+subcompanyname.focus();
+return false;
+}
+if(subdept.value==""){
+showDialog("请输入部门名称！");
+subdept.focus();
+return false;
+}
+if(subtel){
+var telstr=strlen(subtel.value);
+if(subtel<1){
+showmessage('请您输入的联系手机！');
+subtel.focus();
+}
+}
+if(subpost.value==""){
+showDialog('请输入部门名称！');
+subpost.focus();
+return false;
+}
+if(learnlesssource.value=="" && sorceaid.value==""){
+showDialog('请输入学习来源或上传附件');
+learnlesssource.focus();
+return false;
+}
+if(learnHarvest.value=="" && harvestaid.value==""){
+showDialog('请输入学习收获或上传附件');
+learnHarvest.focus();
+return false;
+}
+if(learnaction.value=="" && actionaid.value==""){
+showDialog('请输入学习行为或上传附件');
+learnaction.focus();
+return false;
+}
+
+if(learnachievements.value=="" && chievementsaid.value==""){
+showDialog('请输入学习成果或上传附件');
+learnachievements.focus();
+return false;
+}
+if(confidenceindex.value==""){
+showDialog('请填写您取得的成果的信心指数！');
+confidenceindex.focus();
+return false;
+}
+if(learnname.value==""){
+showDialog('请输入学习名称');
+learnname.focus();
+return false;
+}
+if(witnessrealname.value==""){
+showDialog('请输入证明人姓名！');
+witnessrealname.focus();
+return false;
+}
+if(witnessusername.value==""){
+showDialog('请输入证明人网大账号！');
+witnessusername.focus();
+return false;
+}
+if(witnesscompanyname.value==""){
+showDialog("请输入证明人的公司名称！");
+witnesscompanyname.focus();
+return false;
+}
+if(witnessdeptname.value==""){
+showDialog('请输入证明人的部门名称！');
+witnessdeptname.focus();
+return false;
+}
+if(witnesstel){
+var witnesstelstr=strlen(witnesstel.value);
+if(witnesstelstr<1){
+showDialog("请输入证明人的联系手机！");
+witnesstel.focus();
+return false;
+}
+}
+if(witnesspost.value==""){
+showDialog("请输入证明人的职务！");
+witnesspost.focus();
+return false;
+}
+}
+function winowclick(){
+showWindow('editlear', 'forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=createmenu&learning_action=editlearn&oper=editlearn&learid='+learid);
+}
+function releaseclick(){
+var rewardIntegral=0;
+if($('chievementbox').checked){
+rewardIntegral=100;
+showWindow('replywindow','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=createmenu&learning_action=reply&learid='+learid+'&uid='+uid
++'&subusername='+encodeURI(subusername.value)+'&subrealname='+encodeURI(subrealname.value)+'&tap='+tap+'&witnesscompanyname='+encodeURI(witnesscompanyname.value)+
+'&witnessrealname='+encodeURI(witnessrealname.value)+'&witnessusername='+encodeURI(witnessusername.value)+'&subcompanyname='+encodeURI(subcompanyname.value)+'&rewardIntegral='+rewardIntegral);
+}else{
+rewardIntegral=0;
+showWindow('replywindow','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=createmenu&learning_action=reply&learid='+learid+'&uid='+uid
++'&subusername='+encodeURI(subusername.value)+'&subrealname='+encodeURI(subrealname.value)+'&tap='+tap+'&witnesscompanyname='+encodeURI(witnesscompanyname.value)+
+'&witnessrealname='+encodeURI(witnessrealname.value)+'&witnessusername='+encodeURI(witnessusername.value)+'&subcompanyname='+encodeURI(subcompanyname.value)+'&rewardIntegral='+rewardIntegral);
+}
+}
+
+
+function proreplase(data){
+var uid=data.uid;
+var subrealname=data.subrealname;
+var subusername=data.subusername;
+if(data.is=='1'){
+showDialog('审批通过');
+showWindow('replywindow','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=createmenu&learning_action=reply&learid='+learid+'&uid='+uid+'&subusername='+subusername+'&subrealname='+subrealname+'&tap='+tap);
+}
+}
+function subreply(){
+var replymessage=$('replymessage');
+var cuurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=createmenu"+"&"+"learning_action=createreply"+"&"+"learid="+learid+
+    "&uid="+encodeURI(uid)+"&subusername="+encodeURI(subusername.value)+"&subrealname="+encodeURI(subrealname.value)+"&replymessage="+encodeURI(replymessage.value)+"&tap="+encodeURI(tap);
+getJSONP(cuurl,"subreplydata");
+}
+function onsavepublish(type){
+if(type==1){
+$('savepublishtype').value="savechange";//保存修改
+}if(type==2){
+$('savepublishtype').value="resubmit";//再次提交
+}if(type==4){
+$('savepublishtype').value="saveoption";//保存
+}
+}
+function saveoptiondata(data){
+var authorer=data.authorer;
+var optionmessage=data.optionmessage;
+var dataline=data.dataline;
+if(data.is){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=viewmenu&learning_action=optionview"+"&"+"learnid="+learid+"&tap="+tap+"&uid="+uid+"&examinestatus="+examstatus+"";
+learnsourceoption.focus();
+}
+if(data.type==2){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=viewmenu&learning_action=optionview"+"&"+"learnid="+learid+"&tap="+tap+"&uid="+uid+"&examinestatus="+examstatus+"";
+learnHarvestoption.focus();
+}
+if(data.type==3){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=viewmenu&learning_action=optionview"+"&"+"learnid="+learid+"&tap="+tap+"&uid="+uid+"&examinestatus="+examstatus+"";
+learnactionoption.focus();
+}
+if(data.type==4){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=viewmenu&learning_action=optionview"+"&"+"learnid="+learid+"&tap="+tap+"&uid="+uid+"&examinestatus="+examstatus+"";
+learnachievoption.focus();
+}
+}
+function sendmessage(){
+var learnsourceoption=$('learnsourceoption');
+var learnHarvestoption=$('learnHarvestoption');
+var learnactionoption=$('learnactionoption');
+var learnachievoption=$('learnachievoption');
+var learnoptionname=$('learnoptionname');
+var carurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu&learning_action=senglearnmessage&uid="+uid+"&learnname="+encodeURI(learnname.value)+"&learid="+learid+"&learnsourceoption="+encodeURI(learnsourceoption.value)
++"&learnHarvestoption="+encodeURI(learnHarvestoption.value)+"&learnactionoption="+encodeURI(learnactionoption.value)+"&learnachievoption="+encodeURI(learnachievoption.value)+"&learnoptionname="+encodeURI(learnoptionname.value);
+if(!confirm('请确认是否发送对学习名称完善建议的短信发送？')){
+  }else{
+   getJSONP(carurl,"sendmessagedata");
+  }
+}
+function sendmessagedata(data){
+if(data.s){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=optionreply";
+}
+}
+function resetclick(){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=optionreply";
+}
+function showfilewindow(learid,type){
+showWindow('uploadfile','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=groupmenu&learning_action=showupload&ajax=optionview&learid='+learid+'&type='+type);
+}
+function delAttach(learid,aid){
+if(!confirm('是否要删除附件!')){
+}else{
+var callurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=delattach"+"&"+"aid="+aid+"&learid="+learid;
+getJSONP(callurl,"delattachdata");
+}
+}
+function delattachdata(data){
+if(data.is==1){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin&fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=optionview"+"&"+"learnid="+data.learid;
+}
+}
+</script>
+<style>
+
+a:link {
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: none;
+}
+a:active {
+ text-decoration: none;
+}
+
+</style>

@@ -1,0 +1,33 @@
+<div class="module cl stacoursediym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<div style="height:32px; background:url(source/plugin/sharesource/assets/images/share_lan.gif) repeat-x; line-height:32px; color:#FFF; font-family:'微软雅黑';">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="90%" style="font-weight:bold; font-size:14px; padding-left:10px;">最热推荐</td>
+        <td width="10%" style=" text-align:center;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu" style="color:#FFF; font-size:14px;">more</a></td>
+      </tr>
+    </table>
+  </div>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-family:'微软雅黑'; font-size:12px;">
+    <tr>
+      <td width="40%" height="36" bgcolor="#F8F8F8" style="font-weight:bold; color:#555; text-indent:8px;">课程名称</td>
+      <td width="20%" height="36" bgcolor="#F8F8F8" style="font-weight:bold; color:#555;">讲师</td>
+      <td width="15%" height="36" bgcolor="#F8F8F8" style="font-weight:bold; color:#555;">分享人</td>
+      <td width="10%" height="36" bgcolor="#F8F8F8" style="font-weight:bold; color:#555; text-align:center;">评论数</td>
+      <td width="15%" height="36" bgcolor="#F8F8F8" style="font-weight:bold; color:#555;text-align:center;">最后回复</td>
+    </tr>
+
+	<!--{loop $list $key $share}-->
+    <tr>
+      <td height="30" style="border-bottom:1px dashed #d6d6d6; text-indent:8px;"><a target="_blank" href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=viewmenu&id={$share[id]}">{$share[coursename]}</a></td>
+      <td style="border-bottom:1px dashed #d6d6d6;">{$share[lecturer]}</td>
+      <td style="border-bottom:1px dashed #d6d6d6;">{$share[contactor]}</td>
+      <td style="text-align:center; border-bottom:1px dashed #d6d6d6;">{$share[commentnum]}</td>
+      <td style="border-bottom:1px dashed #d6d6d6; text-align:center;">
+      <!--{if $share[lastname]}-->{$share[lastname]}
+      <!--{else}-->—
+      <!--{/if}-->
+      </td>
+    </tr>
+    <!--{/loop}-->
+  </table>
+</div>

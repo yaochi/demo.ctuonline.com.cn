@@ -1,0 +1,154 @@
+<form action="{eval echo join_plugin_action('save')}" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+			<input type="hidden" name="createtype" value="1"/>
+			<input type="hidden" name="lectype" value="1"/>
+			<input type="hidden" name="aid" id="aid" tabindex="1" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td colspan="2" align="left">
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zwsj">
+  <tr>
+    <td colspan="2">您在成功提交申请后，将自动成为《培训师家园》的成员。</td>
+    </tr>
+  <tr class="a">
+    <td width="91" align="right">姓名：</td>
+    <td width="277">$userinfo[realname]</td>
+  </tr>
+  <tr class="a">
+    <td align="right">性别：</td>
+    <td>
+    	<!--{if $userinfo[gender]==1}-->
+		男
+		<!--{elseif $userinfo[gender]==2}-->
+		女
+		<!--{else}-->
+		保密
+		<!--{/if}-->
+    </td>
+  </tr>
+  <tr class="a">
+    <td align="right">工作单位：</td>
+    <td>$userinfo[company]</td>
+  </tr>
+</table>
+
+	</td>
+  </tr>
+  <tr>
+    <td width="7%" align="right"><span class="hongse">*</span>工作经历：</td>
+    <td width="93%">
+    	<textarea rows="3" cols="20" name="experience" id="experience" class="zybjan1"></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>授课经验：</td>
+    <td>
+	<p><textarea rows="3" cols="20" name="coursexperience" id="coursexperience" class="zybjan1"></textarea></p>
+	<p class="skjy">包括课程名称、授课特点</span></p>
+	</td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>照片：</td>
+    <td><label>
+		<div id="lecturerattach_image">
+		<!--{if $lecturer['attachment']}-->
+			<img class="lbimg" src="$lecturer[thumb]" />
+		<!--{/if}-->
+		</div>
+		<div><button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $lecturer[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button></div>
+		</label></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td class="hongse">自动缩略成120x120像素大小图片<br />
+      文件小于100KB<br />
+      可用扩展名JPG,GIF</td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>授课方向：</td>
+    <td><select name="teachdirection">
+        <option value="1">
+			领导力发展与管理类
+		</option>
+		<option value="2">
+			营销类
+		</option>
+		<option value="3">
+			技术类
+		</option>
+		<option value="4">
+			通用类
+		</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>联系电话：</td>
+    <td><input type="text" class="zybjan" name="tel" id="tel"/></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>Email：</td>
+    <td><input type="text" class="zybjan" name="email" id="email"/></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><input name="submit" type="submit" class="wjxx_an left" value="提交申请" /></td>
+  </tr>
+</table>
+</form>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+
+<script type="text/javascript">
+	function validate_from(obj) {
+		
+		var experience = $('experience');
+		if (experience) {
+			var slen = strlen(experience.value);
+			if (slen < 1 ) {
+				showDialog("请填写工作经历");
+				experience.focus();
+				return false;
+			}
+		}
+
+		var coursexperience = $('coursexperience');
+		if (coursexperience) {
+			var slen = strlen(coursexperience.value);
+			if (slen < 1 ) {
+				showDialog("请填写授课经验");
+				coursexperience.focus();
+				return false;
+			}
+		}
+
+		var tel = $('tel');
+		var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+		if (tel) {
+			var slen = strlen(tel.value);
+			if (slen < 1 || slen > 80||!patrn.exec(tel)) {
+				showDialog("请正确填写联系电话");
+				tel.focus();
+				return false;
+			}
+		}
+
+        var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1 || slen > 80||(!patrn.exec(email))) {
+				showDialog("请正确填写Email");
+				email.focus();
+				return false;
+			}
+		}
+
+		var aid = $('aid');
+		if (aid) {
+			var slen = strlen(aid.value);
+			if (aid<0) {
+				showDialog("请上传照片");
+				$('lecturerattach_image').focus();
+				return false;
+			}
+		}
+	}
+</script>

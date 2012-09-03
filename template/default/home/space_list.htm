@@ -1,0 +1,39 @@
+<!--{if $list}-->
+	<div class="xld xlda">
+		<!--{loop $list $key $value}-->
+		<!-- {if $value['uid']!=$_G['member']['uid']} --><!-- {/if} -->
+		<dl class="bbda cl">
+			<dd class="m avt"><a href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></dd>
+			<dt class="y">
+				<p class="xw0"><a href="home.php?mod=space&uid=$value[uid]">{lang visit_friend}</a></p>
+				<p class="xw0"><a href="home.php?mod=spacecp&ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang say_hi}">{lang say_hi}</a></p>
+				<p class="xw0"><a href="home.php?mod=spacecp&ac=pm&op=showmsg&handlekey=showmsg_$value[uid]&touid=$value[uid]&pmid=0&daterange=2" id="a_sendpm_$key" onclick="showWindow('showMsgBox', this.href, 'get', 0)">{lang send_pm}</a></p>
+				<!--{if isset($value['isfriend']) && !$value['isfriend']}--><p class="xw0"><a href="home.php?mod=spacecp&ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="showWindow('friend_$key', this.href, 'get', 0)" title="{lang add_friend}">{lang add_friend}</a></p><!--{/if}-->
+			</dt>
+			<dt>
+				<a href="home.php?mod=space&uid=$value[uid]" title="$value[username]"{eval g_color($value[groupid]);}>$listrealname[$value[uid]][realname]</a><br/>
+				$list[$value[uid]][org]<br/>
+				$list[$value[uid]][station]
+				<!--{if $ols[$value[uid]]}--><img src="{IMGDIR}/ol.gif" alt="online" title="{lang online}" class="vm" /> <!--{/if}-->
+			</dt>
+			<dd>
+				<p class="pbm">
+					
+					<!--{if $value['credits']}-->{lang credit_num}:$value[credits]<!--{/if}-->
+					<!--{if $value['videophotostatus']}-->&nbsp; {lang video_certification}<!--{/if}-->
+				</p>
+
+				<!--{if $value['friends']}--><p class="pbm">{lang friends_num}:$value[friends]</p><!--{/if}-->
+				<!--{if $value['lastactivity']}--><p class="pbm">{lang last_activity}:$value[lastactivity]</p><!--{/if}-->
+				<!--{if $value['show_credit']}--><p class="pbm">{lang show_credit}{$extcredits[$creditid][title]}:$value[show_credit] {$extcredits[$creditid][unit]}</p><!--{/if}-->
+				<!--{if $value['show_note']}--><p class="pbm">{lang show_credit_note}:$value[show_note]</p><!--{/if}-->
+				<!--{if $value[spacenote]}--><p class="pbm">$value[spacenote]</p><!--{/if}-->
+			</dd>
+		</dl>
+		
+		<!--{/loop}-->
+		<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+	</div>
+<!--{else}-->
+	<div class="emp">{lang no_members_of}</div>
+<!--{/if}-->

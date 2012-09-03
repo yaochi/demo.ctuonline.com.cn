@@ -1,0 +1,256 @@
+<!--Plugin list Nav-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=$mod&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;新建广告</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="sortbtn" class="iconbtn y pressed" href="#" onclick="changesort(this)"><img src="{IMGDIR}/esn/btn_sort.png" width="18" height="16" /></a>
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+            <!-- 筛选 Start -->
+          <tr id="nav_category">
+                <th>可用:</th>
+                <td class="piped">
+                   <!--{if $is_display==''}-->
+                   <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu" class="a">全部({$getcount})</a>
+                   <!--{else}-->
+                   <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu" >全部</a>
+                   <!--{/if}-->
+
+                   <!--{if $is_display=='1'}-->
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&is_display=1" class="a last">仅可用({$getcount})</a>
+                    <!--{else}-->
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&is_display=1" class="last">仅可用</a>
+                    <!--{/if}-->
+                </td>
+          </tr>
+
+          <!--{if $is_enable_category}-->
+          <tr id="nav_category">
+                <th>分类:</th>
+                <td class="piped">					
+                        <!--{if $ad_type==''}-->
+                        <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu" class="a">全部({$getcount})</a>
+                        <!--{else}-->
+                        <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu">全部</a>
+                        <!--{/if}-->
+						
+			<!-- {eval $num=count($categorys);$i=1} -->
+						 
+                        <!--{loop $categorys $category}-->
+                        <!--{if $ad_type==$category["id"]}-->
+                        <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&ad_type=$category['id']" class="a 
+						<!--{if $i==$num}-->
+						last
+						<!--{else}--> 
+						{eval $i=$i+1} 
+						<!--{/if}-->
+						">{$category["name"]} ({$getcount})</a>
+                        <!--{else}-->
+                        <a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&ad_type=$category['id']" class=" 
+						<!--{if $num==$i}-->
+						last
+						<!--{else}--> 
+						{eval $i=$i+1} 
+						<!--{/if}-->
+						">{$category["name"]}</a>
+                        <!--{/if}-->
+                        <!--{/loop}-->                     
+                </td>
+           </tr>
+           <!--{/if}-->
+		   <!-- 筛选 End-->
+           
+           <!-- 排序 Start -->
+          <tr id="nav_order">
+		    <th>排序:</th>
+		    <td class="piped">			
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&update_time=desc" <!--{if $update_time!=''}--> class="a" <!--{/if}--> >按创建时间</a>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&display_order=desc"  class="<!--{if $display_order!=''}-->a<!--{/if}--> last"  >按显示顺序</a>
+			</td>
+		  </tr>
+		  
+		  <tr id="nav_order_rule">
+		  	<th>规则:</th>
+		    <td class="piped">
+			
+				<!--{if $update_time=='desc'}-->
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&update_time=desc"  class="a" >最新</a>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&update_time=asc"  class="last">最旧</a>
+				<!--{/if}-->
+				
+				<!--{if $update_time=='asc'}-->
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&update_time=desc">最新</a></div>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&update_time=asc"  class=" a last">最旧</a>
+				<!--{/if}-->
+			
+				<!--{if $display_order=='desc'}-->
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&display_order=desc"  class="a" >从高到低</a>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&display_order=asc"  class=" last">从低到高</a>
+				<!--{/if}-->
+				
+				<!--{if $display_order=='asc'}-->
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&display_order=desc">从高到低</a>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=groupad&plugin_op=groupmenu&display_order=asc"  class=" a last">从低到高</a>
+				<!--{/if}-->
+				
+			</td>
+		  </tr>
+           <!-- 排序 End -->
+	</table>
+</div>
+<!-- filter & sort Panel end -->
+
+<form name="adform" class="bm" method="post" action="{eval echo join_plugin_action('list_update')}" id="adform" onsubmit="return checkform();">
+  <input type="hidden" name="formhash" value="3428f953" />
+  <input type="hidden" id="formscrolltop" name="scrolltop" value="" />
+  <input type="hidden" name="anchor" value="" />
+  <table class="tbcommon tb2 fixpadding">
+    <tr class="header">
+      <th></th>
+      <th class="td45">显示顺序<br /><span class="xg1">(仅限数字)</span></th>
+      <th>可用</th>
+      <th>标题</th>
+      <th>分类</th>
+      <th>样式</th>      
+      <th></th>
+    </tr>
+    
+    <!--{loop $adEntitys $adEntity}-->
+    <tr class="hover">      
+        <td class="td25"><input class="checkbox" type="checkbox" name="is_delete[{$adEntity[id]}][]" value="1" /></td>
+        <td class="td45"><input type="text" class="txt" size="3" maxlength="3" name="display_order[{$adEntity[id]}][]" value="{$adEntity[display_order]}" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="this.value=this.value.replace(/\D/g,'')"/></td>
+      <!--{if $adEntity[is_display]}-->
+        <td class="td25"><input class="checkbox" type="checkbox" name="is_display[{$adEntity[id]}][]" value="1" checked/></td>
+      <!--{else}-->
+        <td class="td25"><input class="checkbox" type="checkbox" name="is_display[{$adEntity[id]}][]" value="1" /></td>
+      <!--{/if}-->
+      <td class="td41">{$adEntity["title"]}</td>
+      <!--{if $is_enable_category}-->
+      <td>{$categorys[$adEntity["ad_type"]][name]}</td>
+      <!--{/if}-->
+      <td>{$adEntity["media_style"]}</td>
+      <td><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=groupad&plugin_op=createmenu&ad={$adEntity[id]}" class="act">编辑</a></td>
+      <td><input type="hidden" name="ad_id[]" value="{$adEntity[id]}" /></td>
+    </tr>
+    <!--{/loop}-->
+	
+    <tr>
+      <td class="td25"><input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll('prefix', this.form, 'delete')" />
+        <label for="chkall">删除</label></td>
+      <td colspan="15">
+        <div class="fixsel">
+            <button id="newspecial" class="pn pnc" type="submit" name="adsubmit">
+				<span>提交</span>
+			</button>
+        </div></td>               
+    </tr>
+    
+   <!--<script type="text/JavaScript">_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'advsubmit'); });</script>-->
+  </table>
+
+<!-- 分页 -->
+  <!--{if $multipage}-->
+  <div class="pgs cl">{$multipage}</div>
+  <!--{/if}-->
+<!-- 分页完 -->
+</form>
+<!-- JS Code-->
+<script src="static/js/common.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+// @zic from Discuz!X source code
+// 2010-8-4
+// 多行记录选中
+function checkAll(type, form, value, checkall, changestyle) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(type == 'option' && e.type == 'radio' && e.value == value && e.disabled != true) {
+			e.checked = true;
+		} else if(type == 'value' && e.type == 'checkbox' && e.getAttribute('chkvalue') == value) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle) {
+				multiupdate(e);
+			}
+		} else if(type == 'prefix' && e.name && e.name != checkall && (!value || (value && e.name.match(value)))) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle && e.parentNode && e.parentNode.tagName.toLowerCase() == 'li') {
+				e.parentNode.className = e.checked ? 'checked' : '';
+			}
+		}
+	}
+}
+/*
+ * @zic
+ * 2010-8-10
+ * 检查表单
+ */
+function checkform(){
+    var flag = true;
+	
+    // 取出“是否删除”的所有对象
+    var obj = getArrObj("is_delete");
+
+    // 判断是否勾选删除
+    flag = alertDelete(obj);
+    
+    //alert("in checkform, flag="+flag);
+    return flag;
+}
+
+/* 
+* 循环取出对象;
+*/
+function getArrObj(inputName){
+
+	// 取出
+	var obj = new Array();
+	<!--{loop $adEntitys $adEntity}-->
+	var tmp = inputName+"[{$adEntity[id]}][]";
+	obj.push(document.getElementsByName(tmp));
+	<!--{/loop}-->
+	
+	return obj;
+}
+
+// 有删除时提示
+// update 2010-08-26
+function alertDelete(obj){
+	var len = obj.length;
+	var flag = false;
+	
+	var i = 0;
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj.pop();
+		
+		// 判断每行首个元素是否勾选
+		if(objtmp.item(0).checked){			
+			// 如果取消删除，则清空删除	
+			flag = confirm('确定删除记录?');
+			
+			if(!flag){
+				objtmp.item(0).value = 0;
+				objtmp.item(0).checked = "";
+                                //var form = document.getElementsByName("adform");
+                                //checkAll('prefix', form, '');
+			}
+			//alert(objtmp.item(0).checked);
+			return flag;
+		}
+	}	
+	//alert("no delete Item");
+	return true;
+
+}
+
+</script>

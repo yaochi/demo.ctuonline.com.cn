@@ -1,0 +1,33 @@
+<div class="module cl stacoursediym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<div class="reHeight" style="padding-left: 65px; position: relative;">
+		<div class="icn avt z" style="left: 0; position: absolute;"><a href="home.php?mod=space"><img src="/uc_server/avatar.php?uid={$_G[uid]}&amp;amp;size=small"></a></div>
+		<p class="z">
+			<a href="home.php?mod=space" target="_blank"><span class="xs2" style="margin-left: 3px;">{$username}</span></a>
+			<!--{if $status==1}-->&nbsp;&nbsp;<span class="xs2 xg1 cl">&#91;{$station}&#93;</span><!--{/if}-->
+		</p>
+		<form action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=shresourcelist&plugin_op=groupmenu&shresourcelist_action=search&" method="post" enctype="multipart/form-data" class="tfm pns cl" style="position: relative; line-height: 32px;">
+			<input type="hidden" value="1" name="posttype">
+			<input type="text" class="px" size="10" name="title" id="resListSearchInput" value="">
+			<label id="resListSearchInputLabel" for="resListSearchInput">资源列表搜索</label>
+			<button type="submit" class="pn"><em>搜索</em></button>
+		</form>
+	</div>
+
+	<p id="resListLinks" class="xs2 xw1">
+		<a href="http://www.ctuonline.com.cn/www/jsp/common/lessonstudy/ShanghaiInterface.jsp?pagetype=1" style="position: relative;" target="_blank">学习记录</a>&nbsp;
+		<a href="http://www.ctuonline.com.cn/www/jsp/common/lessonstudy/ShanghaiInterface.jsp?pagetype=0" style="position: relative;" target="_blank">学习提醒</a>&nbsp;
+		<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu" style="position: relative;" target="_blank">岗位课程体系</a>&nbsp;
+		<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=shresourcelist&plugin_op=groupmenu" style="position: relative;" target="_blank">资源列表</a>
+	</p>
+
+	<script type="text/javascript" charset="utf-8">
+		attachEventListener($("resListSearchInput"), "focus", function(event) {
+			$("resListSearchInputLabel").style.display = "none";
+		}, false);
+		attachEventListener($("resListSearchInput"), "blur", function(event) {
+			if($("resListSearchInput").value == "") {
+				$("resListSearchInputLabel").style.display = "";
+			}
+		}, false);
+	</script>
+</div>

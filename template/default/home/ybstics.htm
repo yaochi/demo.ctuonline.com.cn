@@ -1,0 +1,72 @@
+<!--{template common/header}-->
+
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_misc_invite.css?{VERHASH}" />
+<div id="pt" class="wp"></div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+		</div>
+		<div class="bm cl">
+			<form method="post" autocomplete="off" action="ybstics.php" enctype="multipart/form-data">
+				<h1 class="mt cl">
+					平台运营-翼博数据统计
+				</h1>
+				<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+					<tr>
+						<th>日期</th>
+						<td class="pns"><input type="text" name="starttime" id="starttime" class="zbbjan2" onclick="showcalendar(event, this)" autocomplete="off" value="$nwkt[starttime]" tabindex="1" /></td>
+					</tr>
+				</table>
+				<input type="hidden" name="ybnwktsubmit" value="true" />
+				<input type="button" id="nwktbutton" name="nwktbutton" value="{lang submit_release}" onclick="form.submit()" />
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<div id="postbox"></div>
+			</form>
+		</div>
+			<div>
+		<!--{if $list}-->
+		<!--{loop $list $key $value}-->
+		$key : $value;<br/>
+		<!--{/loop}-->
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="mn">
+		<div class="ch">
+		</div>
+		<div class="bm cl">
+			<form method="post" autocomplete="off" action="ybstics.php" enctype="multipart/form-data">
+				<h1 class="mt cl">
+					活跃用户统计-翼博数据统计
+				</h1>
+				<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+					<tr>
+						<th>日期</th>
+						<td class="pns"><input type="text" name="activestarttime" id="activestarttime" class="zbbjan2" onclick="showcalendar(event, this)" autocomplete="off" value="$nwkt[starttime]" tabindex="1" /></td>
+						<th>网大账号</th>
+						<td> <input type="text" class="zbbjan2" name="username" id="username"/></td>
+					</tr>
+				</table>
+				<input type="hidden" name="activesubmit" value="true" />
+				<input type="button" id="nwktbutton" name="nwktbutton" value="{lang submit_release}" onclick="form.submit()" />
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<div id="postbox"></div>
+			</form>
+		</div>
+			<div>
+		<!--{if $activelist}-->
+		<!--{loop $activelist $key $value}-->
+		$key : $value;<br/>
+		<!--{/loop}-->
+		<!--{/if}-->
+		</div>
+</div>
+
+
+
+
+
+
+<!--{template common/footer}-->

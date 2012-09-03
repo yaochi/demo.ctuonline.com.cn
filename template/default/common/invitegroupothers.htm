@@ -1,0 +1,115 @@
+{template common/header}
+<!--{if !$_G['inajax']}-->
+<div id="pt" class="wp"><a href="portal.php">$_G['setting']['bbname']</a> &rsaquo; {lang invite}</div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx">{lang invite}</label>
+		</div>
+		<div class="bm">
+           <h1 class="mt">{lang invite_friend}$invitename</h1> 
+			<div class="usd usd2">
+<!--{else}-->
+		<div id="main_messaqge">
+			<h3 class="flb">
+				<em id="returnmessage4">邀请专区其它成员$invitename</em>
+				<span>
+					<!--{if $_G['inajax']}--><a href="javascript:;" class="flbc" onclick="hideWindow('invite')" title="{lang close}">{lang close}</a><!--{/if}-->
+				</span>
+			</h3>
+			<div class="usd">
+<!--{/if}-->
+				<ul class="cl">
+					<li>
+						<p>按专区成员姓名查找</p>
+						<p class="mtn"><input type="text" name="username" size="25" id="username" class="px" value="" autocomplete="off" /></p>
+						<script type="text/javascript">
+							var invitefs;
+						</script>
+					</li>
+					<li>
+						<div class="tbx" style=" padding-top:15px;">
+						<span onclick="getUser(page, 1)" class="a brs">{lang query_user}</span>
+						</div>
+					</li>
+				</ul>
+				<div class="tbx">
+					<span class="y">{lang invite_still_choose}(<strong id="remainNum">0</strong>){lang unit}</span>
+					<span id="showUser_0" onclick="invitefs.showUser(0)" class="a brs">全部成员</span>
+					<span id="showUser_1" onclick="invitefs.showUser(1)">{lang selected}(<strong id="selectNum">0</strong>)</span>
+					<span id="showUser_2" onclick="invitefs.showUser(2)">{lang unselected}(<cite id="unSelectTab">0</cite>)</span>
+				</div>
+			</div>
+			<ul class="usl cl{if empty($_G['inajax'])} usl2{/if}" id="friends"></ul>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_userselector.js?{VERHASH}"></script>
+			<script type="text/javascript">
+				var parameter = {'searchId':'username', 'showId':'friends', 'formId':'inviteform', 'showType':1, 'handleKey':'invitefs', 'maxSelectNumber':'20', 'selectTabId':'selectNum', 'unSelectTabId':'unSelectTab', 'maxSelectTabId':'remainNum'};
+				var invitefs = new friendSelector(parameter);
+				var clearlist = 0;
+				<!--{if $inviteduids}-->
+				invitefs.addFilterUser([$inviteduids]);
+				<!--{/if}-->
+				var listObj = $('friends');
+				var page = 1;
+				var showNum = 0;
+				var haveFriend = true;
+				listObj.onscroll = function() {
+					if(this.scrollTop >= this.scrollHeight/5) {
+						page++;
+						//gid = isUndefined(gid) ? 0 : parseInt(gid);
+						if(haveFriend) {
+							getUser(page);
+						}
+					}
+				}
+				function getUser(pageId,clear) {
+					page = parseInt(pageId);
+					if(typeof (clear) == 'undefined'){
+						clear = clearlist;
+					}
+					
+					
+					var searchkey = $('username').value;
+					searchkey = encodeURI(searchkey);
+					//gid = isUndefined(gid) ? 0 : parseInt(gid);
+					var x = new Ajax();
+					x.get('home.php?mod=spacecp&ac=friend&op=getinvitegroupuser&inajax=1&page='+ page + '&fid=' + $fup +'&searchkey=' + searchkey, function(s) {
+						var data = eval('('+s+')');
+						
+						if(!data.userdata){
+                            $("friends").innerHTML = "未找到用户...";
+                        }
+						var singlenum = parseInt(data['singlenum']);
+						var maxfriendnum = parseInt(data['maxfriendnum']);
+						invitefs.addDataSource(data, clear);
+						haveFriend = singlenum && singlenum == 20 ? true : false;
+						if(singlenum && invitefs.allNumber < 20 && invitefs.allNumber < maxfriendnum && maxfriendnum > 20 && haveFriend) {
+							page++;
+							getUser(page);
+						}
+					});
+				}
+				getUser(page);
+			</script>
+			<p>你还可以加下面链接发送给想邀请的好友：</p>
+			<p><a onclick="javascript:setCopy('$inviteurl', '复制邀请链接');return false;" class="xw1">$inviteurl (复制)</a>
+
+</td>
+</p>
+			<form method="post" autocomplete="off" name="invite" id="inviteform" action="misc.php?mod=invite&amp;action=$_G[gp_action]&amp;id=$_G[gp_id]">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="$_G['referer']" />
+				<input type="hidden" name="inviteurl" value="$inviteurl" />
+				<!--{if !empty($_G['inajax'])}--><input type="hidden" name="handlekey" value="$_G['gp_handlekey']" /><!--{/if}-->
+				<p class="o pns{if empty($_G['inajax'])} mtw{/if}"><button type="submit" class="pn pnc" name="invitesubmit" value="yes"><strong>{lang invite_send}</strong></button></p>
+			</form>
+		</div>
+<!--{if !$_G['inajax']}-->
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+	</div>
+</div>
+<!--{/if}-->
+
+{template common/footer}

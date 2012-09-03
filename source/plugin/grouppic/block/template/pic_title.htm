@@ -1,0 +1,11 @@
+<div class="module cl ml picdiym picpictitle"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li style="width: {$parameter[top_pic_width]}px;">
+            <a href="{$item[url]}" target="_blank" class="diyavt z">
+            <img src="{$item[imglink]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}" alt="{$item[title]}" /></a>
+            <p><a href="{$item[url]}" title="{$item[title]}" target="_blank">{$item[title]}</a></p>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

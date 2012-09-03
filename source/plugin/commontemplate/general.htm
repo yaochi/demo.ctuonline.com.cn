@@ -1,0 +1,12 @@
+<div class="module cl xl xl1<!--{if $parameter[scroll_check] == 1}--> scrollMarquee<!--{/if}-->"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li><a href="{$item[url]}" title="{$item[name]}" target="_blank">{$item[name]}</a></li>
+        <!--{/loop}-->
+    </ul>
+</div>
+<!--{if $parameter[scroll_check] == 1}-->
+<script type="text/javascript" charset="utf-8">
+	runMarqueeScroll();
+</script>
+<!--{/if}-->

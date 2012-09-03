@@ -1,0 +1,291 @@
+<!--{template common/header}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+
+	<div id="pt" class="wp">
+		<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a>
+		&rsaquo; <a href="group.php">专区</a> 
+		<!-- {if $_G[forum][type]=='activity'} -->
+		<!-- 
+		&rsaquo; <a href="forum.php?mod=group&fid=$_G[parent][fid]">$_G[parent][name]</a>
+		&rsaquo; <a href="forum.php?mod=activity&fup=$_G[parent][fid]&fup=$_G[forum][fid]">活动</a>
+		 -->
+		{eval echo get_groupcreatenav($_G[forum]);}
+		<!-- {else} -->
+		$groupnav	
+		<!-- {/if} -->		
+			
+	</div>
+
+	{ad/text/wp a_t}
+	<style id="diy_style" type="text/css"></style>
+	<div class="wp">
+		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+	</div>
+	
+<div id="ct" class="wp cl n">
+	<div style="float: right;padding-right: 190px;padding-top: 10px;">
+       &lt; <a href="{eval echo join_plugin_action2('index')}">返回列表</a>
+    </div>
+    <ul class="tb cl">
+        <li class="a"><a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=groupalbum2&amp;plugin_op=createmenu">上传</a></li>
+        <!--{if $_G["forum"]["type"]=="activity"}-->
+        	<li $actives[activity]><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=importmenu">从专区导入</a></li>
+       	<!--{/if}-->
+    </ul>
+	<div class="bm">
+			<h1 class="mt"><img alt="album" src="{STATICURL}image/feed/album.gif" class="vm" /> 相册</h1>
+			<ul class="tb cl">
+			<!--{if $albumid}-->
+				<li><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'edit', 'albumid'=>"$albumid"))}">编辑相册信息</a></li>
+				<li><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'editpic', 'albumid'=>"$albumid"))}">编辑图片</a></li>
+			<!--{/if}-->
+				<li$actives[js]><a href="{eval echo join_plugin_action2('upload', array('albumid'=>"$albumid"))}">普通上传</a></li>
+				<li$actives[flash]><a href="{eval echo join_plugin_action2('upload', array('albumid'=>"$albumid", 'op'=>'flash'))}">批量上传</a></li>
+				<li$actives[select]><a href="{eval echo join_plugin_action2('upload', array('albumid'=>"$albumid", 'op'=>'select'))}">个人相册选取</a></li>
+			</ul>
+		<!--{if empty($_GET['op'])}-->
+			<table cellspacing="0" cellpadding="0" class="tfm">
+				<caption>
+					<h2 class="wx">选择图片</h2>
+					从电脑中选择你要上传的图片。<br />提示：选择一张图片后，你可以继续选择下一张图片，这样就可以一次上传多张图片了。</p>
+				</caption>
+				<tbody id="attachbodyhidden" style="display:none">
+					<tr>
+						<td>
+							<form method="post" autocomplete="off" id="upload" action="{eval echo join_plugin_action2('upload')}" enctype="multipart/form-data" target="uploadframe">
+								<input type="file" name="attach" size="25" class="pf" />
+								<span id="localfile"></span>					
+								<input type="hidden" name="uploadsubmit" id="uploadsubmit" value="true" />
+								<input type="hidden" name="albumid" id="albumid" value="0" />
+								<input type="hidden" name="topicid" id="topicid" value="0" />
+								<input type="hidden" name="formhash" value="{FORMHASH}" />
+							</form>
+						</td>
+					</tr>
+				</tbody>
+				<tbody id="attachbody"></tbody>
+			</table>
+
+			<script type="text/javascript">
+				var check = false;
+				no_insert = 1;
+				function a_addOption() {
+					var obj = $('uploadalbum');
+					obj.value = 'addoption';
+					addOption(obj);
+				}
+
+				function album_op(id) {
+					$('selectalbum').style.display = 'none';
+					$('creatalbum').style.display = 'none';
+					$(id).style.display = '';
+					check = false;
+					if(id == 'creatalbum') {
+						check = true;
+						$('albumname').select();
+					}
+				}
+			</script>
+
+			<script src="{$_G[setting][jspath]}home_uploadpic.js?{VERHASH}" type="text/javascript"></script>
+			<iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+
+			<form method="post" autocomplete="off" id="albumform" action="{eval echo join_plugin_action2('upload')}" target="uploadframe">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+				<!--{if $albums}-->
+					<caption>
+						<h2 class="wx">
+							<input type="radio" id="albumop_selectalbum" name="albumop" value="selectalbum" checked onclick="album_op(this.value);" /> <label for="albumop_selectalbum">添加到现有相册</label> &nbsp;
+							<input type="radio" id="albumop_creatalbum" name="albumop" value="creatalbum" onclick="album_op(this.value);" /> <label for="albumop_creatalbum">创建新相册</label>
+						</h2>
+					</caption>
+
+					<tbody id="selectalbum">
+						<tr>
+							<td>
+								<table width="100%">
+									<tr>
+										<th>选择相册</th>
+										<td>
+											<select name="albumid" id="uploadalbumid">
+											<!--{loop $albums $value}-->
+												<!--{if $value['albumid'] == $_GET['albumid']}-->
+													<option value="$value[albumid]" selected="selected">$value[albumname]</option>
+												<!--{else}-->
+													<option value="$value[albumid]">$value[albumname]</option>
+												<!--{/if}-->
+											<!--{/loop}-->
+											</select>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+
+					<tbody id="creatalbum" style="display:none;">
+				<!--{else}-->
+					<caption>
+						<h2>创建新相册</h2>
+						<input type="hidden" name="albumop" value="creatalbum" />
+					</caption>
+					<tbody id="creatalbum">
+				<!--{/if}-->
+						<tr>
+							<td>
+								<table width="100%">
+									<tr>
+										<th>相册名</th>
+										<td><input type="text" class="px" size="20" id="albumname" name="albumname" value="我的相册" /></td>
+									</tr>
+									<tr>
+										<th>隐私设置</th>
+										<td>
+											<select name="friend" id="uploadfriend" onchange="passwordShow(this.value);" class="ps">
+												<option value="0">全站用户可见</option>
+												<option value="4">凭密码可见</option>
+												<option value="5">仅专区可见</option>
+											</select>
+										</td>
+									</tr>
+									<tbody id="span_password" style="display:none;">
+										<tr>
+											<th>密码</th>
+											<td><input type="text" id="uploadpassword" name="password" value="" size="10" class="px" /></td>
+										</tr>
+									</tbody>
+									<tbody id="tb_selectgroup" style="display:none;">
+										<tr>
+											<th>指定好友</th>
+											<td>
+												<select name="selectgroup" onchange="getgroup(this.value);">
+												<option value="">从好友组选择好友</option>
+												<!--{loop $groups $key $value}-->
+												<option value="$key">$value</option>
+												<!--{/loop}-->
+												</select>
+												<p class="d">多次选择会累加到下面的好友名单</p>
+											</td>
+										</tr>
+										<tr>
+											<th>&nbsp;</th>
+											<td>
+												<textarea name="target_names" id="target_names" rows="3" class="pt"></textarea>
+												<p class="d">可以填写多个好友名，请用空格进行分割
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+
+					<tr>
+						<td>
+							<input type="hidden" name="albumsubmit" id="albumsubmit" value="true" />
+							<button type="submit" name="uploadsubmit" id="btnupload" value="true" onclick="return validate(this);" class="pn"><strong>开始上传</strong></button>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+			<!--{if empty($albums)}-->
+			<script type="text/javascript">
+				if(typeof $('albumname') == 'object') {
+					$('albumname').select();
+				}
+			</script>
+			<!--{/if}-->
+			<script type="text/javascript">
+				function validate(obj) {
+					var attachdiv = $('attachbody');
+					var forms = attachdiv.getElementsByTagName('form');
+					if(forms.length <= 1){
+						showDialog("你还未选择图片，请选择");
+						return false;
+					}
+					
+					return true;
+				}
+			</script>
+			<form method="post" autocomplete="off" id="albumresultform" action="{eval echo join_plugin_action2('upload')}">
+				<input type="hidden" name="opalbumid" id="opalbumid" value="0" />
+				<input type="hidden" name="viewAlbumid" id="viewAlbumid" value="true" />
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+		<!--{elseif $_GET['op'] == 'select'}-->
+		<link rel="stylesheet" type="text/css" href="source/plugin/groupalbum2/css/xc.css?{VERHASH}" />
+		<form method="post" autocomplete="off" id="albumresultform" action="{eval echo join_plugin_action2('upload', array('op' => 'select'))}">
+		
+		<div class="zzm_xc">
+			<div class="menu">
+			<a href="javascript:selectMyPic('0',true)">全部</a>
+			<!--{loop $taglist $tagvalue}-->
+			<a href="javascript:selectMyPic($tagvalue[id])">$tagvalue[tagname]</a>
+			<!--{/loop}-->
+			</div>
+			<div id="mypics">
+			</div>
+			<div class="nr2">选择专区相册
+			  <label>
+			 	<select name="ablumid" id="albumid">
+					<!--{loop $albums $value}-->
+						<!--{if $value['albumid'] == $_GET['albumid']}-->
+							<option value="$value[albumid]" selected="selected">$value[albumname]</option>
+						<!--{else}-->
+							<option value="$value[albumid]">$value[albumname]</option>
+						<!--{/if}-->
+					<!--{/loop}-->
+				</select>
+			  </label>
+			</div>
+			<div class="nr3">
+				<input type="hidden" name="selectsubmit" id="selectsubmit" value="true" />
+				<button type="submit" name="selectsubmit" id="btnupload" value="true" class="pn"><strong>提交</strong></button>
+			</div>
+		</div>
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+			<script type="text/javascript">
+			function selectMyPic(tagid, noshow){
+				if(tagid){
+					ajaxget('{eval echo join_plugin_action2('albumcp', array('op' => 'mypic'))}&tagid=' + tagid,'mypics');
+				}
+				else if(!noshow){
+					alert("请选择一个图片");
+				}
+			}
+			selectMyPic('0', true);
+			</script>
+		<!--{elseif $_GET['op'] == 'cam'}-->
+		</div>
+		<div class="bm">
+			<script type="text/javascript">
+				document.write(AC_FL_RunContent(
+					'width', '80%', 'height', '415',
+					'src', '{IMGDIR}/cam.swf?config=$config&albumid=$_GET[albumid]',
+					'quality', 'high'
+				));
+			</script>
+		<!--{else}-->
+
+		</div>
+		<div class="bm">
+			<script type="text/javascript">
+				document.write(AC_FL_RunContent(
+					'width', '80%', 'height', '400',
+					'src', '{IMGDIR}/album_upload.swf?config=$config&albumid=$_GET[albumid]',
+					'quality', 'high'
+				));
+			</script>
+
+		<!--{/if}-->
+
+		</div>
+	</div>
+</div>
+
+<!--{template common/footer}-->

@@ -1,0 +1,177 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="live.php">直播</a>
+</div>
+
+<div class="wp cl">
+	<div id="liveRank">
+		<div id="rankContent">
+			<h2 id="liveRank_title" class="replaced">最热排行</h2>
+			<hr class="l">
+			<ul>
+				<!--{loop $hotlist $value}-->
+				<li><a href="{$value['url']}" target="_blank" title="{$value['url']}">{$value['subject']}</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<div id="liveAd">
+		<ul>
+			<!--{loop $return $key=>$item}-->
+			<li>
+				$item[code]
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+<div id="timeTable" class="cl">
+	<h2 id="timeTable_title" class="replaced">排片表</h2>
+	<div id="timeSliceContainer">
+		<a id="leftHandle" href="javascript:;"></a>
+		<div id="timeSlicesWrapper">
+			<div id="timeSlices">
+				<!--{loop $list $value}-->
+				<div class="timeSlice{echo $value[activty] == 'a'? ' passed' : ''}">
+					<h2 class="xs2 xw1 oneLine">$value[day]</h2>
+						<!--{if $value[activty] == 'b'}-->
+						<div class="timeBoard onair">
+						<!--{elseif $value[activty] == 'c'}-->
+						<div class="timeBoard next">
+						<!--{else}-->
+						<div class="timeBoard">
+						<!--{/if}-->
+							<span class="liveTime">$value[time]</span>
+							<span class="liveTimeRightCap"></span>
+						</div>
+					<h3 class="xs2"><a href="forum.php?mod=group&fid={$value[fid]}" target="_blank">&#91;{$value[name]}&#93;</a></h3>
+					<a href="{$value['url']}" target="_blank" title="{$value['url']}">{$value['subject']}</a>
+				</div>
+				<!--{/loop}-->			
+			</div>
+		</div>
+		<a id="rightHandle" href="javascript:;"></a>
+	</div>
+	<span class="xg1">说明：</span>
+	<ol class="xg1" style="list-style-position: inside;">
+		<li>您可左右拖曳日期栏以查看前后直播安排。</li>
+		<li>正在直播以红色底显示，即将直播以绿色底显示。</li>
+	</ol>
+</div>
+
+<script type="text/javascript" charset="utf-8" src="static/js/cufon-yui.js"></script>
+<script type="text/javascript" charset="utf-8" src="static/js/LCD_400.font.js"></script>
+<script type="text/javascript" charset="utf-8" src="static/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" charset="utf-8">jQuery.noConflict();</script>
+<script type="text/javascript" charset="utf-8">
+	var ads = $("liveAd").getElementsByTagName("li");
+	var adPosi = [0, 1];
+	for(var i = 1; i < ads.length; i++) {
+		ads[i].style.display = "none";
+	}
+	
+	setInterval(function() {
+		fadeOut(ads[adPosi[0]], 200);
+		fadeIn(ads[adPosi[1]], 200);
+		adPosi[0] = adPosi[1];
+		adPosi[1]++;
+		if(adPosi[1] == ads.length) {
+			adPosi[1] = 0;
+		}
+	}, 5000);
+
+	var rawLiveTimes = $("timeSlices").getElementsByTagName("span");
+	var liveTimes = [];
+	
+	for(var i = 0; i < rawLiveTimes.length; i++) {
+		if(rawLiveTimes[i].className == "liveTime") {
+			liveTimes.push(rawLiveTimes[i]);
+		}
+	}
+	
+	Cufon.replace(liveTimes);
+	
+	var rawTimeSlices = $("timeSlices").childNodes;
+	var timeSlices = [];
+	for(var i = 0; i < rawTimeSlices.length; i++) {
+		if(rawTimeSlices[i].nodeType != "3") {
+			timeSlices.push(rawTimeSlices[i]);
+		}
+	}
+	
+	$("timeSlices").style.width = timeSlices[0].offsetWidth * timeSlices.length + "px";
+	attachEventListener($("timeSlices"), "mousedown", moveStart, false);
+	$("timeSlices").style.cursor = "move";
+	$("timeSlices").style.marginLeft = -($("timeSlices").offsetWidth - $("timeSlicesWrapper").offsetWidth) + "px";
+	attachEventListener($("leftHandle"), "click", sliceSwitch, false);
+	attachEventListener($("rightHandle"), "click", sliceSwitch, false);
+	var sildeIntervalProcess;
+	var fps = 60;
+	
+	function sliceSwitch(event) {
+		var LorR;
+		getEventTarget(event).id == "leftHandle" ? LorR = false : LorR = true;
+		var s1, s2;
+		
+		var marginLeft = parseInt(retrieveComputedStyle($("timeSlices"), "marginLeft"));
+		
+		if(LorR) {
+			s1 = $("timeSlices").offsetWidth - Math.abs(marginLeft) - $("timeSlicesWrapper").offsetWidth;
+			s2 = Math.floor(s1 / timeSlices[0].offsetWidth) * timeSlices[0].offsetWidth;
+
+			if( (s1-s2) > 0) {
+				jQuery("#timeSlices").animate({
+					marginLeft: marginLeft - (s1 - s2),
+					easing: 'easeInOutExpo'
+				}, 200, hideSliceHandle);
+			} else if(marginLeft > -($("timeSlices").offsetWidth - $("timeSlicesWrapper").offsetWidth)) {
+				jQuery("#timeSlices").animate({
+					marginLeft: marginLeft - timeSlices[0].offsetWidth,
+					easing: 'easeInOutExpo'
+					}, 200, hideSliceHandle);
+			}
+		} else {
+			s1 = Math.ceil(marginLeft / timeSlices[0].offsetWidth) * timeSlices[0].offsetWidth;
+			s2 = marginLeft;
+			
+			if((s1-s2) > 1) {
+				jQuery("#timeSlices").animate({
+					marginLeft: marginLeft + (s1 - s2) - 1,
+					easing: 'easeInOutExpo'
+				}, 200, hideSliceHandle);
+			} else if(marginLeft < -1) {
+				jQuery("#timeSlices").animate({
+					marginLeft: marginLeft + timeSlices[0].offsetWidth,
+					easing: 'easeInOutExpo'
+				}, 200, hideSliceHandle);
+			}
+		}
+	}
+	
+	function hideSliceHandle() {
+		var marginLeft = parseInt(retrieveComputedStyle($("timeSlices"), "marginLeft"));
+		
+		if(marginLeft >= -1) {
+			$("leftHandle").style.display = "none";
+		} else if (marginLeft == -($("timeSlices").offsetWidth - $("timeSlicesWrapper").offsetWidth)) {
+			$("rightHandle").style.display = "none";
+		} else {
+			$("leftHandle").style.display = "block";
+			$("rightHandle").style.display = "block";
+		}
+	}
+	
+	jQuery.easing['jswing'] = jQuery.easing['swing'];
+
+	jQuery.extend(jQuery.easing,
+	{
+		easeInOutExpo: function (x, t, b, c, d) {
+        if (t==0) return b;
+        if (t==d) return b+c;
+        if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+        return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+    }});
+
+</script> 
+{subtemplate common/footer}

@@ -1,0 +1,76 @@
+<form action="forum.php?mod=group&action=manage&op=manage_level&fid=$_G[fid]" method="post">
+<table class="tb tb2 nobdb">
+    <tbody>
+        <tr><th>删除?</th><th>等级名称</th><th>起始分数</th><th>结束分数</th></tr>
+        <!--{loop $levels $value}-->
+        <tr class="hover">
+            <!--{eval $id = $value[id];}-->
+            <td><input type="checkbox" value="$id" name="ids[]"/></td>
+            <td class="td28"><input name="level[$id][level_name]" value="$value[level_name]" type="text" /></td>
+            <td class="td28"><input name="level[$id][start_emp]" value="$value[start_emp]" type="text" /></td>
+            <td class="td28"><input name="level[$id][end_emp]" value="$value[end_emp]" type="text" /></td>
+        </tr> 
+       <!--{/loop}-->
+       <tr><td colspan="4"><input type="submit" value="保 存"/></td></tr>
+    </tbody>
+</table>
+</form>
+
+<form name="addLevelForm" action="forum.php?mod=group&action=manage&op=manage_level&fid=$_G[fid]" method="post">
+<input type="hidden" name="m" value="save" />
+<table class="tb tb2 nobdb">
+<tr class="hover"><td>等级名称</td><td><input type="text" name="level_name" id="level_name" /></td></tr>
+<tr><td>开始经验值</td><td><input type="text" name="start_emp" id="start_emp"/></td></tr>
+<tr><td>结束经验值</td><td><input type="text" name="end_emp" id="end_emp"/></td></tr>
+<tr><td colspan="2"><input type="button" value="保 存" onclick="javascript:return checkAddLevelForm(this);"/></td></tr>
+</table>
+</form> 
+
+<script><!--
+function checkAddLevelForm(obj){	
+	var levelname=$('level_name');
+	var startemp=$('start_emp');
+	var endemp=$('end_emp');
+
+	var levelnamelen=strlen(levelname.value);
+	if(levelnamelen<=0){
+		showDialog("请输入经验值等级名称!");
+		levelname.focus();
+		return false;
+	}
+
+	var startempvalue = startemp.value;
+    var patrn =/^[0-9]*$/;
+    if (!patrn.exec(startempvalue) ||startempvalue<=0) {
+		showDialog("开始经验值只能输入整数，请检查是否输入正确!");
+		startemp.focus();
+	    return false;
+    }
+
+	var endempvalue = endemp.value;
+    var patrn =/^[0-9]*$/;
+    if (!patrn.exec(endempvalue) || endempvalue<=0) {
+		showDialog("结束经验值只能输入整数，请检查是否输入正确!");
+		endemp.focus();
+	    return false;
+    }
+    if(parseInt(endempvalue)<parseInt(startempvalue)){
+    	showDialog("结束经验值必须大于开始经验值!");
+		endemp.focus();
+	    return false; 
+    }
+
+    var levelnamevalue=encodeURIComponent(levelname.value);
+    var x = new Ajax();
+	x.get('forum.php?mod=ajax&action=checkgrouplevel&inajax=1&fid=$_G[fid]&levelname='+levelnamevalue , function(s){		
+		s = trim(s);
+		if(s.indexOf('succeed') == -1) {
+			showDialog("经验值等级名称已存在，请重新输入!");			
+			levelname.focus();
+	   		return false;
+		}else{
+			document.forms['addLevelForm'].submit();
+		}
+	});    
+}
+--></script>

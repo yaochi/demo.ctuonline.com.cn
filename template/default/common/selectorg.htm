@@ -1,0 +1,31 @@
+{template common/header}
+ <script type="text/javascript">
+function orgtreesel(selectid, name){
+    $("curorgname").innerHTML = name;
+    $("curorgid").value = selectid;
+}
+</script>
+
+
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">组织机构</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('orgtree')" title="关闭">关闭</a></span>
+    </h3>
+    <input type="hidden" id="curorgid" name="curorgid" value="" />
+    <span>当前组织机构</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="curorgname" style="color:red">$curorgname</span>
+    $s
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="subselectorg('$curorgname')"><strong>选择机构</strong></button></p>
+</div>
+ <script type="text/javascript">
+   function subselectorg(org){
+    var orgname=document.getElementById("curorgname").innerHTML;
+    var orgid=document.getElementById("curorgid").value;
+    var org=orgid+"_"+orgname;
+    window.returnValue = org;
+    window.close();
+   }
+</script>
+
+
+{template common/footer}

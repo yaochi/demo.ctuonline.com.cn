@@ -1,0 +1,11 @@
+<div class="module cl xld b_doc"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+		<dl>
+			<dt class="xs2">
+				<a href="{$item[url]}" title="{$item[title]}" target="_blank"><span class="xi2">[{$item[typename][name]}]</span>&nbsp;{$item[shorttitle]}</a>
+				&nbsp;<span class="xi2">{$item[username]}</span>
+			</dt>
+			<dd><div>{$item[context]}</div></dd>
+		</dl>
+	<!--{/loop}-->
+</div>

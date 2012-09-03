@@ -1,0 +1,14 @@
+<root><![CDATA[
+<h3 class="flb">
+	<em>删除分享</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span>
+</h3>
+<form method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=groupshare&plugin_op=groupmenu&groupshare_action=delete&id=$id">
+	<input type="hidden" name="referer" value="$_G[referer]" />
+	<input type="hidden" name="deletesubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="c">确定删除指定的分享吗</div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>]]></root>

@@ -1,0 +1,32 @@
+<div id="fh" class="module cl fhdiym" style="padding-left: 65px;<!--{if $parameter[blockheight] != 0}--> height:{$parameter[blockheight]}px<!--{/if}-->">								
+	<dl class="h cl">
+		<dd class="ih" style="margin-left: -60px; position: relative;">
+			<div class="icn avt" style="margin-top: 3px;">
+				<a href=""><img src="[myself_block_forum_icon]"></a>
+				[myself_block_forum_type_icn_id]
+				<span class="replaced z <!--{if $_G[forum][type_icn_id]=='brzone_l'}-->brzone_s<!--{/if}--><!--{if $_G[forum][type_icn_id]=='bizone_l'}-->bizone_s<!--{/if}-->" style="position: absolute; left: -5px;"></span>
+				[/myself_block_forum_type_icn_id]
+			</div>
+			
+		</dd>
+		<dt class="wx xs3" style="width: 100%;">
+			<em class="fct y" style="margin-top: 2px;">
+				<a href="{$shareurl}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" title="转发"><img src="static/image/common/icon_share.png" alt="转发" /></a>
+				<a href="home.php?mod=spacecp&ac=favorite&type=group&id={$_G[fid]}&handlekey=favoritegroup" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" title="收藏"><img src="static/image/common/icon_fav.png" alt="收藏" /></a>
+				<!--{if $_G[setting][rssstatus] && !$_G['gp_archiveid']}--><!--  <a href="forum.php?mod=rss&fid=$_G[fid]&amp;auth=$rssauth" target="_blank" title="RSS"><img src="{IMGDIR}/icon_feed.png" alt="RSS" /></a>--><!--{/if}-->
+			</em>
+			[myself_value_forum_name]
+			[myself_block_forum_displayorder]
+			<img class="digest" src="static/image/images/digest.gif" class="vm" alt="精华专区" title="精华专区">
+			[/myself_block_forum_displayorder]
+		</dt>
+		<dd class="xg1">
+			<cite>
+				群主: [myself_value_forum_groupmanagers]<br />
+				成员: [myself_value_forum_membernum]<br />
+                访问数: [myself_value_forum_viewnum]<br />
+				您的经验值: [myself_value_forum_my_empirical]<br />
+           	</cite>
+		</dd>
+	</dl>
+</div>

@@ -1,0 +1,14 @@
+<div class="module cl xl xl1"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+    	<!--{if $listdata[newuserlist]}-->
+	        <!--{loop $listdata['newuserlist'] $user}-->
+	        <li><a href="home.php?mod=space&amp;uid={$user[uid]}" title="{$newuserrealnames[$user['uid']][realname]}" target="_blank">{$newuserrealnames[$user['uid']][realname]}</a></li>
+	        <!--{/loop}-->
+	    <!--{/if}-->
+	    <!--{if $listdata[activityuserlist]}-->
+	        <!--{loop $listdata['activityuserlist'] $user}-->
+	        <li><a href="home.php?mod=space&amp;uid={$user[uid]}" title="{$activityuserrealnames[$user['uid']][realname]}" target="_blank" >{$activityuserrealnames[$user['uid']][realname]}</a></li>
+	        <!--{/loop}-->
+	    <!--{/if}-->
+    </ul>
+</div>

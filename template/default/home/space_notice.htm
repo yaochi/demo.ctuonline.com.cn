@@ -1,0 +1,184 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang remind}');}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">个人中心</a> &rsaquo;
+	<a href="home.php?mod=space&do=notice">{lang news}</a>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+
+		<div class="bm">
+			<h1 class="mt"><img alt="pm" src="{STATICURL}image/feed/nts.gif" class="vm" /> {lang remind}</h1>
+			<ul class="tb cl">
+				<li><a href="home.php?mod=space&do=pm">{lang pm}</a></li>
+				<!--{if false}-->
+				<li$actives[notice]><a href="home.php?mod=space&do=notice">{lang notice}</a></li>
+				<!--{/if}-->
+				<!--{if $_G['setting']['my_app_status']}-->
+				<li$actives[userapp]><a href="home.php?mod=space&do=notice&view=userapp">{lang applications_news}</a></li>
+				<!--{/if}-->
+				<li class="o"><a href="home.php?mod=spacecp&ac=pm">{lang send_pm}</a></li>
+			</ul>
+
+		<!--{if $view=='userapp'}-->
+
+			<script type="text/javascript">
+				function manyou_add_userapp(hash, url) {
+					if(isUndefined(url)) {
+						$(hash).innerHTML = "<tr><td colspan=\"2\">{lang successfully_ignored_information}</td></tr>";
+					} else {
+						$(hash).innerHTML = "<tr><td colspan=\"2\">{lang is_guide_you_in}</td></tr>";
+					}
+					var x = new Ajax();
+					x.get('home.php?mod=misc&ac=ajax&op=deluserapp&hash='+hash, function(s){
+						if(!isUndefined(url)) {
+							location.href = url;
+						}
+					});
+				}
+			</script>
+			<div class="tbmu">
+				<a href="home.php?mod=space&do=notice&view=userapp">{lang all_applications_news}</a>
+				<!--{loop $apparr $type $val}-->
+				<span class="pipe">|</span>
+				<a href="home.php?mod=userapp&id=$val[0][appid]&uid=$space[uid]" title="$val[0][typename]"><img src="http://appicon.manyou.com/icons/$val[0][appid]" alt="$val[0][typename]" class="vm" /></a>
+				<a href="home.php?mod=space&do=notice&view=userapp&type=$val[0][appid]"> <!--{eval echo count($val);}--> {lang unit} $val[0][typename] <!--{if $val[0][type]}-->{lang request}<!--{else}-->{lang invite}<!--{/if}--></a>
+				<!--{/loop}-->
+			</div>
+
+			<!--{if $list}-->
+				<!--{loop $list $key $invite}-->
+					<h4 class="mtw mbm">
+						<a href="home.php?mod=space&do=notice&view=userapp&op=del&appid=$invite[0][appid]" class="y xg1">{lang ignore_invitations_application}</a>
+						<a href="home.php?mod=userapp&id=$invite[0][appid]&uid=$space[uid]" title="$apparr[$invite[0][appid]]"><img src="http://appicon.manyou.com/icons/$invite[0][appid]" alt="$apparr[$invite[0][appid]]" class="vm" /></a> 
+						{lang notice_you_have} <!--{eval echo count($invite);}--> {lang unit} $invite[0][typename] <!--{if $invite[0][type]}-->{lang request}<!--{else}-->{lang invite}<!--{/if}-->
+					</h4>
+					<div class="xld xlda">
+					<!--{loop $invite $value}-->
+						<dl class="bbda cl">
+							<dd class="m avt mbn">
+								<a href="home.php?mod=space&uid=$value[fromuid]"><!--{avatar($value[fromuid],small)}--></a>
+							</dd>
+							<dt id="$value[hash]">
+								<div class="xw0 xi3">$value[myml]</div>
+							</dt>
+						</dl>
+					<!--{/loop}-->
+					</div>
+				<!--{/loop}-->
+				<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+			<!--{else}-->
+				<div class="emp">{lang no_request_applications_invite}</div>
+			<!--{/if}-->
+
+		<!--{else}-->
+			<!--{if false}-->
+			<div class="tbmu" style="display:none;">
+				<a href="home.php?mod=space&do=notice" {if empty($type)}class="a"{/if}>{lang all_notice}</a>
+				<!--{loop $noticetypes $key $name}-->
+				<span class="pipe">|</span><a href="home.php?mod=space&do=notice&type=$key" {if $key==$type}class="a"{/if}>$name</a>
+				<!--{/loop}-->
+			</div>
+			<div class="tbmu">
+			<a href="home.php?mod=space&do=notice" $actives_sub[all]>{lang all}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=gfnotice" style="color: #db0013" $actives_sub[gfnotice]>{lang notice_noticepost}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=lcms" style="color: #db0013" $actives_sub[lcms]>{lang notice_study}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=gwrz" style="color: #db0013" $actives_sub[gwrz]>{lang notice_gwrz}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=lcmstest" style="color: #db0013" $actives_sub[lcmstest]>{lang notice_commontest}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=test" style="color: #db0013" $actives_sub[test]>{lang notice_testing}</a><span class="pipe">|</span>
+			<a href="home.php?mod=space&do=notice&type=sns" style="color: #2b9700"$actives_sub[sns]>{lang notice_sns}</a><span class="pipe">|</span>
+			</div>
+
+			<!--{if $newprompt}-->
+			<ul class="mipm cl mtm">
+				<!--{if $space[notifications]}--><li class="brm"><img src="{STATICURL}image/feed/notice.gif" alt="notice" class="vm" /><a href="home.php?mod=space&do=notice"><strong>$space[notifications]</strong> {lang a_notice}</a></li><!--{/if}-->
+				<!--{if $space[pendingfriends]}--><li class="brm"><img src="{STATICURL}image/feed/friend.gif" alt="friend" class="vm" /><a href="home.php?mod=spacecp&ac=friend&op=request"><strong>$space[pendingfriends]</strong> {lang a_friend_request}</a></li><!--{/if}-->
+				<!--{if $space[groupinvitations]}--><li class="brm"><img src="{STATICURL}image/feed/mtag.gif" alt="mtag" class="vm" /><a href="home.php?mod=space&do=notice&type=group"><strong>$space[groupinvitations]</strong> {lang a_group_invite}</a></li><!--{/if}-->
+				<!--{if $space[activityinvitations]}--><li class="brm"><img src="{STATICURL}image/feed/event.gif" alt="event" class="vm" /><a href="home.php?mod=spacecp&ac=event&op=eventinvite"><strong>$space[activityinvitations]</strong> {lang a_activity_invite}</a></li><!--{/if}-->
+				<!--{if $space[myinvitations]}--><li class="brm"><img src="{STATICURL}image/feed/userapp.gif" alt="userapp" class="vm" /><a href="home.php?mod=space&do=notice&view=userapp"><strong>$space[myinvitations]</strong> {lang a_userapp}</a></li><!--{/if}-->
+				<!--{if $space[pokes]}--><li class="brm"><img src="{STATICURL}image/feed/poke.gif" alt="poke" class="vm" /><a href="home.php?mod=spacecp&ac=poke"><strong>$space[pokes]</strong> {lang a_new_poke}</a></li><!--{/if}-->
+			</ul>
+			<!--{/if}-->
+
+			<!--{if $list}-->
+
+				<div class="xld xlda mcenter"> <!-- �����ʽ  mcenter-->
+				<!--{loop $list $key $value}-->
+					<dl class="bbda cl $value[dl_class]{if $value[dl_class] == 'item_grey'} xg1{/if}"> <!-- �����ʽ item_g item_r-->
+						<dd class="m avt mbn">
+						
+						<!-- ֪ͨͷ�� -->
+						<!--{if $value[extra][logo]}-->
+							<img src="$value[extra][logo]"  />
+						<!--{else}-->
+							<!--{if $value[authorid]}-->
+							<a href="home.php?mod=space&uid=$value[authorid]"><!--{avatar($value[authorid],small)}--></a>
+							<!--{else}-->
+							<img src="{IMGDIR}/systempm.gif" alt="systempm" />
+							<!--{/if}-->
+						<!--{/if}-->	
+						</dd>
+						<dt>
+						<!-- 屏蔽设置 -->
+						<!--{if !$value[ptype]}-->
+							<!-- <a class="d b" href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]&handlekey=addfriendhk_{$value[authorid]}" id="a_note_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang shield}</a> -->
+						<!--{/if}-->	
+							<span class="xg1 xw0"><!--{date($value[dateline], 'u')}--></span>
+						</dt>
+						<dd style="$value[style]">
+							$value[note]
+						</dd>
+
+						<!--{if $value[from_num]}-->
+						<dd class="xg1 xw0">{lang ignore_same_notice_message}</dd>
+						<!--{/if}-->
+
+						<!--{if $value[authorid] && !$value[isfriend]}-->
+						<dd class="mtw">
+							<a href="home.php?mod=spacecp&ac=friend&op=add&uid=$value[authorid]&handlekey=addfriendhk_{$value[authorid]}" id="add_note_friend_$value[authorid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang add_friend}</a>
+							<span class="pipe">|</span>
+							<a href="home.php?mod=spacecp&ac=poke&op=send&uid=$value[authorid]" id="a_poke_$value[authorid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang say_hi}</a>
+						</dd>
+						<!--{/if}-->
+					</dl>
+				<!--{/loop}-->
+				</div>
+
+				<!--{if $view!='userapp' && $space[notifications]}-->
+				<div class="mtm mbm"><a href="home.php?mod=space&do=notice&ignore=all">{lang ignore_same_notice_message} &rsaquo;</a></div>
+				<!--{/if}-->
+
+				<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+
+			<!--{else}-->
+				<div class="emp">{lang no_new_notice}</div>
+			<!--{/if}-->
+			<!--{/if}-->
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{template common/footer}-->

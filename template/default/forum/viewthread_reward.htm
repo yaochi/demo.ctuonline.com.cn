@@ -1,0 +1,44 @@
+<div class="rwd cl">
+	<div class="rwd cl {if $_G['forum_thread']['price'] == 0} free {/if}">				
+		<div class="{if $_G['forum_thread']['price'] > 0}rusld{elseif $_G['forum_thread']['price'] < 0}rsld{elseif $_G['forum_thread']['question_status']=='Y'}rsld{elseif $_G['forum_thread']['question_status']=='N'}rusld{/if} z">						
+			<cite>$rewardprice</cite>
+			经验值
+		</div>
+		<div class="rwdn" style="width:{echo IMAGEMAXWIDTH-100}px; *width:{echo IMAGEMAXWIDTH-140}px">
+			<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_$post[pid]">$post[message]</td></tr></table>
+			<!--{if $_G['forum_thread']['price'] >= 0 && !$_G['forum_thread']['is_archived']}-->
+				<p class="pns mtw"><button name="answer" value="ture" class="pn" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]{if $_G[gp_from]}&from=$_G[gp_from]{/if}')"><span>{lang reward_answer}</span></button></p>
+			<!--{/if}-->		
+		</div>
+	</div>
+</div>
+
+<!--{if $post['attachment']}-->
+	<div class="locked">{lang attachment}: <em><!--{if $_G['uid']}-->{lang attach_nopermission}<!--{else}-->{lang attach_nopermission_login}<!--{/if}--></em></div>
+<!--{elseif $post['imagelist'] || $post['attachlist']}-->
+	<div class="pattl">
+		<!--{if $post['imagelist']}-->
+			$post['imagelist']
+		<!--{/if}-->
+		<!--{if $post['attachlist']}-->
+			$post[attachlist]
+		<!--{/if}-->
+	</div>
+<!--{/if}-->
+{eval $post['attachment'] = $post['imagelist'] = $post['attachlist'] = '';}
+
+<!--{if $bestpost}-->
+	<div class="rwdbst">
+		<h3 class="psth">{lang reward_bestanswer}</h3>
+		<div class="pstl">
+			<div class="psta avt">$bestpost[avatar]</div>
+			<div class="psti">
+				<p class="unf">
+					<a href="home.php?mod=space&amp;uid=$bestpost[authorid]" class="unm"><!--{eval echo user_get_user_name_by_username($bestpost[author]);}--></a>
+					&nbsp;<em><a href="forum.php?mod=redirect&amp;goto=findpost&amp;ptid=$bestpost[tid]&amp;pid=$bestpost[pid]">{lang view_full_content}</a></em>
+				</p>
+				$bestpost[message]
+			</div>
+		</div>
+	</div>
+<!--{/if}-->

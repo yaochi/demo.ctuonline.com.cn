@@ -1,0 +1,20 @@
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="
+	{if $picid} 
+		{eval echo join_plugin_action2('index', array('id'=>"$pic[albumid]"));}
+	{elseif $_G[forum][type]=='activity'}
+		forum.php?mod=activity&action=plugin&fid=$_G[forum][fid]&plugin_name=groupalbum2&plugin_op=groupmenu
+	{else}
+		forum.php?mod=group&action=plugin&fid=$_G[forum][fid]&plugin_name=groupalbum2&plugin_op=groupmenu
+	{/if}
+	" class="z">返回列表</a>
+	<!-- {if $_G[forum][type]=='activity'} -->
+	<div class="actnav">
+		{eval echo get_activitynav($_G[forum]);}
+	</div>
+	<!-- {/if} -->
+	<div class="ihy y">
+		<div class="icn avt"><a href="home.php?mod=space&uid=$album[uid]"><!--{avatar($album[uid],small)}--></a></div>
+		<dl class="y">本相册由<br><a class="xi2" href="home.php?mod=space&uid=$album[uid]">{eval echo user_get_user_name($album[uid])}</a>创建</dl>
+	</div>
+</div>

@@ -1,0 +1,190 @@
+﻿{subtemplate common/header}
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<!--{if $_G[fid]}-->
+	<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexlec" class="z">返回列表</a>
+	</div>
+<!--{/if}-->
+<div class="bm cl">
+
+<h1 class="mt">编辑讲师</h1>
+<div id="postbox">
+<form action="{eval echo join_plugin_action2('editlec')}" autocomplete="off" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<input type="hidden" name="id" value="$lecture[id]" />
+<input type="hidden" name="lectotalstars" value="$lecture[totalstars]" />
+<input type="hidden" name="uploadfile" value="$lecture[uploadfile]" />
+<input type="hidden" name="name" value="$lecture[name]" />
+<!--讲师--> 
+<table width="97%" name="lectable" id="lectable"  cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd1" style="margin-top:11px;">
+  <tbody>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>讲师姓名：</strong></th>
+	<td id='innerlec'>$lecture[name]</td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>性别：</strong></th>
+    <td><label>
+      <input name="gender" type="radio" value="0" <!--{if $lecture[gender]=='0'}-->checked="checked"<!--{/if}--> />
+      男</label>
+        <label>
+          <input name="gender" type="radio" value="1" <!--{if $lecture[gender]=='1'}-->checked="checked"<!--{/if}--> />
+          女</label></td>
+  </tr>
+  <tr>
+      <th><strong class="rq y">*</strong><strong>教授的课程：</strong></th>
+      <td><div id="extraclass"><!--{if $classlist}--><!--{loop $classlist $class}--><p><input type="hidden" value="$class[classid]" id="classids[]" name="classids[]"><a title="删除此选项" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$class[classname]</p><!--{/loop}--><!--{/if}--></div>
+	  <a href="#" onclick="showWindow('classwindow', 'misc.php?mod=queryextraclass&fid=$_G[fid]', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加课程</a></td>
+    </tr>
+    <tr>
+    <th><strong>讲师所属机构：</strong></th>
+    <td><div id="extraorg"><!--{if $orglist}--><!--{loop $orglist $org}--><p><input type="hidden" value="$org[orgid]" id="orgids[]" name="orgids[]"><input type="hidden" value="$org[orgname]" id="orgnames[]" name="orgnames[]"><a title="删除此课程" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$org[orgname]</p><!--{/loop}--><!--{/if}--></div>
+	<a href="#" onclick="showWindow('orgwindow', 'misc.php?mod=queryextraorg', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加机构</a></td>
+  </tr>
+  
+    <tr>
+      <th><strong class="rq y">*</strong><strong>背景介绍：</strong></th>
+      <td valign="top"><textarea class="pt" id="lecdescr" name="lecdescr" cols="40" rows="5">$lecture[descr]</textarea></td>
+    </tr>
+    <tr>
+      <th><strong>培训经历：</strong></th>
+      <td valign="top"><textarea class="pt" id="trainingexperince" name="trainingexperince" cols="40" rows="5">$lecture[trainingexperince]</textarea></td>
+    </tr>
+	<tr>
+      <th><strong>培训特点：</strong></th>
+      <td valign="top"><textarea class="pt" id="trainingtrait" name="trainingtrait" cols="40" rows="5">$lecture[trainingtrait]</textarea></td>
+    </tr>
+	<tr>
+      <th><strong class="rq y">*</strong><strong>授课费用：</strong></th>
+      <td valign="top"><input class="pt" id="minfee" name="minfee" type="text" value="$lecture[minfee]" style="width:85px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="this.value=this.value.replace(/\D/g,'')" />--<input class="pt" id="maxfee" name="maxfee" type="text" style="width:85px;" value="$lecture[maxfee]" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="this.value=this.value.replace(/\D/g,'')"  />元</td>
+    </tr>
+	<tr>
+    <th><strong class="rq y">*</strong><strong>授课方向：</strong></th>
+    <td><label>
+     <select name="teachdirection" class="ps">
+		<option value="1" <!--{if $lecture[teachdirection]=='1'}-->selected="selected"<!--{/if}-->>领导力发展与管理类</option>
+		<option value="2" <!--{if $lecture[teachdirection]=='2'}-->selected="selected"<!--{/if}-->>营销类</option>
+		<option value="3" <!--{if $lecture[teachdirection]=='3'}-->selected="selected"<!--{/if}-->>技术类</option>
+	</select>
+    </label></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>讲师照片：</strong></th>
+    <td><label>
+    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span>{lang upload}</span></button>
+     	</label>    <div id="lecturerattach_image"><img width="120" height="120" src="$lecture[uploadfile]"></div></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>联系电话：</strong></th>
+    <td><input type="text" class="px" id="telephone" name="telephone" onblur="checkTel();" value="$lecture[telephone]"> <span class="hongse" id="sdTel" style="display:none;">*格式不正确，请输入正确的电话或手机号码</span></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>Email：</strong></th>
+    <td><input type="text" class="px" id="email" name="email" onblur="checkEmail();" value="$lecture[email]"><span class="hongse" id="sdEmail" style="display:none;">*格式不正确，请输入正确的邮箱地址</span>	</td>
+  </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+</tbody></table>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="editsubmit" value="true" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+function checkEmail(){
+     var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	 var cr=document.getElementById('email').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdEmail").style.display="";
+        $('email').value="";
+		$('email').focus();
+	   }else{
+	    document.getElementById("sdEmail").style.display="none";
+	   }
+      }	
+function checkTel(){
+     var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+	 var cr=document.getElementById('telephone').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdTel").style.display="";
+        $('telephone').value="";
+		$('telephone').focus();
+	   }else{
+	    document.getElementById("sdTel").style.display="none";
+	   }
+      }  
+function validate_from(obj) {
+		var lecdescr = $('lecdescr');
+		if (lecdescr) {
+			var slen = strlen(lecdescr.value);
+			if (slen < 1) {
+				showDialog("请填写背景介绍");
+				lecdescr.focus();
+				return false;
+			}
+		}
+		var extraclass=$('extraclass');
+		if(extraclass.innerHTML==''){
+			showDialog("请选择课程");
+			return false;
+		}
+		var minfee = $('minfee');
+		if (minfee) {
+			var slen = strlen(minfee.value);
+			if (slen < 1 || slen > 10) {
+				showDialog("请填写课程费用下限");
+				minfee.focus();
+				return false;
+			}
+		}
+		var maxfee = $('maxfee');
+		if (maxfee) {
+			var slen = strlen(maxfee.value);
+			if (slen < 1 || slen > 10) {
+				showDialog("请填写课程费用上限");
+				maxfee.focus();
+				return false;
+			}
+		}
+		if(Number(minfee.value)>Number(maxfee.value)){
+				showDialog("课程费用上限不能小于下限");
+				maxfee.focus();
+				return false;
+		}
+		var telephone = $('telephone');
+		if (telephone) {
+			var slen = strlen(telephone.value);
+			if (slen < 1) {
+				showDialog("请填写联系电话");
+				telephone.focus();
+				return false;
+			}
+		}
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1) {
+				showDialog("请填写email");
+				email.focus();
+				return false;
+			}
+		}
+		
+	}
+</script>
+
+{subtemplate common/footer}

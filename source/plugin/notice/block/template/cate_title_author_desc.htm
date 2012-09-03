@@ -1,0 +1,10 @@
+<div class="module cl xld b_notice"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl>
+        <dt class="xs2">
+       	<!--{if $item[category] && '未分类' != $item[category] }--> <span class="xi2">[{$item[category]}]&nbsp;</span> <!--{/if}--><a href="{$item[url]}" target="_blank">{$item[title]}</a>
+        </dt>
+        <dd>{$item[content]}</dd>
+    </dl>
+    <!--{/loop}-->
+</div>

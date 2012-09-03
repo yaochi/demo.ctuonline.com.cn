@@ -1,0 +1,215 @@
+<!--{if $searchid || ($_G['gp_adv'] && $checkarray[posts] && CURMODULE == 'forum')}-->
+	<table id="tpsch" class="mbm" cellspacing="0" cellpadding="0">
+		<tr>
+			<td><h1><a href="http://www.myctu.cn" title="$_G['setting']['bbname']">{BOARDLOGO}</a></h1></td>
+			<td>
+				<div class="mbn">
+                    <!--{if $_G['setting']['search']['blog']['status'] && ($_G['group']['allowsearch'] & 4 || $_G['adminid'] == 1)}-->{block slist[blog]}<!--{if CURMODULE == 'blog'}--><strong>记录</strong><!--{else}--><a href="search.php?mod=blog{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">记录</a><!--{/if}-->{/block}<!--{/if}-->
+					<!--{if $_G['setting']['groupstatus'] && $_G['setting']['search']['group']['status'] && ($_G['group']['allowsearch'] & 16 || $_G['adminid'] == 1)}-->{block slist[group]}<!--{if CURMODULE == 'group'}--><strong>$_G['setting']['navs'][3]['navname']</strong><!--{else}--><a href="search.php?mod=group{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">$_G['setting']['navs'][3]['navname']</a><!--{/if}-->{/block}<!--{/if}-->
+                    {block slist[activity]}<!--{if CURMODULE == 'activity'}--><strong>活动</strong><!--{else}--><a href="search.php?mod=activity{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">活动</a><!--{/if}-->{/block}
+                    {block slist[topic]}<!--{if CURMODULE == 'topic'}--><strong>话题</strong><!--{else}--><a href="search.php?mod=topic{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">话题</a><!--{/if}-->{/block}
+                    {block slist[qbar]}<!--{if CURMODULE == 'qbar'}--><strong>提问吧</strong><!--{else}--><a href="search.php?mod=qbar{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">提问吧</a><!--{/if}-->{/block}
+                    {block slist[question]}<!--{if CURMODULE == 'question'}--><strong>问卷</strong><!--{else}--><a href="search.php?mod=question{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">问卷</a><!--{/if}-->{/block}
+                    {block slist[group_live]}<!--{if CURMODULE == 'group_live'}--><strong>直播</strong><!--{else}--><a href="search.php?mod=group_live{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">直播</a><!--{/if}-->{/block}
+                    {block slist[group_notice]}<!--{if CURMODULE == 'group_notice'}--><strong>通知公告</strong><!--{else}--><a href="search.php?mod=group_notice{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">通知公告</a><!--{/if}-->{/block}
+                    {block slist[group_poll]}<!--{if CURMODULE == 'group_poll'}--><strong>投票</strong><!--{else}--><a href="search.php?mod=group_poll{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">投票</a><!--{/if}-->{/block}
+					 {block slist[member]}<!--{if CURMODULE == 'member'}--><strong>用户</strong><!--{else}--><a href="search.php?mod=member{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">用户</a><!--{/if}-->{/block}
+
+                    {echo implode("<span class=\"pipe\">|</span>", $slist);}
+				</div>
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+							<input type="text" id="srchtxt" name="srchtxt" class="schtxt" prompt="search_kw" size="45" maxlength="40" value="$keyword" tabindex="1" />
+							<script type="text/javascript">$('srchtxt').focus();</script>
+						</td>
+						<!--{if CURMODULE == 'forum' && ($_G['group']['allowsearch'] & 32)}-->
+							<td><label><input type="checkbox" name="srchtype" value="fulltext" {$fulltextchecked}/> {lang search_fulltext}</label></td>
+						<!--{/if}-->
+						<td>
+							<input type="hidden" name="searchsubmit" value="yes" />
+							<button type="submit" class="schbtn" prompt="search_submit"><strong>{lang search}</strong></button>
+							<!--{if $checkarray[posts] && CURMODULE == 'forum'}-->
+								<!--{if !$_G['gp_adv']}-->
+									<a href="search.php?mod=forum&adv=yes">{lang search_adv}</a>
+								<!--{else}-->
+									<a href="search.php?mod=forum">{lang search_return_normal}</a>
+								<!--{/if}-->
+							<!--{/if}-->
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<!--{if $_G['gp_adv']}-->
+	<div class="bm" id="search_option">
+		<h2>
+			{lang search_option}
+		</h2>
+		<table summary="{lang search}" cellspacing="0" cellpadding="0" class="tfm bbda">
+			<!--{if $srchtype == 'threadsort'}-->
+			<tr>
+				<th><label for="typeid">{lang threadtype_option}</label></th>
+				<td>
+					<select name="sortid" onchange="ajaxget('forum.php?mod=post&action=threadsorts&sortid='+this.options[this.selectedIndex].value+'&operate=1', 'threadsorts', 'threadsortswait')">
+						<option value="0">{lang none}</option>$threadsorts
+					</select>
+					<span id="threadsortswait"></span>
+				</td>
+			</tr>
+			<tbody id="threadsorts"></tbody>
+			<!--{/if}-->
+
+			<!--{if $checkarray[posts] || $srchtype == 'trade'}-->
+				<tr>
+					<th>{lang author}</th>
+					<td><input type="text" id="srchname" name="srchuname" size="25" maxlength="40" class="px" value="$srchuname" /></td>
+				</tr>
+
+				<tr>
+					<th>{lang search_thread_range}</th>
+					<td>
+						<label><input type="radio" class="pr" name="srchfilter" value="all" checked="checked" /> {lang search_thread_range_all}</label>
+						<label><input type="radio" class="pr" name="srchfilter" value="digest" /> {lang search_thread_range_digest}</label>
+						<label><input type="radio" class="pr" name="srchfilter" value="top" /> {lang search_thread_range_top}</label>
+					</td>
+				</tr>
+			<!--{/if}-->
+
+			<!--{if $checkarray[posts]}-->
+				<tr>
+					<th>{lang special_thread}</th>
+					<td>
+						<label><input type="checkbox" class="pc" name="special[]" value="1" /> {lang special_poll}</label>
+						<label><input type="checkbox" class="pc" name="special[]" value="2" /> {lang special_trade}</label>
+						<label><input type="checkbox" class="pc" name="special[]" value="3" /> {lang special_reward}</label>
+						<label><input type="checkbox" class="pc" name="special[]" value="4" /> {lang special_activity}</label>
+						<label><input type="checkbox" class="pc" name="special[]" value="5" /> {lang special_debate}</label>
+					</td>
+				</tr>
+			<!--{/if}-->
+
+			<!--{if $checkarray[posts] || $srchtype == 'trade'}-->
+				<tr>
+					<th><label for="srchfrom">{lang search_time}</label></th>
+					<td>
+						<select id="srchfrom" name="srchfrom">
+							<option value="0">{lang search_any_date}</option>
+							<option value="86400">{lang 1_days_ago}</option>
+							<option value="172800">{lang 2_days_ago}</option>
+							<option value="604800">{lang 7_days_ago}</option>
+							<option value="2592000">{lang 30_days_ago}</option>
+							<option value="7776000">{lang 90_days_ago}</option>
+							<option value="15552000">{lang 180_days_ago}</option>
+							<option value="31536000">{lang 365_days_ago}</option>
+						</select>
+						<label><input type="radio" class="pr" name="before" value="" checked="checked" /> {lang search_newer}</label>
+						<label><input type="radio" class="pr" name="before" value="1" /> {lang search_older}</label>
+					</td>
+				</tr>
+
+				<tr>
+					<th><label for="orderby">{lang search_orderby}</label></th>
+					<td>
+						<select id="orderby1" name="orderby">
+							<option value="lastpost" selected="selected">{lang order_lastpost}</option>
+							<option value="dateline">{lang order_starttime}</option>
+							<option value="replies">{lang order_replies}</option>
+							<option value="views">{lang order_views}</option>
+						</select>
+						<select id="orderby2" name="orderby" style="position: absolute; display: none" disabled>
+							<option value="dateline" selected="selected">{lang dateline}</option>
+							<option value="price">{lang post_trade_price}</option>
+							<option value="expiration">{lang trade_remaindays}</option>
+						</select>
+						<label><input type="radio" class="pr" name="ascdesc" value="asc" /> {lang order_asc}</label>
+						<label><input type="radio" class="pr" name="ascdesc" value="desc" checked="checked" /> {lang order_desc}</label>
+					</td>
+				</tr>
+			<!--{/if}-->
+
+			<tr>
+				<th valign="top"><label for="srchfid">{lang search_range}</label></th>
+				<td>
+					<select id="srchfid" name="srchfid[]" multiple="multiple" size="10" style="width: 26em;">
+						<option value="all"{if !$srchfid} selected="selected"{/if}>{lang search_allforum}</option>
+						$forumselect
+					</select>
+				</td>
+			</tr>
+
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+						<input type="hidden" name="searchsubmit" value="yes" />
+						<button type="submit" class="pn pnc"><strong>{lang search}</strong></button>
+					</td>
+				</tr>
+		</table>
+		<!--{if empty($srchtype) && empty($keyword)}-->
+		<div class="bm">
+			<h3>{lang search_quick}</h3>
+			<table cellspacing="4" cellpadding="0" width="100%">
+				<tr>
+					<td><a href="search.php?mod=forum&srchfrom=3600&searchsubmit=yes">{lang search_quick_hour_1}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=14400&searchsubmit=yes">{lang search_quick_hour_4}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=28800&searchsubmit=yes">{lang search_quick_hour_8}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=86400&searchsubmit=yes">{lang search_quick_hour_24}</a></td>
+				</tr>
+				<tr>
+					<td><a href="search.php?mod=forum&srchfrom=604800&searchsubmit=yes">{lang search_quick_day_7}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=2592000&searchsubmit=yes">{lang search_quick_day_30}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=15552000&searchsubmit=yes">{lang search_quick_day_180}</a></td>
+					<td><a href="search.php?mod=forum&srchfrom=31536000&searchsubmit=yes">{lang search_quick_day_365}</a></td>
+				</tr>
+			</table>
+		</div>
+		<!--{/if}-->
+	</div>
+	<!--{/if}-->
+<!--{else}-->
+	<!--{if !empty($srchtype)}--><input type="hidden" name="srchtype" value="$srchtype" /><!--{/if}-->
+	<!--{if $srchtype != 'threadsort'}-->
+		<div class="hm">
+			<table id="tpsch" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+				<tr>
+					<td class="hm mtw ptw pbw"><h1 class="mtw ptw"><a href="index.php" title="$_G['setting']['bbname']">{BOARDLOGO}</h1></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="hm xs2 pbm">
+                    <!--{if $_G['setting']['search']['blog']['status'] && ($_G['group']['allowsearch'] & 4 || $_G['adminid'] == 1)}-->{block slist[blog]}<!--{if CURMODULE == 'blog'}--><strong>记录</strong><!--{else}--><a href="search.php?mod=blog{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">记录</a><!--{/if}-->{/block}<!--{/if}-->
+					<!--{if $_G['setting']['groupstatus'] && $_G['setting']['search']['group']['status'] && ($_G['group']['allowsearch'] & 16 || $_G['adminid'] == 1)}-->{block slist[group]}<!--{if CURMODULE == 'group'}--><strong>$_G['setting']['navs'][3]['navname']</strong><!--{else}--><a href="search.php?mod=group{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">$_G['setting']['navs'][3]['navname']</a><!--{/if}-->{/block}<!--{/if}-->
+                    {block slist[activity]}<!--{if CURMODULE == 'activity'}--><strong>活动</strong><!--{else}--><a href="search.php?mod=activity{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">活动</a><!--{/if}-->{/block}
+                    {block slist[topic]}<!--{if CURMODULE == 'topic'}--><strong>话题</strong><!--{else}--><a href="search.php?mod=topic{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">话题</a><!--{/if}-->{/block}
+                    {block slist[qbar]}<!--{if CURMODULE == 'qbar'}--><strong>提问吧</strong><!--{else}--><a href="search.php?mod=qbar{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">提问吧</a><!--{/if}-->{/block}
+                    {block slist[question]}<!--{if CURMODULE == 'question'}--><strong>问卷</strong><!--{else}--><a href="search.php?mod=question{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">问卷</a><!--{/if}-->{/block}
+                    {block slist[group_live]}<!--{if CURMODULE == 'group_live'}--><strong>直播</strong><!--{else}--><a href="search.php?mod=group_live{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">直播</a><!--{/if}-->{/block}
+                    {block slist[group_notice]}<!--{if CURMODULE == 'group_notice'}--><strong>通知公告</strong><!--{else}--><a href="search.php?mod=group_notice{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">通知公告</a><!--{/if}-->{/block}
+                    {block slist[group_poll]}<!--{if CURMODULE == 'group_poll'}--><strong>投票</strong><!--{else}--><a href="search.php?mod=group_poll{if $keyword}&srchtxt=$keyword&searchsubmit=yes{/if}">投票</a><!--{/if}-->{/block}
+
+                    {echo implode("<span class=\"pipe\">|</span>", $slist);}
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="srchtxt" name="srchtxt" prompt="search_kw" size="65" maxlength="40" value="$keyword" class="schtxt" tabindex="1" />
+						<script type="text/javascript">$('srchtxt').focus();</script>
+					</td>
+					<td>
+						<!--{if CURMODULE == 'forum' && ($_G['group']['allowsearch'] & 32)}-->
+						<label style="margin-left: 10px;"><input type="checkbox" name="srchtype" value="fulltext" {$fulltextchecked}/> {lang search_fulltext}</label>
+						<!--{/if}-->
+						<input type="hidden" name="searchsubmit" value="yes" />
+						<button type="submit" value="true" prompt="search_submit" class="schbtn"><strong>{lang search}</strong></button>
+						<!--{if $checkarray[posts] && CURMODULE == 'forum'}-->
+							<a href="search.php?mod=forum&adv=yes">{lang search_adv}</a>
+						<!--{/if}-->
+					</td>
+				</tr>
+			</table>
+		</div>
+	<!--{/if}-->
+<!--{/if}-->

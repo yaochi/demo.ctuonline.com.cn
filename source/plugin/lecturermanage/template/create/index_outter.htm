@@ -1,0 +1,370 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/lecturermanage/assets/js/lecturer_common.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/lecturermanage/assets/style/lecturemanage.css?{VERHASH}" type="text/css" />
+<style>
+	.deliCourses .icn, .deliCourses .updateTime { display: none; }
+</style>
+
+<div class="mn">
+	<form action="{eval echo join_plugin_action('save_outter')}" method="post" onsubmit="return validate_form(this);" enctype="multipart/form-data">
+		<div class="bm cl">
+			<input type="hidden" id="createtype" name="createtype" value="2"/>
+			<input type="hidden" id="admintype" name="admintype" value="$type" />
+			<input type="hidden" id="addedcourses" name="addedcourses" value="" />
+			<input type="hidden" id="deletedcourses" name="deletedcourses" value="" />
+			<input type="hidden" id="modifiedcourses" name="modifiedcourses" value="" />
+			<input type="hidden" name="aid" id="aid" {if $lecturer[attachment]}value="$lecturer[aid]" {/if}tabindex="1" />
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div id="postbox">
+				<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+					<tr>
+						<th>
+							<strong class="rq">*</strong>
+							讲师类型:
+						</th>
+					    <td>
+					    	<input type="radio" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=index&select=index';" name="isinnerlec" class="pr" value="0"/>内部讲师
+							<input type="radio" checked="checked" name="isinnerlec" class="pr" value="1"/>外部讲师
+					    </td>
+					</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							讲师:
+					  	</th>
+					    <td>
+					    	<input type="text" name="name" id="name" value="" class="px" style="width: 130px;" />
+					    	<span id="checklecturer" class="xcred" style="display:none;">该讲师已为外部讲师 请勿重复创建</span>
+					    </td>
+					</tr>
+					<tr>
+						<th>
+							<strong class="rq">*</strong>
+							性别:
+						</th>
+					    <td>
+					    	<input type="radio" checked="checked" name="gender" class="pr" value="1"/>男
+							<input type="radio" name="gender" class="pr" value="2"/>女
+					    </td>
+					</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							工作单位:
+					  	</th>
+					    <td>
+					    	<input type="text" name="orgname" id="orgname" value="" class="px" />
+					    </td>
+					</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							讲师级别:
+					  	</th>
+					    <td>
+					    	<select name="rank" class="ps">
+					    	<!--{if $type==1}-->
+								<option value="1" selected="selected">荣誉教授</option>
+								<option value="2">客座教授</option>
+							<!--{/if}-->
+								<option value="3"{if $type!=1} selected="selected"{/if}>专家教授</option>
+								<option value="4">讲师</option>
+							</select>
+							<p class="xg1 mtm">
+								专家教授：指讲座讲大课的讲师<br />
+								讲师：指课程培训类讲师
+							</p>
+						</td>
+					</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							背景介绍:
+					  	</th>
+					    <td>
+					    	<textarea rows="5" cols="40" name="bginfo" id="bginfo" class="pt"></textarea>
+					    </td>
+					</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							主要培训课程:
+					  	</th>
+					    <td>
+					    	<table id="deliCourses" class="deliCourses">
+					    		<tr>
+					    			<td class="icn"></td>
+					    			<td class="courseName pns">
+					    				<button type="button" id="addCourseBtn" name="addCourse" class="pn"><em>+ 添加课程</em></button>
+					    			</td>
+					    			<td></td>
+					    			<td></td>
+					    			<td></td>
+					    			<td></td>
+					    		</tr>
+					    	</table>
+					    </td>
+				  	</tr>
+					<tr>
+					  	<th>
+							培训经历:
+					  	</th>
+					    <td>
+					    	<textarea rows="5" cols="40" name="trainingexperience" id="trainingexperience" class="pt"></textarea>
+					    </td>
+					</tr>
+					<tr>
+					  	<th>
+							培训特点:
+					  	</th>
+					    <td>
+					    	<textarea rows="5" cols="40" name="trainingtrait" id="trainingtrait" class="pt"></textarea>
+					    </td>
+				  	</tr>
+				  	<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							授课方向:
+					  	</th>
+					    <td>
+					    	<select name="teachdirection" class="ps">
+								<option value="1">领导力发展与管理类</option>
+								<option value="2">营销类</option>
+								<option value="3">技术类</option>
+							</select>
+						</td>
+				  	</tr>
+					<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							讲师照片:
+					  	</th>
+					    <td>
+					    	<label class="pns">
+					    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $lecturer[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button>
+								<div id="lecturerattach_image" class="diyavt mtm"></div>
+					     	</label>
+					     	<p class="xg1 mtm">
+					     		图片上传后系统会自动缩略成120x120像素大小 不保持长宽比<br />
+					     		图片格式支持jpg, gif；文件尺寸小于100 kB；
+					     	</p>
+					    </td>
+				  	</tr>
+				 	<tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							联系电话:
+					  	</th>
+					    <td>
+					    	<input type="text" name="tel" id="tel" onblur="checkTel()" class="px" />
+							<span class="xcred" id="sdTel" style="display:none;">格式不正确，请输入正确的电话或手机号码</span>
+						</td>
+				 	 </tr>
+				 	 <tr>
+					  	<th>
+					  		<strong class="rq">*</strong>
+							Email:
+					  	</th>
+					    <td>
+					    	<input type="text" name="email" id="email" onblur="checkEmail()" class="px" />
+							<span class="xcred" id="sdEmail" style="display:none;">格式不正确，请输入正确的邮箱地址</span>
+						</td>
+					 </tr>
+					 <tr>
+					  	<th></th>
+					  	<td>
+					  		<button type="submit" id="issuance" class="pn pnp"><strong>保存修改</strong></button>
+					  	</td>
+				  </tr>
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" charset="utf-8">	
+	var isDuplicated = false;
+	
+	attachEventListener($("addCourseBtn"), "click", function(){
+			addCourse($('deliCourses'), $("createtype").value);
+	}, false);
+	
+	if(BROWSER.ie) {
+		$("name").attachEvent("onPropertyChange", checkDuplicated);
+	} else {
+		$("name").addEventListener("input", checkDuplicated, false);
+	}
+	attachEventListener($("name"), "blur", checkDuplicated, false);
+	
+	if(BROWSER.ie) {
+		$("orgname").attachEvent("onPropertyChange", checkDuplicated);
+	} else {
+		$("orgname").addEventListener("input", checkDuplicated, false);
+	}
+	attachEventListener($("orgname"), "blur", checkDuplicated, false);
+	
+	function checkDuplicated() {
+		var checkTimeoutProcess;
+		$("checklecturer").style.display = "none";
+		isDuplicated = false;
+		
+		var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid=197&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=check&name=" + encodeURI($("name").value) + "&org=" + encodeURI($("orgname").value);
+		clearTimeout(checkTimeoutProcess);
+		checkTimeoutProcess = setTimeout(function(){
+			getJSONP(callurl, "processDuplicated");
+		}, 2000);	
+	}
+	
+	function processDuplicated(data) {
+		if(data.s == 1) {
+			$("checklecturer").style.display = "";
+			isDuplicated = true;		
+		}
+	}
+
+
+	function validate_attfrom(obj) {
+		if($(editorid + '_attachlist')) {
+			$('postbox').appendChild($(editorid + '_attachlist'));
+			$(editorid + '_attachlist').style.display = 'none';
+		}
+		if($(editorid + '_imgattachlist')) {
+			$('postbox').appendChild($(editorid + '_imgattachlist'));
+			$(editorid + '_imgattachlist').style.display = 'none';
+		}
+	}
+	
+	 function checkTel(){
+     var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+	 var cr=document.getElementById('tel').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdTel").style.display="";
+        $('tel').value="";
+		$('tel').focus();
+	   }else{
+	    document.getElementById("sdTel").style.display="none";
+	   }
+      }
+      
+	 function checkEmail(){
+     var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	 var cr=document.getElementById('email').value;
+	 if (!patrn.exec(cr))
+	   {
+	    document.getElementById("sdEmail").style.display="";
+        $('tel').value="";
+		$('tel').focus();
+	   }else{
+	    document.getElementById("sdEmail").style.display="none";
+	   }
+      }
+
+
+	function clearname() {
+		$('firstman_names').value='';
+		$('firstman_names_uids').value='';
+	}
+
+	function validate_form(obj) {
+		var name = $('name');
+		if (name) {
+			var slen = strlen(name.value);
+			if (slen < 1) {
+				showDialog("请填写讲师姓名");
+				name.focus();
+				return false;
+			}
+		}
+
+		var orgname = $('orgname');
+		if (orgname) {
+			var slen = strlen(orgname.value);
+			if (slen < 1) {
+				showDialog("请填写工作单位");
+				orgname.focus();
+				return false;
+			}
+		}
+
+		var bginfo = $('bginfo');
+		if (bginfo) {
+			var slen = strlen(bginfo.value);
+			if (slen < 1) {
+				showDialog("请填写背景介绍");
+				bginfo.focus();
+				return false;
+			}
+		}
+
+		var courses = $('courses');
+		if (courses) {
+			var slen = strlen(courses.value);
+			if (slen < 1) {
+				showDialog("请填写主要培训课程");
+				courses.focus();
+				return false;
+			}
+		}
+		var aid = $('aid');
+		if (aid) {
+			var slen = strlen(aid.value);
+			if (slen < 1 || slen > 80) {
+				showDialog("请上传讲师照片");
+				bginfo.focus();
+				return false;
+			}
+		}
+		/*var tel = $('tel');
+		if (tel) {
+			var slen = strlen(tel.value);
+			if (slen < 1) {
+				showDialog("请填写联系电话");
+				tel.focus();
+				return false;
+			}else{
+				var pattern = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+					chkFlag = pattern.test(tel.value);
+					if(chkFlag){
+					
+					}
+					else
+					{
+						showDialog("联系电话的格式不正确！");
+						tel.focus();
+						return false;
+					}
+			
+			}
+		}*/
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1) {
+				showDialog("请填写email");
+				email.focus();
+				return false;
+			}else{
+					var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+					chkFlag = pattern.test(email.value);
+					if(chkFlag){
+					
+					}
+					else
+					{
+						showDialog("邮箱地址的格式不正确！");
+						email.focus();
+						return false;
+					}
+			}
+		}
+		if(isDuplicated) {
+			$("name").focus();
+			return false;
+		}
+
+	}
+</script>

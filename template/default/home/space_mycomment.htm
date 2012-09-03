@@ -1,0 +1,226 @@
+<!--{eval $_G['home_tpl_titles'] = array('我的评论');}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo;
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl bgnoz">
+	<div class="mn bgwhite mn_home fpr" style="min-height:2000px;">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_favorite_header}
+		</div>
+		<div class="bm">
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang favorite}</h1>
+<!--{/if}-->
+				<div id="ffp" class="cl"></div>
+				<div id="filterType"></div>
+				<div id="feed_div" class="e">
+					<div class="xld xlda">
+						<div id="feed"></div>
+					</div>
+				</div>
+				<div class="pg"></div>
+				<div id="ajax_wait"></div>
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd" style="overflow: visible;">
+		{template common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_feed.js?{VERHASH}" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	function favorite_delete(favid) {
+		var el = $('fav_' + favid);
+		if(el) {
+			el.style.display = "none";
+		}
+	}
+
+var cCount = 0;
+jQuery(document).ready(function() {
+	loadcomments('$_G[gp_fchannel]');
+});
+function loadcomments(t){
+	if (t=='myReceive') {checkMymsgPrompt(UID, 'comment');} //消除从‘我发表的评论’跳转‘到我收到的评论’时，评论提醒
+	
+	load_wait();
+	flag = (t=='issue')?'myComments':'myReceiveComments';
+	feedSign = false;
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "none");
+	jQuery("#homeTopAdsContainer").css("display", "none");
+	(t=='issue')?loadMyComments(currNum,initNum):loadMyReceiveComments(currNum,initNum);
+	currNum += initNum;
+
+	var ffobj = new ffPanel("filter", $_G[uid]);
+	var ffpfv = ffobj.getFfpfv();
+	var ffpma = ffobj.getFfpma();
+	ffpfv.empty();
+	ffpfv.append("<span class='icn_mycomment replaced z mrngroup' style='margin: 4px 0 0 8px;'></span><span class='xs3 xw1'>我的评论</span>");
+	ffpma.append('<table><tr><td class="grouplist">'
+				+ '<a id="xxx" class="' + ((t=='issue')?'xi2 xw1':'') + '" href="#a" onclick="loadcomments(\'issue\')">我发表的评论</a>'
+				+ '<a id="xxx" class="' + ((t!='issue')?'xi2 xw1':'') + '" href="#a" onclick="loadcomments(\'myReceive\')">我收到的评论</a>'
+				+ '</td></tr></table>');
+}
+
+function loadMyReceiveComments(num,shownum){
+	//alert("api/blog/api_mycommentfeed.php?uid="+$_G[uid]+"&"+"num="+num+"&shownum="+shownum);
+	jQuery.getJSON("api/blog/api_myreceivecommentfeed.php?uid="+$_G[uid]+"&"+"num="+num+"&shownum="+shownum,function(data){
+		var string ='';
+		if(data != null && data.comments){
+			clear_load_wait();
+			jQuery.each(data, function(key, val) {
+				jQuery.each(val, function(key, mycomments) {
+					var strtime = gettime(mycomments.commentDate);
+
+					var perurl = 'home.php?mod=space&uid='+mycomments.user.uid;
+					if (mycomments.anonymity > 0) { //如果是专区马甲
+						perurl = 'forum.php?mod=group&fid='+mycomments.user.uid;
+					}
+					string +='<dl class="list cl mycomments"><dd class="m avt"><a class="perPanel" href="'+perurl+'" target="_blank"><img src="'+mycomments.user.iconImg+'" /></a></dd>'
+						   + '<dd style="padding-left:10px; padding-top:5px;"><div class="detail"><a class="perPanel xw1" href="'+perurl+'" target="_blank">'+mycomments.user.username+'</a>:&nbsp;'
+						   + mycomments.content+'<span class="W_textb">&nbsp;('+strtime
+						   +' | <a class="btn_comReply" href="javascript:;" id="'+mycomments.user.username+'_'+mycomments.cid+'">回复</a>)</span></div><p class="s_text">评论&nbsp;我&nbsp;发表的内容:&nbsp;<a href="'+perurl+'" target="_blank">“';
+
+					if (mycomments.idtype == 'feed'){
+						string += (mycomments.body_general != '')?mycomments.body_general:"转发内容";
+					}else{
+						if(mycomments.body_data.summary != null) {
+							string += mycomments.body_data.summary;
+						} else if(mycomments.body_data.subject != null){
+							string += mycomments.body_data.subject;
+						} else if(mycomments.body_data.message != null){
+							string += mycomments.body_data.message;
+						} else {
+							string += mycomments.body_general;
+						}
+					}
+					
+					string += '”</a></p>';
+					string += '<div id="comReply_'+mycomments.feedid+'_'+cCount+'" class="commentReplay mtm" style="display:none;"><b class="gray"><b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b></b><div class="content2"><div class="comment">'
+					string += '<div class="commentSay"><form action="home.php?mod=spacecp&ac=comment&handlekey=ComReply" method="post" id="feedComment_'+mycomments.feedid+'_'+cCount+'" onsubmit="ajaxpost(\'feedComment_'+mycomments.feedid+'_'+cCount+'\', \'return_Com_'+mycomments.feedid+'_'+cCount+'\');setFeedId(\''+mycomments.feedid+'_'+cCount+'\'); doane(event); disComment(this);"><input type="hidden" value="'+mycomments.icon+'" name="icon"><input type="hidden" value="'+mycomments.fid+'" name="fid"><input type="hidden" value="'+mycomments.id+'" name="iconid"><input type="hidden" value="'+mycomments.idtype+'" name="iconidtype"><input type="hidden" value="'+mycomments.feedid+'" name="id"><input type="hidden" value="feed" name="idtype"><input type="hidden" value="true" name="commentsubmit"><input type="hidden" value="true" name="quickcomment"><input type="hidden" name="formhash" value="'+FORMHASH+'" /><input type="hidden" value="true" name="cid"><div style="padding-bottom:5px;"><input class="W_checkbox mrngroup" type="checkbox" name="forward" onclick="setTransBlog()"><label for="forward">评论同时转发</label> &nbsp; <input class="W_checkbox mrngroup" type="checkbox" name="anonymity" value="-1"><label for="anonymity">匿名评论</label></div><textarea name="message" type="text"></textarea><input class="btn_comment" disabled="disabled" type="submit" value="" style="background-position: 0 0;" /></form><div id="return_Com_'+mycomments.feedid+'_'+cCount+'" style="display:none;"></div></div>';
+					string += '</div></div><b class="gray"><b class="b4"></b><b class="b3"></b><b class="b2"></b><b class="b1"></b></b></div>';
+					string += '</dd></dl>';
+					cCount++;
+				});
+				jQuery("#feed").append(string);
+				fetchFeedAuth('#feed');
+			});
+			if( feedSign == true ){dl_count(data.comments.length);load_pager();}
+			jQuery('textarea[name=message]').trigger("myCustomEvent2");
+		}else{
+			if( feedSign == true ){dl_count();load_pager();}
+			if( feedSign == false ){jQuery("#load_wait").html('<br><br><p style=" text-align:center; margin:0px auto;"><br><br>非常抱歉,您还没有评论过他人动态！</br></br></p>');}
+		}
+	});
+}
+function loadMyComments(num,shownum,t){
+	//alert("api/blog/api_mycommentfeed.php?uid="+$_G[uid]+"&"+"num="+num+"&shownum="+shownum);
+	jQuery.getJSON("api/blog/api_mycommentfeed.php?uid="+$_G[uid]+"&"+"num="+num+"&shownum="+shownum,function(data){
+		var string ='';
+		if(data != null && data.comment){
+			clear_load_wait();
+			jQuery.each(data, function(key, val) {
+				jQuery.each(val, function(key, mycomments) {
+					var strtime = gettime(mycomments.dateline);
+
+					var perurl = 'home.php?mod=space&uid='+mycomments.uid,
+						imgurl = 'uc_server/avatar.php?uid='+mycomments.uid+'&size=small';
+					if (mycomments.fanonymity > 0) { //如果是专区马甲
+						perurl = 'forum.php?mod=group&fid='+mycomments.fid;
+						imgurl = mycomments.ficon;
+					}
+					string +='<dl class="list cl mycomments" style="padding-left:0px !important;">'
+						   + '<dd style="padding-left:10px; padding-top:5px;"><div class="detail"><span class="qs"></span>'+mycomments.message+'<span class="W_textb">&nbsp;('+strtime+')</span><span class="qe"></span></div><p class="s_text">评论&nbsp;'
+						   + '<a class="perPanel xw1" href="'+perurl+'" target="_blank">'+mycomments.realname+'</a>'
+						   + '&nbsp;发表的内容:&nbsp;<a href="'+perurl+'" target="_blank">“';
+
+					if (mycomments.idtype == 'feed'){
+						string += (mycomments.body_general != '')?mycomments.body_general:"转发内容";
+					}else{
+						if(mycomments.body_data.summary != null) {
+							string += mycomments.body_data.summary;
+						} else if(mycomments.body_data.subject != null){
+							string += mycomments.body_data.subject;
+						} else if(mycomments.body_data.message != null){
+							string += mycomments.body_data.message;
+						}
+					}
+					string += '”</a></p></dd></dl>';
+				});
+				jQuery("#feed").append(string);
+				fetchFeedAuth('#feed');
+			});
+			if( feedSign == true ){dl_count(data.comment.length);load_pager();}
+		}else{
+			if( feedSign == true ){dl_count();load_pager();}
+			if( feedSign == false ){jQuery("#load_wait").html('<br><br><p style=" text-align:center; margin:0px auto;"><br><br>非常抱歉,您还没有评论过他人动态！</br></br></p>');}
+		}
+	});
+}
+
+//展开、收起评论回复
+jQuery("body").on("click",".btn_comReply",function(){
+			var anchor = jQuery(this);
+			var stringId = anchor.attr("id").split("_");
+			var replyName = stringId[0];
+			var cid = stringId[1];
+			var conanchor = anchor.parent().parent().parent();
+			jQuery(".commentReplay",conanchor).slideToggle(150, "easeOutQuint");
+			jQuery(textarea,conanchor).val('回复 @'+ replyName +' : ');
+			jQuery('input[name=cid]',conanchor).val(cid);
+});
+
+function succeedhandle_ComReply(url, msg, values) {
+	showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>评论回复成功</span>", 1500);
+
+	var anchor = jQuery("#comReply_"+currFeedID);
+
+	jQuery(textarea,anchor).attr("value","").css("height","16px").removeAttr("readonly").growfield('restart');
+	jQuery('input[name=cid]',anchor).val('');
+
+	anchor.slideUp(150, "easeOutQuint");
+
+}
+function errorhandle_ComReply(msg, values){
+	showGrowl(msg, 1500);
+	var f = jQuery('#feedComment_' + currFeedID);
+	disComment(f, 'remove');
+}
+
+</script>
+<!--{template common/footer}-->

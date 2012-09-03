@@ -1,0 +1,341 @@
+<!--{eval 
+	$_G[home_tpl_titles] = array('{lang doc}');
+	$_G[home_tpl_spacetitle] = "{lang doc}";
+	$_G[home_tpl_spacemenus][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=doc&view=me\">{lang they_doc}</a>";
+	$friendsname = array(1 => '{lang friendname_1}',2 => '{lang friendname_2}',3 => '{lang friendname_3}',4 => '{lang friendname_4}');
+}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=doc">{lang doc}</a>
+	<!--{if $_GET['view']=='me'}-->
+	 &rsaquo; <a href="home.php?mod=space&uid=$space[uid]&do=doc&view=me">{$space[username]}{lang somebody_doc}</a>
+	<!--{/if}-->
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div class="bm">
+		<!--{if $space[self]}-->
+			<h1 class="mt"><img alt="doc" src="{STATICURL}image/feed/doc.gif" class="vm" /> {lang doc}</h1>
+			<ul class="tb cl">
+				<li$actives[we]><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=we">{lang friend_doc}</a></li>
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=me">{lang my_doc}</a></li>
+				<li$actives[all]><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=all">{lang view_all}</a></li>
+				<li class="o"><a href="home.php?mod=spacecp&ac=doc&op=select" id="a_doc_publish" onclick="showWindow(this.id, this.href, 'get', 0);">{lang post_new_doc}</a></li>
+			</ul>
+		<!--{else}-->
+			<!--{template home/space_menu}-->
+			<p class="tbmu">{lang doing_orderby_time}</p>
+		<!--{/if}-->
+		
+		<!--{if $searchkey}-->
+			<p class="tbmu">{lang follow_search_doc} <span style="color: red; font-weight: 700;">$searchkey</span> {lang doing_record_list}</p>
+		<!--{/if}-->
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang doc}<!--{if $space[self]}--> <span class="xs1 xw0">( <a href="home.php?mod=spacecp&ac=doc">{lang post_new_doc}</a> )</span><!--{/if}--></h1>
+<!--{/if}-->
+<script type="text/javascript">
+function changesort2(afrm){
+    var nav_order = $("nav_order");
+    var nav_order_rule = $("nav_order_rule");
+    if(!nav_order || !nav_order_rule){
+        return false;
+    }
+    if(afrm.className.indexOf('pressed')>0){
+        afrm.className = "";
+        nav_order.style.display = '';
+        nav_order_rule.style.display = '';
+    }else{
+        afrm.className = " pressed";
+        nav_order.style.display = 'none';
+        nav_order_rule.style.display = 'none';
+    }
+}
+
+function changecategory2(afrm){
+    var nav_category = $("nav_category");
+    if(!nav_category){
+        return false;
+    }
+    if(afrm.className.indexOf('pressed')>0){
+        afrm.className = "";
+        nav_category.style.display = '';
+    }else{
+        afrm.className = " pressed";
+        nav_category.style.display = 'none';
+    }
+}
+</script>
+
+<!--{if $count}-->
+<div class="wdlb_nr">
+	<!--{if $_GET['display'] == 1}-->
+	<div class="wd5">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table3">
+        <tr>
+          <td width="42%" height="30" align="center"><a>标题</a><!--{if $_GET['orderby'] == 'title'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="15%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=uploadtime&orderseq=<!--{eval echo (!$_GET['orderby'] || $_GET['orderby'] != 'uploadtime') || $_GET['orderseq']? 0 : 1 ;}-->&display=$_GET[display]">上传时间</a><!--{if !$_GET['orderby'] || $_GET['orderby'] == 'uploadtime'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=averagescore&orderseq=<!--{eval echo $_GET['orderby'] != 'averagescore' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">平均分</a><!--{if $_GET['orderby'] == 'averagescore'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=read&orderseq=<!--{eval echo $_GET['orderby'] != 'read' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">阅读</a><!--{if $_GET['orderby'] == 'read'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=share&orderseq=<!--{eval echo $_GET['orderby'] != 'share' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">分享</a><!--{if $_GET['orderby'] == 'share'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=comment&orderseq=<!--{eval echo $_GET['orderby'] != 'comment' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">评论</a><!--{if $_GET['orderby'] == 'comment'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=favorite&orderseq=<!--{eval echo $_GET['orderby'] != 'favorite' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">收藏</a><!--{if $_GET['orderby'] == 'favorite'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="8%" class="qcbx"><a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$_GET[classid]&view=$_GET[view]&timerange=$_GET[timerange]&orderby=download&orderseq=<!--{eval echo $_GET['orderby'] != 'download' || $_GET['orderseq']?0:1 ;}-->&display=$_GET[display]">下载</a><!--{if $_GET['orderby'] == 'download'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+        </tr>
+        <!--{loop $filelist $k $value}-->
+        <tr <!--{eval echo $k % 2 == 1? "class=a": ""}-->>
+          <td>
+          	<p>
+			<span style="font-size:14px;font-weight:bold;"><a href="$value[titlelink]">$value[title]</a></span>
+			</p>
+			<p>
+			<span><a href="home.php?mod=space&uid=$value[uid]" class="jc">$value[username]</a></span>
+			<!--{if $value['uid'] == $_G['uid']}-->
+			<span class="left"><a href="home.php?mod=spacecp&ac=doc&op=edit&docid=$value[id]" >编辑属性</a> | <a href="home.php?mod=spacecp&ac=doc&op=change&docid=$value[id]&classid=$value[folderid]" id="doc_change_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">移动</a> | <a href="home.php?mod=spacecp&ac=doc&op=delete&docid=$value[id]" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a></span>
+			<!--{/if}-->
+			<!--{if $value['uid'] != $_G['uid']&&$isGroupManager}-->
+			<span class="left"><!--<a href="home.php?mod=spacecp&ac=doc&op=edit&docid=$value[id]" >编辑属性</a> | --><a href="home.php?mod=spacecp&ac=doc&op=delete&docid=$value[id]" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a>
+			</span>
+			<!--{/if}-->
+			<!--{if $value['status'] == 1}-->
+			<!--{elseif $value['status'] == 2}-->
+			<span class="a"><img src="static/image/home/doc/wd01_11.png" /></span>
+			<!--{elseif $value['status'] == 4}-->
+			<!--{elseif $value['status'] == 8}-->
+			<span class="a"><img src="static/image/home/doc/wd01_19.png" width="50" height="17" /></span>
+			<!--{/if}-->
+			<!--{if $value['security'] == 1}-->
+			<!--{elseif $value['security'] == 2}-->
+			<!--{elseif $value['security'] == 4}-->
+			<span class="a"><img src="static/image/home/doc/a01_25.jpg" width="20" height="20" /></span>
+			<!--{elseif $value['security'] == 8}-->
+			<span class="a"><img src="static/image/home/doc/a01_24.jpg" width="17" height="20" /></span>
+			<!--{/if}-->
+			</p>
+		  </td>
+          <td>$value[uploadtime]</td>
+          <td><!--{eval echo empty($value[averagescore])?"--":$value[averagescore];}--></td>
+          <td><!--{eval echo empty($value[readnum])?"--":$value[readnum];}--></td>
+          <td><!--{eval echo empty($value[sharenum])?"--":$value[sharenum];}--></td>
+          <td><!--{eval echo empty($value[commentnum])?"--":$value[commentnum];}--></td>
+          <td><!--{eval echo empty($value[favoritenum])?"--":$value[favoritenum];}--></td>
+          <td class="qcbx"><!--{eval echo empty($value[downloadnum])?"--":$value[downloadnum];}--></td>
+        </tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+	<!--{else}-->
+	<ul>
+	<!--{loop $filelist $k $value}-->
+		<li style="border-bottom:1px dashed #D6D6D6;padding:14px 0 10px 8px;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+		  <tr>
+			<td width="13%" valign="top"><img src="$value[imglink]" alt="" width="81" height="113" /></td>
+			<td width="76%" align="center">
+			<table width="96%" border="0" cellpadding="0" cellspacing="0" class="table2"  style="table-layout:fixed;">
+		  <tr>
+			<td width="70%" align="left" class="wdzh"><span class="hongse" style="font-size:14px;font-weight:bold;"><a href="$value[titlelink]" target="_blank">$value[title]</a></span>
+			<!--{if $value['status'] == 1}-->
+			<!--{elseif $value['status'] == 2}-->
+			<span><img src="static/image/home/doc/wd01_11.png" /></span>
+			<!--{elseif $value['status'] == 4}-->
+			<!--{elseif $value['status'] == 8}-->
+			<span><img src="static/image/home/doc/wd01_19.png" width="50" height="17" /></span>
+			<!--{/if}-->
+			<a href="home.php?mod=spacecp&ac=share&type=doc&id=$value[id]&fid=$value[zoneid]&handlekey=sharedochk_{$value[id]}&subject={echo base64_encode($value['title']);}&subjectlink={echo base64_encode($value['titlelink']);}&authorid=$value[uid]&author={echo base64_encode($value['username']);}&image={echo base64_encode($value['imglink']);}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr right">分享</a>
+			</td>
+		  </tr>
+		  <tr align="left">
+			<td class="wdsj">$value[uploadtime]
+			<!--{if $value['security'] == 1}-->
+			<!--{elseif $value['security'] == 2}-->
+			<!--{elseif $value['security'] == 4}-->
+			<span class="right">凭密码可见</span>
+			<!--{elseif $value['security'] == 8}-->
+			<span class="right">仅好友可见</span>
+			<!--{/if}-->
+			</td>
+			</tr>
+		  <tr align="left">
+			<td>$value[context]</td>
+		  </tr>
+		  <tr align="left">
+			<td>
+			<!--{loop $value[keywords] $key $keyword}-->
+			<!--{if $keyword != ""}-->
+			<div class="bq">
+			<div class="bq_l"></div>
+			<div class="bq_c">$keyword</div>
+			<div class="bq_r"></div>
+			</div>
+			<!--{/if}-->
+			<!--{/loop}-->
+			</td>
+			</tr>
+		  <tr>
+			<td height="0" align="left">
+			<!--{if $value['uid'] == $_G['uid']}-->
+			<span class="left"><a href="home.php?mod=spacecp&ac=doc&op=edit&docid=$value[id]" >编辑属性</a> | <a href="home.php?mod=spacecp&ac=doc&op=change&docid=$value[id]&classid=$value[folderid]" id="doc_change_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">移动</a> | <a href="home.php?mod=spacecp&ac=doc&op=delete&docid=$value[id]" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a></span>
+			<span class="right">
+			<!--{elseif $value['uid'] != $_G['uid']&&$isGroupManager}-->
+			<span class="left"><!--<a href="home.php?mod=spacecp&ac=doc&op=edit&docid=$value[id]" >编辑属性</a> | --><a href="home.php?mod=spacecp&ac=doc&op=delete&docid=$value[id]" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a>
+			</span>
+			<span class="right">
+			<!--{else}-->
+			<span class="left">
+			<!--{/if}-->
+			<!--{if $value[readnum]}-->
+			<a>$value[readnum] 次阅读</a> | 
+			<!--{/if}-->
+			<!--{if $value[commentnum]}-->
+			<a>$value[commentnum]个评论</a>
+			<!--{else}-->
+			没有评论
+			<!--{/if}-->
+			<!--{if $value['security'] != 4}-->
+				<!--{if $orderby=='averagescore'}-->
+				 | <a>$value[averagescore]分</a>
+				<!--{/if}-->
+				<!--{if $orderby=='share'}-->
+				 | <a>$value[sharenum]次分享</a>
+				<!--{/if}-->
+				<!--{if $orderby=='favorite'}-->
+				 | <a>$value[favoritenum]次收藏</a> 
+				<!--{/if}-->
+				<!--{if $orderby=='download'}-->
+				 | <a>$value[downloadnum]次下载</a>
+				<!--{/if}-->
+			<!--{/if}-->
+			</span>
+			</td>
+			</tr>
+		</table>	</td>
+			<td width="11%" align="left" valign="top">
+			<div class="tx">
+			<p><div class="avt"><a href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div></p>
+			<p><a href="home.php?mod=space&uid=$value[uid]" class="yhm">$value[username]</a></p>
+			</div>
+			</td>
+		  </tr>		  
+		  
+		</table>
+		</li>
+	<!--{/loop}-->
+	</ul>
+	<!--{/if}-->
+	<!--{if $pricount}-->
+		<p class="mtm">{lang hide_doc}</p>
+	<!--{/if}-->
+</div>
+<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+<!--{else}-->
+	<div class="emp">{lang no_related_doc}.</div>
+<!--{/if}-->
+
+
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<div class="bn gsh">
+			<h2>{lang search_doc}</h2>
+			<form method="get" autocomplete="off" action="home.php" class="pns">
+				<input type="hidden" name="searchmode" value="1" />
+				<input type="hidden" name="do" value="doc" />
+				<input type="hidden" name="mod" value="space" />
+				<input type="hidden" name="view" value="$_GET[view]" />
+				<input type="hidden" name="classid" value="$_GET[classid]" />
+				<input type="hidden" name="timerange" value="$_GET[timerange]" />
+				<input type="hidden" name="orderby" value="$_GET[orderby]" />
+				<input type="hidden" name="orderseq" value="$_GET[orderseq]" />
+				<input type="hidden" name="searchsubmit" value="1" />
+				<input type="text" name="searchkey" class="px vm" size="15" value="{lang doing_enter_keywords}" onclick="if(this.value=='{lang doing_enter_keywords}')this.value='';" />
+				<button type="submit" class="pn vm"><em>{lang search}</em></button>
+			</form>
+		</div>
+		<hr class="da" />
+		<!--{if $classarr}-->
+			<hr class="da" />
+			<div class="bn">
+				<h2>{lang personal_category}</h2>
+				<ul class="xl xl1">
+					<li{if !$_GET[classid]} class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=me&from=$_GET[from]">全部</a></li>
+					<!--{loop $classarr $classid $classname}-->
+					<li{if $_GET[classid]==$classid} class="a"{/if}>
+						<!--{if $space['self'] && $classid != '1'}-->
+						<em>
+							<a href="home.php?mod=spacecp&ac=doc&op=editclass&classid=$classid" id="c_edit_$classid" onclick="showWindow(this.id, this.href, 'get', 0);">{lang edit}</a>
+							<a href="home.php?mod=spacecp&ac=doc&op=deleteclass&classid=$classid" id="c_delete_$classid" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a>
+						</em>
+						<!--{/if}-->
+						<a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$classid&view=me&from=$_GET[from]">$classname</a>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		<!--{/if}-->
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<script type="text/javascript">
+	function fuidgoto(fuid) {
+		window.location.href = 'home.php?mod=space&do=doc&view=we&fuid='+fuid;
+	}
+</script>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+		<!--{if $classarr}-->
+			<hr class="da" />
+			<div class="bn">
+				<h2>{lang personal_category}</h2>
+				<ul class="xl xl1">
+					<li{if !$_GET[classid]} class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=me&from=$_GET[from]">全部分类</a></li>
+					<!--{loop $classarr $classid $classname}-->
+					<li{if $_GET[classid]==$classid} class="a"{/if}>
+						<!--{if $space['self'] && $classid != '1'}-->
+						<em>
+							<a href="home.php?mod=spacecp&ac=doc&op=editclass&classid=$classid" id="c_edit_$classid" onclick="showWindow(this.id, this.href, 'get', 0);">{lang edit}</a>
+							<a href="home.php?mod=spacecp&ac=doc&op=deleteclass&classid=$classid" id="c_delete_$classid" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a>
+						</em>
+						<!--{/if}-->
+						<a href="home.php?mod=space&uid=$space[uid]&do=doc&classid=$classid&view=me&from=$_GET[from]">$classname</a>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		<!--{/if}-->
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

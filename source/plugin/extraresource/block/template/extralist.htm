@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="module cl xl xl1" <!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+<ul>
+	<!--{loop $listdata $item}-->
+	<li>
+	<em title="{$item[totalstars]}" ><span class="{$item[stars]}"></span></em>
+	<a target="_blank" href="{$item[url]}"><span class="xi2"><!--{if $item[type]=='class'}-->[课程]<!--{elseif $item[type]=='org'}-->[培训机构]<!--{elseif $item[type]=='lec'}-->[讲师]<!--{/if}--></span>{$item[name]}</a>
+	</li>
+	<!--{/loop}-->
+</ul>
+</div>

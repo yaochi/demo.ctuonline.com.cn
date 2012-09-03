@@ -1,0 +1,13 @@
+{subtemplate common/header}
+<div id="pt" class="wp">
+    <a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>
+    <!--{if $groupnav}-->
+			$groupnav
+    <!--{elseif $action == 'create'}-->
+    &rsaquo; {lang group_create}
+    <!--{/if}-->
+</div>
+<div id="ct" class="wp cl n">
+    {eval include join_plugin_template($_G['gp_plugin_name'], $_G["gp_".$_G["gp_plugin_name"]."_action"]);}
+</div>
+{subtemplate common/footer}

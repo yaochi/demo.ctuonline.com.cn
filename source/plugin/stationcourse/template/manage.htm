@@ -1,0 +1,106 @@
+<script type="text/javascript" src="source/plugin/stationcourse/js/stationcourse.js"></script>
+<div id="ct" class="wp cl"">
+<div class="reHeight">
+<div class="mn">
+<div id="plgnav" class="bbsgroup">
+<a id="backbtn" href="forum.php?mod=group&amp;fid=$_G[fid]" class="z">返回首页</a>
+<div id="toolbar">
+<h2>管理专区</h2>
+</div>
+</div>
+ 
+<div class="bm">
+<p class="tbmu">
+<a href="forum.php?mod=group&amp;action=manage&amp;op=group&amp;fid=$_G[fid]">专区设置</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=managecontent&amp;fid=$_G[fid]">首页内容管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=checkuser&amp;fid=$_G[fid]">成员审核</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageuser&amp;fid=$_G[fid]">成员管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageplugin&amp;fid=$_G[fid]" >组件管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageempirical&amp;fid=$_G[fid]" >经验值管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manage_level&amp;fid=$_G[fid]" >经验值等级管理</a>
+ | <a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=groupad&amp;plugin_op=groupmenu">广告管理</a>
+ | <a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=stationcourse&amp;plugin_op=groupmenu&amp;stationcourse_action=manage" class="a">岗位课程管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=demise&amp;fid=$_G[fid]">专区转让</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=delete&amp;fid=$_G[fid]">专区删除</a>
+</p>
+</div>
+<div class="bm">
+		<table>
+            <tr id="nav_category">
+                <td class="piped">
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=install" <!--{if $select==0}-->class="a"<!--{/if}-->>初始化数据</a>
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=manage" <!--{if $select==1}-->class="a"<!--{/if}-->>岗位管理</a>
+                </td>
+            </tr>
+        </table>
+ <table>
+ 				 <tr>
+                        <td width="30%"></td>
+                        <td width="30%">岗位族群</td>
+                        <td width="30%">子族群</td>
+                 </tr>
+                  <tr>
+                        <td>
+                            <img class="vm" src="static/image/common/addicn.gif" /> &nbsp; <a href="###" onclick="change('new_sort');">添加族群</a>
+                        </td>
+                        <td><div style="display:none" id="new_sort">
+                        <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=addstation" id="cpform" enctype="multipart/form-data">
+                        <input type="text" name="newsort"  value="" />
+                        <input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="提交" />
+        				</form>
+                        </div></td>
+                        <td></td>
+                  </tr>
+                 <!-- {loop $stations $value} -->
+                  <tr>
+                        <td></td>
+                        <td><div id="notext_$value[self][id]" style="display">$value[self][name]
+                        <a href="#" onclick="changetoedit('notext_$value[self][id]','text_$value[self][id]');"><img class="vm" title="编辑" src="source/plugin/stationcourse/images/edit.gif" /></a>
+                        <a id="delete_station" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=delete_station&stationid=$value[self][id]" onclick="showWindow('a_favorite',this.href, 'get', 0);"><img class="vm" title="删除" src="source/plugin/stationcourse/images/delete.gif" /></a>
+                        </div>
+                        <div id="text_$value[self][id]" style="display:none">
+                        <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=editstation" id="cpform" enctype="multipart/form-data">
+                        <input type="hidden" name="id"  value="$value[self][id]" />
+                        <input type="text" name="name"  value="$value[self][name]" />
+                        <input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="保存" />
+        				</form>
+                        </div>
+                        </td>
+                        <td></td>
+                  </tr>
+                  <tr>
+                        <td></td>
+                        <td><img class="vm" src="static/image/common/addicn.gif" /> &nbsp; <a href="###" onclick="change('new_sort_{$value[self][id]}');">添加子族群</a>
+                        </td>
+                        <td><div style="display:none" id="new_sort_{$value[self][id]}">
+                        <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=addstation&type=1" id="cpform" enctype="multipart/form-data">
+                        <input type="text" name="newsort"  value="" />
+                        <input type="hidden" name="sort"  value="{$value[self][id]}" />
+                        <input type="hidden" name="sortname"  value="{$value[self][name]}" />
+                         <input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="提交" />
+        				</form>
+        				</div></td>
+                  </tr>
+                  <!-- {loop $value[sort] $sort} -->
+                  <tr>
+                        <td></td>
+                        <td></td>
+                        <td><div id="notext_$sort[id]" style="display"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=manage_course&station={$sort[id]}">$sort[name]</a>
+                        <a href="#" onclick="changetoedit('notext_$sort[id]','text_$sort[id]');"><img class="vm" title="编辑" src="source/plugin/stationcourse/images/edit.gif" /></a>
+                        <a id="delete_station" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=delete_station&stationid=$sort[id]" onclick="showWindow('a_favorite',this.href, 'get', 0);"><img class="vm" title="删除" src="source/plugin/stationcourse/images/delete.gif" /></a>
+                        </div>
+                        <div id="text_$sort[id]" style="display:none">
+                        <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=editstation" id="cpform" enctype="multipart/form-data">
+                        <input type="hidden" name="id"  value="$sort[id]" />
+                        <input type="text" name="name"  value="$sort[name]" />
+                        <input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="保存" />
+        				</form>
+                        </div>
+                        </td>
+                  </tr>
+                 <!-- {/loop} -->
+                 <!-- {/loop} -->                  
+                </table>
+</div></div>
+</div>
+</div>

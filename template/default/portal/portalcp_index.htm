@@ -1,0 +1,54 @@
+<!--{template common/header}-->
+
+<style type="text/css">
+.parentcat {}
+.cat { margin-left: 20px; }
+.lastchildcat, .childcat { margin-left: 40px; }
+</style>
+<!--{if $op == 'push'}-->
+	<h3 class="flb">
+	<em>{lang article_push}</em>
+	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
+	</h3>
+
+	<div class="c" style="width:220px; height: 300px; overflow: hidden; overflow-y: scroll;">
+		<p>{lang category_push_select}</p>
+		<table class="mtw dt">
+			$categorytree
+		</table>
+	</div>
+
+<!--{else}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; 
+	<a href="portal.php">{lang portal}</a> &rsaquo;
+	<a href="portal.php?mod=portalcp">{lang category_management}</a>
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="portal.php">{lang portal}</a></label>
+		</div>
+		<div class="bm">
+			<ul class="tb cl">
+				<li class="a"><a href="portal.php?mod=portalcp&ac=index">{lang category_management}</a></li>
+				<li><a href="portal.php?mod=portalcp&ac=portalblock">{lang block_management}</a></li>
+			</ul>
+
+			<table class="mtw dt">
+				<tr>
+					<th>{lang category_name}</th>
+					<th width="80">{lang article_numbers}</th>
+					<th width="120">{lang article_operation}</th>
+				</tr>
+				$categorytree
+			</table>
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>管理中心</title>
+<link href="css.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	function dangqian(id)
+	{
+		for(i=1;i<6;i++)
+		{
+			if(i==id)
+			{
+				document.getElementById(i).className='hover';
+			}
+			else
+			{
+				document.getElementById(i).className='';
+			}
+			
+		}
+	}
+</script>
+</head>
+
+<body>
+  <div class="xxyd">
+    <div class="xxyd_nr">
+      
+        <div class="xxyd_bt">
+       	   <a href="/manage.php" target="showframe" onclick="dangqian(this.id)" id="2">社区管理</a>
+          <a href="http://www.ctuonline.com.cn/www/command/NavigatorControl?flag=main&amp;roleID=9200" target="_bank"  onclick="dangqian(this.id)" id="1">学习管理</a>
+		   <a href="http://know.myctu.cn/WebRoot/admin" target="_bank"  onclick="dangqian(this.id)" id="1">知识管理</a>
+          <!--  target="showframe"  -->
+          </ul>
+		</div>
+
+
+    </div>
+  </div>
+</body>
+</html>
+

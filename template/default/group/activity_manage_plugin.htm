@@ -1,0 +1,29 @@
+<form action="forum.php?mod=activity&action=manage&op=manageplugin&fid=$_G['gp_fid']" method="post">
+<table class="tbcommon tb2 nobdb" width="100%">
+    <tbody>
+        <tr><th>插件名称</th><th>状态</th><th>权限</th></tr>
+        <!--{loop $_G["group_plugins"]["group_all"] $id $value}-->
+        <tr class="hover">
+            <td class="td28">
+                
+                <!--{eval echo $_G["group_plugins"]["group_available"]["groupmenu"][$id]["menu"]?$_G["group_plugins"]["group_available"]["groupmenu"][$id]["menu"]:$value["name"]; }--></td>
+            <td class="td28">
+            <input type="hidden" name="plugin_ids[]" value="$id"/>
+            <select name="m[$id]">
+                <option value="disable" <!--{if $cur_group_plugins[$id]["status"]=="N"}-->selected="true"<!--{/if}--> >关闭</option>
+                <option value="enable" <!--{if $cur_group_plugins[$id]["status"]=="Y"}-->selected="true"<!--{/if}-->>开启</option>
+            </select></td>
+            <td class="td28">
+            <select name="oper[$id]">
+                
+                <!--{loop $levels $v}-->
+                <option value="$v[level_name]" <!--{if $cur_group_plugins[$id]["auth_group"]==$v[level_name]}-->selected="true"<!--{/if}--> >$v[level_name]</option>
+                <!--{/loop}-->
+            </select> 
+             
+            </td></tr>
+       <!--{/loop}-->
+       <tr><td colspan="4"><input type="submit" value="保存"/></td></tr>
+    </tbody>
+</table>
+</form> 

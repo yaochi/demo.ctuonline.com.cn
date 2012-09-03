@@ -1,0 +1,148 @@
+<!--{eval $_G['home_tpl_titles'] = array($album['albumname'], '相册');}-->
+<!--{eval $friendsname = array(1 => '仅好友可见',2 => '指定好友可见',3 => '仅自己可见',4 => '凭密码可见',5 => '专区可见');}-->
+
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+			
+	<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+
+	{ad/text/wp a_t}
+
+<!--{else}-->
+<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<!--{/if}-->
+
+<div id="ct" class="wp cl n">
+	<div class="mn">
+	
+	
+<!--{if empty($diymode)}-->
+
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_album_header}
+		</div>
+			<!--{eval
+				$_G['plugin_tpl_spacemenus_uid'] = $album['uid'];
+				$_G['plugin_tpl_spacemenus_username'] = $album['username'];
+				
+				$_G['plugin_tpl_spacemenus'][] = "<a href=\"".join_plugin_action2('index')."\">相册</a>";
+				$_G['plugin_tpl_spacemenus'][] = "<a href=\"".join_plugin_action2('index', array('id' => $album['albumid']))."\">$album[albumname]</a>";
+			}-->
+			<!--{template groupalbum2:space_menu}-->
+		<div class="bm">
+<!--{else}-->
+		<div class="bm">
+			<h1 class="mt">相册</h1>
+			<a href="{eval echo join_plugin_action2('upload');}">上传图片</a>
+<!--{/if}-->
+
+
+
+			<div class="tbmu clpt">
+				<!--{if $album[albumid]>0}-->
+				<a href="home.php?mod=spacecp&ac=favorite&type=galbum&id=$album[albumid]&spaceuid=$album[uid]&handlekey=sharealbumhk_{$album[albumid]}" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr ofav">收藏</a>
+				<a href="home.php?mod=spacecp&ac=share&type=galbum&id=$album[albumid]&fid=$album[fid]&handlekey=sharealbumhk_{$album[albumid]}&subject={echo base64_encode($album['albumname']);}&subjectlink={echo base64_encode(join_plugin_action2('index', array('id' => $album['albumid'])));}&authorid=$album[uid]&author={echo base64_encode(user_get_user_name_by_username($album['username']));}&image={echo base64_encode('data/attachment/plugin_groupalbum2/'.$album['pic']);}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr">转发</a>
+				<!--{/if}-->
+				<div class="y">
+					<!--{if ($_G[uid] == $album[uid] || checkperm_group('managealbum'))}--><a href="{if $album[albumid] > 0}{eval echo join_plugin_action2('albumcp', array('op'=>'edit','albumid'=>$album['albumid']));}{else}{eval echo join_plugin_action2('albumcp', array('op'=>'editpic', 'albumid'=>'0'));}{/if}">编辑</a><span class="pipe">|</span><!--{/if}-->
+					<!--{if ($_G[uid] == $album[uid] || checkperm_group('managealbum')) && $album[albumid] > 0}-->
+						<a href="{eval echo join_plugin_action2('albumcp', array('op'=>'delete', 'albumid'=>"$album[albumid]", 'handlekey'=>"delalbumhk_$album[albumid]"));}" id="album_delete_$album[albumid]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a><span class="pipe">|</span>
+					<!--{/if}-->
+				</div>
+				<span class="xw1">$album[albumname]</span>
+				<!--{if $album[picnum]}--><span class="xg1">共 $album[picnum] 张图片</span><!--{/if}-->
+				<!--{if $album['friend']}-->
+				<span class="xg1"> &nbsp; {$friendsname[$value[friend]]}</span>
+				<!--{/if}-->
+			</div>
+
+		<!--{if $list}-->
+			<ul class="ptw ml mlp cl">
+			<!--{loop $list $key $value}-->
+				<li>
+					<a href="{eval echo join_plugin_action2('index', array('picid'=>"$value[picid]"));}"><!--{if $value[pic]}--><img src="$value[pic]" alt="" />$value[title]<!--{/if}--></a>
+				</li>
+			<!--{/loop}-->
+			</ul>
+			<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+		<!--{else}-->
+			<p class="emp">该相册下还没有图片。</p>
+		<!--{/if}-->
+
+
+		</div>
+	</div>
+	<div class="sd">
+		<div class="obn" style="height: 56px; padding: 0 15px 0 10px;">
+			<select class="ps" onchange="gotoAlbum(this.value);" style="margin-top: 8px;">
+				<option value=""></option>
+				<!--{loop $albumlist $key $ablums}-->
+					<!--{loop $ablums $akey $value}-->
+					<option value="$value[albumid]" {if $value[albumid]==$id}selected="selected"{/if}>$value[albumname]</option>
+					<!--{/loop}-->
+				<!--{/loop}-->
+			</select>
+			<p class="xg1 hm">切换不同的相册查看</p>
+			<script type="text/javascript">
+				function gotoAlbum(id) {
+					if(id) window.location.href = '{eval echo join_plugin_action2('index');}&id='+id;
+				}
+			</script>
+		</div>
+		<div id="pnv" class="bn pns">
+			<!--{if $albumlist}-->
+			<p id="sabup" class="hm"><button href="javascript:;" onclick="switchAlbum(0);this.blur();return false;" class="pn"><em>上一组</em></button></p>
+			<!--{loop $albumlist $key $ablums}-->
+			<ul id="albumbox_$key" class="ptm ml mla mla1 cl" {if !isset($ablums[$id]) && !($key==0 && $id<0)} style="display: none;"{else}{eval $nowalbum=$key;}{/if}>
+				<!--{loop $ablums $akey $value}-->
+				<!--{eval $pwdkey = 'view_pwd_album_'.$value['albumid'];}-->
+				<li>
+					<div class="c{if $value[albumid]==$id} a{/if}"><a href="{eval echo join_plugin_action2('index', array('id'=>"$value[albumid]"));}" title="$value[albumname]" {if $value[uid]!=$_G[uid] && $value[friend]=='4' && $value[password] && empty($_G[cookie][$pwdkey])} onclick="showWindow('right_album_$value[albumid]', this.href, 'get', 0);"{/if}><!--{if $value[pic]}--><img src="$value[pic]" alt="$value[albumname]" /><!--{/if}--></a>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<!--{/loop}-->
+			<p id="sabdown" class="hm"><button href="javascript:;" onclick="switchAlbum(1);this.blur();return false;" class="pn"><em>下一组</em></button></p>
+
+			<script type="text/javascript">
+				var nowAlbum = $nowalbum;
+				var maxAlbum = $maxalbum;
+				function switchAlbum(down) {
+					if(down) {
+						if(nowAlbum + 1 < maxAlbum) {
+							$('albumbox_'+nowAlbum).style.display = 'none';
+							nowAlbum++;
+							$('albumbox_'+nowAlbum).style.display = '';
+						}
+					} else {
+						if(nowAlbum - 1 >= 0) {
+							$('albumbox_'+nowAlbum).style.display = 'none';
+							nowAlbum--;
+							$('albumbox_'+nowAlbum).style.display = '';
+						}
+					}
+					initSwitchButton();
+				}
+				function initSwitchButton(){
+					$('sabdown').style.display = maxAlbum-nowAlbum == 1 ? 'none' : '';
+					$('sabup').style.display = nowAlbum ? '' : 'none';
+				}
+				window.onload = function () {initSwitchButton();}
+			</script>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+<!--{template common/footer}-->

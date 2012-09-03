@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="source/plugin/exam/assets/style/exam.css?{VERHASH}" type="text/css" />
+
+<div id="plgnav" class="bbsgroup"><a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="sixWord y">统计</a>
+	<!--{/if}-->
+</div>
+
+<div class="mainbg">
+	<div class="bm promptbg">
+		<table>
+		<tr align="right">
+		<td><p><span class="rq">亲爱的学员：</span></p></td>
+		<td><p>作答并提交，即可奖励学习力积分10分，回答全部正确再加10分！</p></td>
+		</tr>
+		<tr align="right">
+		<td><p><span class="rq">温馨提示：</span></p></td>
+		<td><p>全部正确且排名靠前的学员，还将可能获得主办单位的额外奖励！</p></td>
+		</tr>
+		</table>
+	</div>
+	<div class="promptShadow"></div>
+
+	<!--{if $base[status]==1}-->
+	<div class="exam-page">
+		<form id="form1" name="form1" method="post" onsubmit="return validate();"	autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=groupmenu&exam_action=save" class="reHeight">
+            <div class="tl">提交人信息</div>
+            <div>
+                <table class="infoTable" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <th class="first">姓名</th><td><input type="text" class="px" name="realname" value="$user[realname]" readonly/></td>
+                    <th>联系手机</th><td class="last"><input type="text" id="tel" class="px" name="tel" value=""/></td>
+                </tr>
+                </table>
+                <input type="hidden" id="num" name="num" value="$base[num]"/>
+                <input type="hidden" name="eid" value="$base[id]"/>
+            </div>
+            <div class="exam-list">
+            	<table cellspacing="0" cellpadding="0" border="0">
+                <!--{loop $questions $key $question}-->
+                <tr><td colspan="2">$question[tid] 、 $question[title]</td></tr>
+                <!--{loop $question[options] $key $option}-->
+                <tr valign="top">
+                	<td width="30">
+                    <!--{if $question[type]==1}-->
+                    <input type="radio" value="$option[k]" id="t_$question[tid]" name="t_$question[tid]"/>
+                    <!--{else}-->
+                    <input class="pc" type="checkbox" value="$option[k]" id="t_{$question[tid]}" name="t_{$question[tid]}[]"/>
+                    <!--{/if}-->
+                    <input type="hidden" id="type_$question[tid]" name="type_{$question[tid]}" value="$question[type]"/>
+                    </td>
+                    <td>$option[k] 、 $option[v]</td>
+                </tr>
+                <!--{/loop}-->
+                <tr><td colspan="2" height="5" class="rules"></td></tr>
+                <tr><td colspan="2" height="5"></td></tr>
+                <!--{/loop}-->
+                </table>
+            </div>
+            <div class="btn-area clmt">
+            	<button name="button" class="pn pnc" type="submit"><em>提交</em></button>
+            </div>
+		</form>
+	</div>
+	<!--{else}-->
+	<div class="info">
+	非常抱歉，您进入的有奖问答暂未开始，请稍候！
+	</div>
+	<!--{/if}-->
+</div>
+<script type="text/javascript">
+function radiocheck(name){
+	var flag = false;
+	var radios=document.getElementsByName(name);
+	for(var i=0;i<radios.length;i++)
+	{
+		if(radios[i].checked==true)
+		{
+			flag = true;
+			break;
+		}
+	}
+	return flag;
+}
+
+function  boxcheck(name){
+  	var obj = document.getElementsByName(name);
+	var len= obj.length;
+	for(var i=0;i <len;i++)
+	{
+		if(obj[i].checked==true)
+		return true;
+	}
+	return   false;
+}
+
+function validate(){
+	var tele=document.getElementById('tel').value;
+	if(tele==""){
+	alert("请填写联系手机！");
+	document.getElementById('tel').focus();
+	return false;
+	}
+
+	var num=document.getElementById('num').value;
+	for(var i=1;i<=num;i++){
+		var type=document.getElementById('type_'+i).value;
+		if(type==1){
+			var status=radiocheck('t_'+i);
+			if(!status)
+			{
+				alert("您还未做第"+i+"题");
+				return false;
+			}
+		}
+		if(type==2){
+			var status=boxcheck('t_'+i+'[]');
+			if(!status)
+			{
+				alert("您还未做第"+i+"题");
+				return false;
+			}
+		}
+	}
+
+}
+</script>
+

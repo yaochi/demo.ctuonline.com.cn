@@ -1,0 +1,278 @@
+<script type="text/javascript" src="source/plugin/stationcourse/js/stationcourse.js"></script>
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $status==1}-->
+	<a id="createbtn" href="javascript:stationReset();" class="fourWord y">岗位重设置</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="cl stacourselist{if $status==0||status==-1} setting wizard{/if}{if $status==1} corlist{/if}" style="position: relative;">
+
+	<!--{if $status==0||$status==-1}-->
+	<div id="stacoursepanel">
+		<div class="reHeight">
+			<div id="proIndicator">
+				<div id="allLength"></div>
+				<div id="proceedLength"></div>
+				<div id="nodes" class="xw1">
+					<div>
+						<span></span>
+						<p>设置自己的岗位</p>
+					</div>
+					<div>
+						<span></span>
+						<p>设置感兴趣的岗位</p>
+					</div>
+					<div>
+						<span></span>
+						<p>完成设置</p>
+					</div>
+				</div>
+			</div>
+			<h2 class="xs4 xw1 mtn">设置向导</h2>
+			<script type="text/javascript" charset="utf-8">
+				initProIndicator($("proIndicator"));
+				$("proIndicator").className = "reHeight y";
+			</script>
+		</div>
+		<form id="stacourseform" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=createmenu&stationcourse_action=setstation" method="post" class="tfm">
+			<div id="step1" class="instruction">
+				<p class="xg1 xs2">欢迎您使用岗位课程组件<br />
+				   我们会根据您的岗位向您推荐最合适的课程
+				</p>
+				<div class="mtw ptw pbw">
+					<label for="orgname_input" class="xs2 xw1 z mtn" style="margin-left: 130px;">请设置您的岗位：</label>
+					 <input type="hidden" id="orgname_input_id" name="orgname_input_id"/>
+					<input type="text" class="px z" size="10" name="orgname_input" id="orgname_input" value="" readonly="readonly" style="width: 200px;">
+					<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=select_station&type=0&namevalue=namevalue&orgid=0&orgname=" onclick="showWindow('orgtree', this.href, 'get', 0);" class="xs2 mlngroup z mtn">选择</a>
+				</div>
+				<div class="btnPanel cl">
+					<button type="button" class="pn pnc y" onclick="return validate();"><span>下一步</span></button>
+				</div>
+			</div>
+			<div id="step2" class="instruction off">
+				<p class="xg1 xs2">您还可以设置您感兴趣的岗位 我们同样会向您推荐该岗位最合适的课程</p>
+				<div class="mtw ptw pbw reHeight">
+					<p class="z hm" style="margin-left: 100px; display: inline;">
+						<span class="xs2 xw1">请设置您感兴趣的岗位：</span><br />
+						<span>(选填)</span>
+					</p>
+					<input type="hidden" id="station_input_id" name="station_input_id"/>
+					<input type="text" class="px z" size="10" name="station_input" id="station_input" value="" readonly="readonly" style="width: 200px;">
+					<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=select_station&type=1&namevalue=namevalue&orgid=0&orgname="  onclick="showWindow('orgtree', this.href, 'get', 0);" class="xs2 mlngroup z mtn">选择</a>
+				</div>
+				<div class="btnPanel cl">
+					<button type="button" class="pn pnc y" onclick="switchWizard($('stacourseform'), 3); proIndicatorAction($('proIndicator'), true); additionalAction(true);"><span>下一步</span></button>
+					<button type="button" class="pn y mrmgroup" onclick="switchWizard($('stacourseform'), 1); proIndicatorAction($('proIndicator'), false);"><span>上一步</span></button>
+				</div>
+			</div>
+			<div id="step3" class="instruction off">
+				<p class="xg1 xs2 hm" style="margin-top: 85px;">之后您还可随时点击右上方蓝色按钮进行岗位的重新设定</p>
+				<div class="btnPanel cl">
+					<button type="submit" class="pn pnc y" onclick="javascript:;"><span>完成</span></button>
+					<button type="button" class="pn y mrmgroup" onclick="switchWizard($('stacourseform'), 2); proIndicatorAction($('proIndicator'), false); additionalAction(false);"><span>上一步</span></button>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" charset="utf-8">
+			function validate() {
+				var title = $("orgname_input");
+				if(title) {
+					var slen = strlen(title.value);
+					if (slen < 1) {
+						showDialog("请先设置您的岗位");
+						title.focus();
+						return false;
+					} else {
+						switchWizard($("stacourseform"), 2);
+						proIndicatorAction($("proIndicator"), true);
+					}
+				}
+			}
+
+			function additionalAction(buttonDisplay) {
+				if(buttonDisplay) {
+					var createbtn = document.createElement("a");
+					var btnText = document.createTextNode("岗位重设置");
+					createbtn.id = "createbtn";
+					createbtn.href = "javascript:;";
+					createbtn.className = "fourWord y";
+					createbtn.appendChild(btnText);
+					$("plgnav").insertBefore(createbtn, $("toolbar"));
+				} else {
+					$("plgnav").removeChild($("createbtn"));
+				}
+			}
+		</script>
+	</div>
+	<!--{/if}-->
+
+	<!--{if $status==1}-->
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock">
+			<p class="sb_title">我的岗位：</p>
+			<p class="sb_content xw1">$my_station[station_name]</p>
+			<input type="hidden" id="orgname_input_id" name="orgname_input_id"/>
+			<input type="text" class="px z mtm" size="10" name="orgname_input" id="orgname_input" value="$my_station[station_name]"  style="width: 200px;">
+			<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=select_station&type=0&namevalue=namevalue&orgid=0&orgname=" onclick="showWindow('orgtree', this.href, 'get', 0);" class="xs2 z mlmgroup">修改</a>
+		</div>
+		<div id="stationBlock1" class="stationBlock">
+			<p class="sb_title">感兴趣的岗位：</p>
+			<p class="sb_content xw1">$interest_station[station_name]</p>
+			<input type="hidden" id="station_input_id" name="station_input_id"/>
+			<input type="text" class="px z mtm" size="10" name="station_input" id="station_input" value="$interest_station[station_name]" readonly="readonly" style="width: 200px;">
+			<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=select_station&type=1&namevalue=namevalue&orgid=0&orgname=" onclick="showWindow('orgtree', this.href, 'get', 0);" class="xs2 z mlmgroup">修改</a>
+		</div>
+		<div id="stationArrow"></div>
+		<input type="hidden" id="listType" name="listType" value="$type" />
+	</div>
+	<div id="courseList" class="bm cl mtn">
+		<div id="stationBlock0_list" class="xld" <!--{if $type!=0}-->style="display:none"<!--{/if}-->>
+		<!--{if $my_courses}-->
+		<!--{loop $my_courses $course}-->
+			<dl class="reHeight bbda">
+				<dt class="xs2">
+              	    <span class="xi2">&#91;课程&#93;&nbsp;</span><span style="color:#FF4040;">&#91;$course[recommend_degree]&#93;&nbsp;</span><a href="$course[course_url]" target="_blank">$course[course_name]</a>
+				</dt>
+				<dd class="xg1">
+					<span>课程编号：$course[course_id]</span><span class="pipe">|</span>
+					<span>课程形式：$course[course_type]</span><span class="pipe">|</span>
+					<span>课件格式：$course[cai_type]</span><span class="pipe">|</span>
+					<span>课程来源：$course[cai_sourse]</span><span class="pipe">|</span><br />
+					<span>上传时间：{date($course[upload_time], 'u')}</span><span class="pipe">|</span>
+					<span>学时：$course[class_hour]</span><span class="pipe">|</span>
+					<span>平均分：$course[average]</span><span class="pipe">|</span>
+					<span>推荐度：$course[recommend]</span><span class="pipe">|</span>
+				</dd>
+				<dd class="cl">$course[introduction]</dd>
+			</dl>
+		<!--{/loop}-->
+		<!--{if $mymulti}--><div class="pgs cl">$mymulti</div><!--{/if}-->
+		<!--{else}-->
+		<p class="hm xg1">现暂无与您岗位所匹配的课程</p>
+		<!--{/if}-->
+		</div>
+
+		<div id="stationBlock1_list" class="xld" <!--{if $type!=1}-->style="display:none"<!--{/if}-->>
+		<!--{if $interest_courses}-->
+		<!--{loop $interest_courses $course}-->
+			<dl class="reHeight bbda">
+				<dt class="xs2">
+              	    <span class="xi2">&#91;课程&#93;&nbsp;</span><span  style="color:#FF4040;">&#91;$course[recommend_degree]&#93;&nbsp;</span><a href="$course[course_url]" target="_blank">$course[course_name]</a>
+				</dt>
+				<dd class="xg1">
+					<span>课程编号：$course[course_id]</span><span class="pipe">|</span>
+					<span>课程形式：$course[course_type]</span><span class="pipe">|</span>
+					<span>课件格式：$course[cai_type]</span><span class="pipe">|</span>
+					<span>课程来源：$course[cai_sourse]</span><span class="pipe">|</span><br />
+					<span>上传时间：{date($course[upload_time], 'u')}</span><span class="pipe">|</span>
+					<span>学时：$course[class_hour]</span><span class="pipe">|</span>
+					<span>平均分：$course[average]</span><span class="pipe">|</span>
+					<span>推荐度：$course[recommend]</span><span class="pipe">|</span>
+				</dd>
+				<dd class="cl">$course[introduction]</dd>
+			</dl>
+		<!--{/loop}-->
+		<!--{if $interestmulti}--><div class="pgs cl">$interestmulti</div><!--{/if}-->
+		<!--{else}-->
+		<p class="hm xg1">现暂无与您感兴趣岗位所匹配的课程</p>
+		<!--{/if}-->
+		</div>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+		var nodes = $("stacoursepanel").childNodes;
+		var blocks = [];
+		for(var i = 0; i < nodes.length; i++) {
+			if(nodes[i].nodeType != "3" && nodes[i].id.indexOf("stationBlock") != -1) {
+				blocks.push(nodes[i]);
+			}
+		}
+		var fps = 30;
+
+		var length = 0;
+		var blockNum = $("listType").value;
+		var realNode = $("stationBlock" + blockNum);
+		for(var j = 0; j <= blockNum; j++) {
+			length += blocks[j].offsetWidth;
+		}
+		$("stationArrow").style.left = length - realNode.offsetWidth / 2 - $("stationArrow").offsetWidth / 2 + "px";
+
+		for(var i = 0; i < blocks.length; i++) {
+			attachEventListener(blocks[i], "click", listSwitch, false);
+		}
+
+		function listSwitch(event) {
+			var el = getEventTarget(event);
+			realNode = el.getAttribute("id") == "" || el.getAttribute("id") == null ? el.parentNode : el;
+			blockNum = realNode.id.replace("stationBlock", "");
+
+			for(var j = 0; j < blocks.length; j++) {
+				$("stationBlock" + j + "_list").style.display = "none";
+			}
+
+			length = 0;
+			for(var j = 0; j <= blockNum; j++) {
+				length += blocks[j].offsetWidth;
+			}
+			$("stationArrow").style.left = length - realNode.offsetWidth / 2 - $("stationArrow").offsetWidth / 2 + "px";
+			$("stationBlock" + blockNum + "_list").style.display = "block";
+		}
+
+		function stationReset() {
+			$("createbtn").childNodes[0].nodeValue = "完成";
+			$("createbtn").href = "javascript:;";
+			attachEventListener($("createbtn"), "click", reValidate, false);
+
+			var form = document.createElement("form");
+			form.id = "resetForm";
+			form.setAttribute("method", "post");
+			var formAction = "forum.php?mod=group" + "&" + "action=plugin" + "&" + "fid=$_G[fid]" + "&" + "plugin_name=stationcourse" + "&" + "plugin_op=createmenu" + "&" + "stationcourse_action=setstation";
+    		form.setAttribute("action", formAction);
+
+			for(var i = 0; i < blocks.length; i++) {
+				$("stacoursepanel").removeChild(blocks[i]);
+			}
+			$("stacoursepanel").appendChild(form);
+			for(var i = 0; i < blocks.length; i++) {
+				detachEventListener(blocks[i], "click", listSwitch, false);
+				form.appendChild(blocks[i]);
+			}
+
+			$("courseList").style.display = "none";
+			$("stationArrow").style.display = "none";
+			addClass($("stacoursepanel").parentNode, "setting");
+			removeClass($("stacoursepanel").parentNode, "corlist");
+			addClass($("stacoursepanel").parentNode, "stationset");
+
+			for(var i = 0; i < blocks.length; i++) {
+				blocks[i].style.width = $("stacoursepanel").offsetWidth / 2 - 2 * parseInt(retrieveComputedStyle(blocks[0], "paddingLeft")) - 2 + "px";
+				blocks[i].style.height = $("stacoursepanel").offsetHeight  - 2 * parseInt(retrieveComputedStyle(blocks[0], "paddingTop")) + "px";
+			}
+			blocks[blocks.length - 1].style.border = "none";
+
+		}
+
+		function reValidate() {
+			var title = $("orgname_input");
+			if(title) {
+				var slen = strlen(title.value);
+				if (slen < 1) {
+					showDialog("请设置您的岗位");
+					title.focus();
+					return false;
+				} else {
+					$("resetForm").submit();
+				}
+
+			}
+		}
+
+	</script>
+	<!--{/if}-->
+
+</div>
+
+

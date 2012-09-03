@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="data/cache/style_{$_GET[styleid]}_common.css?{VERHASH}" />
+<link rel="stylesheet" type="text/css" href="data/cache/style_{$_GET[styleid]}_common.css?{VERHASH}" />
+<style type="text/css">
+.wp { width: 550px }
+	#hd .wp { padding-top: 12px; }
+#ct { background-position: 370px 0; height: auto; min-height: 0; }
+	.mn { margin-bottom: 0; width: 370px; }
+	.sd { width: 180px; min-height: 0; height: auto; }
+	.bm, .bn { padding: 10px; }
+	.tb { margin-top: 0; }
+	.premsg { padding: 5px; background-color: {$_G['style'][commonbg]}; }
+#ft { padding: 10px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div id="hd">
+	<div class="wp">
+		<div class="hdc cl">
+			<h2>{$_G['style'][boardlogo]}</h2>
+			<div id="nv">
+				<ul>
+					<li><a href="#">$_G['setting']['navs'][1]['navname']<span>Home</span></a></li>
+					<li><a href="#">$_G['setting']['navs'][2]['navname']<span>BBS</span></a></li>
+					<li><a href="#">$_G['setting']['navs'][3]['navname']<span>Group</span></a></li>
+					<li><a href="#">$_G['setting']['navs'][4]['navname']<span>Space</span></a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="mu"></div>
+	</div>
+</div>
+<div id="um" class="wp">
+	<p>
+		<strong><a href="#">$_G['member']['username']</a></strong>
+		<span class="xg1"><a href="#">{lang setup}</a></span>
+		<span class="pipe">|</span><a href="#">{lang pm_center}</a>
+	</p>
+</div>
+<div id="pt" class="wp">
+	<a href="#" class="nvhm">$_G[setting][bbname]</a>
+</div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="bm">
+			<div class="premsg">{lang preview_msg}</div>
+			<table class="dt">
+				<tr>
+					<td class="xs0">{lang preview_smalltext}</td>
+					<td><a href="javascript:;">{lang preview_link}</a></td>
+					<td><a href="javascript:;" class="xi2">{lang preview_highlightlink}</a></td>
+				</tr>
+				<tr class="bbn">
+					<td>{lang preview_text}</td>
+					<td class="xg2">{lang preview_midtext}</td>
+					<td class="xg1">{lang preview_lighttext}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="sd pph">
+		<div class="bn">
+			<ul class="tb cl">
+				<li class="a"><a href="#">{lang preview_navcur}</a></li>
+				<li><a href="#">{lang preview_nav}</a></li>
+			</ul>
+			<input type="text" class="mtm px" size="16" value="{lang preview_inputtext}" />
+		</div>
+	</div>
+</div>
+
+<div id="ft" class="wp">
+	{lang preview_footertext}
+</div>
+
+</body>
+</html>

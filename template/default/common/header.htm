@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+		<title>{if !empty($topic['title'])}$topic['title'] {/if}{if !empty($_G['home_tpl_titles'])}{loop $_G['home_tpl_titles'] $value}$value - {/loop}{/if}{if !empty($navtitle)}$navtitle{/if} $_G['setting']['bbname'] $_G['setting']['seotitle']</title>
+		$_G['setting']['seohead']
+		<meta name="keywords" content="{if !empty($metakeywords)}$metakeywords,{/if}$_G['setting']['seokeywords']" />
+		<meta name="description" content="{if !empty($metadescription)}$metadescription{/if} $_G['setting']['bbname'] $_G['setting']['seodescription']" />
+		<meta name="copyright" content="2012 China Telecom Online University. All rights reserved." />
+		<meta name="viewport" content="width=1024" />
+		<meta name="MSSmartTagsPreventParsing" content="True" />
+		<meta http-equiv="MSThemeCompatible" content="Yes" />
+		<meta http-equiv="X-UA-Compatible" content="IE=9, IE=8, IE=EmulateIE7" />
+
+		<!--{if defined('CURMODULE') && ($_G['basescript'] == 'forum' || $_G['basescript'] == 'group') && (CURMODULE == 'index' || CURMODULE == 'forumdisplay' || CURMODULE == 'group')}-->$rsshead<!--{/if}-->
+		
+		<!-- {if $plugin_name!='qbar'} -->
+			<link href="static/image/my/page.css?{VERHASH}" rel="stylesheet" type="text/css" />
+		<!-- {/if} -->
+        <link href="static/image/my/diy.css?{VERHASH}" rel="stylesheet" type="text/css" />
+        {csstemplate}
+		<link href="static/js/dtree/dtree.css" rel="stylesheet" type="text/css" /><script src="static/js/dtree/dtree.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			//全局变量
+			var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '{if $_G['setting']['creditnotice']}$_G['setting']['creditnames']{/if}', UID = '$_G[uid]', REALNAME = '{echo user_get_user_name($_G[uid]);}', REPEATID = '$_G[member][repeatsstatus]', VIDEOUPLOADURL = '$_G[config][videouploadurl]', FORMHASH = '{FORMHASH}'
+		</script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}jquery-1.7.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="{$_G[setting][jspath]}jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">jQuery.noConflict();</script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}common_jquery.js?{VERHASH}"></script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}jquery-md5.js?{VERHASH}"></script>
+
+		<!--{if $_G['basescript'] == 'forum' || $_G['basescript'] == 'group'}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
+		<!--{elseif $_G['basescript'] == 'home'}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+			<script type="text/javascript" src="{$_G[setting][jspath]}jquery-growfield2.js?{VERHASH}"></script>
+		<!--{elseif $_G['basescript'] == 'userapp'}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+		<!--{elseif $_G['basescript'] == 'portal'}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+		<!--{/if}-->
+		<!--{if $_G['basescript'] != 'portal' && $_GET['diy'] == 'yes' && ($_G[mod] == 'topic' || ($_G[group][allowdiy]||$_G['forum']['ismoderator'])) && !empty($_G['style']['tplfile'])}-->
+			<script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+		<!--{/if}-->
+		<!--{if $_GET[diy] == 'yes' && ($_G[mod] == 'topic' || ($_G[group][allowdiy]||$_G['forum']['ismoderator'])) && !empty($_G['style']['tplfile'])}-->{subtemplate common/css_diy}<!--{/if}-->
+		
+	</head>
+
+	<body id="nv_<!--{if $_G['basescript'] == 'forum' && !empty($_G['forum']) && $_G['forum']['status'] == 3}-->group<!--{else}-->$_G[basescript]<!--{/if}-->" class="pg_{CURMODULE}" onkeydown="if(event.keyCode==27) return false;">
+		<!--{if ($_G[mod]!='topic' && ($_G[group][allowdiy] || group_is_group_moderator($_G[fid], $_G[uid])) && !empty($_G['style']['tplfile'])) || (!empty($_G['style']['tplfile']) && $_G[mod]=='topic' && (($_G['group']['allowaddtopic'] && $topic[uid]==$_G[uid]) || $_G[group][allowmanagetopic]))}-->
+		<!--{if empty($_GET[action])}-->
+		<a id="diy-tg" href="javascript:openDiy();" title="{lang open_diy}"><img src="{STATICURL}image/diy/panel-toggle.png" alt="DIY" /></a>
+		<!--{/if}-->
+		<!--{/if}-->
+
+		<div id="append_parent"></div><div id="ajaxwaitid"></div>
+		<!--{if $_GET['diy'] == 'yes' && ($_G[mod] == 'topic' || ($_G[group][allowdiy] || $_G['forum']['ismoderator'])) && !empty($_G['style']['tplfile'])}-->
+			{template common/header_diy}
+		<!--{/if}-->
+		<!--{if empty($topic) || ($topic[useheader])}-->
+		{ad/headerbanner/wp a_h}
+		<div id="hd">
+			<div class="wp">
+				<div class="hdc cl">
+					<h2><a href="http://www.myctu.cn" title="$_G['setting']['bbname']"><img src="{IMGDIR}/esn/logo.png" alt="中国电信网上大学" border="0"></a></h2>
+					<!--{if $_G['cookie']['expert_Is']!=true}-->
+						<!--{if $_G['setting']['search']}-->
+							{eval $slist = array();}
+							<!--{if $_G['setting']['search']['blog']['status'] && ($_G['group']['allowsearch'] & 4 || $_G['adminid'] == 1)}-->{block slist[blog]}<li><a href="javascript:;"><label for="mod_blog" onclick="$('sctype').innerHTML = '{lang blog}';"><input type="radio" id="mod_blog" class="pr" name="mod" value="blog"{if CURSCRIPT == 'home' && $do != 'album'} checked="checked"{/if} />记录</label></a></li>{/block}<!--{/if}-->
+							<!--{if $_G['setting']['groupstatus'] && $_G['setting']['search']['group']['status'] && ($_G['group']['allowsearch'] & 16 || $_G['adminid'] == 1)}-->{block slist[group]}<li><a href="javascript:;"><label for="mod_group" onclick="$('sctype').innerHTML = '$_G['setting']['navs'][3]['navname']';"><input type="radio" id="mod_group" class="pr" name="mod" value="group"{if CURSCRIPT == 'group'} checked="checked"{/if} />$_G['setting']['navs'][3]['navname']</label></a></li>{/block}<!--{/if}-->
+	
+	                        {block slist[activity]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '活动';" for="mod_activity"><input type="radio" value="activity" name="mod" class="pr" id="mod_activity">活动</label></a></li>{/block}
+	                        {block slist[topic]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '话题';" for="mod_topic"><input type="radio" value="topic" name="mod" class="pr" id="mod_topic">话题</label></a></li>{/block}
+	                        {block slist[qbar]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '提问';" for="mod_qbar"><input type="radio" value="qbar" name="mod" class="pr" id="mod_qbar">提问</label></a></li>{/block}
+	                        {block slist[question]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '问卷';" for="mod_question"><input type="radio" value="question" name="mod" class="pr" id="mod_question">问卷</label></a></li>{/block}    
+	                        {block slist[group_live]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '直播';" for="mod_group_live"><input type="radio" value="group_live" name="mod" class="pr" id="mod_group_live">直播</label></a></li>{/block}
+	                        {block slist[group_notice]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '通告';" for="mod_group_notice"><input type="radio" value="group_notice" name="mod" class="pr" id="mod_group_notice">通告</label></a></li>{/block}
+	                        {block slist[group_poll]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '投票';" for="mod_group_poll"><input type="radio" value="group_poll" name="mod" class="pr" id="mod_group_poll">投票</label></a></li>{/block}
+							{block slist[group_member]}<li><a href="javascript:;"><label onclick="$('sctype').innerHTML = '成员';" for="mod_member"><input type="radio" value="member" name="mod" class="pr" id="mod_member">成员</label></a></li>{/block}
+	
+	                        <!--{if $slist}-->
+	 
+								<form id="sc" class="y" method="post" autocomplete="off" action="search.php?searchsubmit=yes" target="_blank">
+									<input name="mod" value="search" type="hidden" />
+									<input type="hidden" name="formhash" value="{FORMHASH}" />
+									<input name="srchtype" value="title" type="hidden" />
+									<label id="sctype" onmouseover="showMenu(this.id)" class="z">{lang search}</label>
+									<input type="text" name="srchtxt" id="srchtxt" class="px z" value="{lang enter_content}" prompt="search_kw" autocomplete="off" onfocus="searchFocus(this);" onblur="searchBlur(this);" />
+									<button id="searchsubmit" name="searchsubmit" prompt="search_submit" type="submit" value="true" class="y">{lang search}</button>
+									<div id="sctype_menu" class="p_pop cl" style="display: none">
+										<ul>{echo implode('', $slist);}</ul>
+									</div>
+								</form>
+								<script type="text/javascript">initscmenu();</script>
+							
+							<!--{/if}-->
+						<!--{/if}-->
+					<!--{if $viewnotice}-->
+					<div id="uniStick" class="single">
+						<div id="elpContainer" class="elpContainer">
+							<a href="javascript:uniStickCtrl('notePre');" class="elpL unavailable"></a>
+							<a href="javascript:uniStickCtrl('noteNext');" class="elpR"></a>
+						</div>
+						<a id="ackBtn" href="javascript:uniStickCtrl('noteDel');" class="ackBtn"></a>
+						<ul id="stickNotes">
+						<!--{loop $viewnotice $value}-->
+							<li id="$value['id']">
+								<a href="$value['message']" title="$value['subject']" target="_blank">$value[subject]</a>
+							</li>
+						<!--{/loop}-->
+						</ul>
+					</div>
+					<script type="text/javascript" charset="utf-8">
+						initUniStick();
+						
+						function initUniStick(){
+							if(BROWSER.ie && BROWSER.ie < 8) {
+								var hdwp = $("hd").getElementsByTagName("div")[0];
+								$("uniStick").style.right = parseInt(getLeft(hdwp)) + parseInt(retrieveComputedStyle(hdwp, "paddingRight")) + "px";
+							}
+							var mode = $("stickNotes").getElementsByTagName("li").length > 1 ? 1 : 0;
+							/* 
+							if(mode) {
+								removeClass($("uniStick"), "single");
+								var arrows = $("elpContainer").getElementsByTagName("a");
+								for(var i = 0; i < arrows.length; i++) {
+									attachEventListener(arrows[i], "mousedown", function(){
+										if(getEventTarget(event).className.indexOf("unavailable") == -1) {
+											addClass($("elpContainer"), "act");									
+										}
+									}, false);
+									attachEventListener(arrows[i], "mouseup", function(){
+										removeClass($("elpContainer"), "act");
+									}, false);
+								}
+							}*/
+							uniStickCtrl("noteRun", mode);
+
+						}
+						
+						function uniStickCtrl(command, parameter) {
+							var list = $("stickNotes").getElementsByTagName("li");
+							var arrows = $("elpContainer").getElementsByTagName("a");
+							var listPoint = 0;
+							var scrolling = false;
+							var uid=$_G['uid'];
+							
+							var noteRunIntervalProcess;
+							var marginLeftEaseIntervalProcess;
+							var speed = 40;
+							var mode = parameter;
+							
+							for(var i = 0; i < list.length; i++) {
+								list[i].style.display = "none";
+							}
+							
+							var marginLeftEase = function(target, destination, duration, callback) {
+								var duration = duration ? duration : 500;
+								var originalML = parseInt(retrieveComputedStyle(target, "marginLeft"));
+								var lOr = destination > originalML ? true : false;
+								var runSign = true;
+							
+								var times = Math.round(duration * fps / 1000);
+								var step = Math.ceil(Math.abs(destination - originalML) / times);
+								var posi = originalML;
+								
+								attachEventListener(target, "mouseover", function() {runSign = false;}, false);
+				   				attachEventListener(target, "mouseout", function() {runSign = true;}, false);
+								
+								clearInterval(marginLeftEaseIntervalProcess);
+								marginLeftEaseIntervalProcess = setInterval(function() {
+									if(runSign) { 
+										if(times && Math.abs(parseInt(retrieveComputedStyle(target, "marginLeft")) - originalML) < Math.abs(destination)) {
+											if(lOr) {
+												posi += step;
+												target.style.marginLeft = posi + "px";
+											} else {
+												posi -= step;
+												target.style.marginLeft = posi + "px";
+											}
+											times--;
+										} else {
+											clearInterval(marginLeftEaseIntervalProcess);
+											target.style.marginLeft = destination + "px";
+											eval(callback);
+										}
+									}
+								}, Math.round(duration / times));
+							};
+							
+							var mscrollingOver = function() {
+								list[listPoint].style.display = "none";
+								list[listPoint].style.marginLeft = "0px";
+					            scrolling = false;
+							};
+							
+							var mscrolling = function() {
+								scrolling = true;
+								fadeIn(list[listPoint], 200, 1);
+								var scrollW = list[listPoint].clientWidth;
+								//alert(scrollW + "," + list[listPoint].parentNode.offsetWidth);
+								if(scrollW > list[listPoint].parentNode.offsetWidth) {
+									setTimeout(function() {
+										marginLeftEase(list[listPoint], -scrollW, scrollW * speed, "mscrollingOver()");
+									}, 2000);
+								} else {
+									if(!mode) { clearInterval(noteRunIntervalProcess); }
+								}
+							};
+							
+							if(command == "noteRun") {
+								noteRunIntervalProcess = setInterval(function(){
+									if(!scrolling) {
+										mscrolling();
+									}
+								}, 1000);
+							} else if(command == "notePre") {
+							
+							} else if(command == "noteNext" && arrows[1].className.indexOf("unavailable") == -1) {
+								clearInterval(marginLeftEaseIntervalProcess);
+								mscrollingOver();
+								listPoint++;
+								alert(listPoint);
+								if(listPoint == list.length) { 
+									addClass($(arrows[1]), "unavailable");	
+								}
+							} else if(command == "noteDel") {
+								fadeOut($("uniStick"), 500);
+								clearInterval(noteRunIntervalProcess);
+								var url = 'api/other/notice/api_notice.php?uid=' + uid + '&noticeid=' + list[0].id;
+								getJSONP(url);
+							}
+						
+						}
+					
+					</script>
+					<!--{/if}-->
+					<div id="nv">
+						<ul>
+							<!--{loop $_G['setting']['navs'] $navsid $nav}-->
+								<!--{if $nav['available']}-->
+									<!--{if $navsid == 6 && !empty($_G['setting']['plugins']['jsmenu'])}-->
+										$nav[nav]
+									<!--{else}-->
+										<!--{if !$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)}-->$nav[nav]<!--{/if}-->
+									<!--{/if}-->
+								<!--{/if}-->
+							<!--{/loop}-->
+						</ul>
+					</div>
+                    <!--{/if}-->
+                    
+					<!--{if !empty($_G['setting']['plugins']['jsmenu'])}-->
+						<ul class="p_pop h_pop" id="plugin_menu" style="display: none">
+						<!--{loop $_G['setting']['plugins']['jsmenu'] $module}-->
+						     <!--{if !$module['adminid'] || ($module['adminid'] && $_G['adminid'] > 0 && $module['adminid'] >= $_G['adminid'])}-->
+						     <li>$module[url]</li>
+						     <!--{/if}-->
+						<!--{/loop}-->
+						</ul>
+					<!--{/if}-->
+					
+					
+					
+					
+					
+					<!--{loop $_G['setting']['subnavs'] $subnav}-->
+						$subnav
+					<!--{/loop}-->
+					
+				</div>
+
+				{ad/subnavbanner/a_mu}
+
+			</div>
+		</div>
+		
+		<div id="um" class="wp">
+			<p>
+			<!--{if $_G['uid']}-->
+				<strong><a id="loginuser" href="home.php?mod=space" class="noborder" target="_blank"><!--{eval echo user_get_user_name($_G[uid]);}--></a></strong>
+				<!--{if $_G['cookie']['expert_Is']!=true}-->
+				<span class="pipe">|</span><a href="home.php?mod=space&do=home" id="myspace">我的翼博</a>
+				<span class="xg1"><a href="home.php?mod=spacecp" class="mlngroup">{lang setup}</a></span>
+				<!--{/if}-->
+				
+				<!--{if $_G['cookie']['expert_Is']!=true}--><span class="pipe">|</span><a id="exam_ntc" href="http://www.ctuonline.com.cn/www/jsp/sso/StudentInterface.jsp?pagetype=0" target="_blank">考试</a><!--{/if}-->
+				<!--{if $_G['cookie']['expert_Is']!=true}--><span class="pipe">|</span><a id="identi_ntc" href="http://www.ctuonline.com.cn/www/jsp/sso/StudentInterface.jsp?pagetype=4" target="_blank">认证</a><!--{/if}-->
+				<!--{if $_G['cookie']['expert_Is']!=true}--><span class="pipe">|</span><a href="javascript:;" onclick="showMymsgMenu(event);" id="myprompt" >{lang remind}</a><span id="myprompt_check"></span><!--{/if}-->
+				<!--{if $_G['cookie']['expert_Is']!=true}--><span class="pipe">|</span><a href="home.php?mod=space&do=pm" id="pm_ntc"<!--{if $_G[member][newpm]}-->class="new"<!--{/if}-->>{lang pm_center}<!--{if $_G[member][newpm]}-->($_G[member][newpm])<!--{/if}--></a><!--{/if}-->
+
+				<!--{if $_G['uid'] && $_G['group']['radminid'] > 1}--><span class="pipe">|</span><a href="forum.php?mod=modcp&fid=$_G[fid]" target="_blank">{lang forum_manager}</a><!--{/if}-->
+				<!--{if $_G['uid'] && ($_G['group']['radminid'] == 1 || $_G['member']['allowadmincp'])}--><!--{/if}-->
+				<!--{if $_G['cookie']['validate_ismanager']==true}--><span class="pipe">|</span><a href="platfrommanage.php" target="_blank" id="admincp" >{lang admincp}</a><!--{/if}-->
+				<!--{if $_G['uid']=='1' && ($_G['adminid'] == 1 || $_G['member']['allowadmincp'])}--><span class="pipe">|</span><a href="manage.php" target="_blank" id="admincp" >{lang admincp}</a><!--{/if}-->
+				
+				<span class="pipe">|</span><a href="javascript:exitSync();">{lang logout}</a>
+			<!--{elseif !empty($_G['cookie']['loginuser'])}-->
+				<strong><a id="loginuser" class="noborder">$_G['cookie']['loginuser']</a></strong>
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href);hideWindow('register');">{lang activation}</a>
+				<span class="pipe">|</span><a href="javascript:exitSync();">{lang logout}</a>
+			<!--{else}-->
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=login">{lang login}</a>
+			<!--{/if}-->
+			
+				
+			</p>
+			<div id="ummenu" class="ppmu"></div>
+		</div>
+		
+		{hook/global_header}
+		<!--{/if}-->
+		
+		<div id="wp" class="wp">

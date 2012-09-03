@@ -1,0 +1,7 @@
+<div class="module cl ml"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul>
+	<!--{loop $listdata $item}-->
+	<li><a href="{$item[url]}" target="_blank"><img src="{$item[pic]}" width="120px" height="120px" alt="{$item[title]}" /></a></li>
+	<!--{/loop}-->
+	</ul>
+</div>

@@ -1,0 +1,34 @@
+<div id="fh" class="module cl fhdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>								
+	<div class="h cl">
+	    <!--自定义内容模块  by songsp 2011-3-30 23:33:24-->
+	    [myself_block_forum_type_icn_id]
+			<span id="[myself_value_forum_type_icn_id]" class="replaced">机构专区</span>
+		[/myself_block_forum_type_icn_id]
+	    <div>
+			<h1 class="wx">[myself_value_forum_name]</h1>
+			
+			[myself_block_forum_displayorder]
+				<img class="digest" src="static/image/images/digest.gif" class="vm" alt="精华专区" title="精华专区">
+			[/myself_block_forum_displayorder]
+			
+			<cite class="xg1 clearL">
+				群主: [myself_value_forum_groupmanagers] &nbsp;
+				成员: [myself_value_forum_membernum] &nbsp;
+                访问数: [myself_value_forum_viewnum]
+			</cite>
+		</div>
+		<div class="y">
+			<em class="fct y">
+				<a href="{$shareurl}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" title="转发"><img src="static/image/common/icon_share.png" alt="转发" /></a>
+				<a href="home.php?mod=spacecp&ac=favorite&type=group&id={$_G[fid]}&handlekey=favoritegroup" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" title="收藏"><img src="static/image/common/icon_fav.png" alt="收藏" /></a>
+				<!--{if $_G[setting][rssstatus] && !$_G['gp_archiveid']}--><!--  <a href="forum.php?mod=rss&fid=$_G[fid]&amp;auth=$rssauth" target="_blank" title="RSS"><img src="{IMGDIR}/icon_feed.png" alt="RSS" /></a>--><!--{/if}-->
+			</em>
+           
+			<cite class="xg1 y mtn clearR">
+				您的经验值:[myself_value_forum_my_empirical]
+			</cite>
+			
+		</div>
+		
+	</div>
+</div>

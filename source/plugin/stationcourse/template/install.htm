@@ -1,0 +1,52 @@
+<script type="text/javascript" src="source/plugin/stationcourse/js/stationcourse.js"></script>
+<div id="ct" class="wp cl"">
+<div class="reHeight">
+<div class="mn">
+<div id="plgnav" class="bbsgroup">
+<a id="backbtn" href="forum.php?mod=group&amp;fid=$_G[fid]" class="z">返回首页</a>
+<div id="toolbar">
+<h2>管理专区</h2>
+</div>
+</div>
+ 
+<div class="bm">
+<p class="tbmu">
+<a href="forum.php?mod=group&amp;action=manage&amp;op=group&amp;fid=$_G[fid]">专区设置</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=managecontent&amp;fid=$_G[fid]">首页内容管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=checkuser&amp;fid=$_G[fid]">成员审核</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageuser&amp;fid=$_G[fid]">成员管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageplugin&amp;fid=$_G[fid]" >组件管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manageempirical&amp;fid=$_G[fid]" >经验值管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=manage_level&amp;fid=$_G[fid]" >经验值等级管理</a>
+ | <a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=groupad&amp;plugin_op=groupmenu">广告管理</a>
+ | <a href="forum.php?mod=group&amp;action=plugin&amp;fid=$_G[fid]&amp;plugin_name=stationcourse&amp;plugin_op=groupmenu&amp;stationcourse_action=manage" class="a">岗位课程管理</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=demise&amp;fid=$_G[fid]">专区转让</a>
+ | <a href="forum.php?mod=group&amp;action=manage&amp;op=delete&amp;fid=$_G[fid]">专区删除</a>
+</p>
+</div>
+<div class="bm">
+ 		<table>
+            <tr id="nav_category">
+                <td class="piped">
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=install" <!--{if $select==0}-->class="a"<!--{/if}-->>初始化数据</a>
+                    <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=manage" <!--{if $select==1}-->class="a"<!--{/if}-->>岗位管理</a>
+                </td>
+            </tr>
+        </table>
+  		 <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=install_clan" id="cpform" enctype="multipart/form-data">
+       	 初始化岗位族群：<input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="开始" />
+        </form>
+         <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=readexcel" id="cpform" enctype="multipart/form-data">
+       	导入岗位<input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="开始导入" />
+        </form>
+         <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=entercourse" id="cpform" enctype="multipart/form-data">
+       	导入课程<input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="开始导入" />
+        </form>
+        <form name="cpform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=enterdb" id="cpform" enctype="multipart/form-data">
+        <input type="file" class="pf" size="25" name="filepath" id="filepath">
+        <input type="submit" class="btn" id="submit_editsubmit" name="editsubmit" value="提交" />
+        </form>
+       
+</div></div>
+</div>
+</div>

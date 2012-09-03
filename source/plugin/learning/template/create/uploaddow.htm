@@ -1,0 +1,53 @@
+
+{template common/header}
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<link rel="stylesheet" href="source/plugin/learning/assets/style/ajaxfileupload.js?{VERHASH}" type="text/css" />
+<link rel="stylesheet" href="source/plugin/learning/assets/style/jquery-1.4.2.min.js?{VERHASH}" type="text/css" />
+<div id="main_messaqge" style="width: 380px;">
+<h3 class="flb"><em>学习力评估</em> <!--{if $_G[inajax]}--><span><a
+	href="javascript:;"
+	onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');"
+	class="flbc" title="关闭">关闭</a></span><!--{/if}--></h3>
+<div class="tl" style="position: relative;">
+<table cellspacing="0" cellpadding="0" border="0">
+<thead>	<tr>
+			<input type="hidden" id="fastpostmessage" name="fastpostmessage"/>
+<th>文件上传：<input type="file" name="fileup" id="fileup" class="px" />
+<button class="pn pnc" type="button"  name="reset" onclick="return ajaxFile()"><em>上传</em></button>
+	</tr>
+	</thead>
+</table>
+<img src="{IMGDIR}/loading.gif" width="16" height="16" style="display: none;" />
+<p class="xcred mtm hm" style="display: none">意请选择要上传的文件</p>
+</div>
+</div>
+<script type="text/javascript">
+function cleanWindow(isForced) {
+var aplInput = $("fastpostmessage");
+var loadingimg = $("main_messaqge").getElementsByTagName("img")[0];
+var promptInfo = $("main_messaqge").getElementsByTagName("p")[0];
+isForced ? aplInput.value = "" : "";
+isForced ? promptInfo.style.display = "none" : "";
+}
+function cl(){
+cleanWindow(true);
+	    hideWindow('$_G[gp_handlekey]');
+}
+function ajaxFile(){
+    $.ajaxlearFileUpload(
+    {
+
+       url:'forum.php?mod=group&action=plugin&fid=791&plugin_name=learning&plugin_op=groupmenu&learning_action=upload',
+       secureuri:false,
+       fileElementId:'fileup',
+       dataType: 'json',
+       success: function(data){
+              if(data){
+					alert(data.s);
+              }
+           }
+       }
+    );
+    return false;
+}
+</script>

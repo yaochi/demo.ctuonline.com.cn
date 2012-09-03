@@ -1,0 +1,72 @@
+<!--{template common/header}-->
+<link rel="stylesheet" href="source/plugin/coursemap/assets/style/gwkc.css" type="text/css" />
+<div class="post_popup" id="post_course_popup" style="height:542px;width:972px;">
+  <div class="post_popup_title">
+    <div class="post_popup_bt">选择岗位课程</div>
+    <a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]')" class="flbc" title="{lang close}" style="float:right;margin: 6px 10px 0 0;">{lang close}</a>
+    <div class="post_popup_search">
+    	<input type="text" id="txtStationName" class="popup_searchinput" value="岗位名称">
+    	<input type="hidden" id="txtStationId">
+    	<div class="acwrapper"></div>
+    </div>
+  </div>
+  <div class="post_box">
+    <div class="post_box_zq">
+      <div class="post_box_title">族群</div>
+      <div class="post_box_zqlb">
+        <ul>
+        <!--{loop $info[one] $key $option}-->
+			<!--{if $option[id]==$info[self][one]}-->
+			<li class="selected"><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a></li>
+        	<!--{else}-->
+        	<li><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a></li>
+        	<!--{/if}-->
+        <!--{/loop}-->
+        </ul>
+      </div>
+    </div>
+    <div class="post_box_zzq">
+      <div class="post_box_title">子族群</div>
+      <div class="post_box_zzqlb">
+        <ul>
+        <!--{loop $info[two] $key $option}-->
+        	<!--{if $option[id]==$info[self][two]}-->
+			<li class="selected"><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a></li>
+        	<!--{else}-->
+        	<li><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a></li>
+        	<!--{/if}-->
+        <!--{/loop}-->
+        </ul>
+      </div>
+    </div>
+    <div class="post_box_jzgw">
+      <div class="post_box_title">基准岗位</div>
+      <div class="post_box_jzgwlb">
+        <ul>
+        <!--{loop $info[three] $key $option}-->
+			<!--{if $option[id]==$info[self][three]}-->
+			<li class="selected"><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a><span class="post_btn_jgz" title="关注">关注</span></li>
+        	<!--{else}-->
+        	<li><a href="javascript:;" title="$option[name]" class="$option[id]">$option[name]</a><span class="post_btn_jgz" title="关注">关注</span></li>
+        	<!--{/if}-->
+        <!--{/loop}-->
+        </ul>
+      </div>
+    </div>
+    <div class="post_box_kcmc">
+      <div class="post_box_title">课程名称</div>
+      <div class="post_box_kcmclb">
+        <ul>
+        <!--{loop $info[courses] $key $course}-->
+			<li><a href="javascript:;" title="$course[coursename]" class="$course[coursecode]">$course[coursename]</a></li>
+        <!--{/loop}-->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var mystation = '$info[self][mystation]';
+</script>
+<script type="text/javascript" src="source/plugin/coursemap/assets/js/gwkc.js"></script>
+<!--{template common/footer}-->

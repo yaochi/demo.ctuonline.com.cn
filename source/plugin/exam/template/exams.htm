@@ -1,0 +1,67 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="source/plugin/exam/assets/style/learning.css" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=groupmenu" class="z">返回</a>
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&exam_action=enter" class="sixWord y">新建</a>
+	<div id="toolbar">
+		<h2>有奖问卷列表</h2>
+	</div>
+</div>
+
+<div class="bm pgs ptn cl"> </div>
+<div id="lecturerlist" class="tl" style="position: relative;">
+	<!--{if !$list}-->
+	<p class="xg1 hm">当前没有有奖问卷</p>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<thead id="nav_category">
+			<tr id="nav_category">
+				<td class="icn" width="5%">&nbsp;</td>
+				<td width="30%">名称</td>
+				<td width="10%">题数</td>
+				<td width="10%" style="text-align:center;">参与人数</td>
+				<td width="10%" style="text-align:center;">全对人数</td>
+				<td width="15%" style="text-align:center;">状态</td>
+				<td width="20%" style="text-align:center;">创建时间</td>
+			</tr>
+		</thead>
+	<tbody>
+		<!--{loop $list $key $bord}-->
+
+		<tr class="line{eval echo ($key%2)}">
+			<td class="icn"><a target="_blank" title="新窗口打开" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&exam_action=edit&id=$bord[id]"><img src="static/image/common/folder_new.gif"></a></td>
+			<td><a target="_blank" title="新窗口打开" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=groupmenu&exam_action=stats&id=$bord[id]"><span id="">$bord[title]</span></a></td>
+			<td>
+				<em>$bord[num]</em>
+			</td>
+			<td style="text-align:center;">
+				<em>$bord[addnum]</em>
+			</td>
+			<td style="text-align:center;">
+				<em>$bord[rightnum]</em>
+			</td>
+				<td style="text-align:center;">
+					<!--{if $bord[status]==0}-->
+					<em>未开启</em>
+					<!--{else}-->
+					<em>已开启</em>
+                	<!--{/if}-->
+			</td>
+			<td style="text-align:center;">
+				<em>{eval echo dgmdate($bord[dateline])}</em>
+			</td>
+		</tr>
+       <!--{/loop}-->
+	</tbody>
+	</table>
+	<!--{/if}-->
+</div>

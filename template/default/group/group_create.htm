@@ -1,0 +1,202 @@
+<div class="bm" id="main_messaqge">
+    <h1 class="mt wx">{lang group_create_new}</h1>
+
+	<a href="javascript:next(1);">第一步</a> -><a href="javascript:next(2);">第二步</a> -><a href="javascript:next(3);">第三步</a>
+    <form method="post" autocomplete="off" name="groupform" id="groupform" class="s_clear" onsubmit="ajaxpost('groupform', 'returnmessage4', 'returnmessage4', 'onerror','',function(){next(1);});return false;" action="forum.php?mod=group&action=create">
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <input type="hidden" name="referer" value="$_G[referer]" />
+        <input type="hidden" name="handlekey" value="creategroup" />
+       
+		
+<!--第一步 -->		
+		<table id='step1' cellspacing="0" cellpadding="0" class="tfm" summary="{lang group_create}">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td><strong class="rq"><em id="returnmessage4" ></em></strong></td>
+                </tr>
+                <tr>
+                    <td width="85" align="right"><strong class="rq y">*</strong><strong>{lang group_name}:</strong></td>
+                    <td><input type="text" name="name" id="name" class="px" size="36" tabindex="1" value="" autocomplete="off" onBlur="checkgroupname()" tabindex="1" /></td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>{lang group_description}:</strong></td>
+                    <td><textarea rows="4" cols="40" name="descriptionnew" tabindex="3" class="pt"></textarea></td>
+                </tr>
+                <tr>
+                    <td align="right"><strong>{lang group_tag}:</strong></td>
+                    <td>
+                        <input type="text" name="tagnew" id="tagnew" class="px" size="36" tabindex="1" value="" readonly onclick="javascript:onSelect();" />
+                        <input name="tagnews" id="tagnews" type="hidden" class="px" size="36" tabindex="1" />
+                        <p class="d">{lang group_tag_notice}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><strong class="rq y">*</strong><strong>{lang group_perm_visit}:</strong></td>
+                    <td><input type="radio" name="gviewperm" class="pr" tabindex="4" value="1" checked="checked"> {lang group_perm_all_user} <input type="radio" class="pr" name="gviewperm" value="0"> {lang group_perm_member_only}</td>
+                </tr>
+                <tr>
+                    <td align="right"><strong class="rq y">*</strong><strong>{lang group_join_type}:</strong></td>
+                    <td><input type="radio" name="jointype" class="pr" tabindex="5" value="0" checked="checked"> {lang group_join_type_free} <input type="radio" class="pr" name="jointype" value="1"> {lang group_join_type_invite} <input type="radio" class="pr" name="jointype" value="2"> {lang group_join_type_moderate} <input type="radio" class="pr" name="jointype" value="3"> {lang group_join_type_forbid}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><p class="d">您可在专区创建成功之后设置专区图片/图标</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" class="pn pnp" tabindex="6" onclick="javascript:next(2);"><strong>下一步</strong></button></td>
+                </tr>
+				<!--
+				<tr>
+                    <th></th>
+                    <td><input type="hidden" name="createsubmit" value="true"><button type="submit" class="pn pnp" tabindex="6"><strong>{lang create}</strong></button></td>
+                </tr>-->
+
+            </tbody>
+        </table>
+<!--end第一步 -->	
+<!--第二步 -->
+<table  id='step2' class="tbcommon tb2 nobdb" width="100%" style="display:none">
+    <tbody>
+        <tr><th>插件名称</th><th>状态</th><th>内容创建权限</th></tr>
+        <!--{loop $cur_group_plugins $id $value}-->
+        <tr class="hover">
+            <td class="td28">
+                
+                $value[name]</td>
+                     
+            <td class="td28">
+            <input type="hidden" name="plugin_ids[]" value="$id"/>
+            <select name="m[$id]">
+                <option value="enable" >开启</option>
+				<option value="disable" >关闭</option>
+            </select></td>
+            <td class="td28">
+            <select name="oper[$id]">
+                
+                <!--{loop $levels $v}-->
+                <option value="$v[level_name]" >$v[level_name]</option>
+                <!--{/loop}-->
+            </select> 
+             
+            </td>         
+
+ 		</tr>
+       <!--{/loop}-->
+       <tr><td colspan="3">
+	   <button type="button" class="pn pnp" tabindex="7" onclick="javascript:next(1);"><strong>上一步</strong></button>
+	   <button type="button" class="pn pnp" tabindex="8" onclick="javascript:next(3);"><strong>下一步</strong></button></td></tr>
+    </tbody>
+</table>	
+
+<!--end第二步 -->	
+
+<!--第三步 -->
+<table  id='step3' class="tbcommon tb2 nobdb" width="100%" style="display:none">
+<tr><td><img src="{STATICURL}image/diy/templates/01/thumbnail.png" />默认模板<input type='radio' name='temp' value='1'  checked='checked'/></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/02/thumbnail.png" />模板一<input type='radio' name='temp' value='2' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/03/thumbnail.png" />模板二<input type='radio' name='temp' value='3' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/04/thumbnail.png" />模板三<input type='radio' name='temp' value='4' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/05/thumbnail.png" />模板四<input type='radio' name='temp' value='5' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/06/thumbnail.png" />模板五<input type='radio' name='temp' value='6' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/11/thumbnail.png" />模板六<input type='radio' name='temp' value='7' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/12/thumbnail.png" />模板七<input type='radio' name='temp' value='8' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/08/thumbnail.png" />模板八<input type='radio' name='temp' value='10' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/09/thumbnail.png" />模板九<input type='radio' name='temp' value='11' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/14/thumbnail.png" />模板十<input type='radio' name='temp' value='12' /></td></tr>
+<tr><td><img src="{STATICURL}image/diy/templates/15/thumbnail.png" />模板十一<input type='radio' name='temp' value='13' /></td></tr>
+
+
+<tr><td >
+	   <button type="button" class="pn pnp" tabindex="7" onclick="javascript:next(2);"><strong>上一步</strong></button>
+	   <button type="submit" class="pn pnp" tabindex="6"><strong>{lang create}</strong></button>
+</td></tr>
+</table>
+<!--end第三步 -->
+
+<input type="hidden" name="createsubmit" value="true">
+
+    </form>
+
+<!--=================================================================--->
+	 
+
+
+
+<!--=================================================================--->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<script type="text/javascript">
+    function checkgroupname() {
+        var groupname = trim($('name').value);
+        ajaxget('forum.php?mod=ajax&forumcheck=1&infloat=creategroup&handlekey=creategroup&action=checkgroupname&groupname=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(groupname) : groupname), 'returnmessage4');
+		
+    }
+    function succeedhandle_creategroup(locationhref, message) {
+        showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
+    }
+    <!--{if $_G['gp_fupid']}-->
+    ajaxget('forum.php?mod=ajax&action=secondgroup&fupid=$_G[gp_fupid]{if $_G[gp_groupid]}&groupid=$_G[gp_groupid]{/if}', 'secondgroup');
+	
+    <!--{/if}-->
+	
+    function select_tag_data(data){
+        var tagids=tagnames="";
+        for( var i=0;i<data.length;i++ )
+        {
+            var value = data[i].split(",");
+            tagids += (value[0]+",");
+            tagnames += (value[1]+" ");
+        }
+        document.getElementById("tagnews").value = tagids;
+        document.getElementById("tagnew").value = tagnames;
+        return true;
+	
+    }
+    function onSelect()
+    {
+        var tagids = document.getElementById("tagnews");
+        window.open ("group.php?mod=tag&operation=list&tagids="+tagids.value, "{lang submit}", "height=600, width=1100, top=100, left=100, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no") ;
+    }
+
+
+//----
+	function next(step){
+		var step1_display = "none";
+		var step2_display = "none";
+		var step3_display = "none";
+		switch(step)
+		{
+			case 1:
+				step1_display = "block";
+				break;
+			case 2:
+				step2_display = "block";
+				break;
+			case 3:
+				step3_display = "block";
+				break;	
+		 }
+		document.getElementById("step1").style.display= step1_display;
+		document.getElementById("step2").style.display= step2_display;
+		document.getElementById("step3").style.display= step3_display;
+
+
+	}
+
+
+</script>

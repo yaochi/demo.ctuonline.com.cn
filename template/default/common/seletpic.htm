@@ -1,0 +1,45 @@
+{template common/header}
+<script type="text/javascript">
+
+function selectpic(){
+	var ids = document.getElementsByName("ids");
+	var val = "";
+	var title = "";
+	for(var i=0; i<ids.length; i++){
+		if(ids[i].checked){
+			title = title+ids[i].title+",";
+			val = val + ids[i].value+",";
+		}
+	}
+	$("picids").value = $("picids").value+val;
+	$("pic").value = $("pic").value+title;
+	hideWindow("picwin");
+}
+
+function queryajax(url, params, html){
+    var x = new Ajax();
+    x.post(url, params, function(content){$(html).innerHTML=content;});
+}
+</script>
+
+<div id="main_messaqge" style="width:300px;">
+    <h3 class="flb">
+        <em id="returnmessage4">图片</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('picwin')" title="关闭">关闭</a></span>
+    </h3>
+    <br/>
+ 
+<div id="data">
+<table width="100%">
+	<tr><td>选择</td><td>名称</td></tr>
+	<!--{loop $pics $pic}-->
+	<tr><td><input type="checkbox" id="ids" name="ids" value="$pic[picid]" title="$pic[filename]"/></td><td>$pic[filename]</td></tr>
+	<!--{/loop}-->
+    <tr><td colspan="2">$multipage</td></tr>
+</table>
+</div>
+
+ <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="selectpic()"><strong>选择图片</strong></button></p>
+</div>
+
+{template common/footer}

@@ -1,0 +1,36 @@
+{subtemplate search/header}
+<div id="ct" class="w">
+	<form class="searchform" method="post" autocomplete="off" action="search.php?mod=$other">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+
+		{subtemplate search/pubsearch}
+		{hook/blog_top}
+
+	</form>
+<div class="tl">
+	<div class="sttl mbn">
+		<h2><!--{if $keyword}-->结果: <em>找到 “<span class="emfont">$keyword</span>” 相关成员 $count 个</em>
+		<!--{else}-->
+			结果: <em>找到相关主题 $count 个</em>
+		<!--{/if}--></h2>
+	</div>
+	<!--{if empty($datalist)}-->
+		<p class="emp xs2 xg2">{lang search_nomatch}</p>
+	<!--{else}-->
+		<div class="slst mtw">
+			<ul>
+				<!--{loop $datalist $item}-->
+				<li class="pbw">
+					<h3 class="xs2"><a href="home.php?mod=space&uid=$item[uid]" target="_blank">$item[realname]</a></h3>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+	<!--{/if}-->
+	<!--{if !empty($multipage)}--><div class="pgs cl">$multipage</div><!--{/if}-->
+</div>
+
+</div>
+{hook/blog_bottom}
+
+{subtemplate common/footer}

@@ -1,0 +1,68 @@
+<div id="{$parameter[aaid]}" class="module cl xld xlda gfdiym gfslim"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<dl class="cl"> 
+		<dd class="cl">
+		<!--{loop $feed_users $day $users}-->
+		
+		<!--{loop $users $user}-->
+		
+		<?php $daylist = $feed_list[$day][$user[uid]]; ?>
+
+		<ul class="bbda el">
+		<!--{loop $daylist $value}-->
+			<li class="cl" id="feed_{$value[feedid]}_li" >
+				<img src="{$value[icon_image]}" class="t" />
+				<div class="cl" {$value[style]}>
+					{$value[title_template]}
+					<!--{if $value['new']}-->
+					<span style="color:red;">New</span> 
+					<!--{/if}-->
+					<span class="xg1"><?php echo dgmdate($value[dateline], 'u'); ?></span>
+			
+			
+					<div class="ec">
+			
+						<!--{if empty($_G['home']['tpl'][hidden_hot]) && $value[hot]}-->
+						<div class="hot brm"><a href="home.php?mod=spacecp&ac=feed&feedid=$value[feedid]"><em>{$value[hot]}</em>热度</a></div>
+						<!--{/if}-->
+			
+						<!--{if $value['image_1']}-->
+						<a href="{$value[image_1_link]}"{$value[target]}><img src="{$value[image_1]}" alt="" class="tn" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_2']}-->
+						<a href="{$value[image_2_link]}"{$value[target]}><img src="{$value[image_2]}" alt="" class="tn" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_3']}-->
+						<a href="{$value[image_3_link]}"{$value[target]}><img src="{$value[image_3]}" alt="" class="tn" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_4']}-->
+						<a href="{$value[image_4_link]}"{$value[target]}><img src="{$value[image_4]}" alt="" class="tn" /></a>
+						<!--{/if}-->
+			
+						<!--{if $value['body_template']}-->
+						<div class="d"<?php if($value['image_3']){ ?> style="clear: both; zoom: 1;"<?php } ?>>
+							{$value[body_template]}
+						</div>
+						<!--{/if}-->
+	
+						<!--{if $value['body_general']}-->
+						<div class="quote<?php if($value['image_1']){ ?> z<?php } ?>"><blockquote>{$value[body_general]}</blockquote></div>
+						<!--{/if}-->
+					</div>
+				</div>
+				
+				<!--{if $value['idtype']=='doid'}-->
+				<div id="{$key}_$value[id]" style="display:none;"></div>
+				<!--{elseif $value['idtype']}-->
+				<div id="feedcomment_$value[feedid]" style="display:none;"></div>
+				<!--{/if}-->
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<!--{/loop}-->
+		<!--{/loop}-->
+		</dd>
+	</dl>
+</div>
+<script type="text/javascript" charset="utf-8">
+	listScroll($("{$parameter[aaid]}"), "ticker", {direction:{$parameter[direction]}, moduleHeight: {$parameter[blockheight]}});
+</script>

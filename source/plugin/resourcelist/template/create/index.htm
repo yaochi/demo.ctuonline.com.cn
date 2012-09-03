@@ -1,0 +1,163 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<div class="mn">
+<div class="sszy">
+<form action="{eval echo join_plugin_action('index')}" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td align="right" valign="top">资源类型：</td>
+    <td valign="top"> <label>
+      <input type="radio" name="type" <!--{if $type==4 }-->checked="checked"<!--{/if}--> value="4" />
+    </label>
+      课程 
+      <input type="radio" name="type" <!--{if $type==2 }-->checked="checked"<!--{/if}--> value="2" />
+      案例 
+      <input type="radio" name="type" <!--{if $type==1 }-->checked="checked"<!--{/if}--> value="1" />
+      文档</td>
+    <td align="right" valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right" valign="top">资源名称：</td>
+    <td valign="top" class="xian"><input type="text" class="zybjan" name="title" value="$title" /></td>
+    <td align="right" valign="top">关键字：</td>
+    <td valign="top"><input type="text" class="zybjan" name="keyword" value="$keyword"/></td>
+  </tr>
+  <tr>
+    <td align="right" valign="top">知识分类：</td>
+    <td valign="top" class="xian">
+    <p>
+    <input type="text" readonly="readonly" name="kcategoryname" id="kcategoryname" value="$kcategoryname"/>
+	<input type="hidden" id="kcategoryid" name="kcategoryid" value="$kcategoryid">
+	<a href="misc.php?mod=kcategory" onclick="showWindow('win_kcategory', this.href, 'get', 0);">选择</a>
+	<a href="#" onclick="clearkcategory()">清除</a>
+    </p>
+	<p class="b">
+      <label>
+      <input type="checkbox" name="includesubkcategory" <!--{if $includesubkcategory==1 }-->checked="checked"<!--{/if}--> value="1" />
+      </label>
+包含子分类</p></td>
+    <td align="right" valign="top">上传机构：</td>
+    <td valign="top">
+    <p>
+    <input type="text" readonly="readonly" name="orgname_input" id="orgname_input" value="$orgname_input"/>
+	<input type="hidden" id="orgname_input_id" name="orgname_input_id" value="$orgname_input_id">
+	<a href="misc.php?mod=korg" onclick="showWindow('win_korg', this.href, 'get', 0);">选择</a>
+	<a href="#" onclick="clearorg()">清除</a>
+    </p>
+	<p class="b">
+      <label>
+      <input type="checkbox" name="includesubcompany" <!--{if $includesubcompany==1 }-->checked="checked"<!--{/if}--> value="1" />
+      </label>
+包含子机构 </p></td>
+  </tr>
+  <tr>
+    <td align="right">上传时间：</td>
+    <td align="left"><input type="text" readonly="readonly" class="zbbjan2" value="$uploadtimefrom" name="uploadtimefrom" id="uploadtimefrom" onclick="showcalendar(event, this, true)" />
+      ~
+    <input type="text" readonly="readonly" class="zbbjan2" value="$uploadtimeto" name="uploadtimeto" id="uploadtimeto" onclick="showcalendar(event, this, true)" /></td>
+  </tr>
+  <tr>
+    <td colspan="4" align="center" valign="top">    
+    <button name="Submit2" type="submit" class="pn"><b>搜索资源</b></button>
+    </td>
+    </tr>
+</table>
+</form>
+</div>
+
+
+<div class="ssjg">
+<!--{if $resources }-->
+<form action="{eval echo join_plugin_action('save')}" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td width="9%">搜索结果：</td>
+    <td width="91%" class="huise">有 $total 项符合的查询结果</td>
+  </tr>
+  <tr>
+  	<td colspan="2">$multipage</td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jglb">
+      <tr class="qcbj">
+        <td width="5%" height="27" class="xiaxian"><input type="checkbox" id="chkall" name="chkall" value="" onclick="checkAll('prefix', this.form, 'resourcecheckbox')" title="全选" /></td>
+        <td class="xiaxian">标题 </td>
+        <td width="10%" align="center" class="xiaxian">类型</td>
+        <td width="14%" align="center" class="xiaxian">分类</td>
+        <td width="12%" align="center" class="xiaxian">上传时间</td>
+        <td width="17%" align="center" class="xiaxian">上传机构</td>
+      </tr>
+      <!--{loop $resources $resource}-->
+      <tr class="qcbj">
+        <td height="64"><input type="checkbox" name="resourcecheckbox[]" value="$resource[id]" /></td>
+        <td width="42%">$resource[title]</td>
+        <td align="center">
+        	<!--{if $resource[type]==1 }-->
+        	文档
+        	<!--{elseif $resource[type]==2}-->
+        	案例
+        	<!--{elseif $resource[type]==4}-->
+        	课程
+        	<!--{/if}-->
+        </td>
+        <td align="center">$resource[kcategory_name]</td>
+        <td align="center">{date($resource[uploadtime]/1000, 'u')}</td>
+        <td align="center" class="qcxian">$resource[uploadCompany]</td>
+      </tr>
+      <!--{/loop}-->
+    </table></td>
+    </tr>
+  <tr>
+    <td>选择分类：</td>
+    <td><select name="category">
+    	<option value="0">全部</option>
+    	<!--{loop $categorys $category}-->
+        <option value="$category[id]">$category[name]</option>
+        <!--{/loop}-->
+    </select></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input name="Submit22" type="submit" class="ckxq_sy left" value="加入列表" /></td>
+  </tr>
+</table>
+</form>
+<!--{else}-->
+暂无符合条件的资源
+<!--{/if}-->
+</div>
+</div>
+<script type="text/javascript">
+	function clearkcategory(){
+	    $("kcategoryname").value = "";
+	    $("kcategoryid").value = "";
+	}
+	
+	function clearorg(){
+	    $("orgname_input").value = "";
+	    $("orgname_input_id").value = "";
+	}
+</script>
+<script type="text/javascript">
+function checkAll(type, form, value, checkall, changestyle) {
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(type == 'option' && e.type == 'radio' && e.value == value && e.disabled != true) {
+			e.checked = true;
+		} else if(type == 'value' && e.type == 'checkbox' && e.getAttribute('chkvalue') == value) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle) {
+				multiupdate(e);
+			}
+		} else if(type == 'prefix' && e.name && e.name != checkall && (!value || (value && e.name.match(value)))) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle && e.parentNode && e.parentNode.tagName.toLowerCase() == 'li') {
+				e.parentNode.className = e.checked ? 'checked' : '';
+			}
+		}
+	}
+}
+</script>

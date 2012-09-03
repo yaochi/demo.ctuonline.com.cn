@@ -1,0 +1,49 @@
+{template common/header}
+<script type="text/javascript">
+
+function selectFriend(){
+	var ids = document.getElementsByName("ids");
+	var val = "";
+	var title = "";
+	for(var i=0; i<ids.length; i++){
+		if(ids[i].checked){
+			$("realname").value = ids[i].title;
+			$("username").value  = ids[i].value;
+		}
+	}
+	hideWindow("friendwin");
+}
+
+function queryajax(url, params, html){
+    var x = new Ajax();
+	
+	if($('usernames').value=='' || $('usernames').value=='0'){
+		showDialog('请输入好友姓名！');
+	}else{
+   		 x.post(url, params, function(content){$(html).innerHTML=content;});
+	}
+}
+</script>
+
+<div id="main_messaqge" style="width:300px;">
+    <h3 class="flb">
+        <em id="returnmessage4">好友</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('friendwin')" title="关闭">关闭</a></span>
+    </h3>
+    <br/>
+    好友名<input type="text" name="usernames" id="usernames" value="$name" /><input type="button" name="button" value="提交" onclick="queryajax('misc.php', 'mod=queryfriend&name='+$('usernames').value, 'data')"/>
+ 
+<div id="data">
+<table width="100%">
+	<tr><td>选择</td><td>名称</td></tr>
+	<!--{loop $friends $friend}-->
+	<tr><td><input type="radio" id="ids" name="ids" value="$friend[fusername]" title="$friend[realname]"/></td><td>$friend[realname]</td></tr>
+	<!--{/loop}-->
+    <tr><td colspan="2">$multipage</td></tr>
+</table>
+</div>
+
+ <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="selectFriend()"><strong>选择好友</strong></button></p>
+</div>
+
+{template common/footer}

@@ -1,0 +1,456 @@
+<!--{template common/header}-->
+<!--{eval $height = !empty($blocktype) ? '260px' : '380px';}-->
+<!--{if $op == 'block'}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}block.js?{VERHASH}"></script>
+<h3 class="flb">
+    <em id="return_$_G[gp_handlekey]">{lang block_edit}</em>
+    <span>
+        <!--{if $_G[inajax]}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_G[gp_handlekey]');<!--{if empty($bid)}-->drag.removeBlock('$_GET[eleid]',true);<!--{/if}-->return false;" title="{lang close}">{lang close}</a><!--{/if}-->
+    </span>
+</h3>
+<!--{if $bid}-->
+<div class="y">
+</div>
+<!--{/if}-->
+<ul class="tb cl">
+	{if $blocksettingperm}<li id="li_setting"<!--{if $tab=="setting"}--> class="a"<!--{/if}-->><a href="javascript:;" onclick="switch_blocktab('setting');this.blur();return false;">{lang block_properties}</a></li>{/if}
+    <!--{if $bid && !$is_htmlblock && false }-->
+	{if $blockdataperm}<li id="li_data"<!--{if $tab=="data"}--> class="a"<!--{/if}-->><a href="javascript:;" onclick="switch_blocktab('data');this.blur();return false;">{lang block_data}</a></li>{/if}
+    <!--{/if}-->
+</ul>
+
+<!--{if $blocksettingperm}-->
+<form id="blockformsetting" name="blockformsetting" method="post" autocomplete="off" action="portal.php?mod=portalcp&ac=block&op=block&classname=$_GET[classname]&bid=$block[bid]&blocktype=$blocktype&eleid=$_GET['eleid']&tpl=$_GET[tpl]&fid=$_G['fid']"<!--{if $tab=="data"}--> style="display: none;"<!--{/if}--> onsubmit="ajaxpost('blockformsetting','return_$_G[gp_handlekey]','return_$_G[gp_handlekey]','onerror');" class="fdiy">
+      <div class="c" style="width: 420px; max-height:$height; height:auto !important; height:320px; _padding-right: 0; _margin-right: 17px; overflow-y: auto;">
+        <div id="block_setting">
+            <table class="tfm">
+                <!--{if $showhtmltip}-->
+                <tr>
+                    <td colspan="2" style="color: red">
+					{lang block_properties_comment}</td>
+                </tr>
+                <!--{/if}-->
+                <!--{if !$is_htmlblock && !$is_pluginmenublock && !$is_foruminfoblock && !$is_forumimg}-->
+                <tr>
+                    <th>{lang block_data_custom} <br /></th>
+                    <td><a href="javascript:;" onclick="$('block_sumamry_$block[bid]').style.display='block';this.style.display='none';return false;">{lang edit}</a>
+                        <textarea name="summary" id="block_sumamry_$block[bid]" cols="40" rows="3" class="pt" style="display:none">$block[summary]</textarea></td>
+                </tr>
+                <!--{/if}-->
+                <tr>
+                    <th>{lang block_data_source}</th>
+                    <td>
+                        <select name="script" id="script" onchange="block_get_setting('$_GET[classname]', this.value, $_G['fid']);" class="ps">
+                            <!--{loop $theclass[script] $bkey $bname}-->
+                            <option value="$bkey"{$scriptarr[$bkey]}>$bname["name"]</option>
+                            <!--{/loop}-->
+                        </select>
+                    </td>
+                </tr>
+                <tbody id="tbody_setting">
+                    <!--{loop $settings $value}-->
+                    <tr>
+                        <th>$value[title]</th>
+                        <td>$value[html]</td>
+                    </tr>
+                    <!--{/loop}-->
+                    <!--{if !$is_htmlblock }-->
+					<!--{if !$is_pluginmenublock && !$is_foruminfoblock && !$is_forumimg}-->
+                    <tr>
+                        <th>{lang block_item_display_num}</th>
+                        <td>
+                            <input type="text" name="shownum" value="$block[shownum]" class="px" />
+                        </td>
+                    </tr>
+					<!--{/if}-->
+
+					<!--{if !$is_forumimg}-->
+                    <tr>
+                        <th>{lang block_height}</th>
+                        <td>
+                            <input type="text" name="blockheight" value="$block[blockheight]" class="px" />
+                        </td>
+                    </tr>
+					<!--{/if}-->
+                    <!--{/if}-->
+                    <!--{if !$nocachetime}-->
+					<!--{if !$is_pluginmenublock && !$is_foruminfoblock && !$is_forumimg}-->
+                    <tr>
+                        <th>{lang block_data_update_cache}</th>
+                        <td>
+                            <select name="cachetime" class="ps">
+                                <option value="0"$cachetimearr['0']>不进行缓存</option>
+                                <option value="600"$cachetimearr['600']>10{lang minute}</option>
+                                <option value="1800"$cachetimearr['1800']>30{lang minute}</option>
+                                <option value="3600"$cachetimearr['3600']>1{lang hour}</option>
+                                <option value="7200"$cachetimearr['7200']>2{lang hour}</option>
+                                <option value="43200"$cachetimearr['43200']>12{lang hour}</option>
+                                <option value="86400"$cachetimearr['86400']>1{lang day}</option>
+                                <option value="604800"$cachetimearr['604800']>1{lang week}</option>
+                                <option value="2592000"$cachetimearr['2592000']>1{lang month}</option>
+                                <!--<option value="0"$cachetimearr['0']>{lang never_update}</option>-->
+                            </select>
+                    </tr>
+					<!--{/if}-->
+					<!--{/if}-->
+                     <!--{if !$is_htmlblock}-->
+                <tr>
+                    <th>{lang block_display_style}</th>
+                    <td>
+                        <select name="styleid" onchange="block_show_thumbsetting('$_GET[classname]', this.value, '$block[bid]')" class="ps">
+                            <!--{loop $theclass[style] $key $value}-->
+                            <option value="$key"{$stylearr[$key]}>$value[name]</option>
+                            <!--{/loop}-->
+                        </select>
+                    </td>
+                </tr>
+                <!--{/if}-->
+                </tbody>
+               
+                <tbody id="tbody_thumbsetting">
+
+                    <!--{loop $stylesetting $value}-->
+                        <tr>
+                            <th>$value[title]</th>
+                            <td>$value[html]</td>
+                       </tr>
+                    <!--{/loop}-->
+                    
+                    <!--{if $thestyle[makethumb]}-->
+                    <tr>
+                        <th>{lang block_thumb_width}</th>
+                        <td><input type="text" name="picwidth" value="$block[picwidth]" class="px" /></td>
+                    </tr>
+                    <tr>
+                        <th>{lang block_thumb_height}</th>
+                        <td><input type="text" name="picheight" value="$block[picheight]" class="px" /></td>
+                    </tr>
+                    <!--{/if}-->
+                    <!--{if $thestyle[settarget]}-->
+                    <tr>
+                        <th>{lang block_link_target_type}</th>
+                        <td>
+                            <select name="a_target">
+                                <option value="blank" $targetarr[blank]>{lang block_link_target_blank}</option>
+                                <option value="self" $targetarr[self]>{lang block_link_target_self}</option>
+                                <option value="top" $targetarr[top]>{lang block_link_target_top}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                </tbody>
+                <tr>
+                    <th>{lang block_id}</th>
+                    <td><input type="text" name="name" value="$block[name]" class="px" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="o pns">
+        <input type="hidden" name="blocksubmit" value="true" />
+        <input type="hidden" name="handlekey" value="$_G['gp_handlekey']" />
+        <input type="hidden" name="eleid" value="$_GET['eleid']" />
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <button type="submit" class="pn pnc"><strong>{lang confirms}</strong></button>
+    </div>
+</form>
+<!--{/if}-->
+
+<!--{if $blockdataperm}-->
+<form id="blockformdata" name="blockformdata" method="post" autocomplete="off" action="portal.php?mod=portalcp&ac=block&op=block&classname=$_GET[classname]&bid=$block[bid]&eleid=$_GET['eleid']&tpl=$_GET[tpl]&fid=$_G['fid']"<!--{if $tab=="setting"}--> style="display: none;"<!--{/if}--> onsubmit="ajaxpost('blockformdata','return_$_G[gp_handlekey]','return_$_G[gp_handlekey]','onerror');">
+      <div class="c" style="width:420px;height:$height; _padding-right: 0; _margin-right: 17px; overflow-y: auto; ">
+        <div id="block_data">
+            <table class="dt">
+                <tr>
+                    <th width="40">{lang position}</th>
+                    <th width="280">{lang title}</th>
+                    <th class="pns" width="140"><button class="pn" onclick="showWindow('showblock','portal.php?mod=portalcp&ac=block&op=item&bid=$block[bid]&fid=$_G[fid]');"><em>{lang block_data_add}</em></button></th>
+                </tr>
+                <!--{loop $itemlist $item}-->
+                <tr>
+                    <td><!--{if $item[itemtype]=='1'}--><img src="{STATICURL}image/common/locked.gif" alt="{lang locked}" title="{lang locked_block_item}" /><!--{/if}-->$item['displayorder']</td>
+                    <td>$item['title']</td>
+                    <!--td>$item['summary']</td-->
+                    <td>
+                        <a href="portal.php?mod=portalcp&ac=block&op=item&bid=$block[bid]&itemid=$item[itemid]&fid=$_G['fid']" onclick="showWindow('showblock', this.href);">{lang edit}</a>
+                        &nbsp;&nbsp;
+                        <!--{if $item[itemtype]=='1'}-->
+                        <a href="javascript:;" onclick="block_delete_item('$block[bid]', '$item[itemid]', 1); return false;">{lang delete}</a>
+                        <!--{else}-->
+                        <a href="javascript:;" onclick="block_delete_item('$block[bid]', '$item[itemid]', 0); return false;">{lang block_stop}</a>
+                        <!--{/if}-->
+                    </td>
+                </tr>
+                <!--{/loop}-->
+            </table>
+        </div>
+    </div>
+    <div class="o pns">
+        <input type="hidden" name="eleid" value="$_GET['eleid']" />
+        <input type="hidden" name="handlekey" value="$_G['gp_handlekey']" />
+        <input type="hidden" name="updatesubmit" value="true" />
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <button type="submit" class="pn pnc"><strong>{lang update}</strong></button>
+    </div>
+</form>
+<!--{/if}-->
+<script type="text/javascript" reload="1">
+    function succeedhandle_$_G['gp_handlekey'] (url, message, values) {
+        <!--{if empty($blocktype)}-->
+        var bid = values['bid'];
+        var eleid = typeof values['eleid'] == 'undefined' ? 0 : values['eleid'];
+        var x = new Ajax();
+        var openTitle = 0;
+        x.get('portal.php?mod=portalcp&ac=block&op=getblock&bid='+bid+'&tpl=$_GET[tpl]&inajax=1&fid=$_G["fid"]', function(s) {
+            var obj = document.createElement('div');
+            bid = 'portal_block_'+bid;
+            obj.innerHTML = s;
+            if ($(bid) != null) {
+                drag.stopSlide(bid);
+                if($(bid+'_content')) $(bid+'_content').parentNode.removeChild($(bid+'_content'));
+                $(bid).innerHTML = obj.childNodes[0].innerHTML;
+            } else {
+                $(eleid).parentNode.replaceChild(obj.childNodes[0],$(eleid));
+                openTitle = 1;
+            }
+            drag.initPosition();
+            evalscript(s);
+            if (openTitle == 1)	drag.openTitleEdit(bid, $_G["fid"]);
+        });
+        <!--{else}-->
+        location.reload();
+        <!--{/if}-->
+        hideWindow('$_G['gp_handlekey']');
+    }
+</script>
+<!--{elseif $op == 'setting'}-->
+
+<!--{loop $settings $value}-->
+<tr>
+    <th>$value[title]</th>
+    <td>$value[html]</td>
+</tr>
+<!--{/loop}-->
+<!--{if !$is_htmlblock }-->
+<!--{if !$is_pluginmenublock && !$is_foruminfoblock && !$is_forumimg}-->
+<tr>
+    <th>{lang block_item_display_num}</th>
+    <td><input type="text" name="shownum" value="$block[shownum]" class="px" /></td>
+</tr>
+<!--{/if}-->
+<tr>
+    <th>{lang block_height}</th>
+    <td>
+        <input type="text" name="blockheight" value="$block[blockheight]" class="px" />
+    </td>
+</tr>
+<!--{/if}-->
+<!--{if !$nocachetime}-->
+<!--{if !$is_pluginmenublock && !$is_foruminfoblock && !$is_forumimg}-->
+<tr>
+    <th>{lang block_data_update_cache}</th>
+    <td>
+        <select name="cachetime">
+            <option value="0"$cachetimearr['0']>不进行缓存</option>
+            <option value="600"$cachetimearr['600']>10{lang minute}</option>
+            <option value="1800"$cachetimearr['1800']>30{lang minute}</option>
+            <option value="3600"$cachetimearr['3600']>1{lang hour}</option>
+            <option value="7200"$cachetimearr['7200']>2{lang hour}</option>
+            <option value="43200"$cachetimearr['43200']>12{lang hour}</option>
+            <option value="86400"$cachetimearr['86400']>1{lang day}</option>
+            <option value="604800"$cachetimearr['604800']>1{lang week}</option>
+            <option value="2592000"$cachetimearr['2592000']>1{lang month}</option>
+           <!-- <option value="0"$cachetimearr['0']>{lang never_update}</option>-->
+        </select>
+</tr>
+<!--{/if}-->
+<!--{/if}-->
+<!--{if !$is_htmlblock}-->
+<tr>
+    <th>{lang block_display_style}</th>
+    <td>
+        <select name="styleid" onchange="block_show_thumbsetting('$_GET[classname]', this.value, '$block[bid]')" class="ps">
+            <!--{loop $theclass[style] $key $value}-->
+            <option value="$key"{$stylearr[$key]}>$value[name]</option>
+            <!--{/loop}-->
+        </select>
+    </td>
+</tr>
+
+<!-- 联动效果 -->
+<script>
+	var temp = document.getElementsByTagName("select");
+	for(var i = 0; i < temp.length; i++) {
+		if(temp[i].name == "styleid") {
+			block_show_thumbsetting('$_GET[classname]', temp[i].value, '$block[bid]');
+		}
+	}	
+
+</script>
+<!-- end 联动效果 -->
+
+
+<!--{/if}-->
+<!--{elseif $op == 'item' || $op == 'push'}-->
+<!--{if $op == 'item'}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}forum_calendar.js?{VERHASH}"></script>
+<h3 class="flb">
+    <em id="return_$_G[gp_handlekey]">{lang block_edit}</em>
+    <span>
+        <a href="portal.php?mod=portalcp&ac=block&op=edit&bid=$bid&fid=$_G['fid']" onclick="showWindow('showblock', this.href);closecalendar(e);return false;"> &lt;&lt;&lt;{lang return} </a>
+        <!--{if $_G[inajax]}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_G[gp_handlekey]');<!--{if empty($bid)}-->drag.removeBlock('$_GET[eleid]');<!--{/if}-->return false;" title="{lang close}">{lang close}</a><!--{/if}-->
+    </span>
+</h3>
+<form id="blockform" name="blockform" method="post" autocomplete="off" action="portal.php?mod=portalcp&ac=block&op=item&bid=$block[bid]&itemid=$itemid" onsubmit="ajaxpost('blockform','return_$_G[gp_handlekey]','return_$_G[gp_handlekey]','onerror');" enctype="multipart/form-data">
+    <div class="c" style="height:$height; width: 420px; _padding-right: 0; _margin-right: 17px; overflow-y: auto;">
+        <table class="tfm">
+            <tr>
+                <th>{lang block_data_from_datasource}</th>
+                <td>
+                    <select id="push_idtype" class="ps">
+                        <option value="tids" selected="selected">{lang thread}</option>
+                        <option value="blogids">{lang blog}</option>
+                        <option value="aids">{lang article}</option>
+                        <option value="picids">{lang image}</option>
+                    </select>
+                    <input type="text" id="push_id" value=""/>
+                    <input type="button" value="{lang grab}" onclick="block_pushitem('$block[bid]')" class="btn" />
+                </td>
+            </tr>
+            <tr>
+                <th>{lang block_display_position}</th>
+                <td>
+                    <select name="displayorder" class="ps">
+                        <!--{loop $orders $value}-->
+                        <option value="$value"$orderarr[$value]>$value</option>
+                        <!--{/loop}-->
+                    </select>
+                    &nbsp;&nbsp;
+                    <!--{if $itemid}-->
+                    <input type="checkbox" class="pc" name="locked" id="lock_item" value="1"<!--{if $item[itemtype]=='1'}-->checked="checked"<!--{/if}--> />
+                           <label for="lock_item">{lang locked}</label>
+                    <!--{else}-->
+                    <input type="checkbox" class="pc" name="locked" id="lock_item" value="1" checked="checked" disabled="disabled" />
+                    <label>{lang locked}</label>
+                    <!--{/if}-->
+                </td>
+            </tr>
+            <tr>
+                <th>{lang block_start_time}</th>
+                <td><input type="text" class="px" name="startdate"<!--{if $item[startdate]}--> value="$item[startdate]"<!--{/if}--> onclick="showcalendar(event, this, true)" /> {lang block_start_time_comment}</td>
+            </tr>
+            <tr>
+                <th>{lang block_expire_time}</th>
+                <td><input type="text" class="px" name="enddate"<!--{if $item[enddate]}--> value="$item[enddate]"<!--{/if}--> onclick="showcalendar(event, this, true)" /> {lang block_expire_time_comment}</td>
+            </tr>
+            <tbody id="tbody_pushcontent">
+                <!--{/if}-->
+                <!--{loop $theclass[fields] $fieldname $field}-->
+                <!--{if $field[formtype]!='hidden'}-->
+                <tr>
+                    <th>$field[name]</th>
+                    <td>
+                        <!--{if $field[formtype]=='title'}-->
+                        <input type="text" name="title" value="$itemfields[title]" class="px" />
+                        <div class="ss">
+                            <em $showstylearr[title_b] id="span_title_b"  onclick="block_showstyle('title_b')">B</em>
+                            <input type="hidden" id="value_title_b" name="showstyle[title_b]" value="$item[showstyle][title_b]" />
+                            <em $showstylearr[title_i] id="span_title_i"  onclick="block_showstyle('title_i')"><i>I</i></em>
+                            <input type="hidden" id="value_title_i" name="showstyle[title_i]" value="$item[showstyle][title_i]" />
+                            <em $showstylearr[title_u] id="span_title_u"  onclick="block_showstyle('title_u')">U</em>
+                            <input type="hidden" id="value_title_u" name="showstyle[title_u]" value="$item[showstyle][title_u]" />
+                            <input size="6" id="title_color_value" type="text" name="showstyle[title_c]" value="$item[showstyle][title_c]" />
+                            <input id="ctitlepb" onclick="createPalette('titlepb', 'title_color_value');" type="button" class="colorwd" value="" style="background: {$item['showstyle']['title_c']}">
+                        </div>
+                        <!--{elseif $field[formtype]=='summary'}-->
+                        <textarea name="summary" class="pt">$itemfields[summary]</textarea>
+                        <div class="ss">
+                            <em $showstylearr[summary_b] id="span_summary_b"  onclick="block_showstyle('summary_b')">B</em>
+                            <input type="hidden" id="value_summary_b" name="showstyle[summary_b]" value="$item[showstyle][summary_b]" />
+                            <em $showstylearr[summary_i] id="span_summary_i"  onclick="block_showstyle('summary_i')"><i>I</em>
+                            <input type="hidden" id="value_summary_i" name="showstyle[summary_i]" value="$item[showstyle][summary_i]" />
+                            <em $showstylearr[summary_u] id="span_summary_u"  onclick="block_showstyle('summary_u')">U</em>
+                            <input type="hidden" id="value_summary_u" name="showstyle[summary_u]" value="$item[showstyle][summary_u]" />
+                            <input size="6" id="summary_color_value" type="text" name="showstyle[summary_c]" value="$item[showstyle][summary_c]" />
+                            <input id="csummarypb" onclick="createPalette('summarypb', 'summary_color_value');" type="button" class="colorwd" value="" style="background: {$item['showstyle']['summary_c']}">
+                        </div>
+                        <!--{elseif $field[formtype] == 'textarea'}-->
+                        <textarea name="$fieldname">$itemfields[$fieldname]</textarea>
+                        <!--{elseif $field[formtype] == 'pic'}-->
+                        <input type="radio" class="pr" id="picway_remote" name="picway" onchange="showpicedit()" checked /><label for="picway_remote">{lang remote}</label> &nbsp;
+                        <input type="radio" class="pr" id="picway_upload" name="picway" onchange="showpicedit()" /><label for="picway_upload">{lang upload}</label><br />
+                        <input type="text" name="pic" class="px" id="pic_remote" value="$itemfields[pic]" />
+                        <input type="hidden" name="picflag" value="$itemfields[picflag]" />
+                        <input type="file" name="pic" class="pf" id="pic_upload" style="display: none"/>
+                        <!--{if $itemfields[pic]}-->
+                        <br />
+                        <a href="$itemfields[pic]" target="_blank" title="{lang view_image_original}"><img src="$itemfields[pic]" alt="" width="80" height="60" /></a>
+                        <!--{/if}-->
+                        <!--{elseif $field[formtype] == 'date'}-->
+                        <input type="text" class="px" name="$fieldname" value="$itemfields[$fieldname]" onclick="showcalendar(event, this, true)" />
+                        <!--{else}-->
+                        <input type="text" class="px" name="$fieldname" value="$itemfields[$fieldname]" />
+                        <!--{/if}-->
+                    </td>
+                </tr>
+                <!--{/if}-->
+                <!--{/loop}-->
+                <!--{if $op == 'item'}-->
+            </tbody>
+        </table>
+    </div>
+    <div class="o pns">
+        <input type="hidden" name="itemsubmit" value="true" />
+        <input type="hidden" name="handlekey" value="$_G['gp_handlekey']" />
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <button type="submit" class="pn pnc"><strong>{lang submit}</strong></button>
+    </div>
+</form>
+<script type="text/javascript" reload="1">
+    if (typeof ctitlepb_frame == 'object' && !BROWSER.ie) {delete ctitlepb_frame;}
+    if (typeof csummarypb_frame == 'object' && !BROWSER.ie) {delete csummarypb_frame;}
+    function succeedhandle_$_G['gp_handlekey'] (url, message, values) {
+        showWindow('$_G[gp_handlekey]', 'portal.php?mod=portalcp&ac=block&op=block&tab=data&fid=$_G["fid"]&bid='+values['bid'], 'get' ,0);
+    }
+</script>
+<!--{/if}-->
+
+<!--{elseif $op == 'thumbsetting'}-->
+<!--{if $thestyle[makethumb]}-->
+<tr>
+    <th>{lang block_thumb_width}</th>
+    <td><input type="text" name="picwidth" value="$block[picwidth]" class="px" /></td>
+</tr>
+<tr>
+    <th>{lang block_thumb_height}</th>
+    <td><input type="text" name="picheight" value="$block[picheight]" class="px" /></td>
+</tr>
+<!--{/if}-->
+<!--{if $thestyle[settarget]}-->
+<tr>
+    <th>{lang block_link_target_type}</th>
+    <td>
+        <select name="a_target">
+            <option value="blank" $targetarr[blank]>{lang block_link_target_blank}</option>
+            <option value="self" $targetarr[self]>{lang block_link_target_self}</option>
+            <option value="top" $targetarr[top]>{lang block_link_target_top}</option>
+        </select>
+    </td>
+</tr>
+<!--{/if}-->
+<!--{loop $stylesetting $value}-->
+                        <tr>
+                            <th>$value[title]</th>
+                            <td>$value[html]</td>
+                       </tr>
+                    <!--{/loop}-->
+<!--{elseif $op == 'getblock'}-->
+<!--{if !$_G[inajax]}-->
+<div class="wp"><div class="area"><div class="frame move-span frame-1 cl">
+            <!--{/if}-->
+	$html
+            <!--{if !$_G[inajax]}-->
+        </div></div></div>
+<!--{/if}-->
+<!--{/if}-->
+<!--{template common/footer}-->

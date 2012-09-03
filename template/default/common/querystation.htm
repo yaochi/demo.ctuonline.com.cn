@@ -1,0 +1,94 @@
+{template common/header}
+<script type="text/javascript" src="static/js/dtree/dtree.js"></script>
+<script type="text/javascript" src="static/js/xtree/xtree.js"></script>
+<script type="text/javascript" src="static/js/xtree/xmlextras.js"></script>
+<script type="text/javascript" src="static/js/xtree/xloadtree.js"></script>
+<script type="text/javascript" src="static/js/xtree/poslib.js"></script>
+<link type="text/css" rel="stylesheet" href="static/js/xtree/css/xtree.css" />
+<script type="text/javascript">
+ 
+webFXTreeConfig.rootIcon		= "static/image/jsptree/xp/folder.png";
+webFXTreeConfig.openRootIcon	= "static/image/jsptree/xp/openfolder.png";
+webFXTreeConfig.folderIcon		= "static/image/jsptree/xp/folder.png";
+webFXTreeConfig.openFolderIcon	= "static/image/jsptree/xp/openfolder.png";
+webFXTreeConfig.fileIcon		= "static/image/jsptree/xp/file.png";
+webFXTreeConfig.lMinusIcon		= "static/image/jsptree/xp/Lminus.png";
+webFXTreeConfig.lPlusIcon		= "static/image/jsptree/xp/Lplus.png";
+webFXTreeConfig.tMinusIcon		= "static/image/jsptree/xp/Tminus.png";
+webFXTreeConfig.tPlusIcon		= "static/image/jsptree/xp/Tplus.png";
+webFXTreeConfig.iIcon			= "static/image/jsptree/xp/I.png";
+webFXTreeConfig.lIcon			= "static/image/jsptree/xp/L.png";
+webFXTreeConfig.tIcon			= "static/image/jsptree/xp/T.png";
+webFXTreeConfig.blankIcon		= "static/image/jsptree/blank.png";
+ 
+var tree = new WebFXLoadTree("集团公司", "misc.php?mod=querystation_tree");
+
+</script>
+
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">岗位$allstation</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('qrystationwin')" title="关闭">关闭</a></span>
+    </h3>
+	<div id="stationtree" style="height:400px;overflow:auto;">
+	</div>
+	<script>
+ 	document.getElementById("stationtree").innerHTML=tree.toString();
+	</script>
+	
+  
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="submitStation()"><strong>选择岗位</strong></button></p>
+</div>
+
+<script type="text/javascript">
+    var cookiepre = 'HOCa_';
+    var cookiedomain = '';
+    var cookiepath = '/';
+    function select_check(ele){
+        var checkboxs = document.getElementsByName("ids");
+        for(var i=0; i<=checkboxs.length; i++){
+            if(checkboxs[i] && checkboxs[i].value==ele){
+                checkboxs[i].checked=true;
+            }
+        }
+    }
+    
+    var result = $("station_input_id").value;
+    var t = result.split(",");
+    for(var i=0; i<=t.length; i++){
+        select_check(t[i]);
+    }
+
+</script>
+<script>
+function setStation(id,name){
+
+	selectStation(id, name);
+}
+function selectStation(id, name){
+    result = $("station_input_id").value;
+    names = $("station_input").value;
+     
+        var t = result.split(",");
+        var f = true;
+        for(var i=0; i<=t.length; i++){
+            if(t[i]==id){
+                f = false;
+				result = result.replace(id+",", "");
+       			names = names.replace(name+",", "");
+                break;
+            }
+        }
+        if(f){
+            result += id+",";
+            names += name+",";
+        }
+
+    $("station_input_id").value = result;
+    $("station_input").value = names;
+}
+
+</script>
+
+
+{template common/footer}

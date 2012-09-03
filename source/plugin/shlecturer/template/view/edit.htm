@@ -1,0 +1,409 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/shlecturer/js/shlecturer_common.js?{VERHASH}"></script>
+
+<form action="{eval echo join_plugin_action('modify')}" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<input type="hidden" name="lecid" value="$lecturer[id]"/>
+<!--{loop $lecturer['teachdirectionid'] $value}-->
+<input type="hidden" name="oldlectdid[]" value="$value"/>
+<!--{/loop}-->
+<div class="pxjs">
+<div class="pxjs_nr1">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="pxjs_table">
+  <tr>
+    <td colspan="2" align="left">
+	<div class="jsjj">
+	<dl>
+	<dd style="position: relative;">
+		<div style="margin:0 4px 4px; _margin-bottom: 3px; width: 120px; height: 30px; position: absolute; bottom: 0; z-index: 100;" class="whitebg_tr hm">
+			<a href="javascript:;" style="line-height: 30px;" class="xi2" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})">更换照片</a>
+		</div>
+		<div id="lecturerattach_image" class="dtx" style="position: relative;">
+			
+			<!--{if !$lecturer[imgurl]}-->
+				<img src="static/image/images/def_lecturer.png" class="lbimg" />
+			<!--{else}-->
+				<img src="$lecturer[imgurl]" width="117" height="117"/>
+			<!--{/if}-->	
+		</div>
+	</dd>
+	<dt><span class="a">$lecturer[name]</span></dt>
+	<input type='hidden' name='dateline' value='$lecturer[dateline]'/>
+	<dt>
+		<!--{if $lecturer['gender']==1}-->
+		男
+		<!--{elseif $lecturer['gender']==2}-->
+		女
+		<!--{else}-->
+		保密
+		<!--{/if}-->
+	</dt>
+	<dt><!--{if $lecturer['isinnerlec']==1}-->$lecturer['orgname'] -内训师<!--{/if}-->
+		<!--{if $lecturer['isinnerlec']==2}--><input type="text" size="30" id="orgname" name="orgname" value="$lecturer[orgname]"/><!--{/if}-->
+	</dt>
+	<dt></dt>
+	<dt>
+	</dt>
+	</dl>
+	</div>
+	</td>
+    </tr>
+  <tr>
+    <td width="18%" align="right" valign="top"><span class="hongse">*</span><strong>背景介绍</strong></td>
+    <td width="82%">
+    	<textarea rows="3" cols="40" name="bginfo">$lecturer['bginfo']</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td align="right" valign="top"><strong>个人特色</strong></td>
+    <td>
+    	<textarea rows="3" cols="40" name="perspecial">$lecturer['perspecial']</textarea>
+    </td>
+  </tr>
+   <tr>
+    <td align="right" valign="top"><strong>授课经验</strong></td>
+    <td>
+    	<textarea rows="3" cols="40" name="coursexperience">$lecturer['coursexperience']</textarea>
+    </td>
+  </tr>
+  </table>
+   <div class="exfm cl">
+  <div><h4>最多可添加7项</h4></div>
+  <span id="teachdirection_new"></span>
+  <!--{loop $lecturer['teachdirection'] $key $value}-->
+  <p>
+  <input type="hidden" name="lectdid[]" value="$lecturer['teachdirectionid'][$key]" />
+			授课方向：
+		<select name="teachdirection[]">
+		<option value="1" <!--{if $value=='1'}--> selected="selected" <!--{/if}-->>
+		市场类</option>
+		<option value="2"  <!--{if $value=='2'}--> selected="selected" <!--{/if}-->>
+		销售与服务类</option>
+		<option value="3"  <!--{if $value=='3'}--> selected="selected" <!--{/if}-->>
+		产品类			</option>
+		<option value="4"  <!--{if $value=='4'}--> selected="selected" <!--{/if}-->>
+		企业信息化类			</option>
+		<option value="5"  <!--{if $value=='5'}--> selected="selected" <!--{/if}-->>
+		维护与服务支撑类	</option>
+		<option value="6"  <!--{if $value=='6'}--> selected="selected" <!--{/if}-->>
+		网发建设类			</option>
+		<option value="7"  <!--{if $value=='7'}--> selected="selected" <!--{/if}-->>
+		综合类			</option>
+		</select>	
+        <span class="pl15">特色课程</span>
+<input type="text" name="courses[]" autocomplete="off" tabindex="1" value="$lecturer[courses][$key]"><a onclick="delpolloption(this)" class="d" href="javascript:;"><img height="17" width="17" src="static/image/images/wj_07.jpg"></a>
+</p><!--{/loop}-->
+ <p id='teachdirection_hidden' style="display:none;">
+			授课方向：
+		<select name="teachdirection[]">
+		<option value="1">
+		市场类</option>
+		<option value="2">
+		销售与服务类</option>
+		<option value="3">
+		产品类			</option>
+		<option value="4">
+		企业信息化类			</option>
+		<option value="5">
+		维护与服务支撑类	</option>
+		<option value="6">
+		网发建设类			</option>
+		<option value="7">
+		综合类			</option>
+		</select>	
+        <span class="pl15">特色课程</span>
+<input type="text" name="courses[]" autocomplete="off" tabindex="1"><a onclick="delpolloption(this)" class="d" href="javascript:;"><img height="17" width="17" src="static/image/images/wj_07.jpg"></a>
+</p>
+	<p><a href="javascript:;" onclick="addteachdirectionoption()">+增加一项</a></p>
+    </div>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="pxjs_table">
+  <!--{if $lecturer['isinnerlec']==1}-->
+  <tr>
+     <td width="18%" align="right" valign="top"><strong>讲师级别</strong></td>
+    <td>
+    	<!--{if $_G['forum']['ismoderator']}-->
+    		<select name="rank">
+    			<option value="1" <!--{if $lecturer['rank']==1}-->selected="selected"<!--{/if}-->>
+					集团级
+				</option>
+				<option value="2" <!--{if $lecturer['rank']==2}-->selected="selected"<!--{/if}-->>
+					公司级
+				</option>
+				<option value="3" <!--{if $lecturer['rank']==3}-->selected="selected"<!--{/if}-->>
+					直属单位级
+				</option>
+				<option value="4" <!--{if $lecturer['rank']==4}-->selected="selected"<!--{/if}-->>
+					其他
+				</option>
+    		</select>
+		<!--{else}-->
+			<!--{if $lecturer['rank']==1}-->
+			集团级
+			<!--{elseif $lecturer['rank']==2}-->
+			公司级
+			<!--{elseif $lecturer['rank']==3}-->
+			直属单位级
+			<!--{elseif $lecturer['rank']==4}-->
+			其他
+			<!--{else}-->
+			<!--{/if}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <!--{elseif $lecturer['isinnerlec']==2}-->
+  <tr>
+    <td align="right" width="18%"><strong>讲师级别</strong></td>
+    <td>
+    	<!--{if $_G['forum']['ismoderator']}-->
+    		<select name="rank">
+    			<option value="1" <!--{if $lecturer['rank']==1}-->selected="selected"<!--{/if}-->>
+					客座教授
+				</option>
+				<option value="2" <!--{if $lecturer['rank']==2}-->selected="selected"<!--{/if}-->>
+					客座教授
+				</option>
+				<option value="3" <!--{if $lecturer['rank']==3}-->selected="selected"<!--{/if}-->>
+					专家教授
+				</option>
+				<option value="4" <!--{if $lecturer['rank']==4}-->selected="selected"<!--{/if}-->>
+					讲师
+				</option>
+    		</select>
+    	<!--{else}-->
+	    	<!--{if $lecturer['rank']==1}-->
+			客座教授
+			<!--{elseif $lecturer['rank']==2}-->
+			荣誉教授
+			<!--{elseif $lecturer['rank']==3}-->
+			专家教授
+			<!--{elseif $lecturer['rank']==4}-->
+			讲师
+			<!--{/if}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <tr>
+  	<td align="right"><strong>工作单位</strong></td>
+    <td>
+    	<input type="text" name="orgname" value="$lecturer['orgname']"/>
+    </td>
+  </tr>
+  <!--{/if}-->
+   <tr>
+    <td align="right"><strong>讲师星级</strong></td>
+    <td>
+<div class="stepper_wrap">
+    <input type="text" id="product_quantity" value="$lecturer['stars']" maxlength="3" name="stars" class="">
+    <div class="stepper">
+        <div id="product_up"><img src="static/image/images/tmtu.gif" width="15" height="14" onclick="addnum();" /></div>
+        <div id="product_down"><img src="static/image/images/tmtu.gif" width="15" height="14" onclick="minusnum();" /></div>
+    </div>
+</div>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong>联系电话</strong></td>
+    <td>
+    	<input type="text" name="tel" value="$lecturer['tel']"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong>Email</strong></td>
+    <td>
+    	<input type="text" name="email" value="$lecturer['email']"/>
+    </td>
+  </tr>
+</table>
+<div id="submit" align="left">
+	<input type="submit" id="lecbutton" name="lecbutton" value="保存创建" onclick="validate_attfrom(this);" style="display: none;" />
+</div>
+<input type="hidden" name="aid" id="aid" {if $lecturer[attachment]}value="$lecturer[aid]" {/if}tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<div id="postbox"></div>
+</form>
+<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+				<tr>
+					<td width="18%" align="right"><strong>现场讲课录像</strong></td>
+					<td class="pns" style="padding-left:15px;">
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_group_post.css?{VERHASH}" />
+		<!--{eval $editorid = 'e';}-->
+		<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+	<div class="p_pof upf" id="{$editorid}_attach_menu" unselectable="on">
+		<ul class="imguptype" id="{$editorid}_attach_ctrl">
+			<li><a href="javascript:;" hidefocus="true" class="current" id="{$editorid}_btn_attachlist" onclick="switchAttachbutton('attachlist');">附件列表</a></li>
+			<li><a href="javascript:;" hidefocus="true" id="{$editorid}_btn_upload" onclick="switchAttachbutton('upload');">普通上传</a></li>
+		</ul>
+			<div class="p_opt" unselectable="on" id="{$editorid}_upload" style="display: none;">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tbody id="attachbodyhidden" style="display:none"><tr>
+						<td class="atnu"><span id="localno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
+						<td class="atna">
+							<span id="deschidden[]" style="display:none">
+								<span id="localfile[]"></span>
+							</span>
+							<input type="hidden" name="localid[]" />
+						</td>
+						<td class="attc"><span id="cpdel[]"></span></td>
+					</tr></tbody>
+				</table>
+				<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
+				<div class="upbk">
+					<div id="attachbtnhidden" style="display:none"><span>
+					<form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1" target="attachframe" enctype="multipart/form-data"><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="fldt" /></form>
+					</span>
+					</div>
+					<div id="attachbtn"></div>
+					<p id="uploadbtn">
+						<button type="button" class="pn" onclick="hideMenu();"><span>{lang cancel}</span></button>
+						<button type="button" class="pn pnc" onclick="uploadAttach(0, 0)"><span>{lang upload}</span></button>
+					</p>
+					<p id="uploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /> {lang uploading}</p>
+				</div>
+			</div>
+		<div class="p_opt post_tablelist" unselectable="on" id="{$editorid}_attachlist">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="attach_tblheader"{if empty($attachs['used']) && empty($attachs['unused'])} style="display: none"{/if}>
+				<tr>
+					<td class="atnu"></td>
+					<td class="atna">文件名</td>
+					<td class="attc"></td>
+				</tr>
+</table>
+			<div class="upfl">
+				<!--{if !empty($attachs['used'])}-->{eval $attachlist = $attachs['used'];}
+					{template home/ajax_attachlist}
+				<!--{/if}-->
+				<div id="attachlist">
+					<!--{if empty($attachs['used']) && empty($attachs['unused'])}-->
+						<p class="notice">无附件<!--{if $allowuploadnum}-->, <a href="javascript:;" onclick="switchAttachbutton('{if $_G['setting']['swfupload'] != 0}swfupload{else}upload{/if}');">{lang click_here}</a>{lang attachment_new}<!--{/if}--></p>
+					<!--{/if}-->
+				</div>
+				<div id="unusedattachlist">
+					<!--{if !empty($attachs['unused'])}-->
+						{eval $attachlist = $attachs['unused'];}
+						<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="attachnum"></td><td>{lang attachment_uploaded}</td></tr></table>
+						{template home/ajax_attachlist}
+					<!--{/if}-->
+				</div>
+			</div>
+		</div>
+	</div>
+					</td>
+				</tr>
+</table>
+<script type="text/javascript">
+	var editorid = '$editorid';
+	var textobj = $(editorid + '_textarea');
+	var wysiwyg = (BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9));
+	var allowswitcheditor = parseInt('1');
+	var allowhtml = parseInt('0');
+	var allowsmilies = parseInt('1');
+	var allowbbcode = parseInt('1');
+	var allowimgcode = parseInt('1');
+	var fontoptions = new Array({lang e_fontoptions});
+	var custombbcodes = new Array();
+	var extensions = '';
+	var id = '$lecturer[id]';
+	var idtype = '<!--{if !empty($lecturer['id'])}-->shlecid<!--{/if}-->';
+</script>
+
+<table cellspacing="0" cellpadding="0" class="tfm">
+	<tr>
+		<td width="18%">&nbsp;</td>
+		<td><button type="button" id="issuance" onclick="document.getElementById('lecbutton').click();" class="pn pnp"><strong>保存修改</strong></button></td>
+	</tr>
+</table>
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+var curoptions = {echo count($lecturer[teachdirection])};
+	function validate_attfrom(obj) {
+		if($(editorid + '_attachlist')) {
+			$('postbox').appendChild($(editorid + '_attachlist'));
+			$(editorid + '_attachlist').style.display = 'none';
+		}
+		if($(editorid + '_imgattachlist')) {
+			$('postbox').appendChild($(editorid + '_imgattachlist'));
+			$(editorid + '_imgattachlist').style.display = 'none';
+		}
+	}
+	 function addnum(){
+	  	var numbers=Number($('product_quantity').value);
+	  	if(numbers<5){
+			$('product_quantity').value=numbers+0.5;
+		}
+	  }
+	  function minusnum(){
+	  	var numbers=Number($('product_quantity').value);
+	  	if(numbers>0){
+			$('product_quantity').value=numbers-0.5;
+		}
+	  }
+</script>
+
+
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}home_post.js?{VERHASH}"></script>
+<iframe name="attachframe" id="attachframe" style="display: none;" onload="uploadNextAttach();"></iframe>
+<script type="text/javascript">
+		var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0};
+		function switchImagebutton(btn) {		
+			var btns = ['www', 'imgattachlist', 'albumlist'];
+			btns.push('local');
+			switchButton(btn, btns);
+			$(editorid + '_image_menu').style.height = '';
+		}
+		
+		function switchAttachbutton(btn) {
+			var btns = ['attachlist'];
+			btns.push('upload');
+			switchButton(btn, btns);
+		}
+		ATTACHNUM['attachused'] = {echo @count($attachs['used'])};
+		ATTACHNUM['attachunused'] = {echo @count($attachs['unused'])};
+		{if !empty($attachs['used']) || !empty($attachs['unused'])}
+			//$(editorid + '_attach').evt = false;
+			updateattachnum('attach');
+		{else}
+			switchAttachbutton('upload');
+		{/if}
+		
+	{if !empty($attachs['unused']) || !empty($imgattachs['unused'])}
+		var msg = '<form id="unusedform"><div class="c ufl" style="{if count($attachs[unused]) + count($imgattachs[unused]) > 10}height:180px;{/if}overflow-y:auto;overflow-x:hidden"><p class="xg2">{lang attachment_uploaded}</p>'
+		{loop $attachs['unused'] $attach}
+			+ '<p id="unusedrow$attach[aid]"><a href="javascript:;" class="d" onclick="unusedoption(2, $attach[aid])">{lang delete}</a><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /> <span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></p>'
+		{/loop}
+		{loop $imgattachs['unused'] $attach}
+			+ '<p id="unusedrow$attach[aid]"><a href="javascript:;" class="d" onclick="unusedoption(3, $attach[aid])">{lang delete}</a><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /> <span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></p>'
+		{/loop}
+		+ '</div><div class="o pns"><input name="chkall" checked type="checkbox" class="pc" onclick="checkall(this.form, \'unused\', \'chkall\')" /> {lang checkall}<button type="button" value="true" class="pn" onclick="unusedoption(0)"><span>{lang ignore}</span></button> <button type="button" value="true" class="pn pnc" onclick="unusedoption(1)"><span>{lang use}</span></button> </div></form>';
+		showDialog(msg, 'info', '', '', 1);
+	{/if}
+	addAttach();
+	id = '';
+	idtype = '';
+</script>
+<script type="text/javascript">
+	function clearname() {
+		$('firstman_names').value='';
+		$('firstman_names_uids').value='';
+	}
+
+	function validate_from(obj) {
+		var length1=document.getElementsByName("teachdirection[]").length-1;
+		for(var i=0;i<length1;i++){
+			for(var j=i+1;j<length1;j++){
+				if(document.getElementsByName("teachdirection[]")[i].value==document.getElementsByName("teachdirection[]")[j].value){
+					showDialog("授课方向重复");
+					return false;
+				}
+			}
+		}
+
+	}
+		
+</script>

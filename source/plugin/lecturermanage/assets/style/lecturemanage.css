@@ -1,0 +1,90 @@
+/* Created by Izzln */
+.tfm th { width: 95px; }
+.loading { background: url(/static/image/common/loading.gif) no-repeat center; }
+
+#lectSearchBtn { width: 65px; height: 12px; background: url(../image/advSearchBtn.png) no-repeat 0 0; position: absolute; right: 15px; bottom: 10px; }
+	#lectSearchBtn.elpD { background-position: 0 0; }
+	#lectSearchBtn.elpD:active { background-position: 0 -17px; }
+	#lectSearchBtn.elpU { background-position: 0 -34px; }
+	#lectSearchBtn.elpU:active { background-position: 0 -51px; }
+	
+#lectSearch { width: 100%; height: 65px; background: #f3f6fb; position: absolute; z-index: 20; }
+#lectSearchShadow { position: absolute; margin-top: 23px; width: 100%; height: 47px; z-index: 10; background: url(/static/image/common/esn/nv_shadow.png) no-repeat center 0; 
+		  			_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{/static/image/common/esn/nv_shadow.png', sizingMethod='scale');
+           			_background: none; }
+           			
+#lectSearchFieldSimple { margin: 16px 0 0 187px; zoom: 1; }
+#lectSearchFieldSimple input { position: absolute; background: transparent; width: 170px; height: 24px; border: 1px solid #d4d4d4; z-index: 50; padding: 4px; font-size: 14px; }
+#lectSearchFieldSimple label { position: absolute; margin: 6px 0 0 6px; z-index: 40; }
+#lectSearchFieldSimple span { position: absolute; width: 178px; height: 32px; background: #fff url(/static/image/common/esn/nv_gradient.png) repeat-x 0 -30px; display: block; }
+#lectSearchFieldSimple button { position: absolute; margin: 2px 0 0 188px; }
+
+#lectSearchFieldComplex { margin: 10px; }
+	#lectSearchFieldComplex .left, #lectSearchFieldComplex .right { width: 302px; }
+	#lectSearchFieldComplex th { vertical-align: middle; }
+
+.lectList { width: 100%; table-layout: fixed; }
+	.lectList th { font-weight: 700; color: #999; border-bottom: 1px dashed #d6d6d6; padding: 4px; text-align: center; vertical-align: middle; }
+	.lectList td { padding: 8px; height: 44px; text-align: center; vertical-align: middle; border-right: 1px dashed #d6d6d6; }
+	.lectList td.noborder { border-right: none; }
+	.lectList th.moderate, .lectList td.moderate { width: 32px; }
+	.lectList th.lectName, .lectList td.lectName { width: 100px; }
+	.lectList th.lectLev, .lectList td.lectLev { width: 150px; }
+	.lectList th.teachdir, .lectList td.teachdir { width: 150px; }
+
+.lectLevel { line-height: 8px; }
+.lectLevel a { width: 142px; height: 32px; margin: 0 5px 2px 0; display: block; background: url(../image/lecturerLvBtn.png) no-repeat 0 0; }
+	.lectLevel #clv3 { background-position: -441px 0; }
+		.lectLevel #clv3:active, .lectLevel #clv3.act:active { background-position: -441px -37px; }
+		.lectLevel #clv3.act { background-position: -441px -74px; }
+	.lectLevel #clv2 { background-position: -294px 0; }
+		.lectLevel #clv2:active, .lectLevel #clv2.act:active  { background-position: -294px -37px; }
+		.lectLevel #clv2.act { background-position: -294px -74px; }
+	.lectLevel #clv1 { background-position: -147px 0; }
+		.lectLevel #clv1:active, .lectLevel #clv1.act:active { background-position: -147px -37px; }
+		.lectLevel #clv1.act { background-position: -147px -74px; }
+	.lectLevel #network { background-position: 0 0; }
+		.lectLevel #network:active, .lectLevel #network.act:active  { background-position: 0 -37px; }
+		.lectLevel #network.act { background-position: 0 -74px; }
+	.lectLevel #other { background-position: -589px 0; }
+		.lectLevel #other:active, .lectLevel #other.act:active { background-position: -589px -37px; }
+		.lectLevel #other.act { background-position: -589px -74px; }
+
+.lectLevel select { width: 150px; padding: 4px; border: 1px solid; border-color: #707070 #CECECE #CECECE #707070; color: #666; font-size: 14px; display: block; }
+
+.addicn { display: block; width: 16px; height: 16px; background: url(/static/image/common/esn/add_small.png) no-repeat 0 0; cursor: pointer; 
+		  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/image/common/esn/add_small.png', sizingMethod='image');
+	      _background: none; }
+.delicn { display: block; width: 16px; height: 16px; background: url(/static/image/common/esn/delete_alt_small.png) no-repeat 0 0; cursor: pointer;
+		  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/image/common/esn/delete_alt_small.png', sizingMethod='image');
+	      _background: none; }
+.renicn { display: block; width: 16px; height: 16px; background: url(/static/image/common/esn/rename_small.png) no-repeat 0 0; cursor: pointer; 
+		  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/image/common/esn/rename_small.png', sizingMethod='image');
+	      _background: none; }
+.plusicn { display: block; width: 24px; height: 40px; background: url(../image/plusicn.gif) no-repeat 0 0; }
+
+.deliCourses { line-height: 16px; table-layout: fixed; }
+	.deliCourses td { padding: 0 5px 8px; vertical-align: middle; }
+	.deliCourses .icn { width: 20px; }
+		.deliCourses .icn img { display: none; }
+	.deliCourses .courseName { width: 240px; }
+	.deliCourses .courseQuali {}
+		.deliCourses select { display: none; }
+	.deliCourses .dataSource, .deliCourses .updateTime { color: #999; }
+	.deliCourses .dataSource { width: 40px; text-align: center; }
+	.deliCourses .updateTime { width: 200px; }
+	.deliCourses .delicnCol { width: 50px; text-align: right; }
+	
+	.deliCourses .collCourse .icn img, .deliCourses .collCourse .courseQuali select { display: block; }
+	
+.lectDescription { padding: 10px 0 0 150px; }
+	.lectDescription .m { display: inline; float: left; margin: 3px 0 0 -145px; }
+	.lectDescription dt { font-weight: 700; padding: 0 0 2px; }
+	.lectDescription dd { margin-bottom: 2px; }
+.lectDetailTable { margin-top: 25px; table-layout: fixed; }
+	.lectDetailTable th { width: 132px; text-align: right; font-weight: 700; font-size: 14px; vertical-align: top; padding-bottom: 12px; }
+	.lectDetailTable td { padding: 0 0 12px 18px; color: #666; }
+	.lectDetailTable .deliCourses td { padding: 0 5px 8px; vertical-align: middle; }
+	.lectDetailTable .deliCourses .icn { padding: 0 2px 8px 0; }
+	.lectDetailTable .deliCourses .courseName { padding-left: 2px; }
+	

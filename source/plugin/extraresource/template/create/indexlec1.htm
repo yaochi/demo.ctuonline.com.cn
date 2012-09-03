@@ -1,0 +1,219 @@
+﻿<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="mn">
+<div class="bm cl">
+
+<h3 class="flb clpl clpr">
+	<em id="return_$_G[gp_handlekey]">推荐讲师</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span>
+</h3>
+<div id="postbox" style="height: 400px; overflow-x: hidden; overflow-y: scroll; position: relative;">
+<form id="classform" action="{eval echo join_plugin_action2('createlec1')}" autocomplete="off" method="post" onsubmit="ajaxpost(this.id, 'return_$_G[gp_handlekey]');" enctype="multipart/form-data">
+<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+<input type="hidden" value="2" name="isinnerlec" id="isinnerlec" />
+
+<!--讲师--> 
+<table width="97%" name="lectable" id="lectable"  cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd1" style="margin-top:11px;">
+  <tbody>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>讲师姓名：</strong></th>
+	<td id='innerlec' style=" display:none;" ><input type="text" readonly="readonly" name="firstman_names" id="firstman_names" class="px z" style="width: 130px;" ondblclick="showWindow('query', 'misc.php?mod=queryuser&id=firstman_names', 'get', 0);" />
+						<input type="hidden" id="firstman_names_uids" name="firstman_names_uids" value="">
+						<div class="pns z" style="margin-top: 2px;">
+							<button type="button" name="selectMembers" onclick="showWindow('query', 'misc.php?mod=queryuser&id=firstman_names', 'get', 0);" class="pn"><em>选择人员</em></button>
+							<button type="button" name="cleanName" onclick="clearname();" class="pn"><em>清空</em></button>
+						</div></td>
+    <td id='outerlec'><input type="text" class="px" id="lecname" name="lecname" /><span id="checklecturer" style="display:none; padding: 3px; margin-top: 5px; background-color:#FDFF9D;">已找到同名讲师：&nbsp;</span></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>性别：</strong></th>
+    <td><label>
+      <input name="gender" type="radio" value="0" checked="checked" />
+      男</label>
+        <label>
+          <input name="gender" type="radio" value="1"  />
+          女</label></td>
+  </tr>
+    <tr>
+      <th><strong class="rq y">*</strong><strong>背景介绍：</strong></th>
+      <td valign="top"><textarea class="pt" id="lecdescr" name="lecdescr" cols="40" rows="5"></textarea></td>
+    </tr>
+    <tr>
+      <th><strong>培训经历：</strong></th>
+      <td valign="top"><textarea class="pt" id="trainingexperince" name="trainingexperince" cols="40" rows="5"></textarea></td>
+    </tr>
+	<tr>
+      <th><strong>培训特点：</strong></th>
+      <td valign="top"><textarea class="pt" id="trainingtrait" name="trainingtrait" cols="40" rows="5"></textarea></td>
+    </tr>
+	<tr>
+      <th><strong class="rq y">*</strong><strong>授课费用：</strong></th>
+      <td valign="top"><input class="pt" id="minfee" name="minfee" type="text" style="width:85px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="this.value=this.value.replace(/\D/g,'')" />--<input class="pt" id="maxfee" name="maxfee" type="text" style="width:85px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="this.value=this.value.replace(/\D/g,'')"  />元</td>
+    </tr>
+	<tr>
+    <th><strong class="rq y">*</strong><strong>授课方向：</strong></th>
+    <td><label>
+     <select name="teachdirection" class="ps">
+		<option value="1">领导力发展与管理类</option>
+		<option value="2">营销类</option>
+		<option value="3">技术类</option>
+	</select>
+    </label></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>讲师照片：</strong></th>
+    <td><label>
+    		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span>{lang upload}</span></button>
+     	</label>    <div id="lecturerattach_image"></div></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>联系电话：</strong></th>
+    <td><input type="text" class="px" id="telephone" name="telephone" onblur="checkTel();"><br /><span class="hongse" id="sdTel" style="display:none;">*格式不正确，请输入正确的电话或手机号码</span></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>Email：</strong></th>
+    <td><input type="text" class="px" id="email" name="email" onblur="checkEmail();"><br /><span class="hongse" id="sdEmail" style="display:none;">*格式不正确，请输入正确的邮箱地址</span>	</td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>请进行打分：</strong></th>
+    <td><table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="lectotalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>授课态度：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="163"><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="lecstarsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>授课思路：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="163"><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="lecstarstwo" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>授课技巧：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="lecstarsthree" value="" size="2" /></td>
+      </tr>
+    </table></td>
+  </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+</tbody></table>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+attachEventListener($("lecname"), "blur", checkDuplicated, false);
+
+function checkDuplicated() {
+		var checkTimeoutProcess;
+		$("checklecturer").style.display = "none";
+		isDuplicated = false;
+		
+		var callurl = "forum.php?mod=group"+"&"+"action=plugin&fid="+$_G[fid]+"&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=checklec&name=" + encodeURI($("lecname").value);
+		clearTimeout(checkTimeoutProcess);
+		checkTimeoutProcess = setTimeout(function(){
+			getJSONP(callurl, "processDuplicated");
+		}, 2000);	
+	}
+	
+	function processDuplicated(data) {
+		for(var i=0;i<data.s.length;i++){
+			$("checklecturer").innerHTML=$("checklecturer").innerHTML+"<a href=forum.php?mod=group&action=plugin&fid="+$_G[fid]+"&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.s[i]['id']+" target='_blank'>"+data.s[i]['name']+"</a>&nbsp;&nbsp;";
+		}
+		if(data.s.length>0){
+			$("checklecturer").style.display = "block";
+		}
+	}
+
+function checkEmail(){
+     var patrn=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	 var cr=document.getElementById('email').value;
+	if(cr!=''){
+		 if (!patrn.exec(cr))
+		   {
+			document.getElementById("sdEmail").style.display="";
+			$('email').value="";
+			$('email').focus();
+		   }else{
+			document.getElementById("sdEmail").style.display="none";
+		   }
+		  }	
+	  }
+function checkTel(){
+     var patrn =/^(((\d{11})|(\d{7,8}))|(((0\d{2}-\d{8})|(0\d{3}-\d{7}))|((\(0\d{2}\)\d{8})|(\(0\d{3}\)\d{7}))))$/;
+	 var cr=document.getElementById('telephone').value;
+	 if(cr!=''){
+		 if (!patrn.exec(cr))
+		   {
+			document.getElementById("sdTel").style.display="";
+			$('telephone').value="";
+			$('telephone').focus();
+		   }else{
+			document.getElementById("sdTel").style.display="none";
+		   }
+	   }
+      }  
+function clearname() {
+		$('firstman_names').value='';
+		$('firstman_names_uids').value='';
+	}
+	function succeedhandle_$_G['gp_handlekey'] (url, message, values) {
+			lec_add(values['lecid']);
+		}
+</script>
+<!--{template common/footer}-->

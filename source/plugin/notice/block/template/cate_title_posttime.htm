@@ -1,0 +1,10 @@
+<div class="module cl xl xl1"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li>
+            <em>{$item[posttime]}</em>
+            <a href="{$item[url]}" title="{$item[title]}" target="_blank"><!--{if '未分类' != $item[category] }--><span class="xi2">[{$item[category]}]</span><!--{/if}-->&nbsp;{$item[title]}</a>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

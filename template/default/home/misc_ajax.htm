@@ -1,0 +1,65 @@
+<!--{template common/header}-->
+
+<!--{if $op == 'comment'}-->
+
+	<!--{loop $list $value}-->
+		<!--{if $value[idtype] == 'lecturerid'}-->
+		<!--{template home/space_comment_li_lecturer}-->
+		<!--{else}-->
+		<!--{template home/space_comment_li}-->
+		<!--{/if}-->
+		
+	<!--{/loop}-->
+
+<!--{elseif $op == 'getfriendgroup'}-->
+	$group
+<!--{elseif $op == 'getfriendname'}-->
+	$groupname
+
+<!--{elseif $op == 'share'}-->
+
+	<!--{loop $list $value}-->
+		<!--{template home/space_share_li}-->
+	<!--{/loop}-->
+
+<!--{elseif $op == 'album'}-->
+
+	<table cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<!--{loop $piclist $key $value}-->
+			<td><img src="$value[pic]" alt="" width="60" onclick="insertImage('$value[bigpic]');" style="cursor:pointer;" /></td>
+			<!--{if $key%5==4}--></tr><tr><!--{/if}-->
+			<!--{/loop}-->
+		</tr>
+	</table>
+	<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+
+<!--{elseif $op == 'getreward'}-->
+	<!--{if $rule[credit] || $rule[experience]}-->
+	<div class="popupmenu_layer">
+			<p>$rule[rulename]</p>
+			<p class="btn_line">
+				<!--{if $rule[credit]}-->{lang credits} <strong>+$rule[credit]</strong> <!--{/if}-->
+				<!--{if $rule[experience]}-->{lang experience} <strong>+$rule[experience]</strong> <!--{/if}-->
+			</p>
+			<!--{if $rule[cyclenum]}-->
+			<p>
+				{lang you_chance_pre_week}
+			</p>
+			<!--{/if}-->
+	</div>
+	<!--{/if}-->
+
+<!--{elseif $op == 'district'}-->
+$html
+<!--{elseif $op == 'extraresource'}-->
+<!--{if $extype=='class'}-->
+<p><input type="hidden" name="classids[]" id="classids[]" value="$class[id]" /><a href="javascript:;" onclick="deleteorg(this)" class="delicn y" title="删除此选项"></a>$class[name]<div class="clear"></div></p>
+<!--{elseif $extype=='org' }-->
+<p><input type="hidden" name="orgids[]" id="orgids[]" value="$org[id]" /><input type="hidden" name="orgnames[]" id="orgnames[]" value="$org[name]" /><a href="javascript:;" onclick="deleteorg(this)" class="delicn y" title="删除此机构"></a>$org[name]<div class="clear"></div></p>
+<!--{else}-->
+<p><input type="hidden" name="lecids[]" id="lecids[]" value="$lec[id]" /><a href="javascript:;" onclick="deleteorg(this)" class="delicn y" title="删除此选项"></a>$lec[name]<div class="clear"></div></p>
+<!--{/if}-->
+<!--{/if}-->
+
+<!--{template common/footer}-->

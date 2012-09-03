@@ -1,0 +1,37 @@
+<div class="bm">
+<form name="postform" action="{eval echo join_plugin_action('importapprove')}" method="post" enctype="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td width="22%" align="right"><b>导入批量认证数据：</b></td>
+    <td width="78%"><input type="file" name="approvefile">
+	<button class="pn" type="submit"><span>导入</span></button></td>
+  </tr>
+  <tr>
+    <td align="right"><b>文件格式：</b></td>
+    <td>
+	.csv
+	</td>
+  </tr>
+  <tr>
+    <td align="right" valign="top"><b>列说明：</b></td>
+    <td style=" line-height:19px;">username 如：E31049266<br>rank 审核状态：1-集团级，2-省级，3，地市级，4其它</td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td class="hongse"><a href="static/importapprove.csv"><font color="red">点击下载文件模板</font></a></td>
+  </tr>
+  <tr>
+    <td align="right"><b>失败列表：</b></td>
+    <td>username rank</td>
+  </tr>
+  <tr>
+    <!--{if !$errorlist}-->
+    <td align="right"><b>全部成功：</b></td>
+    <!--{/if}-->
+    <!--{loop $errorlist $err}-->
+    <td>$err[0] $err[1]</td>
+    <!--{/loop}-->
+  </tr>
+</table>
+</form>
+</div>

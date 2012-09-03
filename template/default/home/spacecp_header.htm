@@ -1,0 +1,25 @@
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; {lang setup}
+</div>
+<div id="ct" class="wp cl{if $operation == 'usergroup'} w{/if}">
+	<div{if $operation != 'usergroup'} class="mn"{/if}>
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div {if $operation != 'usergroup'}class="bm"{else}class="bw"{/if}>
+			<h1 class="mt">
+				<img alt="profile" src="{STATICURL}image/feed/profile.gif" class="vm" /> {lang setup}		
+			</h1>
+			<ul class="tb cl">
+				<li class="y"><a href="$_G['config']['ctuonline']['url']/www/jsp/common/register/UpdatePwdInterface.jsp" class="xcred xw1">密码修改 »</a></li>
+				<li$actives[profile]><a href="home.php?mod=spacecp&amp;ac=profile">{lang memcp_profile}</a></li>
+				<li$actives[avatar]><a href="home.php?mod=spacecp&amp;ac=avatar">{lang modifiy_avatar}</a></li>
+				<li$actives[credit]><a href="home.php?mod=spacecp&amp;ac=credit">{lang credit_and_usergroup}</a></li>
+				<li$actives[privacy]><a href="home.php?mod=spacecp&amp;ac=privacy">{lang privacy_filter}</a></li>
+				<!--{if !empty($_G['setting']['plugins']['spacecp'])}-->
+					<!--{loop $_G['setting']['plugins']['spacecp'] $id $module}-->
+						<!--{if !$module['adminid'] || ($module['adminid'] && $_G['adminid'] > 0 && $module['adminid'] >= $_G['adminid'])}--><li{if $_G[gp_id] == $id} class="a"{/if}><a href="home.php?mod=spacecp&amp;ac=plugin&id=$id">$module[name]</a></li><!--{/if}-->
+					<!--{/loop}-->
+				<!--{/if}-->
+			</ul>
+<!--don't close the div here-->

@@ -1,0 +1,389 @@
+<!--{template common/header}-->
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; {lang friends}</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div class="bm">
+			<h1 class="mt"><img alt="friend" src="{STATICURL}image/feed/friend.gif" class="vm" /> {lang friends}</h1>
+			<ul class="tb cl">
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=friend">{lang friend_list}</a></li>
+				<!-- <li class="a"><a href="home.php?mod=spacecp&ac=search">{lang search_friend}</a></li>
+				<li><a href="home.php?mod=spacecp&ac=friend&op=find">{lang people_might_know}</a></li> -->
+				 <li><a href="home.php?mod=spacecp&ac=invite">{lang invite_friend}</a></li>
+				<li><a href="home.php?mod=spacecp&ac=friend&op=request">{lang friend_request}</a></li>
+				<!--  <li><a href="home.php?mod=space&do=top">{lang friend_top}</a></li>-->
+			</ul>
+
+			<!--{if !empty($_GET['searchsubmit'])}-->
+				<!--{if empty($list)}-->
+					<div class="emp">{lang no_search_friend}<a href="home.php?mod=spacecp&ac=search">{lang change_search}</a></div>
+				<!--{else}-->
+					<div class="tbmu">{lang search_member_list_message}</div>
+					<!--{template home/space_list}-->
+				<!--{/if}-->
+			<!--{else}-->
+
+				<!--{if $_GET['all']}-->
+				<table cellpadding="0" cellspacing="0" class="tfm">
+					<tr>
+						<td>
+							<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<tr>
+									<th>{lang userrealname}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>{lang sso_id}</th>
+									<td><input type="text" name="uid" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>{lang sex}:</th>
+									<td>
+										<select id="gender" name="gender">
+											<option value="0">{lang random}</option>
+											<option value="1">{lang male}</option>
+											<option value="2">{lang female}</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>{lang age_segment}</th>
+									<td><input type="text" name="startage" value="" size="10" class="px" style="width: 114px;" /> ~ <input type="text" name="endage" value="" size="10" class="px" style="width: 114px;" /></td>
+								</tr>
+								<tr>
+									<th>{lang upload_avatar}</th>
+									<td class="pcl"><label><input type="checkbox" name="avatarstatus" value="1" class="pc" />{lang uploaded_avatar}</label></td>
+								</tr>
+								<tr>
+									<th>{lang reside_city}</th>
+									<td id="residecitybox">$residecityhtml</td>
+								</tr>
+								<tr>
+									<th>{lang birth_city}</th>
+									<td id="birthcitybox">$birthcityhtml</td>
+								</tr>
+								<tr>
+									<th>{lang birthday}</th>
+									<td>
+										<select id="birthyear" name="birthyear" onchange="showbirthday();" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthyeayhtml
+										</select> {lang year}
+										<select id="birthmonth" name="birthmonth" onchange="showbirthday();" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthmonthhtml
+										</select> {lang month}
+										<select id="birthday" name="birthday" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthdayhtml
+										</select> {lang day}
+									</td>
+								</tr>
+								<!--{loop $fields $fkey $fvalue}-->
+								<tr>
+									<th>{$fvalue[title]}</th>
+									<td>$fvalue[html]</td>
+								</tr>
+								<!--{/loop}-->
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="all" />
+							</form>
+						</td>
+					</tr>
+				</table>
+				<!--{else}-->
+				<div class="ptw scf">
+				<!--	<h2><a href="javascript:;" class="t" onclick="showtbody('sex');">{lang seek_bgfriend}</a></h2>-->
+					<div id="s_sex" class="exfm" style="display: none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0">
+								<!--{loop array('affectivestatus','lookingfor','zodiac','constellation') $key}-->
+								<!--{if $fields[$key]}-->
+								<tr>
+									<th>{$fields[$key][title]}</th>
+									<td>{$fields[$key][html]}</td>
+								</tr>
+								<!--{/if}-->
+								<!--{/loop}-->
+								<tr>
+									<th>{lang sex}:</th>
+									<td>
+										<select id="gender" name="gender">
+											<option value="0">{lang random}</option>
+											<option value="1">{lang male}</option>
+											<option value="2">{lang female}</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>{lang age_segment}</th>
+									<td><input type="text" name="startage" value="" size="10" class="px" style="width: 114px;" /> ~ <input type="text" name="endage" value="" size="10" class="px" style="width: 114px;" /></td>
+								</tr>
+								<tr>
+									<th>{lang upload_avatar}</th>
+									<td class="pcl"><label><input type="checkbox" name="avatarstatus" value="1" class="pc" />{lang uploaded_avatar}</label></td>
+								</tr>
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="base" />
+						</form>
+					</div>
+
+					<!--<h2><a href="javascript:;" class="t" onclick="showtbody('reside');">{lang seek_same_city}</a></h2>-->
+					<div id="s_reside" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0">
+								<tr>
+									<th>{lang reside_city}</th>
+									<td id="residecitybox">$residecityhtml</td>
+								</tr>
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp">
+							<input type="hidden" name="ac" value="search">
+							<input type="hidden" name="type" value="base">
+						</form>
+					</div>
+
+					<!--<h2><a href="javascript:;" class="t" onclick="showtbody('birth');">{lang seek_same_city_people}</a></h2>-->
+					<div id="s_birth" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<tr>
+									<th>{lang birth_city}</th>
+									<td id="birthcitybox">$birthcityhtml</td>
+								</tr>
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="base" />
+						</form>
+					</div>
+
+					<!--<h2><a href="javascript:;" class="t" onclick="showtbody('birthyear');">{lang seek_same_birthday}</a></h2>-->
+					<div id="s_birthyear" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<tr>
+									<th>{lang birthday}</th>
+									<td>
+										<select id="birthyear" name="birthyear" onchange="showbirthday();" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthyeayhtml
+										</select> {lang year}
+										<select id="birthmonth" name="birthmonth" onchange="showbirthday();" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthmonthhtml
+										</select> {lang month}
+										<select id="birthday" name="birthday" class="ps">
+											<option value="0">&nbsp;</option>
+											$birthdayhtml
+										</select> {lang day}
+									</td>
+								</tr>
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="base" />
+						</form>
+					</div>
+
+					<!--{if $fields['graduateschool'] || $fields['education']}-->
+					<!--<h2><a href="javascript:;" class="t" onclick="showtbody('edu');">{lang seek_classmate}</a></h2>-->
+					<div id="s_edu" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<!--{loop array('graduateschool','education') $key}-->
+								<!--{if $fields[$key]}-->
+								<tr>
+									<th>{$fields[$key][title]}</th>
+									<td>{$fields[$key][html]}</td>
+								</tr>
+								<!--{/if}-->
+								<!--{/loop}-->
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px"></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="edu" />
+						</form>
+					</div>
+					<!--{/if}-->
+
+
+					<!--{if $fields['occupation'] || $fields['title']}-->
+					<!--<h2><a href="javascript:;" class="t" onclick="showtbody('work');">{lang seek_colleague}</a></h2>-->
+					<div id="s_work" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<!--{loop array('occupation','title') $key}-->
+								<!--{if $fields[$key]}-->
+								<tr>
+									<th>{$fields[$key][title]}</th>
+									<td>{$fields[$key][html]}</td>
+								</tr>
+								<!--{/if}-->
+								<!--{/loop}-->
+								<tr>
+									<th>{lang username}</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="work" />
+						</form>
+					</div>
+					<!--{/if}-->
+
+					<h2><a href="javascript:;" class="t" onclick="showtbody('name');">{lang exact_search}</a></h2>
+					<div id="s_name" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<tr>
+									<th>用户真实姓名</th>
+									<td><input type="text" name="realname" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>用户登录工号</th>
+									<td><input type="text" name="username" value="" class="px" /></td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="base" />
+						</form>
+					</div>
+					<h2><a href="javascript:;" class="t" onclick="showtbody('depart');">查找部门下的用户</a></h2>
+					<div id="s_depart" class="exfm" style="display:none;">
+						<form action="home.php" method="get">
+							<table cellpadding="0" cellspacing="0" class="tscf">
+								<tr>
+									<th>部门名称</th>
+									 <td align="left">
+									 <input type="text" readonly="readonly" name="orgname_input" id="orgname_input" value="$orgname_input"/>
+			<input type="hidden" id="orgname_input_id" name="orgname_input_id" value="$orgname_input_id">
+			<a href="misc.php?mod=queryorg" onclick="showWindow('orgtree', this.href, 'get', 0);">选择</a>
+    </td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<input type="hidden" name="searchsubmit" value="true" />
+										<button type="submit" class="pn"><em>{lang seek}</em></button>
+									</td>
+								</tr>
+							</table>
+							<input type="hidden" name="depart" value="true" />
+							<input type="hidden" name="mod" value="spacecp" />
+							<input type="hidden" name="ac" value="search" />
+							<input type="hidden" name="type" value="base" />
+						</form>
+					</div>
+					
+					<h2><a href="home.php?searchsubmit=true&org=true&mod=spacecp&ac=search&type=base" class="t">查找同部门的人</a></h2>
+					<h2><a href="home.php?searchsubmit=true&station=true&mod=spacecp&ac=search&type=base" class="t">查找同岗位的人</a></h2>
+				</div>
+				<!--{/if}-->
+			<!--{/if}-->
+
+			<script>
+			function showtbody(id) {
+				var obj = $('s_'+id);
+				if(obj.style.display == 'none') {
+					obj.style.display = '';
+				} else {
+					obj.style.display = 'none';
+				}
+			}
+			<!--{if $_GET['view']}-->showtbody('$_GET[view]');<!--{/if}-->
+			</script>
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+	</div>
+</div>
+
+<!--{template common/footer}-->

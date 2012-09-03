@@ -1,0 +1,19 @@
+<!--广告：图片幻灯-->
+<!--在预览中无法查看效果，需保存后才能看到效果-->
+<!--JS在预览中不执行-->
+
+<div class="module cl xld slideshow" style="display: block;<!--{if $parameter[blockheight] != 0}--> height:{$parameter[blockheight]}px;<!--{/if}-->">
+	<!--{loop $listdata $item}-->
+	<dl class="cl" style="display: none; ">
+		<!--{if $item['isSelf']}-->
+		<dd class="m">
+			<a href="{$item['url']}" target="_blank">
+				<img src="{$item['media_dir']}" style="width: {$item['width']}px; height: {$item['height']}px;"></a></dd></dl>
+		<!--{else}-->
+		<dd class="m">
+			<a href="{$item['url']}">
+				<img src="{$item['media_dir']}" style="width: {$item['width']}px; height: {$item['height']}px;"></a></dd></dl>
+		<!--{/if}-->
+	<!--{/loop}-->			
+</div>
+<script type="text/javascript">runslideshow();</script>

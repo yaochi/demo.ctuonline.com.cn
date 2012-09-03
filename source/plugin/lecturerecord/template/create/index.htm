@@ -1,0 +1,435 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<div class="mn">
+	<div class="bm">
+<form action="{eval echo join_plugin_action('save')}" method="post" onsubmit="return validate_from(this);">
+<input type="hidden" name="orgname_input_id" id="orgname_input_id" />
+
+<!-- {if $type==1} -->
+<input type="hidden" name="type_lr" id="type_lr" value="apply"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <!--{if $_G['forum']['ismoderator']}-->
+  <tr id="jsmc">
+    <td width="120" align="right"><strong class="rq y">*</strong><b>讲师名称：</b></td>
+    <td align="left">
+    	<input type="text" readonly="readonly" tabindex="1" autocomplete="off" value="" size="36" class="px" id="teacher" name="teacher">
+        <button class="pn vm" type="button" onclick="showWindow('teacherwin', 'misc.php?mod=queryteacher&type=radio', 'get', 0);"><em>选择</em></button>
+        <button class="pn vm" type="button" onclick="clearteacher()"><em>清除</em></button>
+    	<input type="hidden" name="teacherids" id="teacherids"/>
+    </td>
+  </tr>
+  <!--{/if}-->
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>教学方式：</b></td>
+    <td align="left">
+    	<input type="radio" checked="checked" name="type" id="type" value="1">授课申报
+		<input type="radio" name="type" id="type" value="2" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=2';">课程开发
+		<input type="radio" name="type" id="type" value="3" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=3';">课题研究
+		<input type="radio" name="type" id="type" value="4" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=4';">在线课题辅导
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>授课名称：</b></td>
+    <td align="left"><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="name" name="name">
+    <button class="pn vm" type="button" onclick="showWindow('addCourse', 'forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=operate&oper=select');"><em>选择集团课程</em></button>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>培训班名称：</b></td>
+    <td align="left"><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="class_name" name="class_name"> </td>
+  </tr>
+    <tr>
+    <td align="right"><strong class="rq y">*</strong><b>培训班级别：</b></td>
+    <td><select id="class_level" name="class_level">
+	  <option value="2" selected>集团级</option>
+	  <option value="1">省级</option>
+	</select></td>
+  </tr>
+    <tr>
+    <td align="right"><strong class="rq y">*</strong><b>主办方：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="orgname_input" name="orgname_input">
+        <button class="pn vm" type="button" onclick="showWindow('orgtree', 'misc.php?mod=queryorg', 'get', 0);"><em>选择</em></button>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>时间：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="15" class="px" id="starttime" name="starttime" onclick="showcalendar(event, this, true)" >
+      ~
+    <input type="text" tabindex="readonly" autocomplete="off" value="" size="15" class="px" id="endtime" name="endtime" onclick="showcalendar(event, this, true)" >
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>地点：</b></td>
+    <td align="left"><input type="text" autocomplete="off" value="" size="36" class="px" id="jgname_input" name="jgname_input">
+    </td>
+  </tr>
+  <tr id="rs">
+    <td align="right"><strong class="rq y">*</strong><b>人数：</b></td>
+    <td align="left">
+    <input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="class_stud_num" name="class_stud_num"  style="width: 83px;">
+    人
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>课程时长：</b></td>
+    <td align="left">
+    <input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="class_time" name="class_time"  style="width: 83px;">
+    小时
+    </td>
+  </tr>
+  <tr  id="pgf">
+    <td align="right"><strong class="rq y">*</strong><b>评估分：</b></td>
+    <td align="left">
+    <input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="class_result" name="class_result"  style="width: 83px;">
+    分</td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left">
+    <button type="submit" name="Submit222" class="pn"><em>保存创建</em></button>
+    </td>
+  </tr>
+</table>
+<!-- {/if} -->
+
+<!-- {if $type==2} -->
+<input type="hidden" name="type_lr" id="type_lr" value="dev"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+ <!--{if $_G['forum']['ismoderator']}-->
+  <tr id="jsmc">
+    <td width="120" align="right"><strong class="rq y">*</strong><b>讲师名称：</b></td>
+    <td align="left">
+    	<input type="text" readonly="readonly" tabindex="1" autocomplete="off" value="" size="36" class="px" id="teacher" name="teacher">
+        <button class="pn vm" type="button" onclick="showWindow('teacherwin', 'misc.php?mod=queryteacher&type=radio', 'get', 0);"><em>选择</em></button>
+        <button class="pn vm" type="button" onclick="clearteacher()"><em>清除</em></button>
+    	<input type="hidden" name="teacherids" id="teacherids"/>
+    </td>
+  </tr>
+  <!--{/if}-->
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>教学方式：</b></td>
+      <td align="left">
+    	<input type="radio" name="type" id="type" value="1" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu';">授课申报
+		<input type="radio" checked="checked" name="type" id="type" value="2">课程开发
+		<input type="radio" name="type" id="type" value="3" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=3';">课题研究
+		<input type="radio" name="type" id="type" value="4" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=4';">在线课题辅导
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>授课名称：</b></td>
+    <td align="left"><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="name" name="name"> </td>
+  </tr>
+   <tr>
+    <td align="right"><strong class="rq y">*</strong><b>课程级别：</b></td>
+     <td><select id="class_level" name="class_level">
+	  <option value="2" selected>集团级</option>
+	  <option value="1">省级</option>
+	</select></td>
+  </tr>
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>主办单位：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="orgname_input" name="orgname_input">
+        <button class="pn vm" type="button" onclick="showWindow('orgtree', 'misc.php?mod=queryorg', 'get', 0);"><em>选择</em></button>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>时间：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="15" class="px" id="starttime" name="starttime" onclick="showcalendar(event, this, true)" >
+      ~
+    <input type="text" tabindex="readonly" autocomplete="off" value="" size="15" class="px" id="endtime" name="endtime" onclick="showcalendar(event, this, true)" >
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>地点：</b></td>
+    <td align="left"><input type="text" autocomplete="off" value="" size="36" class="px" id="jgname_input" name="jgname_input">    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>参与度：</b></td>
+     <td><select id="class_result1" name="class_result1">
+	  <option value="1" selected>牵头人</option>
+	  <option value="0.5">参与人</option>
+	</select></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left">
+    <button type="submit" name="Submit222" class="pn"><em>保存创建</em></button>
+    </td>
+  </tr>
+</table>
+<!-- {/if} -->
+
+<!-- {if $type==3} -->
+<input type="hidden" name="type_lr" id="type_lr" value="research"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+ <!--{if $_G['forum']['ismoderator']}-->
+  <tr id="jsmc">
+    <td width="120" align="right"><strong class="rq y">*</strong><b>讲师名称：</b></td>
+    <td align="left">
+    	<input type="text" readonly="readonly" tabindex="1" autocomplete="off" value="" size="36" class="px" id="teacher" name="teacher">
+        <button class="pn vm" type="button" onclick="showWindow('teacherwin', 'misc.php?mod=queryteacher&type=radio', 'get', 0);"><em>选择</em></button>
+        <button class="pn vm" type="button" onclick="clearteacher()"><em>清除</em></button>
+    	<input type="hidden" name="teacherids" id="teacherids"/>
+    </td>
+  </tr>
+  <!--{/if}-->
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>教学方式：</b></td>
+      <td align="left">
+    	<input type="radio" name="type" id="type" value="1" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu';">授课申报
+		<input type="radio" name="type" id="type" value="2" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=2';">课程开发
+		<input type="radio" checked="checked" name="type" id="type" value="3">课题研究
+		<input type="radio" name="type" id="type" value="4" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=4';">在线课题辅导
+    </td>
+  </tr>
+    <tr>
+    <td align="right"><strong class="rq y">*</strong><b>课题名称：</b></td>
+    <td align="left"><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="name" name="name"> </td>
+  </tr>
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>组织部门：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="orgname_input" name="orgname_input">
+        <button class="pn vm" type="button" onclick="showWindow('orgtree', 'misc.php?mod=queryorg', 'get', 0);"><em>选择</em></button>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>参与次数：</b></td>
+    <td align="left">
+    <input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="join_num" name="join_num"  style="width: 83px;">
+    次
+    </td>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left">
+    <button type="submit" name="Submit222" class="pn"><em>保存创建</em></button>
+    </td>
+  </tr>
+</table>
+<!-- {/if} -->
+
+<!-- {if $type==4} -->
+<input type="hidden" name="type_lr" id="type_lr" value="tu"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <!--{if $_G['forum']['ismoderator']}-->
+  <tr id="jsmc">
+    <td width="120" align="right"><strong class="rq y">*</strong><b>讲师名称：</b></td>
+    <td align="left">
+    	<input type="text" readonly="readonly" tabindex="1" autocomplete="off" value="" size="36" class="px" id="teacher" name="teacher">
+        <button class="pn vm" type="button" onclick="showWindow('teacherwin', 'misc.php?mod=queryteacher&type=radio', 'get', 0);"><em>选择</em></button>
+        <button class="pn vm" type="button" onclick="clearteacher()"><em>清除</em></button>
+    	<input type="hidden" name="teacherids" id="teacherids"/>
+    </td>
+  </tr>
+  <!--{/if}-->
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>教学方式：</b></td>
+      <td align="left">
+    	<input type="radio" name="type" id="type" value="1" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu';">授课申报
+		<input type="radio" name="type" id="type" value="2" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=2';">课程开发
+		<input type="radio" name="type" id="type" value="3" onclick="location.href='forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=createmenu&type=3';">课题研究
+		<input type="radio" checked="checked" name="type" id="type" value="4">在线课题辅导
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>课题名称：</b></td>
+    <td align="left"><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="name" name="name"> </td>
+  </tr>
+  <tr>
+    <td valign="top" align="right"><strong class="rq y">*</strong><b>组织部门：</b></td>
+    <td align="left"><input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="orgname_input" name="orgname_input">
+        <button class="pn vm" type="button" onclick="showWindow('orgtree', 'misc.php?mod=queryorg', 'get', 0);"><em>选择</em></button>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><strong class="rq y">*</strong><b>辅导课时：</b></td>
+    <td align="left">
+    <input type="text" tabindex="readonly" autocomplete="off" value="" size="36" class="px" id="tu_num" name="tu_num"  style="width: 83px;">
+    小时
+    </td>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left">
+    <button type="submit" name="Submit222" class="pn"><em>保存创建</em></button>
+    </td>
+  </tr>
+</table>
+<!-- {/if} -->
+</form>
+    </div>
+</div>
+<script type="text/javascript">
+	function clearteacher(){
+	    $("teacherids").value = "";
+	    $("teacher").value = "";
+	}
+
+	function change(type){
+		if(type=='2'){
+			$('sksb').style.display='none';
+			$('kckf').style.display='';
+			$('ktyj').style.display='none';
+			$('zxktfd').style.display='none';
+			$('type').value='2';
+		}else if(type=='1'){
+			$('sksb').style.display='';
+			$('kckf').style.display='none';
+			$('ktyj').style.display='none';
+			$('zxktfd').style.display='none';
+			$('type').value='1';
+		}else if(type=='3'){
+			$('sksb').style.display='none';
+			$('kckf').style.display='none';
+			$('ktyj').style.display='';
+			$('zxktfd').style.display='none';
+			$('type').value='3';
+		}else if(type=='4'){
+			$('sksb').style.display='none';
+			$('kckf').style.display='none';
+			$('ktyj').style.display='none';
+			$('zxktfd').style.display='';
+			$('type').value='4';
+		}
+	}
+	function validate_from(obj) {
+		var teacherids = $('teacherids');
+		if (teacherids) {
+			var slen = strlen(teacherids.value);
+			var str = teacherids.value;
+			if (slen > 0) {
+				if ((str.split(',')).length > 2) {
+					showDialog("只能推荐一人成为讲师，请清除后重新选择");
+					$('teacher').focus();
+					return false;
+				}
+			} else {
+				showDialog("请选择一个讲师");
+				$('teacher').focus();
+				return false;
+			}
+		}
+
+		var name = $('name');
+		if (name) {
+			var slen = strlen(name.value);
+			if (slen < 1) {
+				showDialog("请填写授课名称");
+				name.focus();
+				return false;
+			}
+		}
+
+		var orgname_input_id = $('orgname_input_id');
+		if (orgname_input_id) {
+			var slen = strlen(orgname_input_id.value);
+			if (slen < 1) {
+				showDialog("请选择主办方");
+				$('orgname_input').focus();
+				return false;
+			}
+		}
+		if($('type').value==1){
+			var class_time = $('class_time');
+			var patrn =/^\+?[1-9][0-9]*$/;
+			if (class_time) {
+				var slen = strlen(class_time.value);
+				if (slen < 1) {
+					showDialog("请填写课程时长");
+					$('class_time').focus();
+					return false;
+				}else if(!patrn.exec(class_time.value)){
+					showDialog("课程时长填写有误");
+					$('class_time').focus();
+					return false;
+				}
+			}
+		}
+		var starttime = $('starttime');
+		if (starttime) {
+			var slen = strlen(starttime.value);
+			if (slen < 1) {
+				showDialog("请选择开始时间");
+				starttime.focus();
+				return false;
+			}
+		}
+
+		var endtime = $('endtime');
+		if (endtime) {
+			var slen = strlen(endtime.value);
+			if (slen < 1) {
+				showDialog("请选择结束时间");
+				endtime.focus();
+				return false;
+			}
+		}
+
+		var starttime = $('starttime');
+		var endtime = $('endtime');
+		var start = parsedate(starttime.value);
+		var end = parsedate(endtime.value);
+		if(start>=end){
+			showDialog('结束时间必须大于开始时间');
+			endtime.focus();
+			return false;
+		}
+
+		var address = $('address');
+		if (address) {
+			var slen = strlen(address.value);
+			if (slen < 1) {
+				showDialog("请填写地点");
+				address.focus();
+				return false;
+			}
+		}
+
+		var class_stud_num = $('class_stud_num');
+		if (class_stud_num) {
+			var s = class_stud_num.value;
+			var patrn =/^[0-9]*$/;
+			if (!patrn.exec(s) || s<=0) {
+				showDialog("人数输入有误");
+				class_stud_num.focus();
+				return false;
+			}
+		}      var class_result=$('class_result');
+      if(class_result){
+      var s = class_result.value;
+
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+
+			if (!patrn.exec(s) || (strlen(s)>4) || s<=0 || s>5) {
+
+				showDialog("评估分应大于0，小于等于5，例如4.8");
+
+				class_result.focus();
+
+				return false;
+
+			}
+      }
+
+		var estimate_score = $('estimate_score');
+		if (estimate_score) {
+			var s = estimate_score.value;
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+			if (!patrn.exec(s) || (strlen(s)>4) || s<=0 || s>5) {
+				showDialog("评估分应大于0，小于等于5，例如4.8");
+				estimate_score.focus();
+				return false;
+			}
+            }
+
+		if($('type').value==2){
+		var class_result = $('class_result');
+			if (class_result) {
+				var s = class_result.value;
+				var patrn =/^[1-5]|[0-9].[0-9]*$/;
+				if (!patrn.exec(s) ||(strlen(s)>4)||s<=0||s>5) {
+					showDialog("评估结果应大于0，小于等于5，例如4.8");
+					class_result.focus();
+					return false;
+				}
+			}
+		}
+	}
+</script>

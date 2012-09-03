@@ -1,0 +1,103 @@
+<!--{eval $_G['home_tpl_titles'] = array('直播');}-->
+<!--{eval $friendsname = array(1 => '全站用户可见',2 => '好友可见',3 => '指定好友可见',4 => '仅自己可见',5 => '凭密码可见');}-->
+
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+			
+	<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">$_G[setting][navs][3][navname]</a> $groupnav </div>
+
+	{ad/text/wp a_t}
+	<style id="diy_style" type="text/css"></style>
+	<div class="wp">
+		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+	</div>
+
+<!--{else}-->
+<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<!--{/if}-->
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+	
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_nwkt_header}
+		</div>
+		<div class="bm">
+			<h1 class="mt"><img alt="nwkt" src="{STATICURL}image/plugins/grouplive.gif" class="vm" /> 直播</h1>
+			<ul class="tb cl">
+				<li class="a"><a href="{eval echo join_plugin_action2('index');}">直播</a></li>
+			<!--{if $_G[referer]}-->
+				<li class="y"><a href="$_G[referer]">&laquo; 返回上一页</a></li>
+			<!--{/if}-->
+			</ul>
+
+			<div class="vw mtm mbm">
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_home_space.css?{VERHASH}" />
+				<div class="pc">
+					<div class="pcb">
+						<div class="pcbs">
+						
+<div class="act pbm cl">
+	<div>
+		<dl>
+			<dt>直播标题：</dt>
+			<dd><strong>$live[subject]</strong></dd>
+			<dt>直播分类:</dt>
+			<dd> </dd>
+			<dt>开始时间:</dt>
+			<dd>
+				$live[starttime] 至 $live[endtime]
+			</dd>
+			<dt>&nbsp;</dt>
+			<dd>
+				<a href="{eval echo join_plugin_action2('livecp', array('liveid'=>$live['liveid'], 'op' => 'join'));}"><!--{if $live['endtime'] > dgmdate($_G['timestamp'], 'Y-m-d') }-->开始直播<!--{else}-->开始点播<!--{/if}--></a>
+			</dd>
+		</dl>
+	</div>
+</div>
+						
+						</div>
+					</div>
+				</div>					
+				<div class="o cl">
+					<a href="home.php?mod=spacecp&ac=favorite&type=glive&id=$live[liveid]&spaceuid=$live[uid]&handlekey=favoriteglivehk_{$live[liveid]}" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr ofav">收藏</a>
+					<a href="home.php?mod=spacecp&ac=share&type=glive&id=$live[liveid]&fid=$live[fid]&handlekey=shareglivehk_{$live[liveid]}&subject={echo base64_encode($live['subject']);}&subjectlink={echo base64_encode(join_plugin_action2('index', array('id' => $live['liveid'])));}&authorid=$live[uid]&author={echo base64_encode($live['username']);}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr">转发</a>
+					<!--{if $_G[uid] == $live[uid] || checkperm_group('managelive')}-->
+					<a href="{eval echo join_plugin_action2('livecp', array('liveid'=>$live['liveid'], 'op' => 'edit'));}">编辑</a><span class="pipe">|</span>
+					<a href="{eval echo join_plugin_action2('livecp', array('liveid'=>$live['liveid'], 'op' => 'delete', 'handlekey' => "dellivehk_$live[liveid]"));}" id="live_delete_$live[liveid]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a><span class="pipe">|</span>
+					<!--{/if}-->
+				</div>
+
+			</div>
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+	<div class="sd">
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

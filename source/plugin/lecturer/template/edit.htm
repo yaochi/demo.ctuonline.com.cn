@@ -1,0 +1,80 @@
+{subtemplate common/header}
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<!--{eval $_G[home_tpl_titles] = array('{lang modifiy_avatar}');}-->
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<div class="mn">
+<div class="bm">
+<!--{if $_G[fid]}-->
+	<div class="reHeight pbm bbs">
+		<div class="ih">
+			<dl class="z clml">
+		    	<dt class="ptn">
+		        	<button name="answer" value="ture" class="pn" onclick="javascript:history.back(-1);">
+						<span>返回</span>
+					</button>
+				</dt>
+		       	<dd>
+		        	<!-- {if $_G[forum][type]=='activity'} -->
+						<div id="ptttt" class="wp">
+							{eval echo get_activitynav($_G[forum]);}
+							<!--  
+							<a href="forum.php?mod=activity&fid=$_G[forum][fid]&fup=$_G[forum][fup]" class="avt">活动首页</a> 
+							&rsaquo; 讲师
+							 -->
+						</div>
+					<!-- {/if} -->
+		         </dd>
+		     </dl>
+	     </div>
+	     
+		 <div class="ihy y">
+		 	
+		  </div>
+	</div>
+<!--{/if}-->
+<div class="jsxq">
+<div class="bt">自定义讲师属性</div>
+<div class="nr" id="lecturerlist">
+<form action="{eval echo join_plugin_action('modify')}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="total" id="total" value="$total" />
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jsxq">
+    <tr>
+      <td width="1%" rowspan="2" align="right"><span class="hongse">*</span></td>
+      <td width="9%" rowspan="2" valign="top"><p class="jszp">
+		<div id="lecturerattach_image">
+			<!--{if !$lecturer[imgurl]}-->
+				<img src="static/image/images/def_lecturer.png" class="lbimg" width="117" height="117" />
+			<!--{else}-->
+				<img class="spimg" width="117" height="117" src="$lecturer[imgurl]" alt="" />
+			<!--{/if}-->
+		</div>
+		<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatelecturerattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $lecturer[attachment]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button>
+      </p></td>
+      <td width="90%" height="25" valign="top" class="a">$lecturer["name"]</td>
+    </tr>
+    <tr>
+      <td>
+      	<span style="float: left;">简介：</span>
+		<input type="hidden" name="lecid" id="lecid" value="$lecturer[id]"/>
+		<input type="hidden" name="lecname" id="lecname" value="$lecturer[name]"/>
+		<textarea name="about" id="about" style="width:70%; height:90px; line-height:18px;" class="zybjan1">$lecturer["about"]</textarea>
+	  </td>
+    </tr>
+  </table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jsxq">
+    <tr>
+      <td height="80" align="center"><input name="Submit22" type="submit" class="wjxx_an" value="保存修改" /></td>
+      </tr>
+
+  </table>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{subtemplate common/footer}

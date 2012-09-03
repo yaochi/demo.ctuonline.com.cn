@@ -1,0 +1,41 @@
+<!--{if $action == 'list'}-->
+
+<div id="plgnav" class="bbs">
+	<div class="gsh">
+		<form method="post" action="search.php?mod=group&srchfid=$_G[fid]&searchsubmit=1">
+			<p class="pns">
+			<input type="text" name="srchtxt" id="groupsearch" class="px vm" value="{lang input_search_key_words}" onclick="$('groupsearch').value=''" />
+			&nbsp;<button type="submit" class="pn vm"><strong>{lang search}</strong></button>
+			</p>
+		</form>
+	</div>
+</div>
+<!--Izzln's playground -->
+
+        <div class="bn">
+		<h2>{lang group_find_topics}</h2>
+		
+	</div>
+        <hr class="da" />
+	<!--{if $groupcache['digest']['data']}-->
+		<div class="bn">
+			<h2>{lang group_digest_recommend}</h2>
+			<ul class="xl">
+				<!--{loop $groupcache['digest']['data'] $tid $thread}-->
+					<li><a href="forum.php?mod=viewthread&tid=$tid">$thread[subject]</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<hr class="da" />
+	<!--{/if}-->
+<!--{/if}-->
+<!--{if CURMODULE == 'group'}-->{hook/group_side_top}<!--{else}-->{hook/forumdisplay_side_top}<!--{/if}-->
+<!--{if $action != 'create'}-->
+	<div class="cl per xg0">
+		{lang group_url}
+		<dl>
+                    <dt><a href="forum.php?mod=group&fid={$_G[fid]}" id="group_link"></a></dt>
+		</dl>
+                <script type="text/javascript">$('group_link').innerHTML = $('group_link').href</script>
+	</div>
+<!--{/if}-->

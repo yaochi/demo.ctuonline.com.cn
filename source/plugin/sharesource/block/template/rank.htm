@@ -1,0 +1,36 @@
+<div class="module cl stacoursediym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<div style="height:32px; margin-top:6px; background:url(source/plugin/sharesource/assets/images/share_lan.gif) repeat-x; line-height:32px; color:#FFF; font-weight:bold; font-family:'微软雅黑'; font-size:14px; padding-left:10px;">
+	 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="80%" style="font-weight:bold; font-size:14px; padding-left:10px;">资源贡献榜</td>
+        <td width="20%" style=" text-align:center;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=viewmenu&sharesource_action=top" style="color:#FFF; font-size:14px;">more</a></td>
+      </tr>
+    </table>
+	</div>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-family:'微软雅黑'; font-size:12px;">
+  <tr>
+    <td width="40%" height="36" bgcolor="#f8f8f8" style="font-weight:bold; color:#555; text-indent:8px;">姓名</td>
+    <td width="40%" bgcolor="#f8f8f8" style="font-weight:bold; color:#555;">所在部门</td>
+    <td width="20%" bgcolor="#f8f8f8" style="font-weight:bold; color:#555; text-align:center;">分享数</td>
+  </tr>
+  <!--{loop $rank $key $user}-->
+  <tr>
+	<!--{if $key==0}-->
+    <td height="35" style="background:url(source/plugin/sharesource/assets/images/share_px.gif) no-repeat 8px 0px; text-indent:30px; line-height:30px; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[realname]}</a></td>
+    <!--{elseif $key==1}-->
+    <td height="35" style="background:url(source/plugin/sharesource/assets/images/share_px.gif) no-repeat 8px -30px; text-indent:30px; line-height:30px; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[realname]}</a></td>
+    <!--{elseif $key==2}-->
+    <td height="35" style="background:url(source/plugin/sharesource/assets/images/share_px.gif) no-repeat 8px -60px; text-indent:30px; line-height:30px; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[realname]}</a></td>
+    <!--{elseif $key==3}-->
+    <td height="35" style="background:url(source/plugin/sharesource/assets/images/share_px.gif) no-repeat 8px -90px; text-indent:30px; line-height:30px; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[realname]}</a></td>
+    <!--{else}-->
+    <td height="35" style="background:url(source/plugin/sharesource/assets/images/share_px.gif) no-repeat 8px -120px; text-indent:30px; line-height:30px; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[realname]}</a></td>
+    <!--{/if}-->
+    <td style="border-bottom:1px dashed #d6d6d6;">{$user[province]}</td>
+    <td style="text-align:center; border-bottom:1px dashed #d6d6d6;"><a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=sharesource&plugin_op=groupmenu&&type=-1&uid={$user[uid]}">{$user[num]}</a></td>
+  </tr>
+  <!--{/loop}-->
+</table>
+
+</div>
+</div>

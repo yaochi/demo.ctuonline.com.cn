@@ -1,0 +1,49 @@
+<link rel="stylesheet"
+	href="source/plugin/sharesource/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<div class="wp">
+<div id="ct" class="wp cl n">
+<div class="mn">
+
+<div id="plgnav" class="bbsgroup"><a id="backbtn"
+	href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+	<h2>资源贡献排行榜</h2>
+	</div>
+	</div>
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="lecturerlist" class="tl" style="position: relative;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0"
+	style="font-family:'微软雅黑'; font-size:12px;">
+	<tr>
+		<td width="10%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555; text-indent:8px;text-align:center;">序号</td>
+		<td width="40%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555;text-align:center;">姓名</td>
+		<td width="40%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555;text-align:center;">所在部门</td>
+		<td width="10%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555; text-align:center;">分享数</td>
+	</tr>
+
+	<!--{loop $list $key $user}-->
+	<tr>
+		<td height="30"
+			style="border-bottom:1px dashed #d6d6d6; text-indent:8px;text-align:center;">{eval
+		echo($key+1)}</td>
+		<td style="border-bottom:1px dashed #d6d6d6;text-align:center;"><a
+			href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&&type=-1&uid=$user[uid]">$user[realname]</a></td>
+		<td style="border-bottom:1px dashed #d6d6d6;text-align:center;">$user[province]</td>
+		<td
+			style="text-align:center; border-bottom:1px dashed #d6d6d6;text-align:center;">
+			<a
+			href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&&type=-1&uid=$user[uid]">$user[num]</a></td>
+	</tr>
+	<!--{/loop}-->
+</table>
+</div>
+</div>
+</div>
+</div>

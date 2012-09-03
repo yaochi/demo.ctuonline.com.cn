@@ -1,0 +1,41 @@
+{subtemplate common/header}
+<div class="wp">
+    <div id="pt" class="wp" style="height:40px;">中国电信网上大学 </div> 
+    <div class="center_zqsy">
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="group.php" class="z">返回首页</a>
+
+	<div id="toolbar">
+		<h2>$title</h2>
+	</div>
+
+</div>
+        <div class="tjlb_bottom">
+            <div class="zqsl">共有  $count[c] 个专区</div>
+            <div class="tjlb_bottom_nr">
+                <ul>
+                    <!--{loop $grouplist $group}-->
+                    <li style="position: relative;">
+                        <p class="tx_zqsy_b <!--{if $group[jointype]==-1}-->zone_closed_img<!--{/if}-->" style="margin:4px;"><img height="48" border="0" width="48" src="$group[icon]">
+                        	<!--{if $group[type_icn_id]}-->
+							<span class="$group[type_icn_id]" style="top:0px;left:0px;width:50px;"></span>
+                            <!--{/if}-->
+                            <!--{if $group[jointype]==-1}-->
+							<s class="zone_closed" style="background-position:0 16px;width:60px;"></s>
+                            <!--{/if}-->
+                        </p>
+                        <p>
+                            <span><a class="jiachu" href="forum.php?mod=group&fid=$group[fid]">$group[name]</a><!--{if $group[displayorder]==1}-->&nbsp;&nbsp;<img  style="width:21px;height:14px;" src="static/image/images/zqsy_01.jpg" /><!--{/if}--></span>
+                            <span><a class="js_zqsy" href="forum.php?mod=group&fid=$group[fid]"> {eval echo cutstr($group[description],60)}</a></span>  </p>
+                            <p class="a"><span>$group[threads]</span><span>主题</span></p>
+                    </li>
+                    <!--{/loop}-->
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="bm cl">$multipage</div>
+        <div class="clear"></div>
+    </div>
+</div>
+{subtemplate common/footer}

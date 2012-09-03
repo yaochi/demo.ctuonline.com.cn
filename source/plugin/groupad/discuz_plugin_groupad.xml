@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X1]]></item>
+	<item id="Time"><![CDATA[2010-08-03 17:29]]></item>
+	<item id="From"><![CDATA[Max Group @zic]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[0]]></item>
+			<item id="name"><![CDATA[专区广告]]></item>
+			<item id="identifier"><![CDATA[groupad]]></item>
+			<item id="description"><![CDATA[--ver 1.0
+*支持添加文字、图片、swf广告内容；
+*数据源支持；]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[groupad/]]></item>
+			<item id="copyright"><![CDATA[Copyright 2010 China Telecom Online University. All Rights Reserved. ]]></item>
+			<item id="version"><![CDATA[1.0]]></item>
+			<item id="__modules">				
+				<item id="0">
+					<item id="name"><![CDATA[create]]></item>
+					<item id="menu"><![CDATA[]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[createmenu]]></item>
+					<item id="adminid"><![CDATA[1]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+				<item id="1">
+					<item id="name"><![CDATA[main]]></item>
+					<item id="menu"><![CDATA[广告]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[groupmenu]]></item>
+					<item id="adminid"><![CDATA[1]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+				<item id="2">
+					<item id="name"><![CDATA[importactivity]]></item>
+					<item id="menu"><![CDATA[]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[importmenu]]></item>
+					<item id="adminid"><![CDATA[1]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+        <item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+		<item id="version"><![CDATA[X1]]></item>
+	</item>
+</root>

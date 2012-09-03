@@ -1,0 +1,21 @@
+<p class="tbmu">
+	<a href="home.php?mod=spacecp&amp;ac=profile&amp;op=base" $opactives[base]>{lang basic_information}</a><span class="pipe">|</span>
+	<a href="home.php?mod=spacecp&amp;ac=profile&amp;op=contact" $opactives[contact]>{lang connect_mode}</a><span class="pipe">|</span>
+	<a href="home.php?mod=spacecp&amp;ac=profile&amp;op=edu" $opactives[edu]>{lang education_situation}</a><span class="pipe">|</span>
+    <a href="home.php?mod=spacecp&amp;ac=profile&amp;op=info" $opactives[info]>{lang personal_information}</a><span class="pipe">|</span>
+	<!--alter by qiaoyz,2011-3-22,EKSN 193 个人资料处显示个人联系手机和邮箱，我的中心添加绑定信息，显示绑定的手机和邮箱。 -->
+	<a href="home.php?mod=spacecp&amp;ac=profile&amp;op=binding" $opactives[binding]>{lang binding_information}</a>
+	<!-- <a href="home.php?mod=spacecp&amp;ac=profile&amp;op=bbs" $opactives[bbs]>{$_G[setting][navs][2][navname]}{lang information}</a> -->
+	<!--{if $_G['setting']['my_app_status'] && $_G['setting']['videophoto']}-->
+	<span class="pipe">|</span><a href="home.php?mod=spacecp&ac=videophoto" $opactives[videophoto]><span>{lang video_certification}</span></a>
+	<!--{/if}-->
+	<!--{if $_G['config']['home']['allowdomain'] && $_G['config']['home']['domainroot'] && checkperm('domainlength')}-->
+	<span class="pipe">|</span><a href="home.php?mod=spacecp&ac=domain" $opactives[domain]>{lang space_domain}</a>
+	<!--{/if}-->
+	
+	<!--{if !empty($_G['setting']['plugins']['spacecp_profile'])}-->
+		<!--{loop $_G['setting']['plugins']['spacecp_profile'] $id $module}-->
+			<!--{if !$module['adminid'] || ($module['adminid'] && $_G['adminid'] > 0 && $module['adminid'] >= $_G['adminid'])}--><span class="pipe">|</span><a href="home.php?mod=spacecp&amp;ac=plugin&amp;op=profile&amp;id=$id"{if $_G[gp_id] == $id} class="a"{/if}>$module[name]</a></li><!--{/if}-->
+		<!--{/loop}-->
+	<!--{/if}-->
+</p>

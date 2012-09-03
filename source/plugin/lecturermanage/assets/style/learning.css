@@ -1,0 +1,24 @@
+/* 
+** 学习力评估表，Added by Betty
+*/
+
+/* 意见回复 */
+.corlist #stacoursepanel { height: 44px; }
+		 #stacoursepanel .stationBlock { height: 20px; }
+		 #stacoursepanel #stationArrow { top: 44px; }
+		 
+.tfm th { width: 65px; }
+#lectSearchFieldComplex .tfm caption
+	, #lectSearchFieldComplex .tfm th
+	, #lectSearchFieldComplex .tfm td { padding: 4px 2px; }
+.px, .pt { padding: 1px; }
+
+/* 我要提交 */
+#classtable { border-color: #D6D6D6; }
+	#classtable th, #classtable td { border-color: #D6D6D6; padding: 4px 2px; }
+	#classtable th { text-align: center; vertical-align:middle; width: 85px; }
+	#classtable .pt, #classtable .px { width: 95%;  border: 0 none; padding: 2px; }
+	#classtable .rq { float: none; font-size: 14px; margin-right: 3px; }
+	#classtable .bggray { background-color:#f5f5f5; line-height: 24px;}
+
+.btnarea { text-align: right; margin: 5px 10px; }

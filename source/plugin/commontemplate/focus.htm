@@ -1,0 +1,20 @@
+<div class="module cl xl uniFocus"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul>
+		<li class="hl">
+			<dl class="cl xld">
+				<dd class="m mbm">
+					<a href="{$top[url]}" target="_blank"><img src="{$top[pic]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}" alt="{$top[name]}" /></a>
+				</dd>
+				<dt class="ptn"><a href="{$top[url]}" title="{$top[name]}" target="_blank" class="xs2">{$top[name]}</a></dt>
+				<dd><div>{$top[description]}</div></dd>
+			</dl>
+			<hr class="da mbn">
+		</li>
+		<!--{loop $listdata $item}-->
+		<li>
+			<em class="xg1">{$item[create_time]}</em>
+			<a href="{$item[url]}" title="{$item[name]}" target="_blank">{$item[name]}</a>
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>

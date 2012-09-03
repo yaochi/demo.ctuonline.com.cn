@@ -1,0 +1,26 @@
+<div id="plgnav" class="bbsgroup">
+<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+
+</div>
+<link type="text/css" href="source/plugin/lecturermanage/assets/style/lecturemanage.css?BTV" rel="stylesheet">
+<div class="cl mlwgroup">
+						<h1 class="wx xs7 mlmgroup mtm" style="line-height: 34px; text-align:center"><span>$year</span>年授课积分排行榜</h1>
+					</div>
+<div class="mtw">
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<th width="44">排名</th>
+<th width="88">讲师姓名</th>
+<th>工作单位</th>
+<th width="88">积分</th>
+</tr>
+<!--{loop $data $key $info}-->
+<tr class="line{eval echo ($key%2)}">
+<td class="moderate" style=" border-top: 1px dashed #D6D6D6;">$info[posit]</td>
+<td style=" border-top: 1px dashed #D6D6D6;"><a target="_blank" href="forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$info[lecid]">$info[name]</a></td>
+<td style=" border-top: 1px dashed #D6D6D6; text-align:left;">$info[orgname_all]</td>
+<td style=" border-top: 1px dashed #D6D6D6;">$info[credit]</td></tr>
+<!--{/loop}-->
+</tbody></table>
+</div>

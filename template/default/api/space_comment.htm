@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content=" Discuz! Board  - Discuz! Board" />
+<meta name="generator" content="Discuz! X1" />
+<meta name="copyright" content="2010 China Telecom Online University. All rights reserved." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<!--  -->
+<link href="static/image/my/page.css" rel="stylesheet" type="text/css" />
+<!--  -->
+<link href="static/image/my/diy.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_common.css" />
+<link rel="stylesheet" type="text/css" href="data/cache/style_{STYLEID}_home_space.css" />
+<link href="static/js/dtree/dtree.css" rel="stylesheet" type="text/css" />
+<script src="static/js/dtree/dtree.js" type="text/javascript" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '{if $_G['setting']['creditnotice']}$_G['setting']['creditnames']{/if}'</script>
+<script src="static/js/common.js" type="text/javascript"></script>
+<script src="static/js/home_friendselector.js" type="text/javascript"></script>
+<script src="static/js/home_cookie.js" type="text/javascript"></script>
+<script src="static/js/home_common.js" type="text/javascript"></script>
+<script src="static/js/home_face.js" type="text/javascript"></script>
+<script src="static/js/home_manage.js" type="text/javascript"></script>
+</head>
+
+
+<body id="nv_home" class="ozSpace" onkeydown="if(event.keyCode==27) return false;">
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+
+			<!--评论-->
+			<!--{eval $comment_idtype = 'docid';}-->
+			<!--{eval $comment_refer = "ozapi.php?ac=comment&id=$_GET[id]&type=$_GET[type]";}-->
+			<!--{eval $comment_list = $list;}-->
+			
+			<div class="documents_wdjj">
+				<div class="resources_list_bg">
+					<div class="angle_ftop"></div>
+					<div class="angle_rtop"></div>
+		            <div class="oztitle"><span>◎</span>评论</div>
+		        </div>
+		        <div class="documents_wdjj_kuang">
+		        	<div id="div_main_content">
+		        		<!--{if !empty($comment_list)}-->
+		        		<div class="zxpl reHeight">
+		        			<span class="z">·最新评论</span>
+		        			<a href="#quickcommentform_{$id}" class="y xw0" style="color: #104981;">发表评论</a>
+		        		</div>
+		        		<!--{/if}-->
+						<!--{if $comment_needreplynum}-->(<span id="comment_replynum">$comment_replynum</span> {lang nwkt_replay})<!--{/if}-->
+						
+						<!--{if $multi}--><div class="pgs cl mrmgroup">$multi</div><!--{/if}-->
+						<div id="comment">
+							<div id="comment_ul" class="xld xlda">
+								<!--{loop $comment_list $k $value}-->
+									<!--{template api/space_comment_li}-->
+								<!--{/loop}-->
+							</div>
+						</div>
+						<!--{if $multi}--><div class="pgs cl mrmgroup">$multi</div><!--{/if}-->
+					</div>
+					
+					<!--{if !$comment_noreply}-->
+						<form id="quickcommentform_{$id}" action="home.php?mod=spacecp&ac=comment" method="post" autocomplete="off" onsubmit="ajaxpost('quickcommentform_{$id}', 'return_qcnwkt_$id');doane(event);">
+							<p>
+								<span id="comment_face" title="{lang insert_emoticons}" onclick="showFace(this.id, 'comment_message');return false;" style="cursor: pointer;"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
+								<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+									<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=comment_message" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> {$_G[setting][magics][doodle]}</a>
+								<!--{/if}-->
+							</p>
+							<div class="tedt mtn mbn">
+								<div class="area">
+									<textarea id="comment_message" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="3" class="pt"></textarea>
+								</div>
+							</div>
+							<p class="pns">
+								<input type="hidden" name="referer" value="$comment_refer" />
+								<input type="hidden" name="id" value="$id" />
+								<input type="hidden" name="idtype" value="$comment_idtype" />
+								<input type="hidden" name="handlekey" value="qcnwkt_{$id}" />
+								<input type="hidden" name="commentsubmit" value="true" />
+								<input type="hidden" name="quickcomment" value="true" />
+								<input type="hidden" name="fid" value="{$fid}"/><!-- 专区id -->
+								<button type="submit" name="commentsubmit_btn"value="true" id="commentsubmit_btn" class="fbpl_input"><strong>评论</strong></button>
+								<span id="return_qcnwkt_{$id}"></span>
+							</p>
+							<input type="hidden" name="formhash" value="{FORMHASH}" />
+						</form>
+						<script type="text/javascript">
+							function succeedhandle_qcnwkt_$id(url, msg, values) {
+								if(values['cid']) {
+									comment_add(values['cid']);
+								} else {
+									$('return_qcnwkt_{$id}').innerHTML = msg;
+								}
+							}
+						</script>
+					<!--{/if}-->
+				        
+		        
+		        
+		            <div class="angle_fbottom"></div>
+		            <div class="angle_rbottom"></div>
+		        </div>
+		    </div>
+			
+		
+			<script type="text/javascript">
+			function addFriendCall(){
+				var el = $('friendinput');
+				if(!el || el.value == "")	return;
+				var s = '<input type="checkbox" name="fusername[]" class="pc vm" value="'+el.value+'" id="'+el.value+'" checked="checked">';
+				s += ' <label for="'+el.value+'">'+el.value+'</label>';
+				s += '<br />';
+				$('friends').innerHTML += s;
+				el.value = '';
+			}
+			resizeImg('div_main_content','450');
+
+			var elems = selector('dd[class~=magicflicker]');
+			for(var i=0; i<elems.length; i++){
+				magicColor(elems[i]);
+			}
+			</script>
+</body>
+</html>

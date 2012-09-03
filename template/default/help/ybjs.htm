@@ -1,0 +1,115 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">中国电信网上大学网络社区介绍</a>
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn gg2w">
+		<div class="ch">
+			<label class="wx"><a href="home.php">帮助</a></label>
+		</div>
+		
+		<div class="bm">
+			<div id="hpTitle">
+				<span class="wx xg1">&nbsp;</span>
+					<em class="xg1">最后修订时间：2012-5-25</em>
+			  <h1 class="xs7">翼博介绍</h1>
+		  </div>
+			<div class="chapter">
+				<div class="vw pic">
+
+					<div class="c" id="photo_pic" style="position: relative;">
+						<img id="pic" height="506" width="675" src="">
+					</div>
+					
+				</div>
+				
+				<ul id='photo_bt'>
+					<li title='0' onclick="viewPhoto(0);"></li>
+					<li title='1' onclick="viewPhoto(1);"></li>
+					<li title='2' onclick="viewPhoto(2);"></li>
+					<li title='3' onclick="viewPhoto(3);"></li>
+					<li title='4' onclick="viewPhoto(4);"></li>
+					<li title='5' onclick="viewPhoto(5);"></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+	<div class="sd">
+	{subtemplate help/right}
+	</div>
+	
+</div>
+
+{subtemplate common/footer}
+
+<script type="text/javascript">
+var imgArray = new Array('guide1.jpg','guide2.jpg','guide3.jpg','guide4.jpg','guide5.jpg','guide6.jpg');
+
+function createElem(e){
+	var obj = document.createElement(e);
+	obj.style.position = 'absolute';
+	obj.style.zIndex = '1';
+	obj.style.cursor = 'pointer';
+	obj.onmouseout = function(){ this.style.background = 'none';}
+	return obj;
+}
+function viewPhoto(i){
+
+	var pre = createElem('div');
+	var next = createElem('div');
+	var cont = $('photo_pic');
+	var tar = $('pic');
+	
+	for(var a=0;a<$('photo_bt').getElementsByTagName('li').length;a++){
+		$('photo_bt').getElementsByTagName('li')[a].className='';
+	}
+	$('photo_bt').getElementsByTagName('li')[i].className='on';
+	tar.src='static/image/help/'+imgArray[i];
+	var space = 0;
+	var w = cont.offsetWidth/2;
+	if(!!window.ActiveXObject && !window.XMLHttpRequest){
+		space = -(cont.offsetWidth - tar.width)/2;
+	}
+	
+	if(i==0){
+		var j=imgArray.length-1;
+		var k=i+1;
+	}else if(i==imgArray.length-1){
+		var j=i-1;
+		var k=0;
+	}else{
+		var j=i-1;
+		var k=i+1;
+	}
+	
+	pre.style.left = space + 'px';
+	next.style.left = space + w + 'px';
+	pre.style.top = next.style.top = 0;
+	
+	pre.style.width = next.style.width = w + 'px';
+	pre.style.height = next.style.height = tar.height + 'px';
+	pre.innerHTML = next.innerHTML = '<img src="static/image/common/emp.gif" width="' + w + '" height="' + tar.height + '" />';
+	
+	pre.onmouseover = function(){ this.style.background = 'url(static/image/common/pic-prev.gif) no-repeat 10px 50%'; }
+	pre.onclick = function(){
+		 viewPhoto(j);
+	}
+	
+	next.onmouseover = function(){ this.style.background = 'url(static/image/common/pic-next.gif) no-repeat 94% 50%'; }
+	next.onclick = function(){ 
+		viewPhoto(k);
+	}
+	
+	cont.style.position = 'relative';
+		cont.appendChild(pre);
+		cont.appendChild(next);
+}
+
+	window.onload = function(){
+		viewPhoto(0);
+	}
+
+</script>

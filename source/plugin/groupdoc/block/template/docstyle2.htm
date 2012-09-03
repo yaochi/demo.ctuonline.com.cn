@@ -1,0 +1,15 @@
+<div class="module cl xld resdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+		<dl class="cl mbm">
+			<dd class="z" style="margin-right:12px;">
+				<a href="{$item[url]}" target="_blank" class="diyavt"><img src="{$item[img]}" alt="{$item[title]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}"></a>
+				<!--{if $item[status] == 2}-->
+				<span class="replaced tag_converting" style="margin: 8px 0 0 21px;">正在转换</span>
+				<!--{/if}-->
+			</dd>
+			<dt><a href="{$item[url]}" title="{$item[title]}" target="_blank" class="xs2">{$item[shorttitle]}</a></dt>
+			<dd class="xg1 clmb"><span class="xi2">{$item[username]}</span>&nbsp;&nbsp;{$item[uploadtime]}</dd>
+			<dd class="mtn" style="margin-left: 102px"><div style="text-overflow: ellipsis;">{$item[context]}</div></dd>
+		</dl>
+	<!--{/loop}-->
+</div>

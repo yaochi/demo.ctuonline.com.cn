@@ -1,0 +1,110 @@
+<!--{template common/header}-->
+	<h3 class="flb">
+		<em id="return_$_G[gp_handlekey]">转发</em>
+		<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span>
+	</h3>
+	<form method="post" autocomplete="off" id="forwardform_$course[code]" name="forwardform_$course[code]" 
+		action="home.php?mod=space&do=plugin&plugin_name=coursemap&coursemap_action=forward&code=$course[code]"
+		onsubmit="forwardCourse(this);disComment2(this);return false;">
+		
+		<input type="hidden" name="uid" 		value="$_G[uid]" />
+		<input type="hidden" name="id" 			value="$course[id]" />
+		<input type="hidden" name="username" 	value="$course[username]" />
+		<input type="hidden" name="fromwhere" 	value="0" />
+		<input type="hidden" name="icon" 		value="class" />
+		<input type="hidden" name="author" 		value="" />
+		<input type="hidden" name="title" 		value="$course[title]" />
+		<input type="hidden" name="titlelink" 	value="$course[titlelink]" />
+		<input type="hidden" name="context" 	value="$course[context]" />
+		<input type="hidden" name="imageurl" 	value="$course[imglink]" />
+		<input type="hidden" name="imagelink" 	value="$course[titlelink]" />
+		
+		<div class="c" style="background:#F8F8F8; margin:0 10px 10px 10px;">
+			<div class="el mtm cl">
+				<div node-type="content" class="forward_content">
+					<div style="font-weight:700;line-height:30px;font-size:14px;">
+						<span class="icn_doc" style="display:inline-block;vertical-align:middle;"></span>
+						<a href="$course[titlelink]" target="_blank">$course[title]</a>
+					</div>
+					<div>
+						<div class="y"><a href="$course[titlelink]" target="_blank"><img src="$course[imglink]" height="90px"></a></div>
+						<p>
+							<!--{if $course[context]!=''}-->
+								$course[context]
+							<!--{else}-->
+								暂无介绍
+							<!--{/if}-->
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style=" margin:10px">
+			<textarea name="transpondContent" cols="50" rows="3" class="pt mtn" style="width: 430px;"></textarea>
+			<div style=" overflow:hidden; padding-top:10px;">
+				<p style="float:right">
+					<button type="submit" name="sharesubmit_btn" id="sharesubmit_btn" class="pn pnc" value="true"><strong>转发</strong></button>
+				</p>
+			</div>
+		</div>
+	</form>
+	<div class='acwrapper'></div>
+
+	<script type="text/javascript">
+		jQuery.ajaxSetup({ cache:false });
+
+		//AjaxPost时 评论按钮变灰
+		function disComment2(target){
+			var comment = jQuery("#sharesubmit_btn", target);
+				comment.attr("disabled","disabled");
+				jQuery("strong", comment).css("color","#999999");
+				//comment.css("cursor", "auto");
+				jQuery("textarea[name=message]", target).attr("readonly","readonly");
+		}
+
+		function autoCompleteHandle(event) {
+			textAreaAutoComplete(event, this, jQuery("#append_parent .acwrapper"));
+		}
+		if(jQuery.browser.msie){
+			jQuery('textarea[name=transpondContent]').focus();
+			jQuery('textarea[name=transpondContent]').on("focus blur", autoCompleteHandle).data('noTag', true);
+		}else{
+			jQuery('textarea[name=transpondContent]')
+				.on("focus", autoCompleteHandle)
+				.on("blur", autoCompleteHandle)
+				.data('noTag', true)
+				.focus();
+		}
+		
+		fetchFeedAuth('#fwin_transmit');	//专家认证标志显示
+		
+		function forwardCourse(target){
+			var context = jQuery('input[name=context]', target);
+			if (context.val() == '') context.val('暂无介绍');
+			
+			var url = 'api/blog/api_forwardbycon.php'; 		    
+			
+			jQuery.post(url, jQuery(target).serialize(), function(data){
+				if(data && data.success == 'Y'){
+					showCreditPrompt();
+					hideWindow('$_G[gp_handlekey]');
+					try {
+						load_feed(flag,0,1,'','','','','$_G['gp_handlekey']');
+						currNum++;
+						//‘已发表’数+1
+						var flnum = jQuery('#flnums').find('span:contains("已发表")');
+						if(flnum.length>0){
+							var numspan = flnum.prev(".flnum");
+							numspan.text(parseInt(numspan.text())+1);
+						}
+					}catch(e){}
+				}else{
+					showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>课程转发失败 请稍后再次尝试</span>", 3000);
+					hideWindow('$_G[gp_handlekey]');
+				}
+			}, 
+			'json');
+		}
+		
+	</script>
+<!--{template common/footer}-->

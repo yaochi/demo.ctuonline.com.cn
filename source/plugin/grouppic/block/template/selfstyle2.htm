@@ -1,0 +1,12 @@
+<div class="module cl xld slideshow" style="display: block;<!--{if $parameter[blockheight] != 0}--> height:{$parameter[blockheight]}px<!--{/if}-->">
+	<!--{loop $listdata $item}-->
+    <dl class="cl" style="display: none; ">
+        <dd class="m">
+        	<a href="{$item[url]}" target="_blank">
+        		<img src="{$item[imglink]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}">
+        	</a>
+        </dd>
+    </dl>
+    <!--{/loop}-->
+</div>
+<script type="text/javascript">runslideshow();</script>

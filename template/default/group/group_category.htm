@@ -1,0 +1,120 @@
+<div class="bm">
+    <script type="text/JavaScript">
+        var rowtypedata = [
+            [
+                [1,'<input type="checkbox" class="checkbox" name="newenable[]" disabled="disabled" />', 'td25'],
+                [1,'<input class="px" type="text" size="2" name="newdisplayorder[]" value="0" />'],
+                [1,'<input class="px" type="text" name="newname[]" />']
+            ],
+        ];
+        var addrowdirect = 0;
+        var typenumlimit = $typenumlimit;
+        function addrow(obj, type) {
+            var table = obj.parentNode.parentNode.parentNode.parentNode;
+            if(typenumlimit <= obj.parentNode.parentNode.parentNode.rowIndex - 1) {
+                alert('{lang group_threadtype_limit_1}'+typenumlimit+'{lang group_threadtype_limit_2}');
+                return false;
+            }
+            if(!addrowdirect) {
+                var row = table.insertRow(obj.parentNode.parentNode.parentNode.rowIndex);
+            } else {
+                var row = table.insertRow(obj.parentNode.parentNode.parentNode.rowIndex + 1);
+            }
+
+            var typedata = rowtypedata[type];
+            for(var i = 0; i <= typedata.length - 1; i++) {
+                var cell = row.insertCell(i);
+                cell.colSpan = typedata[i][0];
+                var tmp = typedata[i][1];
+                if(typedata[i][2]) {
+                    cell.className = typedata[i][2];
+                }
+                tmp = tmp.replace(/\{(\d+)\}/g, function($1, $2) {return addrow.arguments[parseInt($2) + 1];});
+                cell.innerHTML = tmp;
+            }
+            addrowdirect = 0;
+        }
+    </script>
+    <div id="threadtypes">
+        <form id="threadtypeform" action="forum.php?mod=group&action=manage&op=managecategory&fid=$_G[fid]&id=$plugin_id" autocomplete="off" method="post" name="threadtypeform">
+           <input type="hidden" name="m" value="save"/>
+            <table cellspacing="0" cellpadding="0" class="tfm">
+                <tr>
+                    <th>{lang threadtype_turn_on}:</th>
+                    <td>
+                        <input type="radio" name="state" class="pr" value="Y" onclick="$('threadtypes_config').style.display = '';$('threadtypes_manage').style.display = '';" $status_yes >&nbsp;{lang yes}
+                               <input type="radio" name="state" class="pr" value="N" onclick="$('threadtypes_config').style.display = 'none';$('threadtypes_manage').style.display = 'none';"  $status_no >&nbsp;{lang no}
+                               <p class="d">{lang threadtype_turn_on_comment}</p>
+                    </td>
+                </tr>
+                <tbody id="threadtypes_config" style="display: $display">
+                    <tr>
+                        <th>{lang threadtype_required}:</th>
+                        <td>
+                            <input type="radio" name="required" class="pr" value="Y"  $required_yes >&nbsp;{lang yes}
+                                   <input type="radio" name="required" class="pr" value="N" $required_no >&nbsp;{lang no}
+                                   <p class="d">{lang threadtype_required_force}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{lang threadtype_prefix}:</th>
+                        <td>
+                            <input type="radio" name="prefix" class="pr" value="Y" $prefix_yes >&nbsp;{lang threadtype_prefix_on}
+                                   <input type="radio" name="prefix" class="pr" value="N" $prefix_no >&nbsp;{lang threadtype_prefix_off}
+                                   <p class="d">{lang threadtype_prefix_comment}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="threadtypes_manage" style="display: $display">
+                <h2 class="ptm">分类列表</h2>
+                <table cellspacing="0" cellpadding="0" class="dt">
+                    <tr>
+                        <th>{lang delete}</th>
+                        <th>{lang displayorder}</th>
+                        <th>{lang threadtype_name}</th>
+                    </tr>
+                    <!--{if $categorys}-->
+                    <!--{loop $categorys $val}-->
+                    <tr>
+                        <td><input type="checkbox" name="categorys[delete][]" value="{$val[id]}" /></td>
+                        <td><input type="text" name="categorys[displayorder][{$val[id]}][]" class="px" size="2" value="$val[displayorder]" /></td>
+                        <td><input type="text" name="categorys[name][{$val[id]}][]" class="px" value="$val[name]" /></td>
+                    </tr>
+                    <!--{/loop}-->
+                    <!--{/if}-->
+                    <tr>
+                        <td colspan="4">
+                            <div><img class="vm" src="{IMGDIR}/addicn.gif" /> &nbsp; <a href="###" onclick="addrow(this, 0)">{lang threadtype_add}</a></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <button type="button" class="pn pnp" name="groupthreadtype" value="1"  onclick="javascript:checkCateForm();"><strong>{lang submit}</strong></button>
+        </form>
+        <script>
+        	function checkCateForm(){
+        		var newnames=document.getElementsByName("newname[]");
+        		var len=newnames.length;
+        	
+        		var addform=document.getElementById("threadtypeform");
+        		if(len>0){
+            		for(var i=0;i<len;i++){
+                		
+            			if(trim(newnames[i].value).length>0){
+                			continue;
+            			}else{
+    						showDialog("新增的分类名称不能为空");
+    						return false;
+                		}
+            	    }
+            		addform.submit();
+        		}else{
+					addform.submit();
+        		}
+        	    return false;
+          	}
+        </script>
+    </div>
+</div>

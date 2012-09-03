@@ -1,0 +1,42 @@
+<div class="mn">
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index_dev&type=dev" class="z">返回列表</a>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_skjl">
+  <tr>
+    <td width="120" align="right"><strong>课程开发名称：</strong></td>
+    <td align="left">$record[name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>讲师：</strong></td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>主办方：</strong></td>
+    <td align="left">$record[org_name]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>时间：</strong></td>
+    <td align="left">$record[starttime] ~ $record[endtime]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>地点：</strong></td>
+    <td align="left">$record[address]</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>满意度评估：</strong></td>
+    <td align="left">$record[class_result]</td>
+  </tr>
+</table>
+<!--{if $_G['forum']['ismoderator'] || $lecturer[id]==$record[teacher_id]}-->
+<div class="bm">
+<div style="float: right;">
+	<table>
+		<tr>
+			<td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$record[id]&lecturerecord_action=edit_dev">编辑</a> | <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$record[id]&lecturerecord_action=delete">删除</a></td>
+		</tr>
+	</table>
+</div>
+</div>
+<!--{/if}-->
+</div>

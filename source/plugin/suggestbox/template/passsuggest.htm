@@ -1,0 +1,131 @@
+<!--{if $_G['forum']['ismoderator']}-->
+<script type="text/javascript" src="source/plugin/suggestbox/assets/js/lecturermanage_moderate.js?{VERHASH}"></script>
+<!--{/if}-->
+<link rel="stylesheet" href="source/plugin/suggestbox/assets/style/lecturemanage.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/suggestbox/assets/js/lecturer_common.js?{VERHASH}"></script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<!-- CUSTOM -->
+<link rel="stylesheet" href="source/plugin/suggestbox/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/suggestbox/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<!--<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>-->
+	</div>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=create'">
+			<p class="sb_title">我要建议</p>
+		</div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=passsuggest'">
+			<p class="sb_title">智慧结晶</p>
+		</div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(2);
+function validate_from(obj){
+
+}
+function clearss(){
+$('sug').value='';
+$('name').value='';
+$('username').value='';
+
+}
+function aviewseach(){
+var keywords=$('keyword').value;
+if(keywords==""||keywords=="请输入关键词"){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=passsuggest";
+return;
+}else{
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=suggestbox"+"&"+"plugin_op=groupmenu"+"&"+"suggestbox_action=passsuggest"+"&"+"keywords="+encodeURI(keywords);
+}
+}
+</script>
+
+
+
+   <div id="fspanel">
+     	<span class="y" style="position: relative; top: 15px;">
+   		<input  class="px" type="text" name="keyword" id="keyword" size="20" value="请输入关键词" onblur="searchBlurL(this);" onfocus="searchFocusL(this);" autocomplete="off">
+   		<button class="pn vm" style="vertical-align: 2px;" onclick="aviewseach()"><em>搜索</em></button>
+   	</span>
+	<table>
+		<tr id="nav_category">
+			<tr id="nav_order">
+		  	<th>排序:</th>
+		     <td class="piped">
+		      <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&assort=$_G[gp_assort]" <!--{if !$_G[gp_orderby]}-->class="a"<!--{/if}--> >按采纳时间倒序</a>
+		    	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&orderby=timeasc&assort=$_G[gp_assort]" <!--{if $_G[gp_orderby]=='timeasc'}-->class="a"<!--{/if}--> >按采纳时间正序</a>
+				<!--  <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&orderby=viewnum" <!--{if $_G[gp_orderby]=='viewnum'}-->class="a"<!--{/if}--> >按查看次数</a>
+				<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&orderby=replynum" <!--{if $_G[gp_orderby]=='replynum'}-->class="a"<!--{/if}-->>按回复次数</a>-->
+
+			</td>
+
+		  </tr>
+		  		<tr id="nav_order">
+                <th>分类:</th>
+                   <td class="piped">
+		    	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&orderby=$_G[gp_orderby]" <!--{if !$_G[gp_assort]}-->class="a"<!--{/if}--> >查看全部</a>
+		      <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&$_G[gp_plugin_name]_action=passsuggest&type=$_G[gp_type]&category_id=$_G[gp_category_id]&assort=my&orderby=$_G[gp_orderby]" <!--{if $_G[gp_assort]=='my'}-->class="a"<!--{/if}--> >我的建议</a>
+
+			</td>
+		  </tr>
+
+		  </tr>
+		</table>
+	</div>
+<!-- filter & sort Panel end -->
+
+
+<div class="bm pgs ptn cl"> </div>
+
+<div id="lecturerlist" class="tl" style="position: relative;">
+	<!--{if !$suggests}-->
+	<p class="xg1 hm">您还未提交建议，期待智慧分享，积分等您拿！</p>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" border="0">
+		<thead>
+			<tr>
+				<td class="icn">&nbsp;</td>
+				<th width="50%">建议或意见</th>
+				<td class="by">作者</td>
+				<td class="by" style="text-align:center;">采纳时间</td>
+			</tr>
+		</thead>
+	<tbody>
+
+
+			<!--{loop $suggests $key $suggest}-->
+			<tr class="line{eval echo ($key%2)}">
+			    <td class="icn"><a target="_blank" title="新窗口打开" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=view&suggestid=$suggest["suggestId"]"><img src="static/image/common/folder_new.gif"></a></td>
+				<td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&suggestbox_action=view&suggestid=$suggest["suggestId"]">
+                	<!--{if mb_strlen($suggest[suggest],'utf-8') > 10 }-->
+				{echo mb_substr($suggest["suggest"],0,10,'utf-8')}...
+				<!--{else}-->
+				$suggest["suggest"]
+                <!--{/if}-->
+                    </a></td>
+				<td>
+				<cite><a href="#">$suggest["name"]</a></cite>
+
+
+				</td>
+				<td style="text-align:center;"><em>{eval echo dgmdate($suggest["passdate"])}</em></td>
+			</tr>
+           <!--{/loop}-->
+
+	</tbody>
+	</table>
+	<!--{/if}-->
+</div>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->

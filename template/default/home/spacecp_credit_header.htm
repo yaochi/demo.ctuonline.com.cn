@@ -1,0 +1,9 @@
+<!--{if $op == 'rule'}-->
+	<div class="mtm y">
+		<select onchange="location.href='home.php?mod=spacecp&ac=credit&op=rule&fid='+this.value"><option value="">{lang credit_rule_global}</option>$select</select>
+	</div>
+<!--{/if}-->
+<p class="tbmu">
+	<a href="home.php?mod=spacecp&amp;ac=credit&amp;op=base" $opactives[base]>{lang my_credits}</a><span class="pipe">|</span>
+	<a href="home.php?mod=spacecp&amp;ac=credit&amp;op=log&amp;suboperation=paymentlog" $opactives[log]>{lang memcp_credits_log}</a>
+</p>

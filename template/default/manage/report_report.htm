@@ -1,0 +1,109 @@
+{subtemplate manage/common_header}
+
+
+
+<div class="floattop">
+	<div class="itemtitle">
+		<h3>用户举报</h3>
+		<ul class="tab1">
+			<li <!--{if $type=='new'}-->class='current'<!--{/if}-->><a href="manage.php?mod=report&amp;op=report&amp;type=new"  target="main"><span>最新举报</span></a></li>
+			<li <!--{if $type=='resolved'}-->class='current'<!--{/if}-->><a href="manage.php?mod=report&amp;op=report&amp;type=resolved" target="main"><span>已处理记录</span></a></li>
+		</ul>
+	</div>
+</div>
+
+<table class="tb tb2 " id="tips">
+	<tbody>
+		<tr><th class="partition">技巧提示</th></tr>
+		<tr><td class="tipsblock">
+			<ul id="tipslis">
+				<li>可以根据举报真实情况，给举报者加减积分。</li>
+			</ul>
+		</td></tr>
+	</tbody>
+</table>
+
+<form name="cpform" method="post" autocomplete="off" action="manage.php?mod=report&amp;op=report" id="cpform">
+
+	<input type="hidden" name="method" value="delete" id="method"/>
+	<table class="tb tb2 ">
+		<tbody>
+			<!-- {if $reportcount} -->
+			<!-- {loop $result $key $value} -->
+				<tr class="hover">
+					<td class="td25">
+						<input type="checkbox" class="checkbox" name="reportids[]" value="{$key}">
+					</td>
+					<td class="td28">
+						<b>页面地址：</b>
+						<a href="{$value[url]}" target="_blank">{$value[url]}</a><br><b>举报理由：</b>{$value[message]}					
+					</td>
+					<td width="50px;"><a href="home.php?mod=space&amp;uid={$value[uid]}">{eval echo user_get_user_name($value[uid]);}</a><input type="hidden" name="reportuids[{$value[id]}]" value="{$value[uid]}"></td>
+					<td>$value['dateline']</td>
+					<td class="td26">
+						{$_G['setting']['extcredits'][$curcredits]['title']}:&nbsp;
+						<select name="creditsvalue[{$value[id]}]">
+							<option value="2">+2</option>
+							<option value="1">+1</option>
+							<option value="0" selected="">不奖惩</option>
+							<option value="-1">-1</option>
+							<option value="-2">-2</option>
+						</select>
+					</td>
+				</tr>
+			<!-- {/loop} -->
+			
+			<tr>
+				<td colspan="5">
+					<div class="fixsel">
+						<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll('prefix', this.form, 'reportids')">
+						<label for="chkall">全选</label>&nbsp;&nbsp;
+						<input type="button" class="btn" name="delsubmit" value="删除" onclick="javascript:checkform(this);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- {if $type!='resolved'} -->
+							<input type="button" class="btn" name="resolvesubmit" value="处理选中" onclick="javascript:checkform(this);">
+						<!-- {/if} -->
+						
+					</div>
+				</td>
+				<td colspan="10">
+					$multipage
+				</td>
+			</tr>			
+			<!-- {else} -->
+				<table class="tb tb2 ">
+				<tbody><tr><th class="partition" colspan="15">对不起，没有符合条件的记录！</th></tr></tbody>
+				</table>
+			<!-- {/if} -->
+
+		</tbody>
+	</table>
+</form>
+
+<script>
+function checkform(button){
+	var op='';
+	if(button.name=="delsubmit"){
+		document.getElementById("method").value='delete';
+		op="删除";
+	}
+	if(button.name=="resolvesubmit"){
+		document.getElementById("method").value='resolve';
+		op="处理选中";
+	}
+	//alert(button.name);
+	var ridarray=document.getElementsByName("reportids[]");	
+	for(var i=0;i<ridarray.length;i++){
+		if(ridarray[i].checked==true){
+			//return confirm("您确认要删除选中内容吗?");
+			if(confirm("您确认要执行"+op+"吗?")){
+		    	document.forms[0].submit();
+		    }
+		    return true;
+		}
+		
+	}	
+	alert("请选择您要处理的对象!");	
+	return false;		
+}
+</script>
+{subtemplate manage/common_footer}

@@ -1,0 +1,8 @@
+//#########################################
+//## create by songsp 2011-3-30 22:59:30
+//#########################################
+
+该组件下diy模块模板中，专区描述信息，不能直接使用{$_G['forum']['description']} ，
+ 必须使用[myself_value_forum_description] 字符串占位。
+
+具体后台处理方式加 source/function_block.php 中parse_special_block();

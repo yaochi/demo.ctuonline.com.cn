@@ -1,0 +1,34 @@
+{template common/header}
+<div id="main_messaqge">
+<!--{if $type==1}-->
+<h3 class="flb">
+	<em>强制重设岗位</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span>
+</h3>
+<form method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=force">
+	<input type="hidden" name="referer" value="$_G[referer]" />
+	<input type="hidden" name="deletesubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="c">确定强制重设岗位吗? <span></span></div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>
+<!--{/if}-->
+<!--{if $type==2}-->
+<h3 class="flb">
+	<em>清空数据</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span>
+</h3>
+<form method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=stationcourse&plugin_op=groupmenu&stationcourse_action=erase">
+	<input type="hidden" name="referer" value="$_G[referer]" />
+	<input type="hidden" name="deletesubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="c">确定清空数据吗? <span></span></div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>
+<!--{/if}-->
+</div>
+{template common/footer}

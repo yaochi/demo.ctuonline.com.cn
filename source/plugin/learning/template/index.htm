@@ -1,0 +1,131 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2></h2>
+	</div>
+</div>
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+			<p class="sb_title">我要提交</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">成果展示</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+			<p class="sb_title">学习力排行榜</p>
+	  	</div>
+	  	<div class="stationSplit"></div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(2); //根据id号定位小箭头
+</script>
+   <div id="fspanel">
+   	<span class="y" style="position: relative; top: 15px;">
+   		<input  class="px" type="text" name="keywords" id="keywords" size="20" value="请输入关键词" onblur="searchBlurL(this);" onfocus="searchFocusL(this);" autocomplete="off">
+   		<button class="pn vm sbt" onclick="aviewseach()"><em>搜索</em></button>
+   	</span>
+	<table>
+		<tr id="nav_category">
+			<tr id="nav_order">
+		  	<th>排序:</th>
+		    <td class="piped">
+		    	<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&examinestatus=$examinestatus&tap=2&examtime=DESC&type=$usertype" class="<!--{if $getexamtimerol=='DESC'}-->a<!--{/if}-->">按审核时间</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&examinestatus=$examinestatus&tap=2&creatdataline=DESC&type=$usertype" class="<!--{if $getcreatdate=='DESC'}-->a<!--{/if}-->">按创建时间</a>
+			</td>
+		  </tr>
+		  	<th>分类:</th>
+		    <td class="piped">
+		    	<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&type=all&examtime=$getexamtimerol&creatdataline=$getcreatdate" class="<!--{if $usertype=='all'}-->a<!--{/if}-->">查看全部</a>
+			    <a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&type=user&examtime=$getexamtimerol&creatdataline=$getcreatdate" class="<!--{if $usertype=='user'}-->a<!--{/if}-->">我的成果</a>
+			</td>
+		  </tr>
+		  <tr>
+		 </tr>
+
+		</table>
+
+	</div>
+
+
+
+<div class="bm pgs ptn cl"> </div>
+
+<div id="lecturerlist" class="tl" style="position: relative;">
+	<!--{if !$learnexcit}-->
+	<p class="xg1 hm">您当前没有相关的学习激励成果展示的列表</p>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" border="0">
+		<thead>
+			<tr>
+				<td class="icn">&nbsp;</td>
+				<td class="icn">&nbsp;</td>
+				<td>名称</td>
+				<td class="by">提交人</td>
+				<td class="by">证明人</td>
+				<td class="by">审核时间</td>
+			</tr>
+		</thead>
+	<tbody>
+	<!--{loop $learnexcit $key $learn}-->
+		<tr class="line{eval echo ($key%2)}">
+			<td>&nbsp;</td>
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id="">
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=achieview&learnid=$learn[id]&tap=2">
+			<!--{if mb_strlen($learn[learnname],'utf-8') > 10}-->
+			{echo  mb_substr($learn[learnname],0,10,'utf-8')}...
+			<!--{else}-->
+			{echo $learn[learnname]}
+			<!--{/if}-->
+			</a></span></td>
+			<td>
+				<em>$learn[subrealname]</em>
+			</td>
+			<td>
+				<em>$learn[Witnessrealname]</em>
+			</td>
+			<td>{eval echo dgmdate($learn[examinedateline])}</td>
+		</tr>
+<!--{/loop}-->
+	</tbody>
+	</table>
+	<!--{/if}-->
+	<script type="text/javascript">
+
+	function aviewseach(){
+	var keywords=$('keywords');
+	window.location.href="forum.php?mod=$mod"+"&"+"action=plugin"+"&"+"fid=$_G['fid']"+"&"+"plugin_name=$_G[gp_plugin_name]"+"&"+"plugin_op=groupmenu"+"&"+"examinestatus=3"+"&"+"keywords="+encodeURI(keywords.value)+"";
+	}
+	</script>
+	<style>
+
+a:link {
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: none;
+}
+a:active {
+ text-decoration: none;
+}
+
+</style>
+</div>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->

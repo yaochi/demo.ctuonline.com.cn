@@ -1,0 +1,256 @@
+<!--{if $_G['forum']['ismoderator']}-->
+<script type="text/javascript" src="source/plugin/lecturermanage/assets/js/lecturermanage_moderate.js?{VERHASH}"></script>
+<!--{/if}-->
+<link rel="stylesheet" href="source/plugin/lecturermanage/assets/style/lecturemanage.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/lecturermanage/assets/js/lecturer_common.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;创建讲师</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div id="lectSearchDiv" class="fpr"{if $change != 2} style="height: 70px;"{elseif $change != 1} style="height: 235px;"{/if}>
+		<div id="lectSearch"{if $change != 1} style="height: 235px;"{/if}>
+			<a id="lectSearchBtn" class="{if $change != 2}elpD{elseif $change != 1}elpU{/if} y" href="{if $change != 2}javascript:lectSearchUC(1);{elseif $change != 1}javascript:lectSearchUC(0);{/if}" hidefocus="true"></a>
+			<div id="lectSearchFieldSimple"{if $change != 1} style="display: none;"{/if}>
+				<form action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=groupmenu&lecturermanage_action=index" method="post" enctype="multipart/form-data">
+					<input type="text" name="name" id="name" value="$name" style="background: transparent;" onfocus="$('lectnamelabel').style.display = 'none';" onblur="trimWS(this); if(this.value == '') $('lectnamelabel').style.display = 'block';" />
+					<input type="hidden" name="change" id="change" value="1" />
+					<label for="name" id="lectnamelabel" class="xg1 xs2" style="cursor: text;">讲师姓名搜索</label>
+					<span></span>
+					<button type="submit" name="submit" class="pn"><em>讲师搜索</em></button>
+				</form>
+				<script type="text/javascript" charset="utf-8">
+					if($("name").value != "") {
+						$('lectnamelabel').style.display = 'none';
+					}
+				</script>
+			</div>
+			
+			<div id="lectSearchFieldComplex"{if $change != 2} style="display: none;"{/if}>
+				<form action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=groupmenu&lecturermanage_action=index" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="change" id="change" value="2" />
+					<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+						<tr>
+							<th>
+								讲师类型:
+							</th>
+						    <td>
+						    	<input type="radio" name="isinnerlec" class="pr" value="1" onclick="showLectLevel(1);"{if $isinnerlec !=2} checked="checked"{/if} />内部讲师
+								<input type="radio" name="isinnerlec" class="pr" value="2" onclick="showLectLevel(2);"{if $isinnerlec ==2} checked="checked"{/if} />外部讲师
+						    </td>
+					  	</tr>
+					</table>
+					<div class="cl reHeight">
+						<div class="left z brdagroup">
+							<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+							  	<tr>
+									<th>
+										讲师姓名:
+									</th>
+								    <td>
+								    	<input type="text" name="name" id="name" value="$name" class="px" style="width: 130px;" onblur="trimWS(this);"/>
+								    </td>
+							  	</tr>
+							  	<tr>
+									<th style="vertical-align: top;">
+										<p style="margin-top: 7px;">工作单位:</p>
+									</th>
+								    <td>
+								    	<input type="text" readonly="readonly" name="orgname_input" id="orgname_input" value="$orgname" class="px" style="width: 130px;" ondblclick="showWindow('orgtree', 'misc.php?mod=queryorg', 'get', 0);" />
+								    	<input type="hidden" id="orgname_input_id" name="orgname_input_id" value="$orgname_input_id">
+								    	<a href="misc.php?mod=queryorg" onclick="showWindow('orgtree', this.href, 'get', 0);">选择</a><br />
+										<input type="checkbox" name="includechild" {if $includechild==1}checked="checked"{/if} value="1" class="pc mtn" />
+										<label for="includechild" class="mtn">包含子机构</label>
+								    </td>
+							  	</tr>
+							</table>
+						</div>
+						<div class="right">
+							<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+								<tr>
+									<th>
+										讲师级别:
+									</th>
+								    <td>
+								    	<input type="text" name="rank_inner" id="innerRank" value="$rank_inner" class="px" style="width: 130px; {if $isinnerlec == 2}display: none;{/if}" onblur="trimWS(this);"/>
+								    	<select id="OutterRank" name="rank_outter" class="ps"{if $isinnerlec!=2} style="display: none;"{/if}>
+								    		<option value="0" {if $rank_outter ==0||!$rank_outter}selected="selected"{/if}>全部</option>
+											<option value="1" {if $rank_outter ==1}selected="selected"{/if}>荣誉教授</option>
+											<option value="2" {if $rank_outter ==2}selected="selected"{/if}>客座教授</option>
+											<option value="3" {if $rank_outter ==3}selected="selected"{/if}>专家教授</option>
+											<option value="4" {if $rank_outter ==4}selected="selected"{/if}>讲师</option>
+										</select>
+								    </td>
+							  	</tr>
+								<tr>
+									<th>
+										授课方向:
+									</th>
+								    <td>
+								    	<select name="teachdirection" class="ps">
+								    		<option value="0" <!--{if !$teachdirection || $teachdirection==1 }-->selected="selected"<!--{/if}-->>全部</option>
+											<option value="1" <!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>领导力发展与管理类</option>
+											<option value="2" <!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>营销类</option>
+											<option value="3" <!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>技术类</option>
+										</select>
+								    </td>
+							  	</tr>
+							  	<tr>
+									<th>
+										主要培训课程:
+									</th>
+								    <td>
+								    	<input type="text" name="course" id="course" value="$course" class="px" style="width: 130px;" onblur="trimWS(this);"/>
+								    </td>
+							  	</tr>
+							</table>
+						</div>
+					</div>
+					<p class="hm mtn"><button type="submit" name="submit" class="pn"><em>讲师搜索</em></button></p>
+				</form>
+			</div>
+		</div>
+		<div id="lectSearchShadow"{if $change != 1} style="margin-top: 193px;"{/if}></div>
+</div>
+
+
+<div id="lecturerlist" class="cl mtw fpr">
+	<!--{if !$lecturers}-->
+	<p class="xg1 hm">查找不到相关讲师</p>
+	<!--{else}-->
+	<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=lecturermanagemoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="listextra" value="$extra" />
+		<table border="0" cellspacing="0" cellpadding="0" class="lectList">
+			<tr>
+				<!--{if $_G['forum']['ismoderator']}-->
+				<th class="moderate"></th>
+				<!--{/if}-->
+				<th class="lectName">姓名</th>
+				<th class="lectLev">讲师级别</th>
+				<th class="teachdir">授课方向</th>
+				<th>工作单位</th>
+			</tr>
+			<!--{loop $lecturers $key $lecturer}-->
+			<tr class="line{eval echo ($key%2)}">
+				<!--{if $_G['forum']['ismoderator']}-->
+				<td class="moderate"><span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$lecturer[id]" /></span></td>
+				<!--{/if}-->
+				<td class="lectName"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$lecturer[id]">$lecturer[name]</a></td>
+				<td class="lectLev">$lecturer[rank]</td>
+				<td class="teachdir">
+					<!--{if $lecturer[teachdirection]==1}-->
+					领导力发展与管理类
+					<!--{elseif $lecturer[teachdirection]==2}-->
+					营销类
+					<!--{elseif $lecturer[teachdirection]==3}-->
+					技术类
+					<!--{/if}-->
+				</td>
+				<td class="noborder" style="text-align: left;">$lecturer[orgname]</td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+		<div class="pgs cl bm mtw">$multipage</div>
+		<!--{if $_G['forum']['ismoderator']}-->
+		<div id="mdly" style="display: none;">
+			<input type="hidden" name="optgroup" />
+			<input type="hidden" name="operation" />
+			<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+			<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+			<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>位: </span></h6>
+			<p>
+			<!--{if $_G['group']['allowdelpost']}-->
+				<strong><a href="javascript:;" onclick="tmodlecturers(3, 'delete');return false;">删除</a></strong>
+				<!--<strong><a href="javascript:;" onclick="tmodlecturers(3, 'ischeck');return false;">移动</a></strong>-->
+			<!--{/if}-->
+			</p>
+		</div>
+		<!--{/if}-->
+	</form>
+	<!--{/if}-->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+if(BROWSER.ie && BROWSER.ie < 8) {
+	attachEventListener($("lectnamelabel"), "click", function() {
+		$("name").focus();
+	}, false);
+}
+
+function showLectLevel(type){
+	if(type == 1) {
+		$("innerRank").value = "";
+		$("innerRank").style.display = "block";
+		$("OutterRank").style.display = "none";
+	} else if(type == 2) {
+		$("innerRank").style.display = "none";
+		$("OutterRank").style.display = "block";
+	}
+}
+
+/* mode: 0 show simple 1 show complex */
+function lectSearchUC(mode) {
+	var easeIntervalProcess;
+	var speed = 40;
+	var duration = 300;
+	var originalLectSearch0 = 65;
+	var originalLectSearchDiv0 = 70;
+	var originalLectSearch1 = 235;
+	var originalLectSearchDiv1 = 240;
+
+	var times = Math.round(duration * fps / 1000);
+	var step = Math.ceil(Math.abs(originalLectSearch1 - originalLectSearch0) / times);
+	var posi0, posi1;
+	if(mode) {
+		posi0 = originalLectSearch0;
+		posi1 = originalLectSearchDiv0;
+		fadeOut($("lectSearchFieldSimple"));
+	} else {
+		posi0 = originalLectSearch1;
+		posi1 = originalLectSearchDiv1;	
+		fadeOut($("lectSearchFieldComplex"));
+		$("lectSearchShadow").style.display = "none";
+	}
+	
+	clearInterval(easeIntervalProcess);
+	easeIntervalProcess = setInterval(function() {
+		if(times) {
+			if(mode) {
+				posi0 += step;
+				posi1 += step;
+			} else {
+				posi0 -= step;
+				posi1 -= step;
+			}
+			$("lectSearch").style.height = posi0 + "px";
+			$("lectSearchDiv").style.height = posi1 + "px";
+			times--;
+		} else {
+			clearInterval(easeIntervalProcess);
+			if(mode){
+				$("lectSearch").style.height = originalLectSearch1 + "px";
+				$("lectSearchDiv").style.height = originalLectSearchDiv1 + "px";
+				fadeIn($("lectSearchFieldComplex"));
+				$("lectSearchShadow").style.marginTop = "193px";
+				$("lectSearchBtn").href = "javascript:lectSearchUC(0);";
+				$("lectSearchBtn").className = "elpU y";
+			} else {
+				$("lectSearch").style.height = originalLectSearch0 + "px";
+				$("lectSearchDiv").style.height = originalLectSearchDiv0 + "px";
+				fadeIn($("lectSearchFieldSimple"));
+				$("lectSearchShadow").style.display = "block";
+				$("lectSearchShadow").style.marginTop = "23px";
+				$("lectSearchBtn").href = "javascript:lectSearchUC(1);";
+				$("lectSearchBtn").className = "elpD y";
+			}
+		}
+	}, Math.round(duration / times));
+}
+</script>

@@ -1,0 +1,38 @@
+<div id="searchbox1">
+	<form id="postform" method="post" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=lecturermanage&plugin_op=groupmenu" target="_blank">
+	<input type="hidden" name="isinnerlec" value="2"/>
+	<table>
+		<tr>
+			<th>姓名</th>
+			<td><input type="text" name="name"/></td>
+		</tr>
+		<tr>
+			<th>级别</th>
+			<td><select name="rank">
+					<option value="0">全部</option>
+					<option value="1">客座教授</option>
+					<option value="2">荣誉教授</option>
+					<option value="3">专家教授</option>
+					<option value="4">讲师</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>授课方向</th>
+			<td><select>
+					<option value="0">全部</option>
+					<option value="1">领导力发展与管理类</option>
+					<option value="2">营销类</option>
+					<option value="3">技术类</option>
+					<option value="4">通用类</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" name="submit" value="搜索讲师"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>

@@ -1,0 +1,49 @@
+<div id="{$editorid}_editortoolbar" class="editortoolbar">
+	<div class="p_pop simple_menu" id="{$editorid}_smp_menu" style="display: none">
+	<ul unselectable="on">
+		<li id="{$editorid}_bold" onclick="discuzcode('bold')" onmouseover="setEditorTip('{lang e_bold}')" unselectable="on"><a href="javascript:;" title="{lang e_bold}">{lang e_bold_title}</a></li>
+		<li id="{$editorid}_italic" onclick="discuzcode('italic')" onmouseover="setEditorTip('{lang e_italic}')" unselectable="on"><a href="javascript:;" title="{lang e_italic}">{lang e_italic_title}</a></li>
+		<li id="{$editorid}_underline" onclick="discuzcode('underline')" onmouseover="setEditorTip('{lang e_underline}')" unselectable="on"><a href="javascript:;" title="{lang e_underline}">{lang e_underline_title}</a></li>
+		<li id="{$editorid}_strikethrough" onclick="discuzcode('strikethrough')" onmouseover="setEditorTip('{lang e_strike}')" unselectable="on"><a href="javascript:;" title="{lang e_strike}">{lang e_strike_title}</a></li>
+		<li id="{$editorid}_inserthorizontalrule" onclick="discuzcode('inserthorizontalrule')" onmouseover="setEditorTip('{lang e_hr}')" unselectable="on"><a href="javascript:;" title="{lang e_hr}">{lang e_hr_title}</a></li>
+	</ul>
+	</div>
+
+	<!--{eval $fontoptions = array({lang e_fontoptions})}-->
+	<div class="p_pop fnm" id="{$editorid}_fontname_menu" style="display: none">
+	<ul unselectable="on">
+	<!--{loop $fontoptions $fontname}-->
+		<li onclick="discuzcode('fontname', '$fontname')" style="font-family: $fontname" unselectable="on"><a href="javascript:;" title="$fontname">$fontname</a></li>
+	<!--{/loop}-->
+	</ul>
+	</div>
+
+	<!--{eval $sizeoptions = array(1, 2, 3, 4, 5, 6, 7)}-->
+	<div class="p_pop fszm" id="{$editorid}_fontsize_menu" style="display: none">
+	<ul unselectable="on">
+	<!--{loop $sizeoptions $size}-->
+		<li onclick="discuzcode('fontsize', $size)" unselectable="on"><a href="javascript:;" title="$size"><font size="$size" unselectable="on">$size</font></a></li>
+	<!--{/loop}-->
+	</ul>
+	</div>
+
+	<div class="p_pop simm" id="{$editorid}_prg_menu" style="display: none">
+	<ul unselectable="on">
+		<li><a id="{$editorid}_justifycenter" onclick="discuzcode('justifycenter')" unselectable="on">{lang e_center}</a></li>
+		<li><a id="{$editorid}_justifyleft" onclick="discuzcode('justifyleft')" unselectable="on">{lang e_left}</a></li>
+		<li><a id="{$editorid}_justifyright" onclick="discuzcode('justifyright')" unselectable="on">{lang e_right}</a></li>
+		<li><a id="{$editorid}_autotypeset" onclick="discuzcode('autotypeset')" unselectable="on">{lang e_autotypeset}</a></li>
+	</ul>
+	</div>
+
+	<div class="p_pop simple_menu" id="{$editorid}_lst_menu" style="display: none">
+	<ul unselectable="on">
+		<li id="{$editorid}_insertorderedlist" onclick="discuzcode('insertorderedlist')" unselectable="on"><a href="javascript:;" title="{lang e_orderedlist}">{lang e_orderedlist}</a></li>
+		<li id="{$editorid}_insertunorderedlist" onclick="discuzcode('insertunorderedlist')" unselectable="on"><a href="javascript:;" title="{lang e_unorderedlist}">{lang e_unorderedlist}</a></li>
+	</ul>
+	</div>
+
+</div>
+
+<script type="text/javascript" src="data/cache/common_smilies_var.js?{VERHASH}"></script>
+<script type="text/javascript">try{smilies_show('smiliesdiv', $_G['setting']['smcols'], editorid + '_');}catch(e){};</script>

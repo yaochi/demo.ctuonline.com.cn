@@ -1,0 +1,53 @@
+{template common/header}
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<div id="main_messaqge" style="width: 600px;">
+<h3 class="flb"><em>学习力评估</em> <!--{if $_G[inajax]}--><span><a
+	href="javascript:;"
+	onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');"
+	class="flbc" title="关闭">关闭</a></span><!--{/if}--></h3>
+<div class="tl" style="position: relative;">
+<table cellspacing="0" cellpadding="0" border="0">
+<thead>	<tr>
+	<input type="hidden" id="fastpostmessage" name="fastpostmessage"/>
+				<td class="icn">&nbsp;</td>
+				<td>名称</td>
+				<td class="by">提交人</td>
+				<td class="by">证明人</td>
+				<td class="by">创建时间</td>
+	</tr>
+	</thead>
+	<tbody>
+	<!--{loop $publeararr $arr}-->
+	<tr class="line{eval echo ($key%2)}">
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id="">
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=alter&learnid=$arr[id]" onclick="cl()">$arr[learnname]</a>
+			</span></td>
+			<td><em >$arr[subrealname]</em></td>
+			<td><em >$arr[Witnessrealname]</em></td>
+			<td>{eval echo dgmdate($arr[subdateline])}</td>
+		</tr>
+
+		<!--{/loop}-->
+		</tbody>
+</table>
+		<img src="{IMGDIR}/loading.gif" width="16" height="16" style="display: none;" />
+<p class="xcred mtm hm" style="display: none">意见内容不能为空！</p>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">
+function cleanWindow(isForced) {
+var aplInput = $("fastpostmessage");
+var loadingimg = $("main_messaqge").getElementsByTagName("img")[0];
+var promptInfo = $("main_messaqge").getElementsByTagName("p")[0];
+isForced ? aplInput.value = "" : "";
+isForced ? promptInfo.style.display = "none" : "";
+}
+function cl(){
+cleanWindow(true);
+	    hideWindow('$_G[gp_handlekey]');
+}
+</script>
+{template common/footer}

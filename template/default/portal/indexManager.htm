@@ -1,0 +1,205 @@
+
+<!--{if $indexList}-->
+<form name="adform" class="bm" method="post" action="admin.php?action=portal" id="adform" onsubmit="return checkform();">
+<input name="operation"   id="operation"   value ="ignore"  type ="hidden"/>
+ <table class="tbcommon tb2 fixpadding">
+   <tr><th class="partition" colspan="5">以下为ESN首页内容</th></tr>
+   
+<!--{loop $indexList $bid $value}-->
+
+	<tr class="header" >
+	  <th colspan='4'>$value['blockname']</th>
+	  <th></th>
+	  <th></th>
+	</tr>
+	
+		
+	<!--{loop $value['listdata'] $tid $item}-->				
+		<!--{if $item[id]}-->
+			<tr class="hover">      
+				
+				<td class="td25"><input  
+				 
+				  class="checkbox" type="checkbox" name="is_delete[{$value[blockclass]}][{$item[contenttype]}][{$item[id]}]" value="1" />
+				</td>
+				<td >
+				<a href="$item[url]" title="$item[name]<!--{if !$item[name]}-->$item[title]<!--{/if}-->" target="_blank">$item[name]<!--{if !$item[name]}-->$item[title]<!--{/if}-->
+				</a></td>
+				<td >
+				
+				<a href="javascript:ignore('is_delete[{$value[blockclass]}][{$item[contenttype]}][{$item[id]}]');" class="act">屏蔽</a>
+				<a href="javascript:deleteObject('is_delete[{$value[blockclass]}][{$item[contenttype]}][{$item[id]}]');" class="act">删除</a>
+				
+				</td>
+				
+			</tr>
+	      <!--{/if}-->      
+   <!--{/loop}-->
+
+		<tr class="hover"><td colspan='4'></td></tr>
+
+<!--{/loop}-->
+<tr>
+
+<!--   
+<th class="partition" >
+<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll('prefix', this.form, 'delete')" />
+        <label for="chkall">屏蔽</label>
+</th>
+
+
+
+
+<th >
+        <div class="fixsel">
+            <button id="newspecial" class="pn pnc" type="submit" name="adsubmit">
+				<span>提交</span>
+			</button>
+        </div></th>   
+</th>
+-->
+</tr>
+
+
+ </table>
+<input type='hidden' name='delsubmit' value='1'/>
+</form>
+<!--{else}-->
+			
+	<p>{lang group_no_content_manage}</p>
+<!--{/if}-->
+
+
+<script src="static/js/common.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+function ignore(objname){
+	var obj = document.getElementsByName(objname);
+	var len = obj.length;
+	document.adform.operation.value="ignore";
+	
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj[i];		
+		objtmp.checked='checked';
+	}
+	flag = confirm('确定屏蔽?');
+			
+	if(flag){
+		document.adform.submit();
+	}
+	
+
+}
+function deleteObject(objname){
+	var obj = document.getElementsByName(objname);
+	var len = obj.length;
+	document.adform.operation.value="delete";
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj[i];		
+		objtmp.checked='checked';
+	}
+	flag = confirm('确定删除?');
+			
+	if(flag){
+		document.adform.submit();
+	}
+	
+
+}
+
+
+// @zic from Discuz!X source code
+// 2010-8-4
+// 多行记录选中
+function checkAll(type, form, value, checkall, changestyle) {
+	document.adform.operation.value="ignore";
+	var checkall = checkall ? checkall : 'chkall';
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(type == 'option' && e.type == 'radio' && e.value == value && e.disabled != true) {
+			e.checked = true;
+		} else if(type == 'value' && e.type == 'checkbox' && e.getAttribute('chkvalue') == value) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle) {
+				multiupdate(e);
+			}
+		} else if(type == 'prefix' && e.name && e.name != checkall && (!value || (value && e.name.match(value)))) {
+			e.checked = form.elements[checkall].checked;
+			if(changestyle && e.parentNode && e.parentNode.tagName.toLowerCase() == 'li') {
+				e.parentNode.className = e.checked ? 'checked' : '';
+			}
+		}
+	}
+}
+/*
+ * @zic
+ * 2010-8-10
+ * 检查表单
+ */
+function checkform(){
+    var flag = true;
+	
+	flag = confirm('确定提交吗?');
+	/*
+    // 取出“是否删除”的所有对象
+    var obj = getArrObj("is_delete");
+
+    // 判断是否勾选删除
+    flag = alertDelete(obj);
+    
+    //alert("in checkform, flag="+flag);
+
+	*/
+
+    return flag;
+}
+
+/* 
+* 循环取出对象;
+*/
+function getArrObj(inputName){
+
+	// 取出
+	var obj = new Array();
+	<!--{loop $adEntitys $adEntity}-->
+	var tmp = inputName+"[{$adEntity[id]}][]";
+	obj.push(document.getElementsByName(tmp));
+	<!--{/loop}-->
+	
+	return obj;
+}
+
+// 有删除时提示
+// update 2010-08-26
+function alertDelete(obj){
+	var len = obj.length;
+	var flag = false;
+	
+	var i = 0;
+	for(i=0;i<len;i++){
+		// 在列表中，从下往上取出一行数据；
+		var objtmp = obj.pop();
+		
+		// 判断每行首个元素是否勾选
+		if(objtmp.item(0).checked){			
+			// 如果取消删除，则清空删除	
+			flag = confirm('确定删除记录?');
+			
+			if(!flag){
+				objtmp.item(0).value = 0;
+				objtmp.item(0).checked = "";
+                                //var form = document.getElementsByName("adform");
+                                //checkAll('prefix', form, '');
+			}
+			//alert(objtmp.item(0).checked);
+			return flag;
+		}
+	}	
+	//alert("no delete Item");
+	return true;
+
+}
+
+</script>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X1]]></item>
+	<item id="Time"><![CDATA[2010-07-22 13:14]]></item>
+	<item id="From"><![CDATA[Discuz! Board (http://localhost/forum/)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[0]]></item>
+			<item id="adminid"><![CDATA[0]]></item>
+			<item id="name"><![CDATA[提问吧]]></item>
+			<item id="identifier"><![CDATA[qbar]]></item>
+			<item id="description"><![CDATA[]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[qbar/]]></item>
+			<item id="copyright"><![CDATA[2010-2011,China telecom]]></item>
+			<item id="modules"><![CDATA[a:0:{}]]></item>
+			<item id="version"><![CDATA[1.0]]></item>
+		</item>
+		<item id="version"><![CDATA[X1]]></item>
+	</item>
+</root>

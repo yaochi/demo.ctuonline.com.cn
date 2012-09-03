@@ -1,0 +1,129 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang favorite}');}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo;
+	<a href="home.php?mod=space&do=favorite">{lang favorite}</a> &rsaquo;
+	<a href="home.php?mod=space&uid=$space[uid]&do=favorite&view=me">{$space[username]}{lang somebody_favorite}</a>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl bgnoz">
+	<div class="mn bgwhite mn_home fpr" style="min-height:2000px;">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_favorite_header}
+		</div>
+
+		<div class="bm">
+			{hook/space_favorite_top}
+			<h1 class="mt"><img alt="favorite" src="{STATICURL}image/feed/favorite.gif" class="vm" /> {lang favorite}</h1>
+			{hook/space_favorite_bottom}
+
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang favorite}</h1>
+<!--{/if}-->
+				<div id="ffp" class="cl"></div>
+				<div id="filterType"></div>
+				<div id="feed_div" class="e">
+					<div class="xld xlda">
+						<div id="feed"></div>
+					</div>
+				</div>
+				<div class="pg"></div>
+				<div id="ajax_wait"></div>
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd" style="overflow: visible;">
+		{template common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_feed.js?{VERHASH}" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	function favorite_delete(favid) {
+		var el = $('fav_' + favid);
+		if(el) {
+			el.style.display = "none";
+		}
+	}
+
+jQuery(document).ready(function() {
+	load_wait();
+	flag = 'favorite';
+	feedSign = false;
+	pageReset();
+	load_favorite_feed(UID, currNum, initNum, '', '');
+	currNum += initNum;
+
+	appendFilter();
+});
+
+function load_favorite_feed(uid, num, size, idtype, func){
+
+	jQuery.getJSON("api/blog/api_favoritelist.php?uid=" + uid +"&num="+num+"&size="+size+"&idtype="+idtype ,function(data){
+		if( data != null && data.data){
+		  	clear_load_wait();
+			var string = get_bodyCont(data.data, '');
+			jQuery("#feed").append(string);
+
+			feed_msie("#feed");
+			fetchFeedAuth('#feed');
+			
+			update_timestr();
+			jQuery(".commentSay").trigger("myCustomEvent");
+			jQuery('textarea[name=message]').trigger("myCustomEvent2");
+			if( feedSign == true ){dl_count(data.data.length);load_pager();}
+		}else{
+			if( feedSign == false){
+				jQuery("#load_wait").html('<br><br><p style=" text-align:center; margin:0px auto;"><br><br>非常抱歉,没有收藏！</p><br><br>');
+			}
+			if( feedSign == true ){dl_count();load_pager();}
+		}
+		if (func) func();
+	});
+}
+
+function loadfilterType(idtype){
+	load_wait();
+	//flag = 'follow';
+	feedSign = false;
+	typeStr = idtype;
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	disFilterCheck(true);
+	load_favorite_feed(UID, currNum, initNum, typeStr, function(){
+			disFilterCheck(false);
+		});
+	currNum += initNum;
+}
+</script>
+<!--{template common/footer}-->

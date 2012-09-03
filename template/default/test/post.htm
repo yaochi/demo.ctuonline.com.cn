@@ -1,0 +1,80 @@
+<!--{template common/header}-->
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum.js?{VERHASH}"></script>
+<form id="postform" method="post" action="test.php?mod=editor&ac=save" onsubmit="editorsubmit(this)">
+    <input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+<div class="edt">
+    <div id="{$editorid}_controls" class="bar">
+        <span id="{$editorid}_switcher" class="y">
+            <label><input type="checkbox" class="pc" name="checkbox" value="0" {if !$editor[editormode]}checked="checked"{/if} onclick="switchEditor(this.checked?0:1)" />纯文本</label><br />
+            <a id="{$editorid}_fullswitcher"></a>
+        </span>
+        <div class="btn cl">
+            <div class="b1r">
+                <a id="{$editorid}_paste" title="{lang e_paste}">{lang e_paste}</a>
+            </div>
+           <!-- <div class="b2r">
+                <a id="{$editorid}_undo" title="{lang e_undo}">Undo</a>
+                <a id="{$editorid}_redo" title="{lang e_redo}">Redo</a>
+                <p>
+                    <a id="{$editorid}_svd" title="{lang post_savedata}">Savedata</a>
+                    <a id="{$editorid}_rst" title="{lang post_autosave_restore}">Loaddata</a>
+                </p>
+            </div>-->
+            <div class="b2r">
+                <a id="{$editorid}_smp" title="{lang e_bold}">B</a>
+                <a id="{$editorid}_fontname" title="{lang e_fontname}">Font</a>
+                <a id="{$editorid}_fontsize" title="{lang e_fontsize}">Size</a>
+                <a id="{$editorid}_forecolor" title="{lang e_forecolor}">Color</a>
+                <p>
+                    <a id="{$editorid}_tbl" title="{lang e_table}">Table</a>
+                    <a id="{$editorid}_chck" title="{lang post_check_length}">Checklength</a>
+                    <a id="{$editorid}_removeformat" title="{lang e_removeformat}">Removeformat</a>
+                    <a id="{$editorid}_tpr" title="{lang post_topicreset}">Clearcontent</a>
+                </p>
+            </div>
+            <div class="b2r">
+                <a id="{$editorid}_url" title="{lang e_url}">Url</a>
+                <a id="{$editorid}_prg" title="{lang e_paragraph}">P</a>
+                <!--{if $isfirstpost && $_G['group']['allowhidecode']}-->
+                <a id="{$editorid}_hide" title="{lang e_hide}">Hide</a>
+                <!--{/if}-->
+                <p>
+                    <a id="{$editorid}_unlink" title="{lang e_unlink}">Unlink</a>
+                    <a id="{$editorid}_lst" title="{lang e_list}">List</a>
+                </p>
+            </div>
+
+            <div class="b1r">
+                <a id="{$editorid}_sml" title="{lang e_smilies_title}">{lang e_smilies}</a>
+                <div id="{$editorid}_imagen" style="display:none">!</div>
+                <a id="{$editorid}_image" title="{lang e_image_title}">{lang e_image}</a>
+                <!--{if $_G['group']['allowpostattach']}-->
+                <div id="{$editorid}_attachn" style="display:none">!</div>
+                <a id="{$editorid}_attach" title="{lang e_attach_title}">{lang e_attach}</a>
+                <!--{/if}-->
+                <!--{if $_G['forum']['allowmediacode']}-->
+                <a id="{$editorid}_aud" title="{lang e_audio_title}">{lang e_audio}</a>
+                <a id="{$editorid}_vid" title="{lang e_video_title}">{lang e_video}</a>
+                <a id="{$editorid}_fls" title="{lang e_flash_title}">{lang e_flash}</a>
+                <!--{/if}-->
+                <a id="{$editorid}_code" title="{lang e_code_title}">{lang e_code}</a>
+                <a id="{$editorid}_quote" title="{lang e_quote_title}">{lang e_quote}</a>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="area">
+        <textarea name="$editor[textarea]" id="{$editorid}_textarea" class="pt" tabindex="1" rows="15">$editor[value]</textarea>
+    </div>
+				{subtemplate common/editor}
+</div>
+    <input type="submit" id="postsubmit" name="submit" value="保存"/>
+    </form>
+<div id="{$editorid}_menus" class="editorrow" style="overflow: hidden; margin-top: -5px; height: 0; border: none; background: transparent;">
+	{subtemplate common/editor_menu}
+	{subtemplate forum/editor_menu_forum}
+</div>
+
+<!--{template common/footer}-->

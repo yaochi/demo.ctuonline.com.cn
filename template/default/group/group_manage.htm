@@ -1,0 +1,613 @@
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>管理专区</h2>
+	</div>
+</div>
+
+<div class="bm">
+	<p class="tbmu">
+		<a href="forum.php?mod=group&action=manage&op=group&fid=$_G[fid]"{if $_G['gp_op'] == 'group'} class="a"{/if}>{lang group_setup}</a>
+	<!--{if !empty($groupmanagers[$_G[uid]])}-->
+		 | <a href="forum.php?mod=group&action=manage&op=managecontent&fid=$_G[fid]"{if $_G['gp_op'] == 'managecontent'} class="a"{/if}>{lang group_content}</a>
+		 | <a href="forum.php?mod=group&action=manage&op=checkuser&fid=$_G[fid]"{if $_G['gp_op'] == 'checkuser'} class="a"{/if}>{lang group_member_moderate}</a>
+		 | <a href="forum.php?mod=group&action=manage&op=manageuser&fid=$_G[fid]"{if $_G['gp_op'] == 'manageuser'} class="a"{/if}>{lang group_member_management}</a>
+         | <a href="forum.php?mod=group&action=manage&op=manageplugin&fid=$_G[fid]" {if $_G['gp_op'] == 'manageplugin'} class="a"{/if}>组件管理</a>
+                  | <a href="$_G[config][expert][liveurl]/manage/stats.do?action=stats&group=$_G[fid]" target="_blank">直播统计</a>
+         <!--{if group_is_group_moderator($_G[fid], $_G[uid]) }-->
+         | <a href="forum.php?mod=group&action=manage&op=manageempirical&fid=$_G[fid]" {if $_G['gp_op'] == 'manageempirical'} class="a"{/if}>经验值管理</a>
+         | <a href="forum.php?mod=group&action=manage&op=manage_level&fid=$_G[fid]" {if $_G['gp_op'] == 'manage_level'} class="a"{/if}>经验值等级管理</a>
+         <!--{/if}-->
+         <!-- {if $pluginStatus} -->
+         | <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=groupad&plugin_op=groupmenu"{if $_G['gp_action'] == 'plugin'} class="a"{/if}>广告管理</a>
+         <!-- {/if}-->
+		  <!-- {if $pluginuse[repeats]&&  $_G['forum']['founderuid'] == $_G['uid']} -->
+         | <a href="forum.php?mod=group&action=plugin&plugin_name=repeats&fid=$_G[fid]&plugin_op=groupmenu"{if $_G['gp_op'] == 'manage_stationcourse'} class="a"{/if}>马甲管理</a>
+         <!-- {/if}-->
+         <!-- {if $pluginuse[stationcourse]} -->
+         | <a href="forum.php?mod=group&action=manage&op=manage_stationcourse&fid=$_G[fid]"{if $_G['gp_op'] == 'manage_stationcourse'} class="a"{/if}>岗位课程管理</a>
+         <!-- {/if}-->
+		 <!-- {if $pluginuse[shlecturer]} -->
+		 | <a href="forum.php?mod=group&action=manage&op=manage_shlecturer&fid=$_G[fid]"{if $_G['gp_op'] == 'manage_shlecturer'} class="a"{/if}>讲师库管理</a>
+		 <!-- {/if}-->
+         <!-- {if $pluginuse[shresourcelist]} -->
+         | <a href="forum.php?mod=group&action=manage&op=manage_shresourcelist&fid=$_G[fid]"{if $_G['gp_op'] == 'manage_shresourcelist'} class="a"{/if}>资源列表管理</a>
+         <!-- {/if}-->
+		 <!-- {if $pluginuse[extraresource]} -->
+		  | <a href="forum.php?mod=group&action=manage&op=manage_extraresource&fid=$_G[fid]"{if $_G['gp_op'] == 'manage_extraresource'} class="a"{/if}>外部资源导入</a>
+		 <!-- {/if}-->
+
+    <!--{/if}-->
+	<!--{if $_G['forum']['founderuid'] == $_G['uid']}-->
+		 | <a href="forum.php?mod=group&action=manage&op=demise&fid=$_G[fid]"{if $_G['gp_op'] == 'demise'} class="a"{/if}>{lang group_demise}</a>
+	<!--{/if}-->
+	<!--{if $_G['forum']['founderuid'] == $_G['uid']||$_G[group][groupid]=='1'}-->
+		 | <a href="forum.php?mod=group&action=manage&op=delete&fid=$_G[fid]"{if $_G['gp_op'] == 'delete'} class="a"{/if}>{lang group_delete}</a>
+	<!--{/if}-->
+	</p>
+</div>
+	<!--{if $_G['gp_op'] == 'group'}-->
+	<div class="bm">
+		<h1 class="wx xg1 xs3">基本设置</h1>
+		<form enctype="multipart/form-data" action="forum.php?mod=group&action=manage&op=group&fid=$_G[fid]" name="manage" method="post" autocomplete="off">
+			<input type="hidden" value="734fac48c6e8d107705174313b630794" name="hash"/>
+			<table cellspacing="0" cellpadding="0" class="tfm" summary="{lang group_admin_panel}">
+				<tbody>
+					<tr>
+						<th></th>
+						<td><strong class="rq"><em id="returnmessage4"></em></strong></td>
+					</tr>
+					<!--{if (!empty($specialswitch['allowchangename']) && $_G['uid'] == $_G['forum']['founderuid'])||$levelnum==1}-->
+					<tr>
+						<th><strong class="rq y">*</strong>{lang group_name}:</th>
+						<td><input type="text" id="name" name="name" class="px" size="36" tabindex="1" value="$_G[forum][name]" autocomplete="off" onBlur="checkgroupname()" tabindex="1" /></td>
+					</tr>
+					<!--{/if}-->
+					<tr>
+						<th>{lang group_description}</th>
+						<td><textarea name="descriptionnew" class="pt" rows="3" cols="40">$_G[forum][descriptionnew]</textarea></td>
+					</tr>
+					<tr>
+						<th>{lang group_tag}</th>
+						<td>
+							<input type="text" name="tagnew" id="tagnew" class="px" size="36" tabindex="1" value="$_G[forum][tagnew]" readonly onclick="javascript:onSelect();" />
+                            <input name="tagnews" id="tagnews" type="hidden" class="px" size="36" tabindex="1" value="$_G[forum][tagids]" />
+							<p class="d">{lang group_tag_notice}</p>
+						</td>
+					</tr>
+					<tr>
+						<th>{lang group_perm_visit}</th>
+						<td><label><input type="radio" name="gviewpermnew" class="pr" value="1" $gviewpermselect[1]> {lang group_perm_all_user}</label> <label><input type="radio" name="gviewpermnew" class="pr" value="0" $gviewpermselect[0]> {lang group_perm_member_only}</label></td>
+					</tr>
+					<tr>
+						<th>{lang group_join_type}</th>
+						<td>
+                            <!--{if $_G[forum][group_type][group_type]!=1}-->
+							<label><input type="radio" name="jointypenew" class="pr" value="0" $jointypeselect[0] /> {lang group_join_type_free} </label>
+							<label><input type="radio" name="jointypenew" class="pr" value="1" $jointypeselect[1] /> {lang group_join_type_invite} </label>
+							<label><input type="radio" name="jointypenew" class="pr" value="2" $jointypeselect[2] /> {lang group_join_type_moderate} </label>
+                            <!--{/if}-->
+							<label><input type="radio" name="jointypenew" class="pr" value="3" $jointypeselect[3] /> {lang group_join_type_forbid} </label>
+							<!--{if !empty($specialswitch['allowclosegroup']) && $_G['uid'] == $_G['forum']['founderuid']}-->
+							<input type="radio" name="jointypenew" class="pr" value="-1" $jointypeselect[-1] /> {lang close}
+							<p class="d">{lang group_close_notice}</p>
+							<!--{/if}-->
+						</td>
+					</tr>
+
+
+					<!--{if false}--><!--屏蔽 by songsp 2010-11-30 -->
+					<!--{if !empty($_G['group']['allowupbanner']) || $_G['adminid'] == 1}-->
+					<tr>
+						<th>{lang group_image}</th>
+							<td>
+								<input type="file" name="bannernew" id="bannernew" class="pf" size="25" />
+						<!--{if $_G['forum']['banner']}-->
+								<input type="checkbox" name="deletebanner" class="pc" value="1" /> {lang group_no_image}
+								<p class="d">{lang group_no_image_comment}</p>
+							</td>
+						<tr>
+							<th></th>
+							<td><img width="544" src="$_G[forum][banner]?{TIMESTAMP}" />
+						<!--{/if}-->
+							<p class="d">
+								{lang group_image_resize} &nbsp;
+								<!--{if $_G[setting][group_imgsizelimit]}-->
+									{lang group_image_filesize_limit}
+								<!--{/if}--><br/>
+                                图片会在24小时之内更新
+							</p>
+							</td>
+					</tr>
+					<!--{/if}-->
+
+					<!--{/if}-->
+
+					<tr>
+						<th>{lang group_icon}</th>
+						<td>
+							<input type="file" id="iconnew" class="pf" size="25" style="vertical-align: middle;" name="iconnew" />
+							<p class="d">{lang group_icon_resize}</p>
+							<!--{if $_G['forum']['icon']}-->
+								<img width="48" height="48" style="vertical-align: middle; margin-right: 1em;" src="$_G[forum][icon]?{TIMESTAMP}" />
+							<!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><button type="submit" name="groupmanage" class="pn pnp" value="1"><strong>{lang submit}</strong></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+	<!--{if !empty($groupmanagers[$_G[uid]]) && !check_is_expertuser($_G[uid]) }-->
+	<script type="text/javascript">
+	function invitekeep(id,fid,url){
+		var x = new Ajax();
+			x.get("api/api_time.php?keytime="+id+"&fid="+fid, function(s) {
+				url=url.substr(0,url.indexOf("&key"));
+				url=url+trim(s);
+
+				$('inviteURL').innerHTML=url;
+				$('inviteURL').href = url;
+				$('inviteurlp').innerHTML=url;
+				$('keytime').value=id;
+			/*	if(id=='-1'){
+					$('inviteURLSel').getElementsByTagName('span')[1].style.color='#FF0000';
+					$('inviteURLSel').getElementsByTagName('span')[4].style.color='#000000';
+					$('inviteURLSel').getElementsByTagName('span')[7].style.color='#000000';
+				}else if(id=='1'){
+					$('inviteURLSel').getElementsByTagName('span')[1].style.color='#000000';
+					$('inviteURLSel').getElementsByTagName('span')[4].style.color='#FF0000';
+					$('inviteURLSel').getElementsByTagName('span')[7].style.color='#000000';
+				}else{
+					$('inviteURLSel').getElementsByTagName('span')[1].style.color='#000000';
+					$('inviteURLSel').getElementsByTagName('span')[4].style.color='#000000';
+					$('inviteURLSel').getElementsByTagName('span')[7].style.color='#FF0000';
+				}*/
+				//$('inviteurltd').innerHTML="<a onclick='javascript:setCopy(\'"+url+"\', \'复制链接\');return false;' href='"+url+"' class='xw1'>"+url+"(复制)</a>";
+			});
+	}
+	</script>
+	<hr class="l" />
+	<div class="bm">
+		<h1 class="wx xg1 xs3">邀请加入</h1>
+		<form method="post" autocomplete="off" action="home.php?mod=spacecp&amp;ac=invite&amp;appid=0&amp;ref">
+			<table cellspacing="0" cellpadding="0" width="100%" class="tfm mbm" style="table-layout: fixed;">
+				<caption class="cl">
+					<h3 class="xw1">专区邀请链接</h3>
+					<p>您可以通过QQ、MSN等IM工具，或者发送邮件，把下面的链接告诉你的好友，邀请他们加入进来。</p>
+				</caption>
+				<tr>
+					<td width="130">请指定链接有效时间:</td>
+					<td>
+						<ul id="inviteURLSel" class="tbtn mbm">
+							<li>
+								<a href="javascript:;" onclick="invitekeep(-1,$_G[fid],'$inviteurl');">
+									<span class="tbtnLeftCap first"></span>
+									<span>永久</span>
+									<span class="tbtnRightCap"></span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:;" onclick="invitekeep(1,$_G[fid],'$inviteurl');">
+									<span class="tbtnLeftCap"></span>
+									<span>1天</span>
+									<span class="tbtnRightCap"></span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:;" onclick="invitekeep(7,$_G[fid],'$inviteurl');">
+									<span class="tbtnLeftCap"></span>
+									<span>1周</span>
+									<span class="tbtnRightCap last"></span>
+								</a>
+							</li>
+						</ul>
+						<script type="text/javascript" charset="utf-8">
+							tabButtonUC($("inviteURLSel"),2);
+						</script>
+						<a id="inviteURL" onclick="return false;" href="$inviteurl" class="xw1">$inviteurl</a>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="formhash" value="970256cc" />
+		</form>
+		<hr class="da" style="margin: 0;" />
+		<script src="http://widgets.manyou.com/misc/scripts/ab.js" type="text/javascript" charset="utf-8"></script>
+		<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=invite&type=mail&appid=0&fid={$_G['fid']}&ref" onsubmit="return checkemail();">
+			<input type="hidden" name="sitename" value="{$_G['forum']['name']}" />
+			<input type="hidden" name="keytime" id="keytime" value="-1" />
+			<table cellspacing="0" cellpadding="0" class="tfm mbm">
+				<caption>
+					<h3 class="xw1">给好友发送 Email 邀请</h3>
+					<p>通过Email发送邮件的方式，邀请你的好友。多个Email使用","分割。</p>
+				</caption>
+				<tr>
+					<td>
+						<p class="d">好友Email地址</p>
+						<textarea name="email" id="email" rows="3" class="pt" style="width:95%;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p class="d">想对好友说的话</p>
+						<input type="text" name="saymsg" id="saymsg" onkeyup="showPreview(this.value, 'sayPreview')" class="px" style="width:95%;">
+					</td>
+				</tr>
+				<tr>
+					<td><button type="submit" name="emailinvite" value="true" class="pn pnp"><strong>邀请</strong></button></td>
+				</tr>
+			</table>
+			<hr class="da" style="margin: 0;" />
+			<table cellspacing="0" cellpadding="0" width="100%" class="tfm" style="table-layout: fixed;">
+				<caption><h3 class="xw1">预览邀请函</h3></caption>
+				<tr>
+					<td valign="top" width="140"><div class="avt avtm"><img src="$_G['forum']['icon']" /></div></td>
+					<td valign="top">
+						<h4>Hi，我是{eval echo user_get_user_name_by_username($_G['username'])}，邀请你也加入{eval echo $_G['forum']['name']}。</h4>
+						<p class="mtm">邀请附言:</p>
+						<p id="sayPreview" class="exfm" style="width: 420px;"></p>
+						<h4 class="mtm">请你点击以下链接，接受邀请:</h4>
+						<p id='inviteurlp'>$inviteurl</p>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="formhash" value="970256cc" />
+		</form>
+	</div>
+	<!--{/if}-->
+
+<script type="text/javascript">
+	function checkemail(){
+		var email = $('email');
+		if (email) {
+			var slen = strlen(email.value);
+			if (slen < 1) {
+				showDialog("请填写email");
+				email.focus();
+				return false;
+			}else{
+					var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+					chkFlag = pattern.test(email.value);
+					if(chkFlag){
+
+					}
+					else
+					{
+						showDialog("邮箱地址的格式不正确！");
+						email.focus();
+						return false;
+					}
+			}
+		}
+	}
+	function checkgroupname() {
+		var oldgroupname = '$_G[forum][name]';
+		var groupname = trim($('name').value);
+		if(groupname != oldgroupname) {
+			ajaxget('forum.php?mod=ajax&forumcheck=1&infloat=creategroup&handlekey=creategroup&action=checkgroupname&groupname=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(groupname) : groupname), 'returnmessage4');
+		}
+	}
+    function select_tag_data(data){
+        var tagids=tagnames="";
+        for( var i=0;i<data.length;i++ )
+        {
+            var value = data[i].split(",");
+            tagids += (value[0]+",");
+            tagnames += (value[1]+" ");
+        }
+        document.getElementById("tagnews").value = tagids;
+        document.getElementById("tagnew").value = tagnames;
+        return true;
+    }
+    function onSelect(){
+        var tagids = document.getElementById("tagnews");
+        window.open ("group.php?mod=tag&operation=list&tagids="+tagids.value, "{lang submit}", "height=600, width=1100, top=100, left=100, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no") ;
+    }
+</script>
+	<!--{elseif $_G['gp_op'] == 'checkuser'}-->
+	<div class="bm">
+		<!--{if $checkusers}-->
+			<p class="pbn bbda cl"><em class="y"><a href="forum.php?mod=group&action=manage&op=checkuser&fid=$_G[fid]&checkall=2">{lang ignore_all}</a> | <a href="forum.php?mod=group&action=manage&op=checkuser&fid=$_G[fid]&checkall=1">{lang pass_all}</a></em></p>
+			<div class="xld xlda">
+			<!--{loop $checkusers $uid $user}-->
+				<dl class="bbda cl">
+					<dd class="m avt">{echo discuz_uc_avatar($user[uid], 'small')}</dd>
+					<dt><a href="home.php?mod=space&uid=$user[uid]" target="_blank"  title="<!--{eval echo user_get_user_name_by_username($user[username]);}-->"><!--{eval echo user_get_user_name_by_username($user[username]);}--></a> <span class="xw0">($user['joindateline'])</span></dt>
+					<dd class="pns"><button type="submit" name="checkusertrue" class="pn pnp" value="true" onclick="location.href='forum.php?mod=group&action=manage&op=checkuser&fid=$_G[fid]&uid=$user[uid]&checktype=1'"><em>{lang pass}</em></button> &nbsp; <button type="submit" name="checkuserfalse" class="pn" value="true" onclick="location.href='forum.php?mod=group&action=manage&op=checkuser&fid=$_G[fid]&uid=$user[uid]&checktype=2'"><em>{lang ignore}</em></button></dd>
+				</dl>
+			<!--{/loop}-->
+			</div>
+			<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+		<!--{else}-->
+			<p>{lang group_no_member_moderated}</p>
+		<!--{/if}-->
+	</div>
+	<!--{elseif $_G['gp_op'] == 'manageuser'}-->
+
+			<form action="forum.php?mod=group&action=manage&op=manageuser&fid=$_G[fid]" name="manageuser" method="post" autocomplete="off">
+				<!--{if $adminuserlist}-->
+					<div class="bm">
+						<h2>{lang group_admin_member}</h2>
+						<ul class="ml mls cl">
+							<!--{loop $adminuserlist $user}-->
+							<!--{if check_is_expertuser($user[uid])}-->
+							<li class="avt">
+								<!--{if $user['level'] == 1}-->
+									<em class="gm"></em>
+								<!--{elseif $user['level'] == 2}-->
+									<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+								<!--{/if}-->
+								<!--{if $user['online']}-->
+									<em class="gol"></em>
+								<!--{/if}-->
+								{echo discuz_uc_avatar($user[uid], 'small')}
+								<p>$adminuserrealname[$user[uid]][realname]</p>
+								<p><!--{if $_G['uid'] != $user['uid'] && ($_G['uid'] == $_G['forum']['founderuid'] || $user['level'] > $groupuser['level'])}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+                            </li>
+                            <!--{else}-->
+                            <li>
+								<a href="home.php?mod=space&amp;uid=$user[uid]" title="{if $user['level'] == 1}{if $user['uid'] == $_G['forum']['founderuid']}创始人{else}{lang group_moderator}{/if}{elseif $user['level'] == 2}{lang group_moderator_vice}{/if}{if $user['online']} {lang login_normal_mode}{/if}" class="avt">
+									<!--{if $user['level'] == 1}-->
+										<em class="gm"></em>
+									<!--{elseif $user['level'] == 2}-->
+										<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+									<!--{/if}-->
+									<!--{if $user['online']}-->
+										<em class="gol"></em>
+									<!--{/if}-->
+									{echo discuz_uc_avatar($user[uid], 'small')}
+								</a>
+								<p><a href="home.php?mod=space&amp;uid=$user[uid]"  title="$adminuserrealname[$user[uid]][realname]">$adminuserrealname[$user[uid]][realname]</a></p>
+								<p><!--{if $_G['uid'] != $user['uid'] && ($_G['uid'] == $_G['forum']['founderuid'] || $user['level'] > $groupuser['level'])}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+                            </li>
+                            <!--{/if}-->
+							<!--{/loop}-->
+						</ul>
+					</div>
+					<hr class="da" />
+				<!--{/if}-->
+				<!--{if $staruserlist || $userlist || expertuserlist}-->
+					<div class="bm">
+						<h2>专家</h2>
+						<!--{if $expertuserlist}-->
+							<ul class="ml mls cl">
+								<!--{loop $expertuserlist $user}-->
+								<li class="avt">
+									<em class="gs"></em>
+									<!--{if $user['online']}-->
+										<em class="gol"{if $user['level'] <= 3} style="margin-top: 15px;"{/if}></em>
+									<!--{/if}-->
+									{echo discuz_uc_avatar($user[uid], 'small')}
+									<p>$expertuserlistrealname[$user[uid]][realname]</p>
+									<p><!--{if $_G['forum']['founderuid'] == $_G['uid']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+									<!--{if !$user['expertinfo']['status'] && $_G['forum']['founderuid'] == $_G['uid']}-->
+									<p>未激活</p>
+									<p><button id="my_expertuser_active_$user[uid]" type="button">激活链接</button>
+										<script type="text/javascript">
+											attachEventListener($("my_expertuser_active_$user[uid]"), "click", function() {
+												var dialogMsg = "<p class='xs1'>激活链接：<br /><a onclick=\"javascript:setCopy('$user[expertinfo][activelink]', '复制激活链接成功！');return false;\" href=\"$user[expertinfo][activelink]\" class=\"xw1\">$user[expertinfo][activelink] ({lang copy})</a></p>";
+												showDialog(dialogMsg, 'notice');
+											}, false);
+										</script>
+									</p>
+									<!--{/if}-->
+								</li>
+								<!--{/loop}-->
+							</ul>
+						<!--{/if}-->
+					</div>
+					<div class="bm">
+						<h2>{lang member}</h2>
+						<!--{if $userlist}-->
+							<ul class="ml mls cl">
+								<!--{loop $userlist $user}-->
+								<li>
+									<a href="home.php?mod=space&amp;uid=$user[uid]" class="avt">{echo discuz_uc_avatar($user[uid], 'small')}</a>
+									<p><a href="home.php?mod=space&amp;uid=$user[uid]"  title="$userlistrealname[$user[uid]][realname]">$userlistrealname[$user[uid]][realname]</a></p>
+                                    <div>经验值<input type="text" name="empiricals[ $user[uid] ][]" value="$user[empirical_value]" style="width:30px;"/></div>
+									<p><!--{if $user['level'] > $groupuser['level']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+								</li>
+								<!--{/loop}-->
+							</ul>
+						<!--{/if}-->
+					</div>
+				<!--{/if}-->
+				<hr class="da" />
+				<div class="bm">
+					<select name="targetlevel" class="ps">
+						<!--{loop $mtype $key $name}-->
+							<!--{if $_G['forum']['founderuid'] == $_G['uid'] || $key > $groupuser['level'] || $_G['adminid'] == 1}-->
+								<option value="$key" {if $key == $user['level']} selected{/if}>$name</option>
+							<!--{/if}-->
+						<!--{/loop}-->
+					</select>
+					<input type="submit" class="ps" name="updateempirical" value="更新经验值">
+                    <input type="submit" class="ps" name="manageuser" value="{lang submit}">
+				</div>
+				<!--{if $_G['forum']['founderuid'] == $_G['uid']}-->
+				<hr class="da" />
+				<div class="bm">
+					<h2>创建专家用户</h2>
+					专家真实姓名：<input type="text" name="expertname" id="expertname" />
+                    <input type="submit" class="ps" name="createexpert" value="提交创建">
+				</div>
+				<!--{/if}-->
+			</form>
+			$multipage
+    <!--{elseif $_G['gp_op'] == 'manageplugin'}-->
+        {subtemplate group/group_manage_plugin}
+    <!--{elseif $_G["gp_op"] == "manageempirical"}-->
+        {subtemplate group/group_manage_empirical}
+    <!--{elseif $_G["gp_op"] == "settingempirical"}-->
+        {subtemplate group/group_settingempirical}
+    <!--{elseif $_G["gp_op"] == "manage_level"}-->
+        {subtemplate group/group_manage_level}
+    <!--{elseif $_G['gp_op'] == 'managecategory'}-->
+        {subtemplate group/group_category}
+	<!--{elseif $_G["gp_op"] == 'manage_adv'}-->
+	    {subtemplate group/group_manage_adv}
+	<!--{elseif $_G["gp_op"] == 'manage_stationcourse'}-->
+	    {subtemplate group/group_manage_stationcourse}
+	<!--{elseif $_G["gp_op"] == 'manage_shlecturer'}-->
+	    {subtemplate group/group_manage_shlecturer}
+	<!--{elseif $_G["gp_op"] == 'manage_extraresource'}-->
+	    {subtemplate group/group_manage_extraresource}
+	<!--{elseif $_G["gp_op"] == 'manage_extraorg'}-->
+	    {subtemplate group/group_manage_extraorg}
+	<!--{elseif $_G["gp_op"] == 'manage_extralec'}-->
+	    {subtemplate group/group_manage_extralec}
+	<!--{elseif $_G["gp_op"] == 'manage_extraclass'}-->
+	    {subtemplate group/group_manage_extraclass}
+	<!--{elseif $_G["gp_op"] == 'manage_shresourcelist'}-->
+	    {subtemplate group/group_manage_shresourcelist}
+	<!--{elseif $_G['gp_op'] == 'managecontent'}--> <!--专区首页内容管理-->
+		{subtemplate group/group_manage_content}
+	<!--{elseif $_G['gp_op'] == 'threadtype'}-->
+		<div class="bm">
+			<!--{if empty($specialswitch['allowthreadtype'])}-->
+				{lang group_level_cannot_do}
+			<!--{else}-->
+			<script type="text/JavaScript">
+				var rowtypedata = [
+					[
+						[1,'<input type="checkbox" class="checkbox" disabled="disabled" />', 'td25'],
+						[1,'<input type="checkbox" class="checkbox" name="newenable[]" checked="checked" />', 'td25'],
+						[1,'<input class="px" type="text" size="2" name="newdisplayorder[]" value="0" />'],
+						[1,'<input class="px" type="text" name="newname[]" />']
+					],
+				];
+				var addrowdirect = 0;
+				var typenumlimit = $typenumlimit;
+				function addrow(obj, type) {
+					var table = obj.parentNode.parentNode.parentNode.parentNode;
+					if(typenumlimit <= obj.parentNode.parentNode.parentNode.rowIndex - 1) {
+						alert('{lang group_threadtype_limit_1}'+typenumlimit+'{lang group_threadtype_limit_2}');
+						return false;
+					}
+					if(!addrowdirect) {
+						var row = table.insertRow(obj.parentNode.parentNode.parentNode.rowIndex);
+					} else {
+						var row = table.insertRow(obj.parentNode.parentNode.parentNode.rowIndex + 1);
+					}
+
+					var typedata = rowtypedata[type];
+					for(var i = 0; i <= typedata.length - 1; i++) {
+						var cell = row.insertCell(i);
+						cell.colSpan = typedata[i][0];
+						var tmp = typedata[i][1];
+						if(typedata[i][2]) {
+							cell.className = typedata[i][2];
+						}
+						tmp = tmp.replace(/\{(\d+)\}/g, function($1, $2) {return addrow.arguments[parseInt($2) + 1];});
+						cell.innerHTML = tmp;
+					}
+					addrowdirect = 0;
+				}
+			</script>
+			<div id="threadtypes">
+			<form id="threadtypeform" action="forum.php?mod=group&action=manage&op=threadtype&fid=$_G[fid]" autocomplete="off" method="post" name="threadtypeform">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+				<tr>
+					<th>{lang threadtype_turn_on}:</th>
+					<td>
+						<input type="radio" name="threadtypesnew[status]" class="pr" value="1" onclick="$('threadtypes_config').style.display = '';$('threadtypes_manage').style.display = '';" $checkeds[status][1]>&nbsp;{lang yes}
+						<input type="radio" name="threadtypesnew[status]" class="pr" value="0" onclick="$('threadtypes_config').style.display = 'none';$('threadtypes_manage').style.display = 'none';"  $checkeds[status][0]>&nbsp;{lang no}
+						<p class="d">{lang threadtype_turn_on_comment}</p>
+					</td>
+				</tr>
+				<tbody id="threadtypes_config" style="display: $display">
+				<tr>
+					<th>{lang threadtype_required}:</th>
+					<td>
+						<input type="radio" name="threadtypesnew[required]" class="pr" value="1" $checkeds[required][1]>&nbsp;{lang yes}
+						<input type="radio" name="threadtypesnew[required]" class="pr" value="0" $checkeds[required][0]>&nbsp;{lang no}
+						<p class="d">{lang threadtype_required_force}</p>
+					</td>
+				</tr>
+				<tr>
+					<th>{lang threadtype_prefix}:</th>
+					<td>
+						<input type="radio" name="threadtypesnew[prefix]" class="pr" value="0" $checkeds[prefix][0]>&nbsp;{lang threadtype_prefix_off}
+						<input type="radio" name="threadtypesnew[prefix]" class="pr" value="1" $checkeds[prefix][1]>&nbsp;{lang threadtype_prefix_on}
+						<p class="d">{lang threadtype_prefix_comment}</p>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				<div id="threadtypes_manage" style="display: $display">
+				<h2 class="ptm">{lang threadtype}</h2>
+					<table cellspacing="0" cellpadding="0" class="dt">
+						<tr>
+							<th>{lang delete}</th>
+							<th>{lang enable}</th>
+							<th>{lang displayorder}</th>
+							<th>{lang threadtype_name}</th>
+						</tr>
+						<!--{if $threadtypes}-->
+						<!--{loop $threadtypes $val}-->
+						<tr>
+							<td><input type="checkbox" name="threadtypesnew[options][delete][]" value="{$val[typeid]}" /></td>
+							<td><input type="checkbox" name="threadtypesnew[options][enable][{$val[typeid]}]" value="1" class="checkbox" $val[enablechecked] /></td>
+							<td><input type="text" name="threadtypesnew[options][displayorder][{$val[typeid]}]" class="px" size="2" value="$val[displayorder]" /></td>
+							<td><input type="text" name="threadtypesnew[options][name][{$val[typeid]}]" class="px" value="$val[name]" /></td>
+						</tr>
+						<!--{/loop}-->
+						<!--{/if}-->
+						<tr>
+							<td colspan="4">
+								<div><img class="vm" src="{IMGDIR}/addicn.gif" /> &nbsp; <a href="###" onclick="addrow(this, 0)">{lang threadtype_add}</a></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<br><br>
+				<button type="submit" class="pn pnp" name="groupthreadtype" value="1"><strong>{lang submit}</strong></button>
+			</form>
+			</div>
+			<!--{/if}-->
+		</div>
+	<!--{elseif $_G['gp_op'] == 'demise'}-->
+		<div class="bm">
+		<!--{if $groupmanagers}-->
+			{lang group_demise_comment}
+			<form action="forum.php?mod=group&action=manage&op=demise&fid=$_G[fid]" name="groupdemise" method="post" class="exfm">
+				<h2>{lang group_admin_member}</h2>
+				<ul class="ml mls cl">
+					<!--{loop $groupmanagers $user}-->
+					<li>
+						<a href="home.php?mod=space&amp;uid=$user[uid]" title="{if $user['level'] == 1}{lang group_moderator}{elseif $user['level'] == 2}{lang group_moderator_vice}{/if}{if $user['online']} {lang login_normal_mode}{/if}" class="avt">
+							<!--{if $user['level'] == 1}-->
+								<em class="gm"></em>
+							<!--{elseif $user['level'] == 2}-->
+								<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+							<!--{/if}-->
+							{echo discuz_uc_avatar($user[uid], 'small')}
+						</a>
+						<p><a href="home.php?mod=space&amp;uid=$user[uid]"  title="<!--{eval echo user_get_user_name_by_username($user[username]);}-->"><!--{eval echo user_get_user_name_by_username($user[username]);}--></a></p>
+						<p><input type="radio" class="pr" name="suid" value="$user[uid]" /></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<button type="submit" class="pn pnp" name="groupdemise" value="1"><strong>{lang submit}</strong></button><br /><br />
+				{lang group_demise_notice}
+			</form>
+		<!--{else}-->
+			<p>{lang group_no_admin_member}</p>
+		<!--{/if}-->
+		</div>
+	<!--{elseif $_G['gp_op'] == 'delete'}-->
+		<div class="bm">
+			<!-- {lang group_demise_comment} -->
+			<form action="forum.php?mod=group&action=manage&op=delete&fid=$_G[fid]" name="groupdelete" method="post" class="exfm">
+				<h2>删除专区</h2>
+				<ul class="ml mls cl">
+				</ul>
+				<button type="submit" class="pn pnp" name="groupdemise" value="1"><strong>删除</strong></button><br /><br />
+				<!-- {lang group_demise_notice} -->
+			</form>
+		</div>
+	<!--{/if}-->

@@ -1,0 +1,68 @@
+<!--{eval $_G[home_tpl_titles] = array('{lang personal_category}');}-->
+<!--{template common/header}-->
+
+
+<!--{if $_GET['op'] == 'edit'}-->
+<h3 class="flb">
+	<em>{lang official_link_edit}</em>
+	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
+</h3>
+<form method="post" id="linkform" name="linkform" autocomplete="off" action="home.php?mod=spacecp&ac=link&op=edit&official_linkid=$link[linkid]">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="editsubmit" value="true">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+	<div class="c">
+		<table>
+		<tr><td>{lang official_link_name}:</td><td><input type="text" id="linkname" name="linkname" value="$link[linkname]" size="15" class="px" /></td></tr>
+		<tr><td>{lang official_link_url}:</td><td><input type="text" name="linkurl" id="linkurl" value="$link[linkurl]" size="50" class="px" /></td></tr>
+		</table>
+	</div>
+	<p class="o pns">
+		<button  name="btnsubmit" value="true" class="pn pnc" type="submit"><strong>{lang determine}</strong></button>
+	</p>
+</form>
+
+<!--{elseif $_GET['op'] == 'delete'}-->
+
+	<h3 class="flb">
+		<em id="return_$_G[gp_handlekey]">{lang official_link_delete}</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
+	</h3>
+	<form id="linkform" name="linkform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=link&op=delete&official_linkid=$link[linkid]">
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="deletesubmit" value="true" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+		
+		<div class="c">{lang official_link_check_delete}</div>
+		<p class="o pns">
+			<button type="submit" name="deletesubmit_btn" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
+		</p>
+	</form>
+<!--{elseif $_GET['op'] == 'deleteall' }-->
+
+	<h3 class="flb">
+		<em id="return_$_G[gp_handlekey]">{lang official_link_delete}</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
+	</h3>
+	<form id="linkform" name="linkform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=link&op=deleteall">
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="deletesubmit" value="true" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+		
+		<div class="c">{lang official_link_check_delete}</div>
+		<p class="o pns">
+			<button type="submit" name="deletesubmit_btn" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
+		</p>
+	</form>	
+<!--{/if}-->
+
+<!--{if !$_G[inajax]}-->
+		</div>
+	</div>
+	<div class="sd">{subtemplate common/userabout}</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

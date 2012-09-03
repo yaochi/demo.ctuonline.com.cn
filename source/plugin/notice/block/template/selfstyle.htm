@@ -1,0 +1,11 @@
+<!--{loop $listdata $item}-->
+<div class="module cl xld"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <dl class="cl">
+        <dd class="m">
+            <a href="{$item[url]}" target="_blank"><img style="border: 1px solid #d6d6d6;" src="{$item[imgurl]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}" alt=""></a>
+        </dd>
+        <dt class="ptn"><a href="{$item[url]}" title="" target="_blank" class="xs2">{$item[name]}</a></dt>
+        <dd><div>{$item[content]}</div></dd>
+    </dl>
+</div>
+<!--{/loop}-->

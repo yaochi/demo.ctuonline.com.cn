@@ -1,0 +1,873 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang friends}');}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=follow">关注/粉丝</a>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn" style="overflow:visible; background: url({IMGDIR}/esn/nv_gradient.png) repeat-x 0 0;">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+<!--{else}-->
+<!--{template home/space_header}-->
+<div id="ct" class="wp n cl">
+		<div class="mn">
+<!--{/if}-->
+		<div class="bm">
+				<h1 class="mt"><img alt="friend" src="{STATICURL}image/feed/friend.gif" class="vm" /> 关注/粉丝</h1>
+				<ul class="tb cl">
+					<!--{if $diymode}-->
+					<li{if !$op && !$followtype} class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=follow&diymode=$diymode">关注</a></li>
+					<li {if $op=='fans'}class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=follow&op=fans&diymode=$diymode">粉丝</a></li>
+					<li {if $followtype=='friend'}class='a'{/if}><a href="home.php?mod=space&uid=$space[uid]&do=follow&followtype=friend&diymode=$diymode">好友</a></li>
+					<!--{else}-->
+					<li{if !$op} class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=follow">关注</a></li>
+					<li {if $op=='fans'}class="a"{/if}><a href="home.php?mod=space&uid=$space[uid]&do=follow&op=fans">粉丝</a></li>
+					<!--{/if}-->
+					<!--
+						<li><a href="home.php?mod=spacecp&ac=search">{lang search_friend}</a></li>
+						<li><a href="home.php?mod=spacecp&ac=friend&op=find">{lang people_might_know}</a></li>
+						<li class="a"><a href="home.php?mod=spacecp&ac=invite">{lang invite_friend}</a></li>
+						<li><a href="home.php?mod=spacecp&ac=friend&op=request">{lang friend_request}</a></li>
+						<li><a href="home.php?mod=space&do=top">{lang friend_top}</a></li>
+					-->
+				</ul>
+			<!--{if !$op && $myself}-->
+				<div id="grouptab" class="tbmu">
+					<div id="allgroups">
+						<div><a href="home.php?mod=space&uid=$space[uid]&do=follow<!--{if $diymode}-->&diymode=$diymode<!--{/if}-->" id="all">全部</a></div>
+						<span class="pipe">|</span>
+						<div><a href="home.php?mod=space&uid=$space[uid]&do=follow&followtype=friend<!--{if $diymode}-->&diymode=$diymode<!--{/if}-->" id="buddies" >好友</a></div>
+						<span class="pipe">|</span>
+						<!--{loop $groups $key $value}-->
+						<div><a href="home.php?mod=space&uid=$space[uid]&do=follow&group=$key<!--{if $diymode}-->&diymode=$diymode<!--{/if}-->" id="$key" {$a_actives[onlinenear]}>$value</a></div>
+						<span class="pipe">|</span>
+						<!--{/loop}-->
+						<div><a href="home.php?mod=space&uid=$space[uid]&do=follow&followtype=none<!--{if $diymode}-->&diymode=$diymode<!--{/if}-->" id="ungrouped" >未分组</a></div>
+					</div>
+				</div>
+			
+				<div class="grouptabcont cl">
+					<p class="add2group pns">
+						<button id="btnAddUser2Group" class="pn pnc"><em>确定</em></button>
+						<button id="btnTogUserPanel" class="pn"><em>编辑分组</em></button>
+					</p>	
+					<p class="prompt"><span class="usericon"></span> {lang count_group_member}</p>
+					
+					<div id="fuserpanel" class="brtln brtrn brbln brbrn">
+							<div class="body">
+								<div class="filterarea mbm">
+									<span class="typearea">按分组筛选：
+										<select id="fgroupsel" autocomplete="off" onchange="createFUserList(this.value)">
+											<option value="all">全部</option>
+											<option value="friend">好友</option>
+											<!--{loop $groups $key $value}-->
+											<option value="$key">$value</option>
+											<!--{/loop}-->
+											<option value="-1" selected>未分组</option>
+										</select>
+									</span>
+									<span class="selectall"><input type="checkbox" id="chkAll" autocomplete="off"> 全选</span>
+									<span class="pipe">|</span>
+									<span class="choose">已选(<label>0</label>/<label>0</label>)</span>
+								</div>
+								<div class="contentarea mbm">
+									<ul id="fusers"></ul>
+									
+								</div>
+								<input id="groupid" type="hidden" value="<!--{eval echo $group;}-->" />
+							</div>
+					</div>
+				</div>
+			<!--{/if}-->
+<!--{if $op=='fans'}-->
+		<!--{if $fanslist}-->
+  				
+					<ul class="fans">
+					<!--{loop $fanslist $fanskey $fansvalue}-->
+						<li id="$fansvalue[uid]">
+							<div class="conBox_c">
+							<div class="conBox_wrap">
+								<!--{if $fansvalue[username] == ''}-->
+									<h4>{lang anonymity}</h4>
+									<!--{else}-->
+									<h4>
+										<a class="perPanel" href="home.php?mod=space&uid=$fansvalue[uid]"{eval g_color($fansvalue[groupid]);}>{eval echo $fanslistrealname[$fansvalue[uid]][realname]}</a>
+										<!--{if $ols[$fansvalue[uid]]}--><img src="{IMGDIR}/ol.gif" alt="online" title="{lang online}" class="vm" /> <!--{/if}-->
+										<!--{eval g_icon($fansvalue[groupid]);}-->
+										<!--{if $fansvalue['videostatus']}-->
+										<img src="{IMGDIR}/videophoto.gif" alt="videophoto" class="vm" />
+										<!--{/if}-->
+									</h4>
+								<!--{/if}-->
+								<div class="address"><!--{if $fansvalue['orgname']}-->$fansvalue['orgname']<!--{/if}--><span>粉丝<strong>$fansvalue[fans]</strong>人</span></div>
+								<div class="content">$fansvalue[feedmessage]($fansvalue[feeddate])</div>
+							</div>
+							</div>
+							
+							<!--{if $fansvalue[username] == ''}-->
+								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}" /></div>
+							<!--{else}-->
+								<div class="avt"><a href="home.php?mod=space&uid=$fansvalue[uid]" class="perPanel"><!--{avatar($fansvalue[uid],small)}--></a></div>
+							<!--{/if}-->
+
+							
+							<!--{if $myself}-->
+							<div class="conBox_r">
+								<p><!--{if $fansvalue[type]=='3'}--><img title="互相关注中" src="{STATICURL}image/common/esn/sicon_mutual.gif"><!--{else}--><a class="addFollow"><img class="ico_addBlu" title="她已关注你" src=""><span class="addnew">+</span>加关注</a><!--{/if}--></p>
+								<p style="display: none;"><a href="">发私信</a></p>
+							</div>	
+							<!--{else}-->
+							<div class="conBox_r" style="margin-left:-100px;width:100px;"><div style="float:right;">
+								<!--{if $fansvalue[cntype]=='3'}-->
+									<div class="cancel_f fri"><span>好友</span>&nbsp;|&nbsp;<a href="javascript:;" onclick="unfollow($_G[uid],$fansvalue[uid],this);">取消</a></div>
+								<!--{elseif $fansvalue[cntype]=='1'}-->
+									<div class="cancel_f"><span>已关注</span>&nbsp;|&nbsp;<a href="javascript:;" onclick="unfollow($_G[uid],$fansvalue[uid],this);">取消</a></div>
+								<!--{else}-->
+									<div class="add_f"><a href="javascript:;" onclick="follow($_G[uid],$fansvalue[uid],this);"><span>+</span>加关注</a></div>
+								<!--{/if}-->
+							</div></div>
+							<!--{/if}-->	
+						</li>
+						<!--{/loop}-->
+					</ul>
+				
+				<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+				<!--{else}-->
+				<p class="emp xg0 hm">
+					暂无粉丝<br />
+					您可使用右侧的邀请链接来邀请更多人关注您
+				</p>
+				<!--{/if}-->
+		<!--{else}-->
+		<!--{if $list}-->
+				<div>
+					<ul class="buddy cl">
+					<!--{loop $list $key $value}-->
+						<li id="friend_{$value[uid]}_li">
+						<!--{if $myself}-->
+							<div class="grouping pss" style="display: block;">
+								<a class="" title="">
+									<span class="xw1"><!--{if $value[groupname]}-->$value[groupname]<!--{else}-->未分组<!--{/if}--></span>
+									<ul>
+									<!--{loop $groups $groupkey $groupvalue}-->
+										<li id='$groupkey'><input type="checkbox"<!--{if in_array($groupkey,$value[grouparray]) }--> checked="checked"<!--{/if}--> ><label>$groupvalue</label></li>
+									<!--{/loop}-->
+									</ul>
+								</a>
+							</div>
+							<!--{else}-->
+								<div class="grouping" style="display: block;margin-right:15px;">
+								<!--{if $value[cntype]=='3'}-->
+									<div class="cancel_f fri"><span>好友</span>&nbsp;|&nbsp;<a href="javascript:;" onclick="unfollow($_G[uid],$value[uid],this);">取消</a></div>
+								<!--{elseif $value[cntype]=='1'}-->
+									<div class="cancel_f"><span>已关注</span>&nbsp;|&nbsp;<a href="javascript:;" onclick="unfollow($_G[uid],$value[uid],this);">取消</a></div>
+								<!--{else}-->
+									<div class="add_f"><a href="javascript:;" onclick="follow($_G[uid],$value[uid],this);"><span>+</span>加关注</a></div>
+								<!--{/if}-->
+							</div>							
+							<!--{/if}-->
+							<!--{if $value[username] == ''}-->
+								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}" /></div>
+								<h4>{lang anonymity}</h4>
+							<!--{else}-->
+								<div class="avt"><a class="perPanel" href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+								<h4>
+									<a class="perPanel" href="home.php?mod=space&uid=$value[uid]"{eval g_color($value[groupid]);}>{eval echo $listrealname[$value[uid]][realname]}</a>
+									<!--{if $ols[$value[uid]]}--><img src="{IMGDIR}/ol.gif" alt="online" title="{lang online}" class="vm" /> <!--{/if}-->
+									<!--{eval g_icon($value[groupid]);}-->
+									<!--{if $value['videostatus']}-->
+									<img src="{IMGDIR}/videophoto.gif" alt="videophoto" class="vm" />
+									<!--{/if}-->
+									<!--{if $space[self]}-->
+									<span id="friend_note_$value[uid]" class="maxh note"{if $value[note]} title="$value[note]"{/if}>
+										<!--{if $value[note]}-->&nbsp;($value[note])<!--{/if}-->
+									</span>
+									<!--{/if}-->
+								</h4>
+							<!--{/if}-->
+							<div class="content mtm">$value[feedmessage]($value[feeddate])</div>
+							<!--{if $myself}-->
+							<div class="xg1">
+									<a href="javascript:;" id="interaction_$value[uid]" onmouseover="showMenu(this.id);">互动</a><span class="pipe">|</span>
+									<a href="home.php?mod=spacecp&ac=friend&op=editnote&uid=$value[uid]&handlekey=editnote_{$value[uid]}" id="friend_editnote_$value[uid]" onclick="showWinCover(this.id, this.href, 'get', 0);">备注</a><span class="pipe">|</span>
+									<a href="javascript:;" id="a_ignore_$key" class="removeFollow">取消关注</a>
+							</div>
+							<div id="interaction_$value[uid]_menu" class="p_pop" style="display: none; width: 80px;">
+									<p><a href="home.php?mod=spacecp&ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="showWinCover(this.id, this.href, 'get',1,0, 0);" title="{lang say_hi}">打招呼</a></p>
+									<p><a href="home.php?mod=spacecp&ac=pm&op=showmsg&handlekey=showmsg_$value[uid]&touid=$value[uid]&pmid=0&daterange=2" id="a_sendpm_$key" onclick="showWindow('showMsgBox', this.href, 'get', 0)">发送短信</a></p>
+							</div>
+							<!--{/if}-->
+						</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+				<!--{else}-->
+					<div class="emp">{lang no_friend_list}</div>
+				<!--{/if}-->
+				
+			  <!--{/if}-->
+				
+<!--{if empty($diymode)}-->	
+
+		</div>
+	</div>
+
+	<div class="sd">
+		<!--{if $space[self] && !$op}-->
+
+			<div class="bn gsh">
+				<h2>查找我关注的人</h2>
+				<form method="get" autocomplete="off" action="home.php" class="pns">
+					<input type="hidden" name="mod" value="space" />
+					<input type="hidden" name="do" value="follow" />
+					<input type="hidden" name="searchmode" value="1" />
+					<input type="hidden" name="searchsubmit" value="1" />
+					<input type="text" name="searchkey" class="px vm" size="15" value="{lang doing_enter_keywords}" onclick="if(this.value=='{lang doing_enter_keywords}')this.value='';" />
+					<button type="submit" class="pn vm"><em>{lang search}</em></button>
+				</form>
+			</div>
+			<hr class="da" />
+
+			
+				<div class="bn">
+					<a id='create_group_$space[uid]' onclick="creategroup()" class="y xg1" href="javascript:;">创建新分组</a>
+					<h2>关注人分组</h2>
+					<ul class="xl xl1">
+						<li><a href="home.php?mod=space&uid=$_G[uid]&do=follow" >全部</a></li>
+						<li>
+							 <a href="home.php?mod=space&uid=$_G[uid]&do=follow&followtype=friend" ><span groupname="好友">好友</span></a>
+						</li>
+						<!--{if $groups}-->
+						<!--{loop $groups $key $value}-->
+						<li{$groupselect[$key]}>
+							<em>
+								<!--{if $key || $key=='0'}-->
+								<a href="javascript:;" id="c_edit_$key" onclick="rename_group(this);" title="{lang edit_group_name}" class="c_edit">{lang edit}</a>
+								<!--{/if}-->
+							</em>
+							<em>
+								<!--{if $key || $key=='0'}-->
+								<a href="javascript:;" id="delete_group_$key" onclick="delete_group(this);" class="c_edit">{lang delete}</a>
+								<!--{/if}-->
+							</em>
+							<!--{if isset($space['privacy']['filter_gid'][$key])}--><span class="xg1">[{lang shield}]</span><!--{/if}--> <a href="home.php?mod=space&uid=$_G[uid]&do=follow&group=$key"><span id="friend_groupname_$key" groupname="$value">$value</span></a>
+						</li>
+						<!--{/loop}-->
+						<!--{/if}-->
+						<li id="ungroupedR">
+							 <a href="home.php?mod=space&uid=$_G[uid]&do=follow&followtype=none"><span groupname="未分组">未分组</span></a>
+						</li>
+					</ul>
+					<script type="text/javascript">
+						function succeedhandle_ignoregroup(url, msg, values) {
+							var liObj = $('friend_groupname_'+values['group']);
+							var prefix = '';
+							if(values['ignore']) {
+								prefix = '<span class="xg1">[{lang shield}]</span>';
+							}
+							$('c_ignore_'+values['group']).innerHTML = values['ignore'] ? '{lang cancel}' : '{lang shield}';
+							liObj.innerHTML = prefix + liObj.getAttribute('groupname');
+						}
+					</script>
+
+			</div>
+			<hr class="da" />
+
+			
+				<div class="bn">
+					<p class="">
+						您可对您关注的人进行分组，其中：<br />
+						<span class="xw1">好友：</span>预置组 系统自动将您已互相关注的人放置于此分组内 您无需自行处理<br />
+						<span class="xw1">未分组：</span>预置组 包含所有您未进行分组的人
+					</p>
+				</div>
+		
+				<hr class="da" />
+			
+			
+		<!--{/if}-->
+		<div class="bn">
+			<h2>我的邀请链接</h2>
+			<p>您可以通过QQ、MSN等IM工具，或者发送邮件，把下面的链接告诉你的好友，邀请他们成为您的好友。</p>
+			<a onclick="javascript:setCopy('$inviteurl', '{lang copy_invite_link}');return false;" href="$inviteurl" class="xw1">$inviteurl ({lang copy})</a>
+		</div>
+		
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+
+<!--{template common/footer}-->
+<style type="text/css">
+	#chkAll{vertical-align: -2px;}
+	#allgroups{ overflow:hidden;}
+	#allgroups div{ display:block; float:left;}
+	.pss{ width:134px;}
+	.pss span{ background:url({IMGDIR}/esn/ps_arrow.gif) no-repeat scroll 116px -24px;}
+</style>
+
+<script type="text/javascript">	
+fetchFeedAuth('.buddy,.fans');
+//create new group
+function myfocus(val){
+			var anchor = jQuery(val);
+			anchor.attr("value","");
+		}
+
+function creategroup(){
+		var mode = 'confirm';
+		var t = '建立新分组';
+		var msg = '<div style="font-size:14px;">分组名：<input id="group_newname" type="text" value="请输入分组名称" onfocus="myfocus(this)" onkeyup="limitDo.call(this,16)" onblur="limitDo.call(this,16)" maxlength="16" style="width:200px; padding:2px;"></div>';
+		var func = function(){
+			var groupname = jQuery("#group_newname").attr("value");
+			var code = jQuery.md5('esn'+groupname+$space[uid]);
+			jQuery.getJSON("api/blog/api_group_create.php?uid="+$space[uid]+"&"+"groupname="+encodeURIComponent(groupname)+"&code="+code,function(data){
+				if(data.success == 'Y'){
+						var groupid = data.gid;
+						showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>创建分组成功</span>", 1000);	
+						setTimeout(
+							 function(){window.location.href = 'home.php?mod=space&uid=$space[uid]&do=follow&group=' + groupid}
+							,500);
+						// 不刷新的情况下，添加新分组到页面
+						jQuery("#ungrouped").parent('div').before('<div><a href="home.php?mod=space&uid=$space[uid]&do=follow&group='+groupid+'" id="'+groupid+'" >'+groupname+'</a></div><span class="pipe">|</span>');
+						jQuery("#ungroupedR").before('<li><em><a href="javascript:;" id="c_edit_'+groupid+'" onclick="rename_group(this);" title="{lang edit_group_name}" class="c_edit">编辑</a></em><em><a href="javascript:;" id="delete_group_'+groupid+'" onclick="delete_group(this);" class="c_edit">删除</a></em><a href="home.php?mod=space&uid=$_G[uid]&do=follow&group='+groupid+'"><span id="friend_groupname_'+groupid+'" groupname="'+groupname+'">'+groupname+'</span></a></li>');
+						jQuery(".grouping a ul").each( function(){
+							jQuery(this).append('<li id="'+groupid+'"><input type="checkbox"><label>'+groupname+'</label></li>'); 
+						})
+						jQuery("#fgroupsel option:last-child").before('<option value="'+groupid+'">'+groupname+'</option>'); 
+						
+				}else{
+					showError(data.message);
+				}
+			 });
+		}
+		showDialog(msg, mode, t, func);	
+	}
+
+// rename group
+function rename_group(val){
+		var anchor = jQuery(val);
+		var gid = anchor.attr("id").replace("c_edit_","");
+		var uid = $space[uid];
+		var oldname = jQuery("a span",anchor.parent().parent()).text();
+		var mode = 'confirm';
+		var t = '分组重命名';
+		var msg = '<div style="font-size:14px;">新名称：<input id="group_rename" type="text" value="'+oldname+'"   style="width:200px; padding:2px;"></div>';
+		var func = function(){
+			var groupname = jQuery("#group_rename").attr("value");
+			jQuery.getJSON("api/blog/api_group_rename.php?uid="+uid+"&"+"groupname="+encodeURIComponent(groupname)+"&gid="+gid+"&code="+jQuery.md5('esn'+groupname+gid+uid),function(data){
+				if(data.success == 'Y'){
+							showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>修改分组名称成功</span>", 3000);	
+							jQuery("a span",anchor.parent().parent()).text(groupname);
+							jQuery("#allgroups a").each( function(){
+								var anchor = jQuery(this);
+								if( anchor.attr("id")==gid){ anchor.text(groupname);}
+							});
+							jQuery(".grouping a").each( function(){
+								var anchor = jQuery(this);
+								var str ='';
+								jQuery("ul li",anchor).each( function(){
+									if( jQuery(this).attr("id") == gid){ 
+										str = jQuery("label",jQuery(this)).text();
+										jQuery("label",jQuery(this)).text(groupname);  
+									}
+								})
+								var string = jQuery(anchor).attr("title");
+								if( string.indexOf(str)>=0){
+									string = string.replace(str,groupname);
+									jQuery(anchor).attr("title",string);
+									jQuery("span",anchor).text(intercept(string));
+								}
+							})
+							jQuery("#fgroupsel option").filter(function() {
+				                return  jQuery(this).attr("value") == gid;
+				            }).text(groupname);
+					}else{
+						showDialog(data.message,'notice');
+				}
+			 });
+		}
+		showDialog(msg, mode, t, func);	
+}
+
+
+//delete group
+function delete_group(val){
+	var anchor = jQuery(val);
+	var gid = anchor.attr("id").replace("delete_group_","");
+	var uid = $space[uid];
+	var func = function(){
+				jQuery.getJSON("api/blog/api_group_delete.php?uid="+uid+"&"+"gid="+gid+"&code="+jQuery.md5('esn'+gid+uid),function(data){
+					if(data.success == 'Y'){
+						showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>删除成功</span>", 3000);	
+						if (gid == '$_GET[group]') { //删除当前选中分组
+							setTimeout(
+								 function(){window.location.href = 'home.php?mod=space&uid=$space[uid]&do=follow'}
+								,500);
+						}else{
+							anchor.parent().parent().remove();
+							jQuery("#allgroups a").each( function(){ //移除导航栏上的分组
+								var anchor = jQuery(this);
+								if( anchor.attr("id")==gid){ anchor.parent().next('span.pipe').remove(); anchor.parent().remove(); }
+							});
+							jQuery(".grouping a ul").each( function(){
+								var anchor = jQuery(this);
+								jQuery("li",anchor).each( function(){
+									if( jQuery(this).attr("id") == gid){jQuery(this).remove();}
+								})
+							})
+							jQuery("#fgroupsel option").filter(function() {
+				                return  jQuery(this).attr("value") == gid;
+				            }).remove();
+				        }
+					}else{
+						showDialog(data.message,'notice');
+					}
+				});
+	}
+	showDialog('<div style="font-size:14px;">确定删除这个分组？</div>', 'confirm','', func);
+}
+
+
+	
+// 当前页   标签高亮显示	
+function load_Active(){
+	if( '$_GET[followtype]'){
+			if( '$_GET[followtype]'=='friend'){
+				jQuery("#buddies").addClass("a");
+			}else if( '$_GET[followtype]'=='none'){
+				jQuery("#ungrouped").addClass("a");
+			}
+			return false;
+	}
+	if('$_GET[group]'){
+			jQuery("#allgroups a").each(function(){
+				var anchor = jQuery(this);
+				var strID = anchor.attr("id");
+				if(strID == '$_GET[group]' ){
+					anchor.addClass("a");
+				}
+			});
+			return false;
+	}
+	jQuery("#all").addClass("a");
+}
+load_Active();		
+
+
+//动态分组		
+	function showError( string){
+			var mode = 'alert';
+			var msg = '<div style="font-size:14px;">'+string+'</div>';
+			showDialog(msg, mode);
+		}
+
+jQuery("body").on("click",".grouping ul li input",function(e){
+		var anchor=jQuery(this).parent();
+		var totalString="";
+		var interceptString;
+		var neighbor=anchor.parent().siblings();
+		var grandAnchor=anchor.parent().parent();
+		var length;
+		var fuid;
+		var gid = anchor.attr("id");
+		var uid = $space[uid];
+		
+		function getfuid(){
+			var grand_li = grandAnchor.parent().parent();
+			var sring = grand_li.attr("id");
+			var pos1 = sring.indexOf('_');
+			var pos2 = sring.lastIndexOf('_');
+			return sring.substring(pos1+1,pos2);
+		}
+		
+		fuid = getfuid();
+
+		function update(){
+			jQuery("li input",anchor.parent()).each(function(){
+					if(jQuery(this).attr("checked")){ totalString=totalString+jQuery(this).siblings().text()+",";}
+				});
+				length=totalString.length;
+				if(length>0){
+					totalString=totalString.substring(0,length-1);
+					interceptString=intercept(totalString);
+					neighbor.text(interceptString);
+					grandAnchor.attr("title",totalString);
+				}else{
+					neighbor.text("未分组");
+					grandAnchor.attr("title","未分组");
+				}
+		}
+
+		if( jQuery("input",anchor).attr("checked")){
+			//alert("delete");
+			jQuery.getJSON("api/blog/api_group_update.php?fuid="+fuid+"&gid="+gid+"&uid="+uid+"&action=add&code="+jQuery.md5('esn'+'add'+fuid+gid+uid),function(data){
+				if(data.success == 'Y'){
+					jQuery("input",anchor).attr("checked",true);
+					update();
+				}else{
+					showError('删除分组失败，请重试，或稍等片刻');
+				}
+			 });
+		}else{ 
+			//alert("add");
+			 jQuery.getJSON("api/blog/api_group_update.php?fuid="+fuid+"&gid="+gid+"&uid="+uid+"&action=delete&code="+jQuery.md5('esn'+'delete'+fuid+gid+uid),function(data){
+				if(data.success == 'Y'){
+					jQuery("input",anchor).attr("checked",false);
+					update();
+				}else{
+					showError(data.message);
+				}
+			 });  
+		}
+		neighbor.addClass("xw1");
+		neighbor.removeClass("xg0");
+		e.stopPropagation();
+   });
+
+jQuery("body").on("click",".grouping ul li",function(e){		
+		var anchor=jQuery(this);
+		var totalString="";
+		var interceptString;
+		var neighbor=anchor.parent().siblings();
+		var grandAnchor=anchor.parent().parent();
+		var length;
+		var fuid;
+		var gid = anchor.attr("id");
+		var uid = $space[uid];
+		
+		function getfuid(){
+			var grand_li = grandAnchor.parent().parent();
+			var sring = grand_li.attr("id");
+			var pos1 = sring.indexOf('_');
+			var pos2 = sring.lastIndexOf('_');
+			return sring.substring(pos1+1,pos2);
+		}
+		
+		fuid = getfuid();
+
+		function update(){
+			jQuery("li input",anchor.parent()).each(function(){
+					if(jQuery(this).attr("checked")){ totalString=totalString+jQuery(this).siblings().text()+",";}
+				});
+				length=totalString.length;
+				if(length>0){
+					totalString=totalString.substring(0,length-1);
+					interceptString=intercept(totalString);
+					neighbor.text(interceptString);
+					grandAnchor.attr("title",totalString);
+				}else{
+					neighbor.text("未分组");
+					grandAnchor.attr("title","未分组");
+				}
+		}
+
+		if( jQuery("input",anchor).attr("checked")){
+			//alert("delete");
+			jQuery.getJSON("api/blog/api_group_update.php?fuid="+fuid+"&gid="+gid+"&uid="+uid+"&action=delete&code="+jQuery.md5('esn'+'delete'+fuid+gid+uid),function(data){
+				if(data.success == 'Y'){
+					jQuery("input",anchor).attr("checked",false);
+					update();
+				}else{
+					showError('删除分组失败，请重试，或稍等片刻');
+				}
+			 });
+		}else{ 
+			//alert("add");
+			 jQuery.getJSON("api/blog/api_group_update.php?fuid="+fuid+"&gid="+gid+"&uid="+uid+"&action=add&code="+jQuery.md5('esn'+'add'+fuid+gid+uid),function(data){
+				if(data.success == 'Y'){
+					jQuery("input",anchor).attr("checked",true);
+					update();
+				}else{
+					showError(data.message);
+				}
+			 });  
+		}
+		neighbor.addClass("xw1");
+		neighbor.removeClass("xg0");
+		e.stopPropagation();
+   });
+   
+   
+   
+   jQuery(".grouping a .xw1").click(function(e){
+   		var index = jQuery(this).parent().css("z-index");
+		index = index-3+4;
+		//alert(index);
+		jQuery(this).parent().css("z-index",index);
+   		if(jQuery(this).parent().attr("class")=="on"){
+			jQuery(this).parent().attr("class","off");
+		}else{
+			jQuery(".grouping .on").attr("class","off");
+			jQuery(this).parent().attr("class","on");
+		}
+   		e.stopPropagation();
+   });
+   
+   jQuery("body").click(function(){
+		jQuery(".grouping a").removeClass("on");
+	});
+	
+	jQuery(".grouping a .xw1").each(function(){
+		jQuery(this).parent().attr("title",jQuery(this).html());
+		jQuery(this).html(intercept(jQuery(this).html()));
+	})
+	
+	function intercept(string){
+		var length = string.length;
+		var num = 9;
+		if(length > num){
+             string = string.substring(0,num) + "...";
+        }
+	   return string;
+	}
+
+	
+//取消关注	
+	jQuery(".removeFollow").each(function(){
+		var anchor = jQuery(this);
+			anchor.click(function(){
+				
+				var fromuid = $space[uid];
+				function getfuid(){
+					var grand_li = anchor.parent().parent();
+					var sring = grand_li.attr("id");
+					var pos1 = sring.indexOf('_');
+					var pos2 = sring.lastIndexOf('_');
+					return sring.substring(pos1+1,pos2);
+				}
+				var touid = getfuid();
+				
+				var func = function(){
+					jQuery.getJSON("api/blog/api_delfollow.php?fromuid="+fromuid+"&"+"touid="+touid+"&code="+jQuery.md5('esn'+fromuid+touid),function(data){
+						if(data.success == 'N'){
+							showError(data.message);
+						}else{
+							var string = 'friend_'+touid+'_li';
+							jQuery("#"+string).remove();
+						}
+				 	});
+				};
+				
+				var mode = 'confirm';
+				var msg = '确定取消关注？';
+				showDialog(msg, mode,'', func);	
+			});
+	});
+
+
+////////////////////////////////////////////////   fans   //////////////////////////////////////////////////////////////////		
+
+	jQuery(".conBox_r").hover(function(){
+		var anchor = jQuery(this);
+		jQuery("p:gt(0)",anchor).each(function(){
+			jQuery(this).css("display","");
+		});
+	},function(){
+		var anchor = jQuery(this);
+		jQuery("p:gt(0)",anchor).each(function(){
+			jQuery(this).css("display","none");
+		});
+	});
+	
+	jQuery(".addFollow").hover(function(){
+		var anchor = jQuery(this);
+		jQuery(".ico_addBlu",anchor).css("background-position","0px -47px");
+	},function(){
+		var anchor = jQuery(this);
+		jQuery(".ico_addBlu",anchor).css("background-position","0px -23px");
+	});
+	
+	
+	<!--{if $op=='fans'}-->
+	jQuery(".addFollow").each(function(){
+			var anchor = jQuery(this);
+			anchor.click(function(){
+			var fromuid = $space[uid];
+			var touid  = anchor.parent().parent().parent().attr("id");
+			//alert(touid);
+			jQuery.getJSON("api/blog/api_follow.php?fromuid="+fromuid+"&"+"touid="+touid+"&code="+jQuery.md5('esn'+fromuid+touid),function(data){
+					if(data.success == 'N'){
+						alert(data.message);
+					}else{
+						//alert("cxczxc");
+						anchor.parent().html("<img title=\"互相关注中\" src=\"{STATICURL}image/common/esn/sicon_mutual.gif\">");
+					}
+			 });
+				
+		});
+	})
+	<!--{/if}-->
+
+
+/*
+** 将关注人批量添加到分组 Added by Renby
+*/
+jQuery(function(){
+	displayGroupTab();
+	createFUserList('-1');
+	
+	jQuery('#fuserpanel').hide();
+	jQuery('#btnAddUser2Group').hide();
+	
+	if (jQuery('#groupid').val() >= 0) jQuery('.add2group').show();
+});
+
+//显示关注人panel按钮事件
+jQuery('#btnTogUserPanel').click(function(){
+	if(jQuery('#fuserpanel').is(':visible')){		
+		showFUserPanel(false);
+	}else{
+		showFUserPanel(true);
+	}
+});
+
+//关注人panel全选框
+jQuery('#fuserpanel #chkAll ').click(function(){
+	if (jQuery(this).attr('checked') == 'checked') {
+		jQuery('#fusers input:[type=checkbox]').each(function(){
+			jQuery(this).attr('checked','checked');
+		});
+	}else{
+		jQuery('#fusers input:[type=checkbox]').each(function(){
+			jQuery(this).removeAttr('checked');
+		});
+	}
+	jQuery('#fuserpanel .choose label:eq(0)').text(jQuery('#fusers input:checked').length);
+});
+jQuery('#fusers input:[type=checkbox]').live('click', function(){
+	var flag = true;
+	jQuery('#fusers input:[type=checkbox]').each(function(){
+		if (jQuery(this).attr('checked')!='checked'){
+			flag = false;
+			return false;
+		}
+	});
+	if (flag) {
+		jQuery('#fuserpanel #chkAll ').attr('checked','checked');
+	}else{
+		jQuery('#fuserpanel #chkAll ').removeAttr('checked');
+	}
+	jQuery('#fuserpanel .choose label:eq(0)').text(jQuery('#fusers input:checked').length);
+});
+
+//关注人panel确认按钮事件
+jQuery('#btnAddUser2Group').click(function(){
+	var fuid = '';
+	var uid = $space[uid];
+	var gid = jQuery('#groupid').val();
+	var n = jQuery('#fusers input:checked').length;
+	if (n > 0) {
+		jQuery('#fusers input:checked').each(function(i){
+			fuid += jQuery(this).val() + ((i!=n-1)?',':'');
+		});
+		
+		jQuery.getJSON("api/blog/api_group_update.php?fuid="+fuid+"&gid="+gid+"&uid="+uid+"&action=add&code="+jQuery.md5('esn'+'add'+fuid+gid+uid),function(data){
+			if(data.success == 'Y'){
+				showFUserPanel(false);
+				//showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>添加成功</span>", 3000);
+				//setTimeout(function(){location.reload()},400);
+				location.reload()
+			}else{
+				showDialog('关注人添加失败，请重试，或稍等片刻');
+			}
+		});
+	}else{
+		showDialog('请选择需要添加至组的关注人');
+	}
+});
+
+function showFUserPanel(isshow){
+	if (isshow) {
+		jQuery('#btnTogUserPanel').children().text('取消');
+		jQuery('#btnAddUser2Group').show();
+	}else{
+		jQuery('#btnTogUserPanel').children().text('编辑分组');
+		jQuery('#btnAddUser2Group').hide();
+	}
+	jQuery('#fuserpanel').fadeToggle(isshow);
+}
+
+function createFUserList(gid) {
+	var father = jQuery('#fuserpanel #fusers');
+	var str = '';
+	var clist = function(data){
+			if (data){
+				jQuery.each(data, function(key, list) {
+					if (list.friendID == 0) // 未知用户
+						str += '<li> '
+							+ '<span><input type="checkbox" value="'+list.friendID+'" /></span> '
+							+ '<span class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}"></span> '
+							+ '<span><h4>{lang anonymity}</h4></span> '
+							+ '</li>';
+					else
+						str += '<li> '
+							+ '<span><input type="checkbox" value="'+list.friendID+'" /></span> '
+							+ '<span class="avt"><img src="uc_server/avatar.php?uid='+list.friendID+'&size=small"></span> '
+							+ '<span><h4>'+list.friendName+'</h4></span> '
+							+ '</li>';
+				});
+				father.append(str);
+			}
+			setMaxHeight(father, 160);
+			jQuery('#fuserpanel .choose label:eq(1)').text(jQuery(data).length);
+		};
+	
+	father.height('0px');	// for IE9+, 
+	father.empty();
+	jQuery('#fuserpanel #chkAll').removeAttr('checked');
+	jQuery('#fuserpanel .choose label:eq(0)').text(0);
+	
+	if (gid == 'all' || gid == 'friend') {
+		var type = (gid=='all')?1:(gid=='friend')?3:-1;
+		jQuery.getJSON("api/blog/api_userlist.php?uid=" + $_G[uid] + "&type=" + type, function(data){
+			clist(data.list);
+		});
+	}else{
+		jQuery.getJSON("api/blog/api_group_member.php?uid=" + $_G[uid] + "&gid=" + gid, function(data){
+			clist(data.list);
+		});
+	}
+}
+
+function displayGroupTab() {
+	var tab = jQuery('#allgroups div a.a').parent();
+	tab.addClass('on').siblings().removeClass('on');
+	tab.prev('span').hide().end().next('span').hide();
+}
+
+function setMaxHeight(ele, height){
+     var container = jQuery(ele);
+     container.height('auto');
+     //alert(container.height());
+     container.height((container.height() > (height - 1)) ? height + 'px' : 'auto');
+}
+
+</script>

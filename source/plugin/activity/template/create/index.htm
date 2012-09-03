@@ -1,0 +1,150 @@
+<script type="text/javascript">
+    function checkgroupname() {
+        var groupname = trim($('name').value);
+        ajaxget('forum.php?mod=ajax&forumcheck=1&infloat=creategroup&handlekey=creategroup&action=checkgroupname&groupname=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(groupname) : groupname), 'returnmessage4');
+    }
+    function succeedhandle_creategroup(locationhref, message) {
+        showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
+    }
+    function selectlive(ishow){
+        if(ishow){
+            $("teachertr").style.display = '';
+            $("livetr").style.display = '';
+        }else{
+            $("teachertr").style.display = 'none';
+            $("livetr").style.display = 'none';
+        }
+    }
+</script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<div id="main_messaqge" class="bm">
+    <form action="{eval echo join_plugin_action('save');}"class="s_clear" id="groupform" name="groupform" method="post" onsubmit="return validatefrm(this);">
+        <input type="hidden" name="teacherids" id="teacherids"/>
+        <input type="hidden" name="livesids" id="livesids"/>
+        <div class="mn">
+            <div class="bm">
+
+                <div class="bt">
+                    <span class="left heise"><img height="16" width="16" src="static/image/plugins/activity.gif">创建活动</span>
+                </div>
+                <table cellspacing="0" cellpadding="0" summary="创建活动" class="tfm">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td><strong class="rq"><em id="returnmessage4" style=""></em></strong></td>
+                        </tr>
+                        <tr>
+                            <th align="right">活动类型</th>
+                            <td>
+                                <input type="radio" id="type" name="type" value="1" checked="true" onclick="selectlive(false)"/>普通
+                                <input type="radio" id="type" name="type" value="2" onclick="selectlive(true)"/>直播
+                            </td>
+                        </tr>
+                        <tr>
+                            <th align="right"><strong class="rq y">*</strong>活动名称:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="name" name="name"></td>
+                        </tr>
+                        <tr id="teachertr" style="display:none">
+                            <th align="right"><strong class="rq y">*</strong>讲师:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="teacher" name="teacher" readonly="true"><a onclick="showWindow('teacherwin', this.href, 'get', 0);" href="misc.php?mod=queryteacher">选择</a>
+                            	<a href="#" onclick="clearteacher()">清除</a>
+                            </td>
+                        </tr>
+                        <tr id="livetr" style="display:none">
+                            <th align="right"><strong class="rq y">*</strong>直播:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="live" name="live" readonly="true"><a onclick="showWindow('livewin', this.href, 'get', 0);" href="misc.php?mod=querylive&fid=$_G[fid]">选择</a></td>
+							<a href="#" onclick="clearlive()">清除</a>
+                        </tr>
+                        <tr>
+                            <th align="right">活动开始时间:</th>
+                            <td><input type="text" tabindex="1" value="" autocomplete="off" onclick="showcalendar(event, this, true, true)" class="px" id="starttime" name="starttime"></td>
+                        </tr>
+                        <tr>
+                            <th align="right">活动结束时间:</th>
+                            <td><input type="text" tabindex="1" value="" class="px" name="endtime" id="endtime" autocomplete="off" onclick="showcalendar(event, this, true, true)"></td>
+                        </tr>
+                        <tr>
+                        	<th>报名截止时间:</th>
+                            <td><input type="text" tabindex="1" value="" class="px" name="signuptime" id="signuptime" autocomplete="off" onclick="showcalendar(event, this, true, true)"></td>
+                        </tr>
+                        <!--{if $is_enable_category}-->
+                        <tr>
+                            <th align="right"><strong class="rq y">*</strong>分类:</th>
+                            <td>
+                                <select name="category">
+                                    <!-- {loop $categorys $id $cat}-->
+                                    <option value="$id">$cat[name]</option>
+                                    <!--{/loop}-->
+                                </select>
+                            </td>
+                        </tr>
+                        <!--{/if}-->
+                        <tr>
+                            <th align="right"><strong class="rq y">*</strong>活动简介:</th>
+                            <td><textarea class="pt" tabindex="3" name="descriptionnew" cols="40" rows="4"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th align="right"><strong class="rq y">*</strong>浏览权限:</th>
+                            <td><input type="radio" checked="checked" value="1" tabindex="4" class="pr" name="gviewperm"> 所有人 <input type="radio" value="0" name="gviewperm" class="pr"> 仅活动成员 <input type="radio" value="2" name="gviewperm" class="pr"> 专区成员 <input type="radio" value="3" name="gviewperm" class="pr"> 继承专区</td>
+                        </tr>
+                        <tr>
+                            <th align="right"><strong class="rq y">*</strong>加入方式:</th>
+                            <td><input type="radio" checked="checked" value="0" tabindex="5" class="pr" name="jointype"> 自由加入 <input type="radio" value="2" name="jointype" class="pr"> 审核加入 <input type="radio" value="1" name="jointype" class="pr"> 邀请加入 <input type="radio" value="3" name="jointype" class="pr"> 禁止任何人加入</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>注：新建活动成功之后可以上传活动图标。</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="hidden" value="true" name="createsubmit"><button tabindex="6" class="pn pnp" type="submit"><strong>创建</strong></button></td>
+                        </tr>
+                    </tbody>
+                </table></div></div>
+    </form>
+</div>
+<script type="text/javascript">
+	function clearteacher(){
+	    $("teacherids").value = "";
+	    $("teacher").value = "";
+	}
+	function clearlive(){
+	    $("livesids").value = "";
+	    $("live").value = "";
+	}
+
+    function validatefrm(frm){
+        var start = parsedate(frm.starttime.value);
+        var end = parsedate(frm.endtime.value);
+        if(frm.starttime.value!='' && frm.endtime.value!='' && start>=end){
+            showDialog('请输入活动结束时间必须大于开始时间');
+            return false;
+        }
+		var signup = parsedate(frm.signuptime.value);
+		if(frm.endtime.value!='' && frm.signuptime.value!='' && signup>=end){
+            showDialog('活动报名截止时间必须小于活动结束时间');
+            return false;
+        }
+        if(frm.descriptionnew.value==''){
+            showDialog('请输入活动简介');
+            return false;
+        }
+        if(frm.name.value==''){
+            showDialog('请输入活动名称');
+            return false;
+        }
+        if($("livetr").style.display == '') {
+            if(frm.live.value=='') {
+            	showDialog('请选择一个直播');
+                return false;
+            }
+        }
+        if($("teachertr").style.display == '') {
+            if(frm.teacher.value=='') {
+            	showDialog('请至少选择一个讲师');
+                return false;
+            }
+        }
+        return true;
+    }
+</script>

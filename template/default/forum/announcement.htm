@@ -1,0 +1,45 @@
+{subtemplate common/header}
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = parseInt({IMAGEMAXWIDTH});</script>
+<div id="pt" class="wp"><a href="forum.php">$_G['setting']['bbname']</a> &rsaquo; {lang announcement}</div>
+<div id="ct" class="wp cl with_side">
+	<div class="sd pph" style="$collapse[sidebar]">
+		{subtemplate common/userabout}
+		<div class="bn">
+			<h2>{lang announcement}</h2>
+			<ul class="tabs">
+			<!--{loop $months $month}-->
+				<li><a href="forum.php?mod=announcement&m=$month[0].$month[1]">$month[0] {lang year} $month[1] {lang month}</a></li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<div class="mn">
+		<div class="ch">
+			<label class="wx">{lang announcement}</label>
+		</div>
+		<div class="bn">
+		<!--{loop $announcelist $ann}-->
+			<div id="announce$ann[id]_c" class="umh{if $messageid != $ann[id]} umn{/if} cl">
+				<h3 onclick="toggle_collapse('announce$ann[id]', 1, 1);"><a>$ann[subject]</a><em>($ann[starttime])</em></h3>
+				<div class="umh_act">
+					<p class="umh_cb"><a href="javascript:;" onclick="toggle_collapse('announce$ann[id]', 1, 1);">[ {lang open} ]</a></p>
+				</div>
+			</div>
+			<div id="announce$ann[id]" style="display: none">
+				<div class="um">
+					<p class="author">{lang author}: <a href="home.php?mod=space&username=$ann[authorenc]">$ann[author]</a></p>
+					$ann[message]
+				</div>
+			</div>
+		<!--{/loop}-->
+		</div>
+	</div>
+</div>
+<!--{if !empty($annid)}-->
+<script type="text/javascript">
+	toggle_collapse('announce$annid', 1, 1);
+</script>
+<!--{/if}-->
+		
+{subtemplate common/footer}

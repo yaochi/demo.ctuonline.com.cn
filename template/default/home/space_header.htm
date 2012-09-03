@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+<title>
+{if !empty($_G['home_tpl_titles'])}{loop $_G['home_tpl_titles'] $value}$value - {/loop}{/if}{if !empty($navtitle)}$navtitle{/if} {if $space[spacename]} $space[spacename]- {/if}$space[username] - $_G['setting']['bbname'] $_G['setting']['seotitle']
+</title>
+
+<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script src="{$_G[setting][jspath]}jquery-1.7.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$_G[setting][jspath]}jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">jQuery.noConflict();</script>
+<script type="text/javascript" src="{$_G[setting][jspath]}common_jquery.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}jquery-md5.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}jquery-growfield2.js?{VERHASH}"></script>
+<meta name="generator" content="Discuz! $_G['setting']['version']" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2010 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]" />
+{csstemplate}
+<style type="text/css">
+body { background-color: transparent; }
+	#hd { position: relative; height: 140px; }
+		#hd h2 { padding: 25px 0 0 15px; font-size: 14px; }
+			#hd h2 strong { display: block; }
+		#nv { position: absolute; left: 10px; bottom: 0; }
+			#nv li, #home { margin-right: 1px; padding: 0 20px; border: none; height: 30px; background: #FFF; line-height: 30px; font-size: 12px; opacity: 0.7; filter:alpha(opacity=70); }
+		#ct, .n, .w { padding-top: 15px; border: none; background: transparent none !important; }
+		.area { padding: 0 5px; }
+		.frame { background: transparent none; }
+		.block { padding: 0; }
+			.block .content { padding: 5px 10px 10px; }
+		.block .title { padding: 0 10px; font-size: 12px; color: #333; }
+	#pcd .avt { text-align: center; }
+	#pcd h2 { margin: 10px auto 0; }
+	.mls li { width: 69px; }
+.move-span{margin:1px;}
+.column { overflow: hidden; }
+.musicbj { width: 60px; height: 60px;}
+#spaceinfoshow { position: relative;}
+#hd h2 span { display: block; }
+#hd ul.savebar { width: 450px; height: 20px; border: 1px solid #ccc;}
+#hd ul.savebar li { float:right; margin: 0 3px;}
+.ipx {background: none; height: 17px;}
+#infoedit { display: none; margin-left: 5px; padding: 0 5px; background: #369; color: #FFF; cursor: pointer; }
+#diy-tg { top: 30px; }
+.topnav { height: 30px; background: url({IMGDIR}/topnav.png) repeat-x; color: #333; text-shadow: 1px 1px 1px #FFF; }
+	.topnav li { float: left; margin-top: 5px; }
+		.topnav li a { padding: 0 10px; }
+			.topnav li a span { display: none; }
+	.navlogo { border-right: 1px solid #FFF; background: url({IMGDIR}/pt_icn.png) no-repeat 5px 50%; }
+		.topnav li.navlogo a { padding-left: 25px; border-right: 1px solid #D5D5D5; }
+	.navinf { display: inline; margin: 5px 10px 0 0; }
+</style>
+<link id="style_css" rel="stylesheet" type="text/css" href="{STATICURL}space/{if $space[theme]}$space[theme]{else}t1{/if}/style.css?{VERHASH}">
+<style id="diy_style">$space[spacecss]</style>
+<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '{if $_G['setting']['creditnotice']}$_G['setting']['creditnames']{/if}', UID = '$_G[uid]', REALNAME = '{echo user_get_user_name($_G[uid]);}', REPEATID = '$_G[member][repeatsstatus]', VIDEOUPLOADURL = '$_G[config][videouploadurl]', FORMHASH = '{FORMHASH}'</script>
+</head>
+
+<body id="space">
+<!--{if $isOfficial}-->
+	<!--{if $space['self']}--><a id="diy-tg" href="home.php?mod=space&diy=yes" title="{lang dress_space}"><img src="{STATICURL}image/diy/panel-toggle-space.png" alt="DIY" /></a><!--{/if}-->
+<!--{/if}-->	
+	<div id="append_parent"></div>
+	<div id="ajaxwaitid"></div>
+
+	<!--{if $space['self'] && $_GET['diy'] == 'yes' && $do == 'index' }-->
+	{subtemplate common/css_diy}
+	{subtemplate home/space_diy}
+	<!--{/if}-->
+
+	<div class="topnav cl">
+		<p class="y navinf">
+			<!--{if $_G['uid']}-->
+				<strong><a href="home.php?mod=space" class="noborder" target="_blank"><!--{eval echo user_get_user_name($_G[uid]);}--></a></strong>
+				<!--{if $_G['group']['allowinvisible']}--><span id="loginstatus" class="xg1"><a href="member.php?mod=switchstatus" title="{lang login_switch_invisible_mode}" onclick="ajaxget(this.href, 'loginstatus');doane(event);"><!--{if $_G['session']['invisible']}-->{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}--></a></span><!--{/if}-->
+				<span class="pipe">|</span><a href="home.php?mod=space&do=home">{lang my_space}</a>
+				<span class="xg1"><a href="home.php?mod=spacecp">{lang setup}</a></span>
+				<span class="pipe">|</span><a href="home.php?mod=space&do=pm" id="pm_ntc"{if $_G[member][newpm]} class="new"{/if}>{lang pm_center}<!--{if $_G[member][newpm]}-->($_G[member][newpm])<!--{/if}--></a>
+				<!--{if $_G['group']['allowmanagearticle'] || $_G['group']['allowdiy']}--><span class="pipe">|</span><a href="portal.php?mod=portalcp">{lang portal_manage}</a><!--{/if}-->
+				<!--{if $_G['uid'] && $_G['adminid'] > 1}--><span class="pipe">|</span><a href="forum.php?mod=modcp&fid=$_G[fid]" target="_blank">{lang forum_manager}</a><!--{/if}-->
+				<!--{if $_G['uid'] && ($_G['adminid'] == 1 || $_G['member']['allowadmincp'])}--><span class="pipe">|</span><a href="admin.php" target="_blank">{lang admincp}</a><!--{/if}-->
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
+			<!--{elseif !empty($_G['cookie']['loginuser'])}-->
+				<strong><a id="loginuser">$_G['cookie']['loginuser']</a></strong>
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href);hideWindow('register');">{lang activation}</a>
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
+			<!--{else}-->
+				<a href="member.php?mod=register" onclick="showWindow('register', this.href);hideWindow('login');">$_G['setting']['reglinkname']</a>
+				<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href);hideWindow('register');">{lang login}</a>
+			<!--{/if}-->
+		</p>
+		<ul class="cl">
+			<li class="navlogo"><a href="http://www.myctu.cn" title="$_G['setting']['bbname']">$_G['setting']['bbname']</a></li>
+			<!--{loop $_G['setting']['navs'] $navsid $nav}-->
+				<!--{if $nav['available']}-->
+					<!--{if $navsid == 6 && !empty($_G['setting']['plugins']['jsmenu'])}-->
+						$nav[nav]
+					<!--{else}-->
+						<!--{if !$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)}-->$nav[nav]<!--{/if}-->
+					<!--{/if}-->
+				<!--{/if}-->
+			<!--{/loop}-->
+		</ul>
+	</div>
+
+
+
+
+
+<!--{if !$isOfficial}-->
+	<div id="hd" class="wp cl">
+		<h2 id="spaceinfoshow">
+			{eval space_merge($space, 'field_home'); $space[domainurl] = space_domain($space);}
+			<strong id="spacename"><!--{if $space[spacename]}-->$space[spacename]<!--{else}-->$space[username]{lang somebody_space}<!--{/if}--></strong>
+			<a id="domainurl" href="$space[domainurl]" onclick="javascript:setCopy('$space[domainurl]', '{lang copy_space_address}');return false;" class="xs0 xw0" style="visibility: hidden;">$space[domainurl]</a>
+			<span id="spacedescription" class="xs1 xw0">$space[spacedescription]</span>
+		</h2>
+		<div id="nv">
+			<ul>
+				<li><a href="home.php?mod=space&uid=$space[uid]">{lang main_page}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=home&view=me&from=space">{lang feed}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=album&view=me&from=space&op=pic">{lang pic}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=thread&view=me&from=space">{lang topic}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=follow&view=me&from=space&diymode=1">{lang fans}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=wall">{lang message_board}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=profile">{lang memcp_profile}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=doc&view=me&from=space">{lang document}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=nwkt&view=me&from=space">{lang classroom}</a></li>
+			</ul>
+		</div>
+	</div>
+<!--{else}-->
+	<div >&nbsp;</div>
+	<div  class="wp cl">
+		<h2 id="spaceinfoshow">
+			<a href="home.php?mod=space&uid=$space[uid]"><img src="{STATICURL}image/home/official_blog.gif" ></img></a>
+		</h2>
+	</div>
+<!--{/if}-->	
+	
+	
+
+	<!--{if !empty($_G['setting']['plugins']['jsmenu'])}-->
+		<ul class="p_pop h_pop" id="plugin_menu" style="display: none">
+		<!--{loop $_G['setting']['plugins']['jsmenu'] $module}-->
+		     <!--{if !$module['adminid'] || ($module['adminid'] && $_G['adminid'] > 0 && $module['adminid'] >= $_G['adminid'])}-->
+		     <li>$module[url]</li>
+		     <!--{/if}-->
+		<!--{/loop}-->
+		</ul>
+	<!--{/if}-->
+	<!--{loop $_G['setting']['subnavs'] $subnav}-->
+		$subnav
+	<!--{/loop}-->

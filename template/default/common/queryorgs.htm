@@ -1,0 +1,31 @@
+{template common/header}
+<script type="text/javascript">
+function selectOrgs(){
+	var ids = document.getElementsByName("ids");
+	var val = "";
+	var title = "";
+	for(var i=0; i<ids.length; i++){
+		if(ids[i].checked){
+			title = title + ids[i].title+",";
+			val = val + ids[i].value+",";
+		}
+	}
+	$("orgname_input_id").value = val;
+	$("orgname_input").value = title;
+	hideWindow("orgtree");
+}
+</script>
+
+<div id="main_messaqge" style="width:300px; height:450px;  overflow-x:scroll;">
+    <h3 class="flb">
+        <em id="returnmessage4">组织机构</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('orgtree')" title="关闭">关闭</a></span>
+    </h3>
+    <table width="100%">
+	<tr><td>选择</td><td>名称</td></tr>
+	$s
+</table>
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="selectOrgs()"><strong>选择机构</strong></button></p>
+</div>
+
+{template common/footer}

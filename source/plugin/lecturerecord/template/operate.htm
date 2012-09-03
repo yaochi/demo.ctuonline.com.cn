@@ -1,0 +1,33 @@
+{template common/header}
+<div id="main_messaqge">
+
+	<!--{if $oper=='select'}-->
+	<h3 class="flb">
+		<em>添加课程</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<div class="c">
+		<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+			<tr>
+				<td width="30"><input type="radio" checked="checked" id="courseTypeA" name="coursegroup" class="pr" value="0" style="margin-top: 3px;"/></td>
+				<td>
+					<span style="display: block;" class="xs2">已有集团课程</span>
+					<select id="corpCourseList" style="width: 400px;">
+					<!--{loop $courses $course}-->
+						<option value="$course[coursename]">$course[code]&nbsp;&nbsp;$course[coursename]</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+
+		</table>
+	</div>
+	<p class="o pns">
+		<button type="submit" id="btnsubmit" name="btnsubmit" value="true" class="pn pnc" onclick="select();hideWindow('$_G[gp_handlekey]');"><strong>添加</strong></button>
+	</p>
+	<script type="text/javascript" charset="utf-8">	function select()	{		var courseName = document.getElementById("corpCourseList").value;
+		$('name').value=courseName;	}	</script>
+	<!--{/if}-->
+
+</div>
+{template common/footer}

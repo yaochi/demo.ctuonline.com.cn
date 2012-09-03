@@ -1,0 +1,146 @@
+{template common/header}
+<div id="main_messaqge">
+
+	<!--{if $oper=='addlevel'}-->
+	<h3 class="flb">
+		<em>新增级别</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<div id="aplField" class="c hm">
+		<input type="text" name="levelname" id="levelname" value="" class="px" />
+		<img src= "{IMGDIR}/loading.gif" width="16" height="16" style="display: none;"/>
+		<p class="xcred mtm hm" style="display: none;">级别名称已存在 请更换</p>
+	</div>
+	<p id="aplCtrl" class="o pns">
+		<button type="button" id="btnsubmit" name="btnsubmit" value="true" class="pn pnc" onclick="addProLevel();"><strong>添加</strong></button>
+	</p>
+	<script type="text/javascript" charset="utf-8">
+		var aplInput = $("levelname");
+		var loadingimg = $("aplField").getElementsByTagName("img")[0];
+		var promptInfo = $("aplField").getElementsByTagName("p")[0];
+		aplInput.focus();
+		
+		function addProLevel() {
+			var parentID = $("prolv" + currentSelLv).name;
+			
+			aplInput.style.display = "none";
+			$("aplCtrl").style.display = "none";
+			promptInfo.style.display = "none";
+			loadingimg.style.display = "inline-block";
+			
+			var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid=197&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=add_level&pid=" + parentID + "&levelname=" + encodeURI(aplInput.value);
+			getJSONP(callurl, "proLevelAdd");
+		}
+		
+		function proLevelAdd(data) {
+			if(data.s != 0) {
+				var tmpOption = new Option(aplInput.value, data.s);
+				$("prolv" + currentSelLv).options.add(tmpOption);				
+				cleanWindow(true);
+				hideWindow('$_G[gp_handlekey]');
+			} else {
+				promptInfo.style.display = "block";
+				cleanWindow(false);
+			}
+		}
+		
+		function cleanWindow(isForced) {
+			loadingimg.style.display = "none";
+			aplInput.style.display = "block";
+			isForced ? aplInput.value = "" : "";
+			isForced ? promptInfo.style.display = "none" : "";
+			aplInput.focus();
+			$("aplCtrl").style.display = "block";
+		}
+	</script>
+	<!--{/if}-->
+	
+	<!--{if $oper=='changelevel'}-->
+	<h3 class="flb">
+		<em>重命名级别</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="cleanWindow(true);hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<div id="aplField" class="c hm">
+		<input type="text" name="levelname" id="levelname" value="" class="px" />
+		<img src= "{IMGDIR}/loading.gif" width="16" height="16" style="display: none;"/>
+		<p class="xcred mtm hm" style="display: none;">级别名称已存在 请更换</p>
+	</div>
+	<p id="aplCtrl" class="o pns">
+		<button type="button" id="btnsubmit" name="btnsubmit" value="true" class="pn pnc" onclick="renProLevel();"><strong>重命名</strong></button>
+	</p>
+	<script type="text/javascript" charset="utf-8">
+		var aplInput = $("levelname");
+		var loadingimg = $("aplField").getElementsByTagName("img")[0];
+		var promptInfo = $("aplField").getElementsByTagName("p")[0];
+		aplInput.value = $("prolv" + currentSelLv).options[$("prolv" + currentSelLv).selectedIndex].text;
+		aplInput.focus();
+		
+		function renProLevel() {
+			var lvID = $("prolv" + currentSelLv).value;
+			
+			aplInput.style.display = "none";
+			$("aplCtrl").style.display = "none";
+			promptInfo.style.display = "none";
+			loadingimg.style.display = "inline-block";
+			
+			var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid=197&plugin_name=lecturermanage&plugin_op=createmenu&lecturermanage_action=change_level&levelid=" + lvID + "&levelname=" + encodeURI(aplInput.value);
+			getJSONP(callurl, "proLevelRen");
+		}
+		
+		function proLevelRen(data) {
+			if(data.s) {
+				$("prolv" + currentSelLv).options[$("prolv" + currentSelLv).selectedIndex].text = aplInput.value;		
+				cleanWindow(true);
+				hideWindow('$_G[gp_handlekey]');
+			} else {
+				promptInfo.style.display = "block";
+				cleanWindow(false);
+			}
+		}
+		
+		function cleanWindow(isForced) {
+			loadingimg.style.display = "none";
+			aplInput.style.display = "block";
+			isForced ? aplInput.value = "" : "";
+			isForced ? promptInfo.style.display = "none" : "";
+			$("prolv" + currentSelLv).disabled  = isForced ? false : true; 
+			aplInput.focus();
+			$("aplCtrl").style.display = "block";
+		}
+	</script>
+	<!--{/if}-->
+	
+	<!--{if $oper=='addcourse'}-->
+	<h3 class="flb">
+		<em>添加课程</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<div class="c">
+		<table border="0" cellspacing="0" cellpadding="0" class="tfm">
+			<tr>
+				<td width="30"><input type="radio" checked="checked" id="courseTypeA" name="coursegroup" class="pr" value="0" style="margin-top: 3px;"/></td>
+				<td>
+					<span style="display: block;" class="xs2">已有集团课程</span>
+					<select id="corpCourseList" style="width: 400px;">
+					<!--{loop $courses $course}-->
+						<option value="$course[coursename]">$course[code]&nbsp;&nbsp;$course[coursename]</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><input type="radio" id="courseTypeB" name="coursegroup" class="pr" value="0" onclick="$('otherCourseText').focus(); $('otherCourseLabel').style.display = 'none';"/></td>
+				<td>
+					<input type="text" name="otherCourseText" id="otherCourseText" value="" class="px" onfocus="$('otherCourseLabel').style.display = 'none'; $('courseTypeB').checked = 'checked';" onblur="if(this.value == '') $('otherCourseLabel').style.display = '';"/>
+					<label id="otherCourseLabel" for="otherCourseText" class="xg1 xs2" style="position: absolute; padding-top: 5px; left: 60px;" onblur="trimWS(this);">请输入集团课程名称</label>
+				</td>
+			</tr>
+		</table> 
+	</div>
+	<p class="o pns">
+		<button type="submit" id="btnsubmit" name="btnsubmit" value="true" class="pn pnc" onclick="trimWS($('otherCourseText')); if($('courseTypeB').checked && $('otherCourseText').value == '') {} else {addCourse($('deliCourses'), $('createtype').value);hideWindow('$_G[gp_handlekey]');}"><strong>添加</strong></button>
+	</p>
+	<!--{/if}-->
+	
+</div>
+{template common/footer}

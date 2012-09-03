@@ -1,0 +1,121 @@
+{template common/header}
+<script type="text/javascript">
+	function selectcourse(){
+		var optionradios =document.getElementsByName('courseurl');		
+		if(optionradios.length>0){
+			for(var i=0;i<optionradios.length;i++){
+				if(optionradios[i].checked){
+					//alert(optionradios[i].value);
+					$('url').value=optionradios[i].value;
+					break;
+				}
+			}
+		}
+		hideWindow('query');
+	}
+	function queryajax(url, params, html){
+	    var x = new Ajax();
+	    x.post(url,params, function(content){$(html).innerHTML=content;});
+	    //var urllocation=url+"?"+params;	    
+	    //x.get(urllocation,function(content){$(html).innerHTML=content;});
+	    //ajaxpost(url+params,)
+	}
+</script>
+<style type="text/css">
+<!--
+
+.table td.a{ font-size:12px; color:#000000; font-weight:bold;}
+.table td.b{ padding-left:20px;}
+-->
+</style>
+<!--{if $_G['gp_action'] == 'query'}-->
+$jsstr
+<!--{elseif $_G['gp_action'] == 'select'}-->
+$jsstr
+<!--{else}-->
+<!--{if !$_G['inajax']}-->
+			<h1 class="mt">查询点播</h1>
+			<div class="usd usd2">
+<!--{else}-->
+		<div id="main_messaqge">
+			<h3 class="flb">
+				<em id="returnmessage4">查询点播</em>
+				<span>
+					<!--{if $_G['inajax']}--><a href="javascript:;" class="flbc" onclick="hideWindow('query')" title="{lang close}">{lang close}</a><!--{/if}-->
+				</span>
+			</h3>
+			
+			<div class="usd">
+<!--{/if}-->
+				<ul class="cl">
+					<li style="">
+						<form>
+							<p>按点播名称查找</p>
+							<p class="mtn z" >
+								<input type="text" name="title" size="25" id="title" class="px" value="" autocomplete="off"  onkeypress="javascript:if(event.keyCode==13)return false;"/>
+								<input type="button" onclick="javascript:querycourse();" value="查询点播" name="button">
+								<div class="tbx z mlngroup"></div>
+								<div style="padding-top:5px;clear:both;"></div>
+							</p>
+							
+							<script type="text/javascript">
+								var invitefs;
+								
+								function querycourse(){									
+									var title=document.getElementById('title');									
+									if(title.value.length<=0){
+										showDialog("请输入你要查询的点播名称");
+										return false;
+									}
+									var titlevalue=encodeURIComponent(title.value);
+									var x = new Ajax();
+									x.get('misc.php?mod=querycourse&inajax=1&from=search&title='+titlevalue,function(s){
+											document.getElementById('data').innerHTML=s;
+									});
+									//queryajax('misc.php', 'mod=querycourse&amp;from=search&amp;ajaxtarget=fwin_content_query&amp;fwin=query', 'data')
+								}
+								
+							</script>
+						</form>
+					</li>
+				</ul>
+			</div>
+				<div id="data" style="width:600px;">				
+						<table width="100%" class="table">
+							<tr style='width:600px;'>
+								<td width='10%' class="a b">选择</td>
+								<td width='15%' class='a b'>点播编号</td>
+								<td width='75%' class="a">点播名称</td>							
+							</tr>
+							<!-- {if $list} -->				
+								<!-- {loop $list $key $value} -->
+									<tr style='width:600px;'>
+										<td  class="b">								
+											<input type='radio' name='courseurl' value='$value[titlelink]' id='course$value[id]'>
+										</td>
+										<td  align="center">$value['id']</td>
+										<td ><label for='course$value[id]'>$value['title']</label></td>							
+									</tr>
+								<!-- {/loop} -->
+							<!-- {else} -->
+								<tr align="center" style='width:600px;'>
+									<td align="center" colspan='3'>对不起，没有可用的点播！</td>						
+								</tr>
+							<!-- {/if} -->
+							<!-- {if $multipage} -->
+								<tr align="center" style='width:600px;'>
+									<td align="center" colspan='3' style='padding:5px;'>$multipage</td>						
+								</tr>
+							<!-- {/if} -->
+						</table>					
+					
+				</div>
+
+						
+			<p class="o pns{if empty($_G['inajax'])} mtw{/if}"><button type="button" class="pn pnc" name="querysubmit" value="yes" onclick="javascript:selectcourse();"><strong>选择点播</strong></button></p>
+<!--{if $_G['inajax']}-->
+		</div>
+<!--{/if}-->
+<!--{/if}-->
+
+{template common/footer}

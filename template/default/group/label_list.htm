@@ -1,0 +1,156 @@
+{subtemplate common/header}
+	<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">$_G[setting][navs][3][navname]</a> $groupnav </div>
+
+	{ad/text/wp a_t}
+	<style id="diy_style" type="text/css"></style>
+	<div class="wp">
+		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+	</div>
+	<div id="ct" class="wp cl">
+
+	  <div class="mn">
+			<div class="ch">
+				<label class="wx"><a href="$_G[setting][navs][3][filename]">$_G[setting][navs][3][navname]</a></label>
+			</div>
+			{hook/group_index_header}
+			<div class="bm">
+			<!--{if $ac=='list'}-->
+				<p><h1>{lang label_list} </h1>
+				</p>
+				
+				 <!--{loop $toplabels $tlabel}-->				
+				<h1>{$tlabel[name]}</h1>
+				<ul class="ml mls cl">
+					<!--{loop $labels $label}-->    
+					
+					<!--{if $label[fup]==$tlabel[fid]}-->               
+					<li>
+						<a href="group.php?mod=label&ac=detail&lid={$label[fid]}" class="avt">{$label[name]}</a><font color="#CCCCCC">({$label[groupnum]})</font>
+					</li>
+					<!--{/if}-->
+					<!--{/loop}-->
+				</ul>
+				 <hr class="da" />
+				 <!--{/loop}-->
+				 
+			 <!--{elseif $ac=='detail'}-->
+			 	<p>
+			 	<h1>{lang label_detail}&nbsp;&nbsp;{$label[name]}<span style="float:right;font-size:12px;"><a href="group.php?mod=label&ac=list">返回列表</a></span></h1>
+			 	</p>
+				<!--{if empty($group)}-->
+				<br />
+					{lang label_groups_none}
+				<!--{/if}-->		
+				<ul class="ml mls cl">
+				
+					<!--{loop $groups $group}-->    					
+					<li>
+			<a href="group.php?mod=group&fid={$group[fid]}" class="avt">{$group[name]}</a><font color="#CCCCCC">({$group[menbernum]})</font>
+					</li>					
+					<!--{/loop}-->
+				</ul>
+				 <hr class="da" />
+			 <!--{/if}-->
+			</div>
+          
+			
+			
+		</div>
+
+		<div class="sd pph">
+			{subtemplate common/userabout}
+			<!--{if empty($gid) && empty($sgid)}-->
+				<div class="tns">
+					<table cellpadding="4" cellspacing="0" border="0">
+						<tr>
+							<th><p>$todayposts</p>{lang posts_today}</th>
+							<th><p>$joinnum</p>{lang member_joined}</th>
+							<td><p>$groupnum</p>{lang groups_total}</td>
+						</tr>
+					</table>
+				</div>
+				<hr class="l" />
+                <!--{if $_G['setting']['search']['group']['status'] && ($_G['adminid'] == 1 || ($_G['group']['allowsearch'] & 16)) }-->
+                <div class="bm">
+                    <div class="pbw gsh">
+                        <h1>{lang group_search_groups}</h1>
+                        <form method="post" action="search.php?mod=group&searchsubmit=1">
+                            <p>
+                            <input type="text" name="srchtxt" id="groupsearch" class="px vm" value="{lang group_search_prompt_groupname}" onclick="$('groupsearch').value=''" />
+                            &nbsp;<button type="submit" class="pn vm"><strong>{lang search}</strong></button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <hr class="da" />
+               <!--{/if}-->
+
+                <!--{if $groupviewed_list}-->
+                <div class="bn">
+                    <h2>{lang group_visited}</h2>
+                    <ul class="ml mls cl">
+                        <!--{loop $groupviewed_list $groupid $group}-->
+                        <li>
+                            <a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]" /></a>
+                            <p><a href="forum.php?mod=group&fid=$groupid" title="$group[name]">$group[name]</a></p>
+                            <span>$group[membernum]</span>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div
+                ><!--{/if}-->
+				<hr class="da" />
+                <!--{if $friendgrouplist}-->
+				<div class="bn">
+					<h2>{lang group_friend_joined}</h2>
+					<ul class="ml mls cl">
+						<!--{loop $friendgrouplist $fid $group}-->
+							<li>
+								<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]" /></a>
+								<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]">$group[name]</a></p>
+								<span>$group[membernum]</span>
+							</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+			<!--{/if}-->
+            <hr class="da" />
+				<!--{if $newgrouplist}-->
+					<div class="bn">
+						<h2>{lang group_new}</h2>
+						<ul class="xl xl2 cl">
+							<!--{loop $newgrouplist $fid $group}-->
+								<li><a href="forum.php?mod=group&fid=$fid" title="$group[name]">$group[name]</a><span class="xg1"> ($group[membernum])</span></li>
+							<!--{/loop}-->
+						</ul>
+					</div>
+					<hr class="da" />
+				<!--{/if}-->
+			<!--{/if}-->
+			<!--{if $topgrouplist}-->
+				<div class="bn">
+					<h2>{lang group_hot}</h2>
+					<ul class="ml mls cl">
+						<!--{loop $topgrouplist $fid $group}-->
+							<li>
+								<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]" /></a>
+								<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]">$group[name]</a></p>
+								<span>$group[membernum]</span>
+							</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<hr class="da" />
+			<!--{/if}-->
+            <div class="bn">
+					<p>{lang group_create_detail}</p>
+					<p class="ptn cl"><a href='forum.php?mod=group&amp;action=create' class="bac y">{lang group_create}</a></p>
+			</div>
+		</div>
+	</div>
+
+<div class="wp mtn">
+	<!--[diy=diy4]--><div id="diy4" class="area"></div><!--[/diy]-->
+</div>
+
+{subtemplate common/footer}

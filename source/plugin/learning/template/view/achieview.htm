@@ -1,0 +1,281 @@
+<link rel="stylesheet" type="text/css"
+	href="data/cache/style_{STYLEID}_home_space.css?{VERHASH}" />
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="source/plugintice/jstice_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<link rel="stylesheet"
+	href="source/plugin/learning/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{IMAGEMAXWIDTH}';var aimgcount = new Array();</script>
+<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<div class="mn">
+	<div id="plgnav" class="bbsgroup"><a id="backbtn"
+		href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu"
+		class="z">返回列表</a>
+	<div id="toolbar">
+	<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+	</div>
+
+
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="stacoursepanel">
+
+<div id="stationBlock0" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+<p class="sb_title">我要提交</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock1" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+<p class="sb_title">意见回复</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock2" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+<p class="sb_title">成果展示</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock3" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+<p class="sb_title">学习力排行榜</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationArrow"></div>
+
+<script type="text/javascript" charset="utf-8">
+	posArrow(2);
+</script>
+</div>
+</div>
+
+<table width="97%" id="classtable" cellspacing="0" cellpadding="0"
+	border="0" class="tfm tablezykd" >
+	<!--{loop $learnmv $lear}-->
+	<tr>
+		<th align="left"><strong class="rq">*</strong>姓名</th>
+		<td class='w'><input type="text" value="$lear[subrealname]" size="20"
+			id="subrealname" name="subrealname" class="px" readonly></td>
+		<th><strong class="rq">*</strong>网大帐号</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[subusername]"
+			size="20" id="subusername" name="subusername" class="px" readonly /></td>
+	</tr>
+
+	<tr>
+		<th>公司名称</th>
+		<td class='w'><input type="text" value="$lear[subcompanyname]" size="20"
+			id="subcompany" name="subcompany" class="px" readonly/></td>
+		<th>部门名称</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[subdeptname]" size="20"
+			id="subdept" name="subdept" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th align="left">联系手机</th>
+		<td class='w'><input type="text" value="$lear[subtel]" size="20"
+			id="subtel" name="subtel" class="px" readonly></td>
+		<th>职务</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[subPost]" size="20"
+			id="subpost" name="subpost" class="px" readonly/></td>
+	</tr>
+
+	<tr>
+		<th>学习来源</th>
+		<td colspan="5" valign="top">
+		<p><strong>*</strong>学习成果来源于“添翼振翅” 哪一期培训？</p>
+		<textarea class="pt" id="learnsource" name="learnsource" cols="40"
+			rows="5" readonly>$lear[learnsource]</textarea>
+			</td>
+	</tr>
+	<tr>
+		<th>学习收获</th>
+		<td colspan="5" valign="top">
+		<p><strong>*</strong>关于知识、技能、态度等有哪些收获？</p>
+		<p class="bggray">例：通过培训我掌握到福建公司已拥有成熟的物流平<br>
+		台技术，且有成功签单经验，并愿意提供兄弟公司相互合作的模式。</p>
+		<textarea name="learnHarvest" cols="30" rows="3" id="learnHarvest"
+			class="pt" readonly>$lear[learnHarvest]</textarea>
+			</td>
+	</tr>
+	<tr>
+		<th>学习行动</th>
+		<td colspan="5" valign="top">
+		<p><strong>*</strong>所学知识对您的行为有何影响？</p>
+		<textarea rows="3" cols="30" class="pt" id="learnaction"
+			name="learnaction" readonly>$lear[learnaction]</textarea>
+			</td>
+	</tr>
+
+	<tr>
+		<th>学习成果</th>
+		<td colspan="5">
+		<p><strong>*</strong>行为改变带来什么成果？<span style="color:#b4b4b4;">若有具体数据论证，可额外获得100积分</span>
+		</p>
+		<textarea rows="3" cols="30" class="pt" id="learnachievements"
+			name="learnachievements" readonly>$lear[learnachievements]</textarea>
+		<div class="cl cm" id="learnsourcecomment">
+		<p>
+		<strong class="rq">信心指数:</strong>您觉得所取得的成果有<input type="text" value="$lear[confidenceindex]" id="confidenceindex" name="confidenceindex" size="3"/>%是由培训项目所贡献的.<span style="color:red;">(请填写1-100之间的整数）</span>
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<th>学习名称</th>
+		<td colspan="5">
+		<p><strong>*</strong>为本次学习评估起标题，便于大家搜索、分享 。</p>
+		<textarea name="learnname" cols="30" rows="3" id="learnname"
+			class="pt" readonly>$lear[learnname]</textarea></td>
+	</tr>
+	<tr>
+		<th width="30">证明人信息</th>
+		<td colspan="5"></td>
+	</tr>
+	<tr>
+		<th><strong class="rq">*</strong>姓名</th>
+		<td class='w'><input type="text" value="$lear[Witnessrealname]" size="20"
+			id="witnessrealname" name="witnessrealname" class="px" readonly></td>
+		<th><strong class="rq">*</strong>网大账号</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[Witnessusername]"
+			size="20" id="witnessusername" name="witnessusername" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td class='w'><input type="text" value="$lear[Witnesscompanyname]"
+			size="20" id="witnesscompanyname" name="witnesscompanyname"
+			class="px" readonly></td>
+		<th>部门名称</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[Witnessdeptname]" size="20"
+			id="witnessdeptname" name="witnessdeptname" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th>联系手机</th>
+		<td class='w'><input type="text" value="$lear[Witnesstel]"
+			size="20" id="witnesstel" name="witnesstel" class="px" readonly/></td>
+		<th>职务</th>
+		<td class='w' colspan="3"><input type="text" value="$lear[WitnessPost]" size="20" id="witnesspost" name="witnesspost" class="px" readonly/></td>
+	</tr>
+	<!--{/loop}-->
+</table>
+<!--{loop $learnmv $lear}-->
+    <!--{/loop}-->
+    <div class="bm">
+	<div id="div_main_content" class="mtm mbm">
+						<h3 class="bbs pbn">
+							<!--{if !empty($arryreply)}-->
+							<a href="#f_pst" class="y xi2 xw0">提出评论</a>
+							<!--{/if}-->
+							评论(<span id="comment_replynum">$replynum</span> 意见评论)
+						</h3>
+						<!--{loop $arryreply  $learnop}-->
+							<div id="op_$learnop[id]" class="xld xlda">
+                          	<dl class="bbda cl">
+                          	<dd class="m avt"><a href="home.php?mod=space&uid=$learnop[authoreruid]" class="perPanel"><!--{avatar($learnop[authoreruid], small)}--></a></dd>
+                          	<dt>
+                          	<!--{if $learnop[authoreruid]}-->
+			       <a class="perPanel" href="home.php?mod=space&uid=$learnop[authoreruid]" id="author_$learnop[id]"><!--{eval echo user_get_user_name($learnop[authoreruid]);}-->
+			       </a>
+			<!--{else}-->
+			 {lang anonymous}
+			<!--{/if}-->
+			<span class="xg1 xw0">{eval echo dgmdate($learnop[replydateline])}</span>
+		     </dt>
+                          	<dd class="z">
+                          	<div class="pcb">
+                          	<h2>$learnop[replmessage]</h2>
+                          	</div>
+                          	</dd>
+                          	</dl>
+                        </div>
+			<!--{/loop}-->
+			</div>
+<div id="postlistreply" class="xld xlda mbm"><div id="post_new" class="viewthread_table" style="display: none"></div>
+</div>
+    <!--{if $multipage}-->
+	<div class="pgs cl">$multipage</div>
+	<!--{/if}-->
+
+
+    <div id="f_pst" class="pl">
+	<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=createmenu&learning_action=replyoption&learnid=$learnid&tap=2" onsubmit="return optionpostvalidate(this)" >
+			{hook/viewthread_fastpost_content}
+				<input type="hidden" name="usesig" value="$usesigcheck" />
+											<!--{if $_G['forum']['allowfeed']}-->
+												<input type="hidden" name="addfeed" value="$addfeedcheck" />
+												<input type="hidden" name="learuid" id="learuid" value="$uid" />
+												<input type="hidden" name="subusername" id="subusername" value="$username" />
+												<input type="hidden" name="learid" id="learid" value="$learnid" />
+											<!--{/if}-->
+											<span id="fastpostreturn"></span>
+											<!--{if empty($_G[gp_from]) && $_G[setting][fastsmilies]}--><div id="fastsmilies" class="y"></div><!--{/if}-->
+
+											<div class="tedt">
+
+												<div class="bar">
+													<span class="y">
+														{hook/viewthread_fastpost_func_extra}
+														<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+															<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=fastpostmessage&from=fastpost" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> $_G['setting']['magics']['doodle']</a>
+															<span class="pipe">|</span>
+														<!--{/if}-->
+
+													</span>
+													{eval $seditor = array('fastpost', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+													{hook/viewthread_fastpost_ctrl_extra}
+													{subtemplate common/seditor}
+												</div>
+
+												<div class="area">
+													<textarea rows="5" cols="80" name="fastpostmessage" id="fastpostmessage" onKeyDown="seditor_ctlent(event, <!--{if $_G['gp_ordertype'] != 1}-->'fastpostvalidate($(\'fastpostform\'))'<!--{else}-->'$(\'fastpostform\').submit()'<!--{/if}-->);" tabindex="4" class="pt"></textarea>
+												</div>
+
+											</div>
+											<!--{if checkperm('seccode') && ($secqaacheck || $seccodecheck)}-->
+												{block sectpl}<sec> <span id="sec<hash>" onclick="showMenu(this.id)"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div>{/block}
+												<div class="mtm">{template common/seccheck}</div>
+											<!--{/if}-->
+											<p class="ptm">
+												<button type="submit" name="replysubmit" id="fastpostsubmit" value="replysubmit" tabindex="5" class="pn vm"><strong>发表评论</strong></button>
+											</p>
+								<!--{if empty($_G[gp_from])}-->
+										</td>
+									</tr>
+								</table>
+								<!--{/if}-->
+							</form>
+							</div>
+
+							</div>
+<script type="text/javascript">
+jQuery('#classtable tr td:last-child').css('border-right', '0');
+jQuery('#classtable tr:first>*').css('border-top', '1px solid #D6D6D6');
+
+function optionpostvalidate(obj) {
+
+var message=$('fastpostmessage');
+if(message.value==""){
+	s = '请完成标题或内容栏。';
+	$('fastpostreturn').innerHTML = s;
+	message.focus();
+	return false;
+}
+if(!disablepostctrl && ((postminchars != 0 && mb_strlen(message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(message.value) > postmaxchars))) {
+		s = '您的评论长度不符合要求。\n\n当前长度: ' + mb_strlen(message.value) + ' ' + '字节\n系统限制: ' + postminchars + ' 到 ' + postmaxchars + ' 字节';
+		$('fastpostreturn').innerHTML = s;
+	    message.focus();
+		return false;
+}
+	}
+</script>

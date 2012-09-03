@@ -1,0 +1,92 @@
+<!--{eval $_G['home_tpl_titles'] = array('我发表的内容');}-->
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo;
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl bgnoz">
+	<div class="mn bgwhite mn_home fpr" style="min-height:2000px;">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_favorite_header}
+		</div>
+
+		<div class="bm">
+
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang favorite}</h1>
+<!--{/if}-->
+              <div id="ffp" class="cl"></div>
+				<div id="filterType"></div>
+				<div id="feed_div" class="e">
+					<div class="xld xlda">
+						<div id="feed" class="space"></div>
+					</div>
+				</div>
+				<div class="pg mtm"></div>
+				<div id="ajax_wait"></div>
+<!--{if empty($diymode)}-->
+		</div>
+	</div>
+
+	<div class="sd" style="overflow: visible;">
+		{template common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_feed.js?{VERHASH}" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	function favorite_delete(favid) {
+		var el = $('fav_' + favid);
+		if(el) {
+			el.style.display = "none";
+		}
+	}
+
+jQuery(document).ready(function() {
+	loadme();
+});
+function loadme(){
+	load_wait();
+	flag = 'user';
+	feedSign = false;
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "none");
+	jQuery("#homeTopAdsContainer").css("display", "none");
+	load_feed(flag,currNum,initNum,'','','','');
+	currNum += initNum;
+
+	var ffobj = new ffPanel("title");
+	ffobj.append("<span class='icn_mypost replaced z mrngroup' style='margin: 4px 0 0 8px;'></span><span class='xs3 xw1'>我发表的内容</span>");
+}
+</script>
+<!--{template common/footer}-->

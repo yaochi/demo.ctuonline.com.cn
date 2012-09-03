@@ -1,0 +1,43 @@
+<!--{template common/header}-->
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<link rel="stylesheet" href="source/plugin/exam/assets/style/exam.css?{VERHASH}" type="text/css" />
+
+<div class="cl"></div>
+<div id="ct" class="wp cl n">
+	<div class="mn">
+	    <div id="plgnav" class="bbsgroup"><a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">测试</a></div>
+        <div class="mainbg" style="min-height: 344px;">
+            <div class="exam-page">
+                <form enctype="multipart/form-data" id="importform1" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=createmenu&exam_action=save" class="reHeight">
+                <input type="hidden" name="max_file_size" value="2000000"/>
+                <table class="uploadTable" cellspacing="0" cellpadding="0" border="0">
+                	<tr>
+		                <th class="">名称</th><td class="w ll"><input type="text" class="px" name="title" value="$base[title]"/></td>
+                		<th class="ll">状态</th><td class="w ll">
+                		<!--{if $base[status]==0}-->
+						<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=createmenu&exam_action=trans&status=1&id=$base[id]" class="z">开启</a>
+						<!--{else}-->
+						<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=createmenu&exam_action=trans&status=0&id=$base[id]" class="z">关闭</a>
+                		<!--{/if}-->
+                		</td>
+                    </tr>
+                    <tr>
+                		<th class="lt">文件</th><td colspan="3" class="ptn pbn plngroup lt ll">$base[filename]</td>
+                    </tr>
+                    <tr>
+                    	<td colspan="4" class="lt claim">
+                        	<h3>附件格式说明：</h3>
+                            <p>
+                            	* 请按照模板的格式，上传Excel203文件，文件大小不得超过1M；<br />
+                                * 附件内选项列，不同选项用英文字符“;”隔开；每个选项的开始以大写A-Z开始，后面紧跟一个英文字符“-”或“.”；<br />
+                                * 答案列，单选答案为英文大写字母A-D，多选答案为A-D中的字母按顺序，如ABD。
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+        </div>
+	</div>
+</div>
+<!--{template common/footer}-->

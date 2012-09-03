@@ -1,0 +1,24 @@
+{subtemplate common/header}
+<div id="pt" class="wp">
+    <a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>
+    <!--{if $groupnav}-->
+			$groupnav
+    <!--{elseif $action == 'create'}-->
+    &rsaquo; {lang group_create}
+    <!--{/if}-->
+</div>
+<div id="ct" class="wp cl n">
+     <div style="float: right;padding-right: 190px;padding-top: 10px;">
+       &lt; <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu">返回列表</a>
+    </div>
+    <ul class="tb cl">
+        <!--{loop $navs $nav}-->
+        <li <!--{if $_G[gp_select]==$nav[select]}-->class="a"<!--{/if}--> > <a href="$nav[url]">$nav[name]</a></li>
+        <!--{/loop}-->
+        <!--{if !$navs}-->
+        <li class="a" > <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu"><!--{if $_G[gp_notice_action]=="edit"||$resource[id]}-->编辑<!--{else}-->新建-<!--{/if}--></a></li>
+        <!--{/if}-->
+    </ul>
+    {eval include join_plugin_template($_G['gp_plugin_name'], $_G["gp_".$_G["gp_plugin_name"]."_action"]);}
+</div>
+{subtemplate common/footer}

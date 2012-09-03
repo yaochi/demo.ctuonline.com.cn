@@ -1,0 +1,25 @@
+{subtemplate common/header}
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; $navigation</div>
+
+
+<div id="ct" class="wp cl" style="background-position: 1005px 0;">
+	<div class="mn" style="width: 100%;">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][2][filename]">$_G[setting][navs][2][navname]</a></label>
+		</div>
+		<div class="bm">
+			<form method="post" autocomplete="off" action="forum.php?mod=forumdisplay&fid=$_G[fid]&action=pwverify">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<div class="bn">			
+					{lang forum_password_require}
+				</div>
+				<div class="bn cl">
+					<input type="password" name="pw" class="px z" size="25" />
+					&nbsp;<button class="pn pnc" type="submit" name="loginsubmit" value="true"><strong>{lang submit}</strong></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{subtemplate common/footer}

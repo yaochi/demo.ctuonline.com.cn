@@ -1,0 +1,65 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/shlecturer/js/shlecturermanage_moderate.js"></script>
+<!--{/if}-->
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="mn">
+	
+	<form enctype="multipart/form-data" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=repeats&plugin_op=groupmenu&repeats_action=authorize" name="manage" method="post" autocomplete="off">
+		<input type="hidden" value="true" name="authorizesubmit"/
+		<input type="hidden" value="734fac48c6e8d107705174313b630794" name="hash"/>
+		<div class="bm">
+			<h1 class="wx xg1 xs3 mbw">马甲授权</h1>
+			<ul class="ml mls cl" id="authorize">
+				<!--{loop $alluserlist $user}-->
+				<li class="avt">
+					<!--{if $user['level'] == 1}-->
+						<em class="gm"></em>
+					<!--{elseif $user['level'] == 2}-->
+						<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+					<!--{/if}-->
+					<!--{if $user['online']}-->
+						<em class="gol"></em>
+					<!--{/if}-->
+					{echo discuz_uc_avatar($user[uid], 'small')}
+					<p>$alluserrealname[$user[uid]][realname]</p>
+					<p><!--{if $_G['uid'] == $_G['forum']['founderuid']}--><input type="checkbox" class="pc" name="muid[]" value="$user[uid]" /><!--{/if}--></p>
+				</li> 
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+		<div class="hm"><button id="anthorBtn" type="submit" class="pn pnp" value="1"><strong>授权</strong></button></div>
+	</form>
+</div>
+
+<script>
+jQuery(function(){
+
+	jQuery('#anthorBtn').attr('disabled','disabled');
+	
+	jQuery('#authorize').on('click', 'input:[type=checkbox]', function(){
+		var flag = false;
+		jQuery('#authorize input:[type=checkbox]').each(function(){
+			if (jQuery(this).attr('checked')=='checked'){
+				flag = true;
+				return false;
+			}
+		});
+		if (flag) {
+			jQuery('#anthorBtn').removeAttr('disabled');
+		}else{
+			jQuery('#anthorBtn').attr('disabled','disabled');
+		}
+		
+	});
+
+});
+
+</script>

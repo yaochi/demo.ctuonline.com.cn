@@ -1,0 +1,241 @@
+<!--{eval $_G[home_tpl_titles] = array($album[albumname], '相册');}-->
+<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+	
+<!--{if $_GET['op']=='edit' || $_GET['op']=='editpic'}-->
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>{eval echo  get_groupcreatenav($_G[forum]);}</div>
+
+<div id="ct" class="wp cl n">
+     <div style="float: right;padding-right: 190px;padding-top: 10px;">
+       &lt; <a href="{eval echo join_plugin_action2('index')}">返回列表</a>
+    </div>
+    <ul class="tb cl">
+        <li class="a"><a href="#">编辑</a></li>
+        <!--{if $_G["forum"]["type"]=="activity"}-->
+        	<li $actives[activity]><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=importmenu">从专区导入</a></li>
+       	<!--{/if}-->
+    </ul>
+    <div class="bm">
+			<h1 class="mt"><img alt="album" src="{STATICURL}image/feed/album.gif" class="vm" /> 相册</h1>
+			<ul class="tb cl">
+				<li{if $_GET['op']=='edit'} class="a"{/if}><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'edit','albumid'=>"$albumid"));}">编辑相册信息</a></li>
+				<li{if $_GET['op']=='editpic'} class="a"{/if}><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'editpic','albumid'=>"$albumid"));}">编辑图片</a></li>
+			</ul>
+<!--{/if}-->
+
+<!--{if $_GET['op'] == 'edit'}-->
+
+			<form method="post" autocomplete="off" id="theform" name="theform" action="{eval echo join_plugin_action2('albumcp', array('op'=>'edit','albumid'=>"$albumid"));}">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<tr>
+						<th><label for="albumname">相册名</label></th>
+						<td><input type="text" id="albumname" name="albumname" value="$album[albumname]" size="20" class="px" /></td>
+					</tr>
+					
+					<!--{if $categoryselect}-->
+					<tr>
+						<th>站点分类</th>
+						<td>
+							$categoryselect
+							(选择一个站点分类，可以让你的相册被更多的人浏览到)
+						</td>
+					</tr>
+					<!--{/if}-->
+					<tr>
+						<th>隐私设置</th>
+						<td>
+							<select name="friend" onchange="passwordShow(this.value);" class="ps">
+								<option value="0"$friendarr[0]>全站用户可见</option>
+								<option value="4"$friendarr[4]>凭密码可见</option>
+								<option value="5"$friendarr[5]>仅专区可见</option>
+							</select>
+						</td>
+					</tr>
+					<tbody id="span_password" style="$passwordstyle">
+						<tr>
+							<th>修改密码</th>
+							<td><input type="text" name="password" value="$album[password]" size="10" class="px" /></td>
+						</tr>
+					</tbody>
+					<tbody id="tb_selectgroup" style="$selectgroupstyle">
+						<tr>
+							<th>指定好友</th>
+							<td>
+								<select name="selectgroup" onchange="getgroup(this.value);" class="ps">
+									<option value="">从好友组选择好友</option>
+									<!--{loop $groups $key $value}-->
+									<option value="$key">$value</option>
+									<!--{/loop}-->
+								</select>
+								<p class="d">多次选择会累加到下面的好友名单</p>
+							</td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<td>
+								<textarea name="target_names" id="target_names" rows="3" class="pt">$album[target_names]</textarea>
+								<p class="d">可以填写多个好友名，请用空格进行分割</p>
+							</td>
+						</tr>
+					</tbody>
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<input type="hidden" name="referer" value="$_G[referer]" />
+							<input type="hidden" name="editsubmit" value="true" />
+							<button name="submit" type="submit" class="pn" value="true"><strong>确定</strong></button>
+						</td>
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'delete','albumid'=>"$albumid", 'handlekey'=>"delalbumhk_$album[albumid]"));}" id="album_delete_$album[albumid]" onclick="showWindow(this.id, this.href, 'get', 0);">删除相册</a></td>
+					</tr>
+				</table>
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+
+<!--{elseif $_GET['op'] == 'editpic'}-->
+
+		<!--{if $list}-->
+			<form method="post" autocomplete="off" id="theform" name="theform" action="{eval echo join_plugin_action2('albumcp', array('op'=>'editpic','albumid'=>"$albumid"));}">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<caption>
+                        提示：您可以指定一张图片作为当前相册的封面图片，同时，系统会自动选择一张新图片来更新本相册的封面图片。
+                    <br/>图片会在24小时之内更新生效
+                    </caption>
+					<!--{eval $common = '';}-->
+					<!--{loop $list $value}-->
+					<tr>
+						<td width="20"><input type="checkbox" name="ids[{$value[picid]}]" value="{$value[picid]}" {$value[checked]} class="pc"></td>
+						<td width="130" align="center" class="gt">
+							<a href="$value[bigpic]" target="_blank"><img src="$value[pic]" alt="" width="140" /></a>
+							<!--{eval $ids .= $common.$value['picid'].':'.$value['picid'];}-->
+							<!--{eval $common = ',';}-->
+							<!--{if $album[albumname]}--><p><a href="{eval echo join_plugin_action2('albumcp', array('op'=>'setpic','albumid'=>"$value[albumid]",'picid'=>"$value[picid]",'handlekey'=>'setpichk'));}" id="a_picid_$value[picid]" onclick="showWindow('setpichk', this.href, 'get', 0)">设为封面</a></p><!--{/if}-->
+						</td>
+						<td><textarea name="title[{$value[picid]}]" rows="4" cols="70" class="pt">$value[title]</textarea></td>
+					</tr>
+					<!--{/loop}-->
+					<tr>
+						<td colspan="3">
+							<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')" class="pc" />
+							<label for="chkall">全选</label>
+							<button type="submit" name="editpicsubmit" value="true" class="pn" onclick="this.form.action+='&subop=update';"><strong>更新说明</strong></button>
+							<button type="submit" name="editpicsubmit" value="true" class="pn" onclick="this.form.action+='&subop=delete';return ischeck('theform', 'ids')"><strong>删除</strong></button>
+							
+							<!--{if $albumlist}-->
+							<button type="submit" name="editpicsubmit" value="true" class="pn" onclick="this.form.action+='&subop=move';return ischeck('theform', 'ids')"><strong>转移到</strong></button>
+							<select name="newalbumid" class="ps">
+							<option value="">请选择一个相册</option>
+							<!--{loop $albumlist $key $value}-->
+							<!--{if $albumid != $value[albumid]}--><option value="$value[albumid]">$value[albumname]</option><!--{/if}-->
+							<!--{/loop}-->
+							</select>
+							<!--{/if}-->
+							
+							<p class="d">删除图片提示：如果你要删除的图片出现在你的日志、话题中，删除后，会导致内容里面的图片同时无法显示。,</p>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="page" value="$page" />
+				<input type="hidden" name="editpicsubmit" value="true" />
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+			<!--{if $multi}--><div class="pgs cl" style="width:770px;">$multi</div><!--{/if}-->
+			<script type="text/javascript">
+				var picObj = {{$ids}};
+				function succeedhandle_setpichk(url, msg, values) {
+					for(var id in picObj) {
+						$('a_picid_' + picObj[id]).innerHTML = "设为封面";
+					}
+					if(values['picid']) {
+						$('a_picid_' + values['picid']).innerHTML = "封面图片";
+					}
+				}
+			</script>
+		<!--{else}-->
+			<div class="emp">该相册下还没有图片。</div>
+		<!--{/if}-->
+
+<!--{elseif $_GET['op'] == 'delete'}-->
+	<h3 class="flb">
+		<em>删除相册</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<form method="post" autocomplete="off" id="theform" name="theform" action="{eval echo join_plugin_action2('albumcp', array('op'=>'delete','albumid'=>"$albumid"));}">
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="deletesubmit" value="true" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<div class="c">
+			<p>确定删除相册吗？</p>
+			<p>
+				该相册中的图片:
+				<select name="moveto" class="ps">
+					<option value="-1">彻底删除</option>
+					<!--{loop $albums $value}-->
+					<option value="$value[albumid]">转移到 $value[albumname]</option>
+					<!--{/loop}-->
+				</select>
+			</p>
+		</div>
+		<p class="o pns">
+			<button type="submit" name="submit" class="pn pnc" value="true"><strong>确定</strong></button>
+		</p>
+	</form>
+<!--{elseif $_GET['op'] == 'edittitle'}-->
+	<h3 class="flb">
+		<em>编辑说明</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<form id="titleform" name="titleform" action="{eval echo join_plugin_action2('albumcp', array('op'=>'editpic','subop'=>'update', 'albumid'=>"$pic[albumid]"));}" method="post" autocomplete="off">
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<div class="c">
+			<textarea name="title[{$pic[picid]}]" cols="50" rows="7" class="pt">$pic[title]</textarea>
+		</div>
+		<p class="o pns">
+			<button type="submit" name="editpicsubmit" class="pn pnc" value="true"><strong>更新</strong></button>
+		</p>
+	</form>
+<!--{elseif $_GET[op] == 'edithot'}-->
+	<h3 class="flb">
+		<em>调整热度</em>
+		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+	</h3>
+	<form method="post" autocomplete="off" action="{eval echo join_plugin_action2('albumcp', array('op'=>'edithot','picid'=>"$picid"));}">
+		<input type="hidden" name="referer" value="$_G[referer]" />
+		<input type="hidden" name="hotsubmit" value="true" />
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<div class="c">
+			新的热度:<input type="text" name="hot" value="$pic[hot]" size="10" class="px" />
+		</div>
+		<p class="o pns">
+			<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+		</p>
+	</form>
+<!--{elseif $_GET[op] == 'mypic'}-->
+	<!--{if $list}-->
+	<ul class="ptw ml mlp cl">
+		<!--{loop $list $key $value}-->
+			<li style="position: relative; height: 130px;">
+				<!--{if $value[pic]}-->
+					<img src="$value[pic]" />
+					<input type="checkbox" name="picids[]" value="$value[picid]" style="position: absolute; bottom: 15px; left: 67px;"></p>
+				<!--{/if}-->
+			</li>
+		<!--{/loop}-->
+	</ul>
+	<!--{else}-->
+		<p class="emp">该相册下还没有图片。</p>
+	<!--{/if}-->
+<!--{/if}-->
+
+<!--{if $_GET['op']=='edit' || $_GET['op']=='editpic'}-->
+	</div>
+</div>
+<!--{/if}-->
+
+<!--{template common/footer}-->

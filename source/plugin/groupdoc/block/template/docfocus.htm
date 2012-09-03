@@ -1,0 +1,25 @@
+<div class="module cl xld resdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<dl class="cl">
+		<dd class="z" style="margin-right:12px;">
+			<a href="{$docfocus[url]}" target="_blank" class="diyavt"><img src="{$docfocus[img]}" alt="{$docfocus[title]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}"></a>
+			<!--{if $docfocus[status] == 2}-->
+			<span class="replaced tag_converting" style="margin: 8px 0 0 21px;">正在转换</span>
+			<!--{/if}-->
+		</dd>
+		<dt><a href="{$docfocus[url]}" title="{$docfocus[title]}" target="_blank" class="xs2">{$docfocus[shorttitle]}</a></dt>
+		<dd class="xg1 clmb"><span class="xi2">{$docfocus[username]}</span>&nbsp;&nbsp;{$docfocus[uploadtime]}</dd>
+		<dd class="mtn" style="margin-left: 102px"><div style="text-overflow: ellipsis;">{$docfocus[context]}</div></dd>
+	</dl>
+	<hr class="da">
+    <ul class="xl mtn">
+    	<!--{loop $listdata $item}-->
+		<!--{if $item[id]!=$docfocus[id]}-->
+    	<li>
+			<em class="xg1">{$item[uploadtime]}</em>
+    		<span class="y xi2"><a href="{$item[url]}">{$item[username]}</a></span>
+			<a href="{$item[url]}" title="{$item[title]}" target="_blank">{$item[shorttitle]}</a>
+		</li>
+		<!--{/if}-->
+		<!--{/loop}-->
+	</ul>
+</div>

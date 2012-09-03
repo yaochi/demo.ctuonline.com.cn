@@ -1,0 +1,14 @@
+{template common/header}
+
+<div id="main_messaqge">
+    <h3 class="flb">
+        <em id="returnmessage4">上传机构</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('win_korg')" title="关闭">关闭</a></span>
+    </h3>
+    <span>当前上传机构</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="curorgname" style="color:red"></span>
+	<div id="korg" style="height: 300px; overflow-y:  scroll;"></div>
+    $t
+    <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="submitselectkorg('$namevalue')"><strong>选择机构</strong></button></p>
+</div>
+
+{template common/footer}

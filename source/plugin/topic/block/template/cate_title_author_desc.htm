@@ -1,0 +1,16 @@
+<div class="module cl xld b_topic"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl>
+        <dt class="xs2">
+            <a href="{$item[url]}" target="_blank">
+            	<!--{if $item[category]}-->
+            	<span class="xi2">[{$item[category]}]&nbsp;
+            	<!--{/if}--></span>
+            	{$item[title]}
+            </a>
+            &nbsp;<span class="xi2">{$item[realname]}</span>
+        </dt>
+        <dd><div>{$item[description]}</div></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

@@ -1,0 +1,24 @@
+<!--{template common/header}-->
+<h3 class="flb">
+	<em>{lang report}</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span>
+</h3>
+<form method="post" autocomplete="off" id="reportform" name="reportform" action="misc.php?mod=report&url=$_G[gp_url]" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_G[gp_handlekey]');"{/if}>
+	<input type="hidden" name="referer" value="$_G[referer]" />
+	<input type="hidden" name="reportsubmit" value="true" />
+	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="c" id="return_$_G[gp_handlekey]">
+		<div class="tpclg">
+			<h4 class="cl"><a onclick="showselect(this, 'message', 'reasonselect')" class="dpbtn" href="javascript:;">^</a><span>{lang report_reason}:</span></h4>
+			<p>
+			<textarea id="message" name="message" class="pt" onkeydown="ctrlEnter(event, 'reportsubmit', 1);" rows="3"></textarea>
+			</p>
+			<ul id="reasonselect" style="display: none">{echo modreasonselect()}</ul>
+		</div>		
+	</div>
+	<p class="o pns">
+		<button type="submit" value="true" class="pn pnc"><strong>{lang confirms}</strong></button>
+	</p>
+</form>
+<!--{template common/footer}-->

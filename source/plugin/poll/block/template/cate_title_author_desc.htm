@@ -1,0 +1,11 @@
+<div class="module cl xld b_poll"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl>
+        <dt class="xs2">
+            <a href="{$item[url]}" target="_blank"><span class="xi2">[{$item[category]}]</span>&nbsp;{$item[name]}</a>
+            &nbsp;<span class="xi2">{$item[author]}</span>
+        </dt>
+        <dd><div>{$item[description]}</div></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

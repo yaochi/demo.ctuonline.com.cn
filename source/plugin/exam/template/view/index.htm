@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="source/plugin/exam/assets/style/exam.css?{VERHASH}" type="text/css" />
+
+<div class="mn">
+    <div id="plgnav" class="bbsgroup"><a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+    <!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="sixWord y">统计</a>
+	<!--{/if}-->
+    </div>
+
+    <div class="mainbg">
+
+            <form id="importform1" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=groupmenu&exam_action=save" class="reHeight">
+            <div class="exam-answer-head">
+                <h3>提交人信息</h3>
+                <div class="mtn">
+                    <label>姓名</label><span>$my[realname]</span>
+                    <label>电话</label><span>$my[tel]</span>
+                    <input type="hidden" name="num" value="$base[num]"/>
+                    <input type="hidden" name="eid" value="$base[id]"/>
+                </div>
+            </div>
+            <div class="exam-answer-list">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <!--{loop $questions $key $question}-->
+                    <tr>
+                    	<td colspan="2">
+                    	<!--{if $myanswer[$question[tid]]==$answers[$question[tid]]}-->
+                        	<span class="ans-yes">恭喜答对了！</span>
+                        <!--{else}-->
+                            <span class="ans-no">再接再厉哦！</span>
+                        <!--{/if}-->
+                            $question[tid] 、 $question[title]
+                            <span class="myans">$answers[$question[tid]]</span>
+                    	</td>
+                    </tr>
+                    <!--{loop $question[options] $key $option}-->
+                    <tr>
+                    	<td width="30">&nbsp;</td>
+                        <td>$option[k] 、 $option[v]</td>
+                    </tr>
+                    <!--{/loop}-->
+                    <tr><td colspan="2" height="5" class="rules"></td></tr>
+                    <tr><td colspan="2" height="5"></td></tr>
+                    <!--{/loop}-->
+                </table>
+            	<div class="bottom">本次有奖问答,您获得学习力积分<span>
+            	<!--{if $myanswer==$answers}-->20<!--{else}-->10<!--{/if}-->
+            	</span>分.</div>
+            </div>
+            </form>
+
+    </div>
+</div>

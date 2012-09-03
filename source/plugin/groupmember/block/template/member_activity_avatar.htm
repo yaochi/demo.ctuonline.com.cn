@@ -1,0 +1,12 @@
+<div class="module cl mbcdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<h1 class="wx xs4">活跃成员</h1>
+	<div class="mbavts">
+		<ul>
+		<!--{loop $listdata[activityuserlist] $user}-->
+			<li>
+				<a href="home.php?mod=space&amp;uid={$user[uid]}" class="perPanel"><img src="uc_server/avatar.php?uid={$user[uid]}&size=small"></a>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,91 @@
+<div class="mn">
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<div id="main_messaqge" class="bm">
+<form name="postform" action="{eval echo join_plugin_action('reserve')}" method="post" enctype="multipart/form-data" onsubmit="return validate(this);">
+<input type="hidden" name="lecid" value="$lecid" />
+            <div class="bm">
+                <h1 class="mt cl">
+<span class="y xs1 xw0 mtn"><a href="javascript:history.go(-1);">返回上一页</a></span>
+预约讲师</h1>
+                <table cellspacing="0" cellpadding="0" summary="预约讲师" class="tfm">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td><strong class="rq"><em id="returnmessage4" style=""></em></strong></td>
+                        </tr>
+                        <tr>
+                            <th>所需课题:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="coursename" name="coursename"></td>
+                        </tr>
+						 <tr>
+                            <th>授课对象:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="courseobject" name="courseobject"></td>
+                        </tr>
+                        <tr>
+                            <th>授课时间:</th>
+                            <td><input type="text" name="starttime" id="starttime" class="zbbjan2" onclick="showcalendar(event, this, true)" autocomplete="off" value="$nwkt[starttime]" tabindex="1" readonly="" /><span> ~ </span><input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="endtime" name="endtime" class="zbbjan2" value="{if $nwkt['endtime']}$nwkt[endtime]{/if}" tabindex="1" readonly="" /></td>
+                        </tr>
+                       <tr>
+                            <th>预约者:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="reserveuser" name="reserveuser"></td>
+                        </tr>
+						<tr>
+                            <th>联系方式:</th>
+                            <td><input type="text" tabindex="1" autocomplete="off" value="" size="36" class="px" id="telephone" name="telephone"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="hidden" value="true" name="createsubmit"><button tabindex="6" class="pn pnp" type="submit"><strong>提交预约</strong></button></td>
+                        </tr>
+                    </tbody>
+                </table></div>
+    </form>
+</div>
+
+</div>
+
+<script>
+	function validate(obj){
+		var coursename=document.getElementById("coursename").value;
+		var courseobject=document.getElementById('courseobject').value;
+		var reserveuser=document.getElementById('reserveuser').value;
+		var telephone=document.getElementById('telephone').value;
+		var starttime=document.getElementById('starttime').value;
+		var endtime=document.getElementById('endtime').value;
+		var flag=1;
+		if(trim(coursename)==''){
+			showDialog("所需课题不能为空");
+			flag=0;
+		}
+		if(trim(courseobject)==''){
+			showDialog("授课对象不能为空");
+			flag=0;
+		}
+		if(trim(reserveuser)==''){
+			showDialog("预约者不能为空");
+			flag=0;
+		}
+		if(starttime==''){
+			showDialog("授课时间开始不能为空");
+			flag=0;
+		}
+		if(endtime==''){
+			showDialog("授课时间结束不能为空");
+			flag=0;
+		}
+		if($('endtime').value <= $('starttime').value){
+			showDialog("结束时间必须晚于开始时间");
+			flag=0;
+		}
+		if(trim(telephone)==''){
+			showDialog("联系方式不能为空");
+			flag=0;
+		}
+		if(flag==1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+</script>	

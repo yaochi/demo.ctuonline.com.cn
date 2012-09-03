@@ -1,0 +1,402 @@
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<div class="mn">
+
+<div id="plgnav" class="bbsgroup"><a id="backbtn"
+	href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="stacoursepanel">
+
+<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+<p class="sb_title">我要提交</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+<p class="sb_title">意见回复</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+<p class="sb_title">成果展示</p>
+</div>
+
+<div class="stationSplit"></div>
+
+<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+<p class="sb_title">学习力排行榜</p>
+</div>
+<div id="stationArrow"></div>
+
+<div class="stationSplit"></div>
+
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	posArrow(0);
+</script>
+
+<div class="mainbg">
+<div class="bm bbsgroup promptbg">
+<p class="mtm"><span class="rq">亲爱的学员：</span>为鼓励优秀经验的快速复制，只要您提交以下内容，即能赢取相应积分！
+	<br /></p>
+	<p></p>
+	<!--{if $punlishnum > 0}-->
+	<span class="rq">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您有 $punlishnum 个待提交评估，
+	<!--{if $punlishnum<=1}-->
+	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=alter&learnid=$pubisharr[0][id]&tap=1&uid=$pubisharr[0][uid]&examinestatus=$pubisharr[0][examinestatus]"><span class="rq">点击完善</span></a>
+	<!--{elseif $punlishnum>1}-->
+	<a href="javaScript:showleawindow()"><span class="rq">点击完善</span></a>
+	<!--{/if}-->
+	<!--{/if}-->
+	</span>
+</div>
+<div class="promptShadow"></div>
+
+<h3 class="mlmgroup mtn mbn">提交人信息<strong class="rq">(均为必填项，通过审核，获得100积分)</strong></h3>
+<form action="{eval echo join_plugin_action('save')}" method="post"
+	id="forum1" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<table id="classtable" cellspacing="0" cellpadding="0"
+	border="0" class="tfm tablezykd">
+
+	<tr class="firstrow">
+		<th>姓名</th>
+		<td class='w'><input type="text" value="$usernews[realname]" size="20"
+			id="subrealname" name="subrealname" class="px" readonly></td>
+		<th>网大帐号</th>
+		<td class='w lasttd'><input type="text" value="$usernews[username]"
+			size="20" id="subusername" name="subusername" class="px" readonly /></td>
+	</tr>
+
+	<tr>
+		<th>公司名称</th>
+		<td class='w'><input type="text" value="" size="20" id="subcompany"
+			name="subcompany" class="px" /></td>
+		<th>部门名称</th>
+		<td class='w lasttd'><input type="text" value="" size="20" id="subdept"
+			name="subdept" class="px" /></td>
+	</tr>
+
+	<tr>
+		<th align="left">联系手机</th>
+		<td class='w'><input type="text" value="" size="20" id="subtel" name="subtel" class="px"></td>
+		<th>职务</th>
+		<td class='w lasttd'><input type="text" value="" size="20" id="subpost" name="subpost" class="px" /></td>
+   </tr>
+
+	<tr>
+		<th>学习来源</th>
+		<td colspan="3" valign="top" class="lasttd">
+		<p class="exampleBtn">隐藏样例</p>
+		<p class="filebtn xi2"><a href="javascript:;" onclick="learnuploadWindow(function (aid, url){learnupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',1)},'',1)">附件上传</a></p>
+		<p><strong>*</strong>学习成果来源于“添翼振翅” 哪一期培训？</p>
+		<p class="example">例如：我学习了第33期“福建盛辉物流集团行业应用实战案例”。<br>
+		</p>
+		<textarea class="pt" id="learnsource" name="learnsource" cols="40"
+			rows="3"></textarea>
+			<input type="hidden" name="sorceaid" id="sorceaid" value=""/>
+			<div class="pattl mlwgroup mrwgroup" id="sourcefileid">
+			</div>
+			</td>
+	</tr>
+	<tr>
+		<th>学习收获</th>
+		<td colspan="3" valign="top" class="lasttd">
+		<p class="exampleBtn">隐藏样例</p>
+		<p class="filebtn xi2"><a href="javascript:;" onclick="learnuploadWindow(function (aid, url){learnupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',2)},'',2)">附件上传</a></p>
+		<p><strong>*</strong>关于知识、技能、态度等有哪些收获？</p>
+		<p class="example">例如：通过培训，我掌握到福建公司已拥有成熟的物流平台技术,<br>
+		且有成功签单经验，并愿意提供各兄弟公司相互合作的模式。</p>
+		<textarea name="learnHarvest" cols="30" rows="3" id="learnHarvest"
+			class="pt"></textarea>
+			<input type="hidden" name="harvestaid" id="harvestaid" value=""/>
+				<div class="pattl mlwgroup mrwgroup" id="harvestfileid">
+				</div>
+			</td>
+	</tr>
+
+	<tr>
+		<th>学习行为</th>
+		<td colspan="3" valign="top" class="lasttd">
+		<p class="exampleBtn">隐藏样例</p>
+		<p class="filebtn xi2"><a href="javascript:;" onclick="learnuploadWindow(function (aid, url){learnupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',3)},'',3)">附件上传</a></p>
+		<p><strong>*</strong>所学知识对您的行为有何影响？</p>
+		<p class="example">例如：训后，我联系到福建公司相关项目经理，与客户三方开展了为期5个月的合作探索，<br>
+		最终确定合作模式。其中：（1）一方负责提供硬件，另一方负责软件平台;<br>
+		（2）一方负责维护，另一方负责维护培训（3）一方提交需求，另一方对应开发和地图数据更新;<br>
+		（4）一方收取客户定位收入，另一方收取平台建设、开发费用、租费<br>
+		</p>
+		<textarea rows="3" cols="30" class="pt" id="learnaction"
+			name="learnaction"></textarea>
+			<input type="hidden" name="actionaid" id="actionaid" value=""/>
+			<div class="pattl mlwgroup mrwgroup" id="actionfileid">
+				</div>
+			</td>
+	</tr>
+	<tr>
+		<th>学习成果</th>
+		<td colspan="3" class="lasttd">
+		<p class="exampleBtn">隐藏样例</p>
+		<p class="filebtn xi2"><a href="javascript:;" onclick="learnuploadWindow(function (aid, url){learnupdateactivityattach(aid, url, '{$_G['setting']['attachurl']}home',4)},'',4)">附件上传</a></p>
+		<p><strong>*</strong>行为改变带来什么成果？<span style="color:red;">若有具体数据论证，可额外获得100积分</span>
+		</p>
+		<p class="example">例如：第一期拓展”两客一危“营运车辆3500户，年收入294万元；<br>
+		非“两客一危”车辆定位终端3000部，年收入180万元；总计收入约474万元，一年收回成本。</p>
+		<textarea rows="3" cols="30" class="pt" id="learnachievements"
+			name="learnachievements"></textarea>
+			<div class="cl cm" id="learnsourcecomment">
+			<strong class="rq">信心指数:</strong>您觉得所取得的成果有<input type="text" id="confidenceindex" name="confidenceindex" size="3"/>%是由培训项目所贡献的.<span style="color:red;">(请填写1-100之间的整数）</span>
+			</div>
+			<input type="hidden" name="chievementsaid" id="chievementsaid" value=""/>
+			<div class="pattl mlwgroup mrwgroup" id="chievementsfileid">
+				</div>
+			</td>
+	</tr>
+	<tr>
+		<th>学习名称</th>
+		<td colspan="3" class="lasttd">
+		<p><strong>*</strong>为本次学习评估起标题，便于大家搜索、分享 。</p>
+		<textarea name="learnname" cols="30" rows="3" id="learnname"
+			class="pt"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="left" class="lasttd">
+		<h3 class="mlmgroup mtn mbn">证明人信息<strong class="rq">(均为必填项，协助通过审核，获得30积分)</strong></h3>
+		</td>
+	</tr>
+
+	<tr>
+		<th>姓名</th>
+		<td class='w'><input type="text" value="" size="20" id="witnessrealname"
+			name="witnessrealname" class="px"></td>
+		<th>网大账号</th>
+		<td class='w lasttd'><input type="text" value="" size="20"
+			id="witnessusername" name="witnessusername" class="px" onblur="changename()"/></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td class='w'><input type="text" value="" size="20" id="witnesscompanyname"
+			name="witnesscompanyname" class="px"></td>
+		<th>部门名称</th>
+		<td class='w lasttd'><input type="text" value="" size="20" id="witnessdeptname"
+			name="witnessdeptname" class="px" /></td>
+	</tr>
+	<tr>
+					<th>联系手机</th>
+					<td class='w'><input type="text" value="" size="20" id="witnesstel" name="witnesstel" class="px" /></td>
+					<th>职务</th>
+					<td class='w lasttd'><input type="text" value="" size="20" id="witnesspost" name="witnesspost" class="px" /></td>
+				</tr>
+</table>
+</div>
+<div class="btnarea">
+<button type="submit" class="pn pnc" name="button"
+	onClick="savepublich(1)"><em>保存创建</em></button>
+<input type="hidden" value="savepost" id="savetype" name="savetype">
+<button type="submit" class="pn pnc" name="button"
+	onClick="savepublich(2)"><em>保存发布</em></button>
+<button class="pn vm" type="reset" name="reset" onclick="resetclick()"><em>取消</em></button>
+<input type="hidden" id="filetype" name="filetype" value="0">
+<div style="display:none"><iframe name="uploadfile" width="0" height="0" scrolling="no"></iframe></div>
+</div>
+</form>
+
+<script type="text/javascript">
+var subdept=$('subdept');
+var subcompany=$('subcompany');
+var subtel=$('subtel');
+var subpost=$('subpost');
+var learnsource=$('learnsource');
+var learnHarvest=$('learnHarvest');
+var learnaction=$('learnaction');
+var learnachievements=$('learnachievements');
+var learnname=$('learnname');
+var witnessrealname=$('witnessrealname');
+var witnessusername=$('witnessusername');
+var witnesspost=$('witnesspost');
+var witnesstel=$('witnesstel');
+var witnessdeptname=$('witnessdeptname');
+var witnesscompanyname=$('witnesscompanyname');
+var confidenceindex=$('confidenceindex');
+var sorceaid=$('sorceaid');
+var harvestaid=$('harvestaid');
+var actionaid=$('actionaid');
+var chievementsaid=$('chievementsaid');
+function validate_from(obj){
+var type=$('savetype');
+if(subcompany.value==""){
+showDialog("请输入公司名称！");
+subcompany.focus();
+return false;
+}
+if(subdept.value==""){
+showDialog('请输入部门名称！');
+subdept.focus();
+return false;
+}
+if(subtel.value==""){
+showDialog('请输入联系手机！');
+subtel.focus();
+return false;
+}
+if(subpost.value==""){
+showDialog('请输入职务！');
+subpost.focus();
+return false;
+}
+if(learnsource.value=="" && sorceaid.value==""){
+ showDialog("请详细填写学习来源或上传附件");
+ learnsource.focus();
+ return false;
+ }
+ if(learnHarvest.value==""&& harvestaid.value==""){
+ showDialog("请详细填写学习收获或上传附件");
+ learnHarvest.focus();
+ return false;
+ }
+ if(learnaction.value==""&& actionaid.value==""){
+ showDialog("请详细填写学习行动或上传附件");
+ learnaction.focus();
+ return false;
+ }
+ if(learnachievements.value=="" && chievementsaid.value==""){
+  showDialog("请详细填写学习成果或上传附件");
+  learnachievements.focus();
+  return false;
+ }
+ if(confidenceindex.value==""){
+ showDialog("请填写学习成果的信心指数！");
+ confidenceindex.focus();
+ return false;
+ }
+ if(learnname.value==""){
+  showDialog("请详细填写学习名称");
+  learnname.focus();
+  return false;
+ }
+ if(witnessrealname.value==""){
+ showDialog("证明人的姓名不能为空！")
+ witnessrealname.focus();
+ return false;
+}
+if(witnessusername){
+var wiststr=strlen(witnessusername.value);
+if(wiststr<1){
+ showDialog("证明人的网大账号不能为空！")
+ witnessusername.focus();
+ return false;
+  }
+}
+ if(witnesscompanyname.value==""){
+  showDialog('请输入证明人的公司名称！');
+  witnesscompanyname.focus();
+  return false;
+  }
+  if(witnessdeptname.value==""){
+  showDialog('请输入证明人的部门名称！');
+  witnessdeptname.focus();
+  return false;
+  }
+  if(witnesstel.value==""){
+  showDialog('请输入证明人的联系电话！');
+  witnesstel.focus();
+  return false;
+  }
+  if(witnesspost.value==""){
+  showDialog('请输入证明人的职务！');
+  witnesspost.focus();
+  return false;
+  }
+}
+
+function chang(data){
+var promptInfo = $("divname");
+if(data.is=='1'){
+promptInfo.style.display="none";
+}else{
+promptInfo.style.display="block";
+}
+
+}
+function changename(){
+var url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=createmenu"+"&"+"learning_action=change_username"+"&"+"witnessusername="+encodeURI(witnessusername.value);
+getJSONP(url,"checkname");
+}
+function savepublich(type){
+if(type==1){
+$('savetype').value="savepost";
+}
+if(type==2){
+$('savetype').value="releasepost";
+}
+}
+function checkname(data){
+
+if(data.is=='0'){
+showDialog('证明人的网大账号不存在！请重新输入');
+return false;
+}
+}
+function resetclick(){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=optionreply";
+}
+function showleawindow(){
+showWindow('publishnolearn','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=groupmenu&learning_action=learoper');
+}
+
+
+
+function showfilewindow(type){
+showWindow('uploadfile','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=groupmenu&learning_action=showalterupload&type='+type);
+}
+function relattch(aid,learntype){
+var callurl="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=delattach"+"&"+"aid="+aid+"&learntype="+learntype;
+getJSONP(callurl,"realdata");
+}
+function realdata(data){
+if(data.learntype==1){
+$('sourcefileid').style.display='none';
+$('sorceaid').value='';
+}if(data.learntype==2){
+$('harvestfileid').style.display='none';
+harvestaid.value='';
+}if(data.learntype==3){
+$('actionfileid').style.display='none';
+actionaid.value='';
+}if(data.learntype==4){
+$('chievementsfileid').style.display='none';
+chievementsaid.value='';
+}
+}
+function objreplace(obj){
+var str = obj.replace(/^\s+|\s+$/g,"");
+return str;
+}
+</script>
+
+</div>
+</script>
+<style>
+
+a:link {
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: none;
+}
+a:active {
+ text-decoration: none;
+}
+
+</style>

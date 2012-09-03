@@ -1,0 +1,128 @@
+{subtemplate common/header}
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<!--{if $_G[fid]}-->
+	<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G[forum][fid]&plugin_name=lecturer&plugin_op=groupmenu&lecid=$lecturer[lecid]&lecturer_action=index&" class="z">返回列表</a>
+		<!-- {if $_G[forum][type]=='activity'} -->
+		<div class="actnav">
+			{eval echo get_activitynav($_G[forum]);}
+		</div>
+		<!-- {/if} -->
+	</div>
+<!--{/if}-->
+<div class="bm">
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/lecturermanage/js/lecturer_common.js?{VERHASH}"></script>
+
+<div class="pxjs" style="width: auto;">
+<div class="pxjs_nr1"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="pxjs_table">
+  <tr>
+    <td colspan="2" align="left">
+	<div class="jsjj">
+	<dl>
+	<dd><p class="dtx">
+	<!--{if !$lecturer[imgurl]}-->
+		<img src="static/image/images/def_lecturer.png" class="lbimg" />
+	<!--{else}-->
+		<img src="$lecturer[imgurl]" width="117" height="117" />
+	<!--{/if}-->
+	</p></dd>
+	<dt><span class="a">$lecturer[name]</span><!--{if $lecturer[isinnerlec]=='1'&&$lectureruid}-->(<a href="home.php?mod=space&uid=$lectureruid" style="color:#999999">查看讲师个人空间</a>)<!--{/if}--></dt>
+	<dt>
+		<!--{if $lecturer['gender']==1}-->
+		男
+		<!--{elseif $lecturer['gender']==2}-->
+		女
+		<!--{else}-->
+		保密
+		<!--{/if}-->
+	</dt>
+	<dt>$lecturer['orgname']<!--{if $lecturer['isinnerlec']==1}-->-内训师<!--{/if}--></dt>
+	<dt>$lecturer['position']</dt>
+	</dl>
+	</div>
+	</td>
+    </tr>
+  <tr>
+    <td width="18%" align="right" valign="top"><strong>简介</strong></td>
+    <td width="82%">$lecturer['about']</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>授课方向</strong></td>
+    <td><!--{if $lecturer['teachdirection']==1}-->
+		领导力发展与管理类
+		<!--{elseif $lecturer['teachdirection']==2}-->
+		营销类
+		<!--{elseif $lecturer['teachdirection']==3}-->
+		技术类
+		<!--{elseif $lecturer['teachdirection']==4}-->
+		通用类
+		<!--{else}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <!--{if $lecturer['isinnerlec']==1}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td><!--{if $lecturer['rank']==1}-->
+		集团级
+		<!--{elseif $lecturer['rank']==2}-->
+		省级
+		<!--{elseif $lecturer['rank']==3}-->
+		地市级
+		<!--{elseif $lecturer['rank']==4}-->
+		其他
+		<!--{else}-->
+		<!--{/if}-->
+	</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>已授学院课程</strong></td>
+    <td>$lecturer['courses']</td>
+  </tr>
+  <!--{elseif $lecturer['isinnerlec']==2}-->
+  <tr>
+    <td align="right"><strong>讲师级别</strong></td>
+    <td><!--{if $lecturer['rank']==1}-->
+		客座教授
+		<!--{elseif $lecturer['rank']==2}-->
+		荣誉教授
+		<!--{elseif $lecturer['rank']==3}-->
+		专家教授
+		<!--{elseif $lecturer['rank']==4}-->
+		讲师
+		<!--{/if}-->
+	</td>
+  </tr>
+  <!--{/if}-->
+  
+  <tr>
+    <td align="right"><strong>联系电话</strong></td>
+    <td>$lecturer['tel']</td>
+  </tr>
+  <tr>
+    <td align="right"><strong>Email</strong></td>
+    <td>$lecturer['email']</td>
+  </tr>
+  
+</table>
+
+</div>
+<!--{if $_G['forum']['ismoderator']}-->
+	<div class="y">
+	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=groupmenu&diy=&lecid=$lecturer[id]&lecturer_action=edit">编辑</a>|
+	<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=groupmenu&diy=&lecid=$lecturer[id]&lecturer_action=delete">删除</a>
+    </div>
+	<!--{/if}-->
+    	<div class="clear"></div>
+</div>
+</div>
+</div>
+</div>
+{subtemplate common/footer}

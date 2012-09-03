@@ -1,0 +1,42 @@
+
+<!--{template common/header}-->
+<div id="pt" class="wp">
+		<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>&rsaquo;<a href="forum.php?mod=group&fid=$groupinf[fid]">$groupinf[name]</a>› 专区邀请
+	</div>
+<DIV id=ct class="wp cl">
+<DIV class=mn>
+<DIV class="bm cl">
+<!--{if $userinf}-->
+<H2>欢迎您，<A href="home.php?mod=space&amp;uid=$userinf[uid]" target=_blank>$userinf[realname]</A> 热情邀请您加入$groupinf[name].</H2>
+<!--{else}-->
+<H2>欢迎您，<A href="home.php?mod=space&amp;uid=$groupinf[founderuid]" target=_blank>{eval echo user_get_user_name_by_username($groupinf[foundername])}</A> 热情邀请您加入$groupinf[name].</H2>
+<!--{/if}-->
+<P>加入专区后，您就可以和大家一起讨论话题，及时关注专区中的更新，还可以和专区里面的同事互动 ...</P>
+<P>您也可以方便快捷地发布自己的话题、上传图片与专区的同事一起分享。</P>
+<P>还等什么呢？赶快加入我们的专区吧。</P></DIV>
+<HR class=da>
+
+<DIV class=bm>
+<TABLE class=tfm cellSpacing=0 cellPadding=0>
+<TBODY>
+<TR>
+<TD vAlign=top width=140>
+<DIV class="avt avtm"><A href="forum.php?mod=group&fid=$groupinf[fid]"><IMG src="$groupinf[icon]"></A></DIV></TD>
+<TD>
+<H4 class=xs2><A href="forum.php?mod=group&fid=$groupinf[fid]">$groupinf[name]</A></H4>
+<P>专区类型：<!--{if $groupinf[jointype]==0}-->自由加入<!--{elseif $groupinf[jointype]==1}-->邀请加入<!--{elseif $groupinf[jointype]==2}-->审核加入<!--{else}-->其它<!--{/if}-->专区，共有{$groupinf[membernum]}成员，被查看{$groupinf[viewnum]}次</P>
+<DIV class=quote>
+<BLOCKQUOTE>123</BLOCKQUOTE></DIV>
+<P class="mtw cl"><A class="pn pnp z" href="forum.php?mod=group&action=invitejoin&fid=$groupinf[fid]&scode=$scode"><STRONG class=z>接受邀请</STRONG></A> <A class="pn z" href="group.php?mod=invite&accept=no"><STRONG class=z>忽略邀请</STRONG></A> </P></TD></TR></TBODY></TABLE></DIV></DIV>
+<DIV class=sd>
+<DIV class=ch><LABEL class=wx>$groupinf[name]的成员</LABEL> </DIV>
+<ul class="ml mls cl mtm">
+			<!--{loop $flist $key $value}-->
+			<li>
+				<div class="avt"><a href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="home.php?mod=space&uid=$value[uid]" title="{eval echo user_get_user_name_by_username($value[username])}">{eval echo user_get_user_name_by_username($value[username])}</a></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</DIV></DIV>
+<!--{template common/footer}-->

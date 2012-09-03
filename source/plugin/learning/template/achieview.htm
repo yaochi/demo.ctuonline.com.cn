@@ -1,0 +1,461 @@
+<link rel="stylesheet" type="text/css"
+	href="data/cache/style_{STYLEID}_home_space.css?{VERHASH}" />
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript"
+	src="source/plugintice/jstice_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<link rel="stylesheet"
+	href="source/plugin/learning/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{IMAGEMAXWIDTH}';var aimgcount = new Array();</script>
+<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<div class="mn">
+	<div id="plgnav" class="bbsgroup"><a id="backbtn"
+		href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu"
+		class="z">返回列表</a>
+	<div id="toolbar">
+	<h2></h2>
+	</div>
+	</div>
+
+
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="stacoursepanel">
+
+<div id="stationBlock0" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+<p class="sb_title">我要提交</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock1" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+<p class="sb_title">意见回复</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock2" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+<p class="sb_title">成果展示</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationBlock3" class="stationBlock"
+	onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+<p class="sb_title">学习力排行榜</p>
+</div>
+
+<div class="stationSplit"></div>
+<div id="stationArrow"></div>
+
+<script type="text/javascript" charset="utf-8">
+	posArrow(2);
+</script>
+</div>
+</div>
+
+<table width="97%" id="classtable" cellspacing="0" cellpadding="0"
+	border="1" class="tfm tablezykd view" frame="hsides">
+	<!--{loop $learnmv $lear}-->
+	<tr>
+		<th align="left">姓名</th>
+		<td><input type="text" value="$lear[subrealname]" size="20"
+			id="subrealname" name="subrealname" class="px" readonly></td>
+		<th>网大帐号</th>
+		<td colspan="3"><input type="text" value="$lear[subusername]"
+			size="20" id="subusername" name="subusername" class="px" readonly /></td>
+	</tr>
+
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$lear[subcompanyname]" size="20"
+			id="subcompany" name="subcompany" class="px" readonly/></td>
+		<th>部门名称</th>
+		<td colspan="3"><input type="text" value="$lear[subdeptname]" size="20"
+			id="subdept" name="subdept" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th align="left">联系手机</th>
+		<td><input type="text" value="$lear[subtel]" size="20"
+			id="subtel" name="subtel" class="px" readonly></td>
+		<th>职务</th>
+		<td colspan="3"><input type="text" value="$lear[subPost]" size="20"
+			id="subpost" name="subpost" class="px" readonly/></td>
+	</tr>
+
+	<tr>
+		<th>学习来源</th>
+		<td colspan="5" valign="top">
+		<!--{if !empty($lear[learnsource])}-->
+		<textarea class="pt" id="learnsource" name="learnsource" cols="40"
+			rows="3" readonly>$lear[learnsource]</textarea>
+			<!--{/if}-->
+			<!--{if !empty($attachlist)}-->
+			<div class="pattl mlwgroup mrwgroup">
+			<dl class="tattl">
+			<dt>$attachlist[0][filetype]</dt>
+              <dd>
+              <p  class="attnm">
+               <input type="hidden" value="$attachlist[0][aid]" id="sorceaid" name="sorceaid">
+				<a href="home.php?mod=learnattachment{$is_archive}&aid={$attachlist[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attachlist[0][aid]" class="bold">$attachlist[0][filename]</a>
+			   ($attachlist[0][attachsize])
+			   </p>
+              </dd>
+			</dl>
+                 <div class="attp" id="aid$attachlist[0][aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attachlist[0][dateline]</p>
+						<p>下载次数:&nbsp;$attachlist[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+			</div>
+			<!--{/if}-->
+<!--{if $learsorcearr}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<!--{loop $learsorcearr $sorce}-->
+
+				<!--{if $sorce[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px; color:#ff8c00;">$sorce[optionmessage]</div>
+				<!--{elseif $sorce[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong >$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$sorce[optionmessage]</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+		</div>
+				<!--{/if}-->
+			</td>
+	</tr>
+	<tr>
+		<th>学习收获</th>
+		<td colspan="5" valign="top">
+		<!--{if !empty($lear[learnHarvest])}-->
+		<textarea name="learnHarvest" cols="30" rows="3" id="learnHarvest"
+			class="pt" readonly>$lear[learnHarvest]</textarea>
+			<!--{/if}-->
+			<div class="pattl mlwgroup mrwgroup">
+			<!--{if !empty($attharachlist)}-->
+			<dl class="tattl">
+				<dt>$attharachlist[0][filetype]</dt>
+             <dd>
+             <p class="attnm">
+              <input type="hidden" value="$attharachlist[0][aid]" id="harvestaid" name="harvestaid">
+				<a href="home.php?mod=learnattachment&aid={$attharachlist[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlist[0][aid]">$attharachlist[0][filename]</a>
+				($attharachlist[0][attachsize])</p>
+             </dd>
+			</dl>
+			<div class="attp" id="aid$attharachlist[0][aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlist[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlist[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+				<!--{/if}-->
+				</div>
+				<div class="cl cm" id="learnsourcecomment">
+		<!--{if $learnharvestarr}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<!--{loop $learnharvestarr $harst}-->
+
+				<!--{if $harst[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($harst[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$harst[authorer]</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$harst[optionmessage]</div>
+				<!--{elseif $harst[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($harst[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong>$harst[authorer]</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$harst[optionmessage]</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+		</div>
+		<!--{/if}-->
+			</td>
+	</tr>
+	<tr>
+		<th>学习行动</th>
+		<td colspan="5" valign="top">
+		<!--{if !empty($lear[learnaction])}-->
+		<textarea rows="3" cols="30" class="pt" id="learnaction"
+			name="learnaction" readonly>$lear[learnaction]</textarea>
+			<!--{/if}-->
+		<div class="pattl mlwgroup mrwgroup">
+			<!--{if !empty($attharachlistaction)}-->
+           <dl class="tattl">
+				<dt>$attharachlistaction[0][filetype]</dt>
+             <dd>
+              <input type="hidden" value="$attharachlistaction[0][aid]" id="actionaid" name="actionaid">
+		 <a href="home.php?mod=learnattachment{$is_archive}&aid={$attharachlistaction[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlistaction[0][aid]" class="bold">$attharachlistaction[0][filename]</a>
+				($attharachlistaction[0][attachsize])
+             </dd>
+             </dl>
+                 <div class="attp" id="aid$attharachlistaction[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlistaction[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlistaction[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+				<!--{/if}-->
+			</div>
+			<div class="cl cm" id="learnsourcecomment">
+			<!--{if $learnactiontarr}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<!--{loop $learnactiontarr $sorce}-->
+
+				<!--{if $sorce[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$sorce[optionmessage]</div>
+				<!--{elseif $sorce[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($sorce[dataline])} </span>
+				&nbsp;&nbsp;&nbsp;<strong>$sorce[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$sorce[optionmessage]</div>
+				<!--{/if}-->
+
+				<!--{/loop}-->
+		</div>
+				<!--{/if}-->
+
+			</td>
+	</tr>
+	<tr>
+		<th>学习成果</th>
+		<td colspan="5">
+		</p>
+		<!--{if !empty($lear[learnachievements])}-->
+		<textarea rows="3" cols="30" class="pt" id="learnachievements"
+			name="learnachievements" readonly>$lear[learnachievements]</textarea>
+			<!--{/if}-->
+			<div class="pattl mlwgroup mrwgroup">
+		 <!--{if !empty($attharachlisthievements)}-->
+                  <dl class="tattl">
+				<dt>$attharachlisthievements[0][filetype]</dt>
+             <dd>
+             <input type="hidden" value="$attharachlisthievements[0][aid]" id="chievementsaid" name="chievementsaid">
+		 <a href="home.php?mod=learnattachment{$is_archive}&aid={$attharachlisthievements[0][aidencode]}&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid$attharachlisthievements[0][aid]" class="bold">$attharachlisthievements[0][filename]</a>
+				($attharachlisthievements[0][attachsize])
+             </dd>
+             </dl>
+                 <div class="attp" id="aid$attharachlisthievements[aid]_menu" style="display: none">
+					<div class="crly">
+						<p class="y">$attharachlisthievements[0][dateline]</p>
+						<p>下载次数:&nbsp;$attharachlisthievements[0][downloads]</p>
+					</div>
+					<div class="mncr"></div>
+				</div>
+				<!--{/if}-->
+			</div>
+		<strong class="rq">信心指数:</strong>您觉得所取得的成果有 <span style="font-weight:bold;">$lear[confidenceindex]%</span> 是由培训项目所贡献的
+		<!--{if $learnachievarr}-->
+		<div class="pstl">
+		<h3 class="learpsth">完善建议</h3>
+		<p class="unf" id="learnchievoptionid">
+  				 <!--{loop $learnachievarr $chev}-->
+
+				<!--{if $chev[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($chev[dataline])}</span>&nbsp;&nbsp;&nbsp;
+				<strong style="color:#ff8c00;">$chev[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$chev[optionmessage]</div>
+				<!--{elseif $chev[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($chev[dataline])}</span>&nbsp;&nbsp;&nbsp;
+				<strong>$chev[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$chev[optionmessage]</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+		</div>
+		<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<th>学习名称</th>
+		<td colspan="5">
+		<textarea name="learnname" cols="30" rows="3" id="learnname"
+			class="pt" readonly>$lear[learnname]</textarea>
+			 <!--{if $learnnamearr}-->
+			<div class="cl cm" id="learnnam">
+                    <h3 class="learpsth">完善建议</h3>
+                    <div class="pstl">
+                    <p class="unf" id="learnnameoptionid">
+
+                     <!--{loop $learnnamearr $learnamearr}-->
+
+				<!--{if $learnamearr[status]==1}-->
+				&nbsp;<span style="display:inline-block; width:96px; color:#ff8c00;">{eval echo dgmdate($learnamearr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong style="color:#ff8c00;">$learnamearr[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/suggest.png" alt="建议" title="建议" align="absmiddle" />
+					<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;color:#ff8c00;">$learnamearr[optionmessage]</div>
+				<!--{elseif $learnamearr[status]==2}-->
+				&nbsp;<span style="display:inline-block; width:96px;">{eval echo dgmdate($learnamearr[dataline])}</span>
+				&nbsp;&nbsp;&nbsp;<strong>$learnamearr[authorer]&nbsp;</strong>
+				<img src="source/plugin/suggestbox/assets/image/reply.png" alt="回复"  title="回复" align="absmiddle" />
+				<div style="border:0px dotted #A0A0A0; padding:5px; padding-left:8px;">$learnamearr[optionmessage]</div>
+				<!--{/if}-->
+					<!--{/loop}-->
+                    </p>
+                    </div>
+                    <!--{/if}-->
+			</td>
+	</tr>
+	<tr>
+		<th width="30">证明人信息</th>
+		<td colspan="5"></td>
+	</tr>
+	<tr>
+		<th>姓名</th>
+		<td><input type="text" value="$lear[Witnessrealname]" size="20"
+			id="witnessrealname" name="witnessrealname" class="px" readonly></td>
+		<th>网大账号</th>
+		<td colspan="3"><input type="text" value="$lear[Witnessusername]"
+			size="20" id="witnessusername" name="witnessusername" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th>公司名称</th>
+		<td><input type="text" value="$lear[Witnesscompanyname]"
+			size="20" id="witnesscompanyname" name="witnesscompanyname"
+			class="px" readonly></td>
+		<th>部门名称</th>
+		<td colspan="3"><input type="text" value="$lear[Witnessdeptname]" size="20"
+			id="witnessdeptname" name="witnessdeptname" class="px" readonly/></td>
+	</tr>
+	<tr>
+		<th>联系手机</th>
+		<td><input type="text" value="$lear[Witnesstel]"
+			size="20" id="witnesstel" name="witnesstel" class="px" readonly/></td>
+		<th>职务</th>
+		<td colspan="3"><input type="text" value="$lear[WitnessPost]" size="20" id="witnesspost" name="witnesspost" class="px" readonly/></td>
+	</tr>
+	<!--{/loop}-->
+</table>
+
+
+	<div id="div_main_content" class="mtm mbm">
+						<h3 class="bbs pbn">
+							<!--{if !empty($arryreply)}-->
+							<a href="#f_pst" class="y xi2 xw0">提出评论</a>
+							<!--{/if}-->
+							评论(<span id="comment_replynum">$replynum</span> 意见评论)
+						</h3>
+						<!--{loop $arryreply  $learnop}-->
+							<div id="op_$learnop[id]" class="xld xlda">
+                          	<dl class="bbda cl">
+                          	<dd class="m avt"><a href="home.php?mod=space&uid=$learnop[authoreruid]" class="perPanel"><!--{avatar($learnop[authoreruid], small)}--></a></dd>
+                          	<dt>
+                          	<!--{if $learnop[authoreruid]}-->
+			       <a class="perPanel" href="home.php?mod=space&uid=$learnop[authoreruid]" id="author_$learnop[id]"><!--{eval echo user_get_user_name($learnop[authoreruid]);}-->
+			       </a>
+			<!--{else}-->
+			 {lang anonymous}
+			<!--{/if}-->
+			<span class="xg1 xw0">{eval echo dgmdate($learnop[replydateline])}</span>
+		     </dt>
+                          	<dd class="z">
+                          	<div class="pcb">
+                          	<h2>$learnop[replmessage]</h2>
+                          	</div>
+                          	</dd>
+                          	</dl>
+                        </div>
+			<!--{/loop}-->
+			</div>
+<div id="postlistreply" class="xld xlda mbm"><div id="post_new" class="viewthread_table" style="display: none"></div>
+</div>
+    <!--{if $multipage}-->
+	<div class="pgs cl">$multipage</div>
+	<!--{/if}-->
+	<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=learning&plugin_op=groupmenu&learning_action=replyoption&learnid=$learnid&tap=2" onsubmit="return optionpostvalidate(this)" >
+			{hook/viewthread_fastpost_content}
+				<input type="hidden" name="usesig" value="$usesigcheck" />
+											<!--{if $_G['forum']['allowfeed']}-->
+												<input type="hidden" name="addfeed" value="$addfeedcheck" />
+												<input type="hidden" name="learuid" id="learuid" value="$uid" />
+												<input type="hidden" name="subusername" id="subusername" value="$username" />
+												<input type="hidden" name="learid" id="learid" value="$learnid" />
+											<!--{/if}-->
+											<span id="fastpostreturn"></span>
+											<!--{if empty($_G[gp_from]) && $_G[setting][fastsmilies]}--><div id="fastsmilies" class="y"></div><!--{/if}-->
+
+											<div class="tedt">
+
+												<div class="bar">
+													<span class="y">
+														{hook/viewthread_fastpost_func_extra}
+														<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+															<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=fastpostmessage&from=fastpost" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> $_G['setting']['magics']['doodle']</a>
+															<span class="pipe">|</span>
+														<!--{/if}-->
+
+													</span>
+													{eval $seditor = array('fastpost', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies'));}
+													{hook/viewthread_fastpost_ctrl_extra}
+													{subtemplate common/seditor}
+												</div>
+
+												<div class="area">
+													<textarea rows="5" cols="80" name="fastpostmessage" id="fastpostmessage" onKeyDown="seditor_ctlent(event, <!--{if $_G['gp_ordertype'] != 1}-->'fastpostvalidate($(\'fastpostform\'))'<!--{else}-->'$(\'fastpostform\').submit()'<!--{/if}-->);" tabindex="4" class="pt"></textarea>
+												</div>
+
+											</div>
+											<!--{if checkperm('seccode') && ($secqaacheck || $seccodecheck)}-->
+												{block sectpl}<sec> <span id="sec<hash>" onclick="showMenu(this.id)"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div>{/block}
+												<div class="mtm">{template common/seccheck}</div>
+											<!--{/if}-->
+											<p class="ptm">
+												<button type="submit" name="replysubmit" id="fastpostsubmit" value="replysubmit" tabindex="5" class="pn vm"><strong>发表评论</strong></button>
+											</p>
+								<!--{if empty($_G[gp_from])}-->
+										</td>
+									</tr>
+								</table>
+								<!--{/if}-->
+							</form>
+
+</div>
+<script type="text/javascript">
+function optionpostvalidate(obj) {
+
+var message=$('fastpostmessage');
+var messagestr=message.value;
+var str = messagestr.replace(/^\s+|\s+$/g,"");
+if(message.value==""){
+	s = '请完成标题或内容栏。';
+	$('fastpostreturn').innerHTML = s;
+	message.focus();
+	return false;
+} if(str==""){
+s = '请完成标题或内容栏。';
+	$('fastpostreturn').innerHTML = s;
+	message.focus();
+	return false;
+}
+if(!disablepostctrl && ((postminchars != 0 && mb_strlen(message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(message.value) > postmaxchars))) {
+		s = '您的评论长度不符合要求。\n\n当前长度: ' + mb_strlen(message.value) + ' ' + '字节\n系统限制: ' + postminchars + ' 到 ' + postmaxchars + ' 字节';
+		$('fastpostreturn').innerHTML = s;
+	    message.focus();
+		return false;
+}
+	}
+</script>

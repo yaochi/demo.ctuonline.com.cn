@@ -1,0 +1,42 @@
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="#">标签：$tag</a>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl bggrid">
+	<div id="tagPanel">
+		<a href="home.php" class="xs2 xw1" style="position: absolute; left:12px;">< 返回个人中心</a>
+		<p class="xw1 xs3 xi2 hm">标签：$tag</p>
+		<div class="nvShadow"></div>
+	</div>
+	<div class="bm mtm mbw">
+		<div id="feed_div" class="e" style="margin: 0 auto; width: 644px;">
+			<div class="xld xlda">
+				<div id="feed"></div>
+			</div>
+			<div class="mbw mrwgroup"><div class="pg"></div></div>
+		</div>
+		<div id="ajax_wait"></div>
+	</div>
+		
+</div>
+
+<script type="text/javascript" src="{$_G[setting][jspath]}common_feed.js?{VERHASH}" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	var tag = urlCode("$tag");
+	load_wait();
+	flag = 'links';
+	feedSign = false;
+	pageReset();
+	load_links_feed(tag,UID,currNum,initNum,'','','');
+	currNum += initNum;	
+</script>
+
+<!--{template common/footer}-->

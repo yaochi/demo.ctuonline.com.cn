@@ -1,0 +1,101 @@
+<!--{eval $_G[home_tpl_titles] = array('文档');}-->
+<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+
+<!--{if !$_G[inajax]}-->
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl">
+<!--{/if}-->
+
+<!--{if $_GET['op'] == 'delete'}-->
+<h3 class="flb">
+	<em>删除文档</em>
+	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="{lang close}">关闭</a></span><!--{/if}-->
+</h3>
+<form method="post" autocomplete="off" action="{echo join_plugin_action2('doccp', array('docid' => $docid, 'op' => 'delete'));}">
+	<input type="hidden" name="referer" value="$_G[referer]" />
+	<input type="hidden" name="deletesubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="c">确定要删除指定的文档?</div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>
+<!--{elseif $_GET['op'] == 'change'}-->
+<h3 class="flb">
+	<em>移动文档</em>
+	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+</h3>
+<form method="post" autocomplete="off" action="{eval echo join_plugin_action2('doccp', array('docid'=> $docid, 'op' => 'change'));}">
+	<input type="hidden" name="changesubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+<div class="c">
+<p>请选择您欲存放文档的位置: </p>
+<p>
+已有分类:
+		<select name="typeid">
+			<!--{if !$allowrequired}-->
+			<!--{if $_G['gp_typeid']}--><option value="">全部</option><!--{else}--><option value="" select>全部</option><!--{/if}-->
+			<!--{/if}--> 
+			<!--{if $categorys}-->
+				<!--{loop $categorys $id $value}-->
+					<!--{if $doc['folderid'] != $id}-->
+						<option value="$id">{echo strip_tags($value['name'])}</option>
+					<!--{else}-->
+						<option value="$id" selected="selected">{echo strip_tags($value['name'])}</option>
+					<!--{/if}-->
+				<!--{/loop}-->
+			<!--{/if}--> 		
+  		</select> 
+</p>
+</div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>
+<!--{elseif $_GET['op'] == 'edit'}-->
+<iframe width="968px" height="420px" src="http://180.168.60.21/WebRoot/r-$_GET[docid]/edit.html"></iframe>
+<script type="text/javascript">
+</script>
+<!--{elseif $_GET['op'] == 'upload'}-->
+<iframe width="968px" height="420px" src="http://180.168.60.21/WebRoot/upload.api?m=index&folderid=$_GET['typeid']&zoneid=$_G['fid']&tile=true&ac=redirect"></iframe>
+<!--{else}-->
+<h3 class="flb">
+	<em>上传文档</em>
+	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span><!--{/if}-->
+</h3>
+<form method="post" autocomplete="off" action="{eval echo join_plugin_action2('doccp');}">
+	<input type="hidden" name="selectsubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+<div class="c">
+<p>请选择您欲存放文档的位置: </p>
+<p>
+已有分类:
+		<select name="typeid">
+			<!--{if !$allowrequired}-->
+			<!--{if $_G['gp_typeid']}--><option value="">全部</option><!--{else}--><option value="" select>全部</option><!--{/if}-->
+			<!--{/if}--> 
+			<!--{if $categorys}-->
+				<!--{loop $categorys $id $value}-->
+					<!--{if $_G['gp_typeid'] != $id}-->
+						<option value="$id">{echo strip_tags($value['name'])}</option>
+					<!--{else}-->
+						<option value="$id" select>{echo strip_tags($value['name'])}</option>
+					<!--{/if}-->
+				<!--{/loop}-->
+			<!--{/if}--> 		
+  		</select> 
+</p>
+</div>
+	<p class="o pns">
+		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>确定</strong></button>
+	</p>
+</form>
+<!--{/if}-->
+<!--{if !$_G[inajax]}-->
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

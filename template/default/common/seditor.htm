@@ -1,0 +1,25 @@
+<div class="fpd">
+	<!--{if in_array('bold', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_bold}" class="fbld" onclick="seditor_insertunit('$seditor[0]', '[b]', '[/b]')">B</a>
+	<!--{/if}-->
+	<!--{if in_array('color', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_forecolor}" class="fclr" id="{$seditor[0]}forecolor" onclick="showColorBox(this.id, 2, '$seditor[0]');doane(event)">Color</a>
+	<!--{/if}-->
+	<!--{if in_array('img', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_image}" class="fmg" onclick="seditor_insertunit('$seditor[0]', '[img]', '[/img]')">Image</a>
+	<!--{/if}-->
+	<!--{if in_array('link', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_url}" class="flnk" onclick="seditor_insertunit('$seditor[0]', '[url]', '[/url]')">Link</a>
+	<!--{/if}-->
+	<!--{if in_array('quote', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_quote}" class="fqt" onclick="seditor_insertunit('$seditor[0]', '[quote]', '[/quote]')">Quote</a>
+	<!--{/if}-->
+	<!--{if in_array('code', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_code}" class="fcd" onclick="seditor_insertunit('$seditor[0]', '[code]', '[/code]')">Code</a>
+	<!--{/if}-->
+	<!--{if in_array('smilies', $seditor[1])}-->
+		<a href="javascript:;" class="fsml" id="{$seditor[0]}sml" onclick="showMenu({'ctrlid':this.id,'evt':'click','layer':2});doane(event)">Smilies</a>
+		<script type="text/javascript" src="data/cache/common_smilies_var.js?{VERHASH}" reload="1"></script>
+		<script type="text/javascript" reload="1">smilies_show('{$seditor[0]}smiliesdiv', $_G['setting']['smcols'], '$seditor[0]');</script>
+	<!--{/if}-->
+</div>

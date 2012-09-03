@@ -1,0 +1,21 @@
+<div style="text-align: center;">
+    <form action="{eval echo join_plugin_action2('new_class')}" method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="fid" value="$fid"/>
+    	<table>
+    		<tr>
+    			<td colspan="2">新建类别</td>
+    		</tr>
+    		<tr>
+        		<th><label for="typename">名称</label></th>
+        		<td><input type="text" name="classname" class="px"/></td>
+        	</tr>
+        	<tr>
+        		<td colspan="2" align="center">
+                            <button type="submit" class="pn pnp" id="submit" name="submit">
+                                <strong>创建</strong>
+                            </button>
+                        </td>
+        	</tr>
+    	</table>
+    </form>
+</div>

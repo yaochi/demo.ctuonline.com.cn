@@ -1,0 +1,38 @@
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=$mod&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<!--{if $count}-->
+<div  id="threadlist" style="position: relative;" class="wdlb_nr">
+	<div class="wd5">
+<table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_zblb">
+<tbody><tr>
+<td height="30" align="center" width="49%">证书编号</td>
+<td width="19%">证书类型</td>
+<td width="18%">培训班名称</td>
+<td width="14%">证书时间</td>
+</tr>
+<!--{loop $cerlist $value}-->
+<tr>
+<td height="64"><a href="http://admin.myctu.cn:9001/api/synchron/certdetail.do?cid=$value[Certificate_id]">$value[Certificate_no]</a></td>
+<td>$value[certype]</td>
+<td>$value[TC_name]</td>
+<td>$value[Create_date]</td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+	</div>
+	<!--{if $tcount}-->
+	<div class="emp">您还有 $tcount 个证书没有显示，请完善讲师资料后查看。<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&diy=&lecid=$lecid&lecturermanage_action=edit">去完善我的资料>></a></div>
+	<!--{/if}-->
+</div>
+<!--{if $multi}-->
+<div class="bm pgs ptn cl">
+	$multi
+</div><!--{/if}-->
+<!--{else}-->
+	<div class="emp">您还没有证书。</div>
+<!--{/if}-->

@@ -1,0 +1,48 @@
+<script src="static/js/forum_calendar.js"></script>
+<script type="text/JavaScript">parent.document.title = '中国电信网上大学 管理中心 - 统计 - top100排行';if(parent.$('admincpnav')) parent.$('admincpnav').innerHTML='统计&nbsp;&raquo;&nbsp;top100排行';</script>
+<div class="itemtitle">
+  <h3>top100排行</h3>
+</div>
+<form id="cpform" action="admin.php?action=statistics&operation=top100" autocomplete="off" method="post" name="cpform">
+<input type="hidden" value="ae9f1d4b" name="formhash">
+<input type="hidden" value="" name="scrolltop" id="formscrolltop">
+<input type="hidden" value="" name="anchor">
+
+<label style="margin:0 5px 0 0;">内容类型:</label>
+
+<select name="typeid"><option <!--{if $typeid=='fans'}-->selected="selected"<!--{/if}--> value="fans">粉丝数排行</option>
+<option <!--{if $typeid=='friends'}-->selected="selected"<!--{/if}--> value="friends">好友数排行</option>
+<option <!--{if $typeid=='follows'}-->selected="selected"<!--{/if}--> value="follows">关注数排行</option>
+</select>
+
+<label style="margin:0 5px 0 15px;">起始日期:</label>
+
+<input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-right: 5px;" value="$starttime" name="starttime" class="txt"> -- <input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-left: 5px;" value="$endtime" name="endtime" class="txt">
+
+<input type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="blogfeedsubmit" id="submit_blogfeedsubmit" class="btn">
+<script type="text/JavaScript">_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'blogfeedsubmit'); });</script>
+</form>
+<table class="tb tb2 ">
+ <tbody>
+ <tr class="header">
+ <th>姓名</th>
+ <th>账号</th>
+ <th>公司信息</th>
+ <th>人数</th>
+ </tr>
+ <!--{if $list}--> 
+ <!--{loop $list $value}-->
+ <tr class="hover">
+ <td>$value[realname]</td>
+ <td>$value[username]</td>
+ <td>$value[province]</td>
+ <td>$value[b]</td>
+ </tr>
+ <!--{/loop}-->
+ <!--{else}-->
+ <tr class="hover">
+ <td colspan="4" align="center">暂无内容</td>
+ </tr>
+ <!--{/if}-->
+ 
+</tbody></table> 

@@ -1,0 +1,28 @@
+<!--广告：图文混排-->
+
+<div class="module cl xld"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>	
+        <!--{loop $listdata $item}-->
+        <dl class="cl">
+            <dd class="m">
+                <!--{if $item['isSelf']}-->
+                <a href="{$item['url']}" target="_blank">
+                        <img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}" alt="">
+                </a>
+                <!--{else}-->
+                <a href="{$item['url']}">
+                        <img src="{$item['media_dir']}" width="{$item['width']}" height="{$item['height']}" alt="">
+                </a>
+                <!--{/if}-->
+            </dd>
+            <dd class="ptn">
+                <div>
+                        <!--{if $item['isSelf']}-->
+                        <a href="{$item['url']}" target="_blank">{$item['content']}</a>
+                        <!--{else}-->
+                        <a href="{$item['url']}">{$item['content']}</a>
+                        <!--{/if}-->
+                </div>
+            </dd>
+        </dl>
+        <!--{/loop}-->
+</div>

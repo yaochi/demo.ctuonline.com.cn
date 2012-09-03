@@ -1,0 +1,11 @@
+<div class="module cl xl xl1"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<ul>
+		<!--{loop $listdata $item}-->
+		<li>
+			<a href="home.php?mod=space&uid={$item[uid]}" linkindex="55" class="xi2">{$item[username]}</a>
+			<a href="forum.php?mod=group&action=plugin&fid={$item[fid]}&plugin_name=groupshare&plugin_op=groupmenu&groupshare_action=view&id={$item[sid]}" linkindex="56">{$item[action]}</a>
+			<span class="xi2">{$item[subject]}</span>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

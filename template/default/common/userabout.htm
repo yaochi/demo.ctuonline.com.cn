@@ -1,0 +1,629 @@
+<!--{if $_G['uid']}-->
+<div class="pp">
+	<!--{if $do == 'home' || $do == 'favorite' || $do == 'atme' || $do =='mycomment' || $do == 'me' || $do=='mecomment'}-->
+	<!--{eval g_icon($space[groupid]);}-->
+	{eval $space[domainurl] = space_domain($space);}
+	<div class="cblk" id="homeSearch">
+		<div class="msc">
+			<a href="#a" class="mscl"></a>
+			<span class="mscloading"></span>
+			<input type="text" name="hsinput" id="hsinput" class="xg0" value="找人/专区" disabled="disabled" />
+			<div id="hsResults" class="xld xlda"></div>
+		</div>
+		<div class="mscBottom"></div>
+		<script src="static/js/home_msc.js" type="text/javascript"></script>
+	</div>
+	<!--{/if}-->
+	<!--{if $do == 'home' || $do == 'favorite' || $do == 'atme' || $do =='mycomment' || $do == 'me' || $do=='mecomment'}-->
+	<div class="cblk" id="quickentries">
+	<!--{else}-->
+	<div class="cblk clmt" id="quickentries">
+	<!--{/if}-->
+		<h2>快捷入口</h2>
+		<table>
+			<tr>
+				<td><a href="home.php?mod=space&do=nwkt&fchannel=xmenua"><span class="icn_nwkt replaced z"></span>你我课堂</a></td>
+				<td><a href="home.php?mod=space&do=poll&fchannel=xmenup"><span class="icn_poll replaced z"></span>投票</a></td>
+				<td><a href="http://www.ctuonline.com.cn/www/jsp/sso/StudentInterface.jsp?pagetype=3" target="_blank"><span class="icn_grpg replaced z"></span>评估问卷</a></td>
+			</tr>
+		</table>
+		<div class="qesidelv1"></div>
+		<div class="qesidelv2"></div>
+	</div>
+</div>
+<!--{if $do == 'home' || $do == 'favorite'  || $do == 'atme' || $do =='mycomment' || $do == 'me' || $do=='mecomment'}-->
+<div id="msel">
+	<a href="#a" id="index_follow" <!--{if $do=='home'}--> class="on" <!--{/if}-->>我的首页</a>
+	<a href="#a" id="index_atme" <!--{if $do=='atme'}--> class="on" <!--{/if}-->>@提到我的</a>
+	<a href="#a" id="index_me" <!--{if $do=='me'}--> class="on" <!--{/if}-->>我发表的内容</a>
+	<a href="#a" id="index_comment" <!--{if $do=='mycomment' || $do=='mecomment'}--> class="on" <!--{/if}-->>我的评论</a>
+	<a href="#a" id="index_favor" <!--{if $do=='favorite'}--> class="on" <!--{/if}-->>我的收藏</a>
+</div>
+<div class="pp">
+	<div class="cblk" id="friendsRecommend" style="display:none;"><a href="#a" id="change" class="y xg1">换一换</a><h2>可能感兴趣的人</h2></div>
+	<div class="cblk" id="homeGroupJoin" style="display:none;margin-top:25px;"><a href="home.php?mod=space&do=group&view=join" class="y xg1">全部</a><h2>我加入的专区</h2></div>
+	<div class="cblk" id="homeGroupManager" style="display:none;"><a href="home.php?mod=space&do=group&view=manager" class="y xg1">全部</a><h2>我管理的专区</h2></div>
+	<div class="cblk" id="homeRightAds" style="display:none;">
+		<!--{ad/custom_4}-->
+	</div>
+	<div class="cblk" id="hotTags" style="display: none;"></div>
+	<div class="cblk" id="gwCourse" style="display: none;"><h2>岗位课程</h2></div>
+</div>
+<!--{/if}-->
+<script type="text/javascript" charset="utf-8">
+	jQuery.ajaxSetup({ cache:false }); //防止jQuery JSON ajax被IE缓存
+
+	<!--{if $do == 'home' || $do == 'favorite' || $do == 'atme' || $do =='mycomment' || $do == 'me'|| $do=='mecomment'}-->
+	jQuery("#msel a").each( function(){
+		jQuery(this).click(function(){
+			jQuery("#msel a").removeClass("on");
+			jQuery(this).addClass("on");
+			if( jQuery(this).attr("id") == 'index_follow' ){
+				window.location.href='home.php';
+			}else if( jQuery(this).attr("id") == 'index_me' ){
+				window.location.href="home.php?mod=space"+"&"+"do=me";
+			}else if( jQuery(this).attr("id") == 'index_comment' ){
+				window.location.href="home.php?mod=space"+"&"+"do=mycomment"+"&"+"fchannel=issue";
+			}else if( jQuery(this).attr("id") == 'index_atme' ){
+			    window.location.href = "home.php?mod=space"+"&"+"do=atme";
+			}else if( jQuery(this).attr("id") == 'index_favor' ){
+				window.location.href = "home.php?mod=space"+"&"+"do=favorite";
+			}
+		})
+	})
+
+	jQuery("#msel a span").click(function(event) {
+		event.preventDefault();
+		var obj = jQuery(this);
+		obj.css("display", "none");
+		obj.after("<img src='static/image/common/loading.gif' width='16' height='16' class='y' style='margin-top: 2px' />");
+		var viewindex = jQuery(this).parent().attr("id").replace("index_", "");
+		var str = obj.parent().text().replace("设为默认首页", "");
+
+		jQuery.getJSON("api/blog/api_updateview.php?" + "viewindex=" + viewindex + "&" + uidstr + "&" + getMD5([viewindex, UID]), function(data) {
+			if(data.success == "Y") {
+				showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span>" +
+						  "<span class='xw1 xs2 mlmgroup'>已将您的默认首页设置为&nbsp;" + str + "</span>", 8000);
+			} else {
+				showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>默认首页设置未成功</span>", 8000);
+			}
+			obj.next().remove();
+			obj.css("display", "");
+		});
+		event.stopPropagation();
+	});
+
+	jQuery("body").on("mouseenter", ".cblk", function() {
+		jQuery(".minlk", this).fadeIn(150);
+	}).on("mouseleave", ".cblk", function() {
+		jQuery(".minlk", this).hide();
+	});
+
+	jQuery(".pp:eq(1)").css("marginTop", jQuery("#msel").height());
+
+	jQuery(".pp:first").data("doHome", true); //用于专区马甲是否在pp区域显示的判断
+
+	if (jQuery('#homeRightAds img').length>0) jQuery('#homeRightAds').slideDown();
+	/* 标题智能显示 */
+	var monCblk = {"homeRightAds": "广告"};
+	jQuery.each(monCblk, function(key, value) {
+		if(jQuery("#" + key + " *").length > 0) {
+			jQuery("#" + key).prepend("<h2>" + value + "</h2>");
+		}
+	});
+
+	if(jQuery.browser.msie) {
+		jQuery("#homeRightAds img").each(function() {
+			if(jQuery(this).width() > 280) {
+				jQuery(this).attr("width", 280);
+				jQuery(this).attr("height", "auto");
+			}
+		});
+	}
+
+
+	jQuery("input[name=hsinput]", mscobj).attr("disabled", false);
+	/*jQuery.getScript('static/js/home_msc.js', function() {
+		jQuery("input[name=hsinput]", mscobj).attr("disabled", false);
+	});*/
+
+
+	/* 相关数据获取 */
+	var uidstr = "uid=" + UID;
+	if(REPEATID == 0) {
+		showSelfMi(false);
+	}
+
+	function editInput(obj, opt){
+		var cmd = jQuery(opt).text();
+		var cancelTP = jQuery(obj).data('cancelTP');
+
+		var refer = function(p, t, v, o){
+			v = jQuery(o).val();
+			if ((v !='' && v != t) || (v == '' && t != p)){
+				jQuery.getJSON("api/blog/api_modifybio.php?" + uidstr + "&message=" + encodeURIComponent(v) + "&" + getMD5([UID]), function(data) {
+					if (data && data.success == 'Y'){
+						showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>您的个人简介已更新，快去和好友分享交流吧</span>", 1500);
+						jQuery(obj).text((v!='')?v:p);
+					}else{
+						jQuery(obj).text(t);
+						if (data && data.success == 'N'){
+							showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>"+data.message+"</span>", 1500);
+						}
+					}
+				});
+			}else{
+				jQuery(obj).text(t);
+			}
+		}
+
+		var hide = function(cmd){
+			jQuery(opt).addClass('minlk').text('编辑');
+			if (cmd == 'cancel') {
+				jQuery(obj).text(jQuery(obj).data('oldval'));
+			}else{
+				jQuery(opt).hide();
+			}
+		}
+
+		if (cmd == '取消'){
+			clearTimeout(cancelTP);
+			hide('cancel');
+		}else if (cmd == '编辑'){
+			jQuery(opt).removeClass('minlk').text('取消');
+
+			var p = '给自己一些介绍吧';
+			var t = jQuery(obj).text();
+			var v = (t == p)? '' : t;
+			var o = jQuery('<input class="px" value="'+v+'"  />')
+						.keyup(function(event){
+							if (event.keyCode == '13') {
+								refer(p, t, v, o);
+								hide();
+							}
+						})
+						.blur(function(){
+							clearTimeout(cancelTP);
+							cancelTP = setTimeout(function(){
+									refer(p, t, v, o);
+									hide('blur');
+								}, 100);
+							jQuery(obj).data('cancelTP', cancelTP);
+						})
+						.css('width', jQuery(obj).width()-10);
+			jQuery(obj).html(o).data('oldval', t || p);
+			jQuery(o).focus();
+		}
+	}
+	function showSelfMi(animationIsNeeded) {
+		var miDIV = jQuery('<div class="mi"></div>');
+		var miTable = jQuery('<table cellpadding="0" cellspacing="0"></table>');
+		var miTableTR = jQuery('<tr></tr>');
+		var miTableTH = jQuery('<th></th>');
+		var miTableTD = jQuery('<td></td>');
+		miTableTR.append(miTableTH);
+		miTableTR.append(miTableTD);
+		miTable.append(miTableTR);
+		miDIV.append(miTable);
+		jQuery(".pp *:first").before(miDIV);
+
+		var avt = jQuery('<a href="home.php?mod=space&uid=$space[uid]" class="avt"><!--{avatar($_G[uid],middle)}--></a>');
+		var name = jQuery('<h3 class="xs2"><a href="home.php?mod=space&uid=$space[uid]"{eval g_color($space[groupid]);}>'
+						+ '<!--{eval echo user_get_user_name($space[uid]);}--></a></h3>');
+		<!--{if $do == 'home'}-->
+		//var credit = jQuery('<p class="mtn xg1 cl">已有 <a href="home.php?mod=spacecp&ac=credit">'
+						//+ '<!--{eval echo credit_get_total_credit_by_uid($_G[uid])}--></a> 个积分</p>');
+		var credit = jQuery('<p></p>');
+		<!--{else}-->
+		var credit = jQuery('<p></p>');
+		<!--{/if}-->
+		var miFlnums = jQuery('<ul id="flnums">'
+					        + '<li><a href="home.php?mod=space&do=follow"><span class="flnum">---</span><span>关注</span></a></li>'
+							+ '<li><a href="home.php?mod=space&do=follow&op=fans"><span class="flnum">---</span><span>粉丝</span></a></li>'
+							+ '<li><a href="home.php?mod=space&uid=$space[uid]&do=follow&followtype=friend"><span class="flnum">---</span><span>好友</span></a></li>'
+							+ '<li><a href="home.php?mod=space&do=me"><span class="flnum">---</span><span>已发表</span></a></li></ul>');
+		var selfIntro = jQuery('<div class="cblk" id="selfIntro" style="display: none">'
+							 + '<a href="#a" class="y minlk xg1">编辑</a>'
+							 + '<h2>个人简介</h2><p></p></div>');
+
+		if(jQuery.browser.msie) {
+			jQuery("li:first", miFlnums).css({paddingLeft: 0});
+			jQuery("li:last", miFlnums).css({background: "none"});
+		}
+
+		if(animationIsNeeded) {
+			avt.css("position", "absolute");
+			avt.css("visibility", "hidden");
+			miTableTH.append(avt);
+			var tmpWidth = avt.width();
+			var tmpHeight = avt.height();
+			avt.width(0);
+			avt.height(0);
+			avt.css("position", "static");
+			avt.css("visibility", "visible");
+			avt.css("marginLeft", tmpWidth/2);
+			avt.animate({
+				width: tmpWidth,
+				height: tmpHeight,
+				marginLeft: 0
+			}, 500, 'easeOutBack', function() {
+				miFlnums.css("display", "none");
+				miDIV.append(miFlnums);
+				miFlnums.show("fast");
+			});
+			name.css("display", "none");
+			credit.css("display", "none");
+			miTableTD.append(name);
+			miTableTD.append(credit);
+			name.show("fast");
+			credit.show("fast");
+		} else {
+			miTableTH.append(avt);
+			miTableTD.append(name);
+			miTableTD.append(credit);
+			miDIV.append(miFlnums);
+		}
+
+		jQuery.getJSON("api/blog/api_usercart.php?" + uidstr + "&" + getMD5([UID]), function(data) {
+			if(data) {
+				var flnumArray = [data.follows, data.fans, data.friends, data.blogs];
+				jQuery(".flnum", miFlnums).each(function(index) {
+					jQuery(this).text(flnumArray[index]);
+				});
+			}
+		});
+
+		if(MYAUTH == -1){
+			jQuery.getJSON("api.php?mod=plugin"+"&"+"app=userauth:api"+"&"+"param=" + encodeURIComponent(uidstr), function(data) {
+				if(data && data.error == '0') {
+					var userauth = data.data;
+					if(userauth[UID].isauth == 1){
+						jQuery('h3', miTableTD).append(getProAuth());
+					}
+				}
+			});
+		}else{
+			jQuery('h3', miTableTD).append(showMyAuth());
+		}
+
+		jQuery.getJSON("api/blog/api_bio.php?" + uidstr + "&" + getMD5([UID]), function(data){
+			if(data['info'] != "" && data['info'] != null){
+				jQuery('p', selfIntro).text(data['info'].replace(/\r\n/gi, ' '));
+			} else {
+				jQuery('p', selfIntro).text("给自己一些介绍吧");
+			}
+			selfIntro.insertAfter(miDIV);
+			selfIntro.show("fast");
+
+
+			jQuery('.minlk', selfIntro).click(function(event, flag){
+				editInput(jQuery('p', selfIntro), this);
+			});
+		});
+		
+		
+	}
+
+	function friendsRecommend(){
+
+		if (!jQuery('#friendsRecommend #friendsList').length) {
+			jQuery('#friendsRecommend').append('<div id="friendsList" class="xld xlda" style="width:283px;"></div>');
+		}
+		var friendsList = jQuery('#friendsRecommend #friendsList');
+		var ajaxGet = null
+			,ajaxAuthGet = null;
+
+		function fetchProvince(obj) {
+			var uids = obj.map(function() {
+				return this.id.replace("uid", "");
+			}).get().join(',');
+			
+			//var srecordID = jQuery(this).attr("id").replace("uid", "");
+			if(ajaxGet) ajaxGet.abort();
+			ajaxGet = jQuery.ajax({
+				  //url: "api/sso/getuserprogroup.php?pro=group" + "&" + "uid="+ srecordID,
+				  url: "api/sso/getusersprovince.php?uids=" + uids,
+				  dataType: 'json',
+				  success: function(data) {
+				  	if(typeof data === "object"){
+				  		jQuery.each(data, function(key, val){
+					  		var prostr = val && val.groupName ? val.groupName : "中国电信";
+					  		jQuery("#uid" + key + " .progroup", friendsList).html("[" + prostr + "]");
+				  		});
+				  	}
+				  },
+				  error: function(jqXHR, textStatus, errorThrown) {
+				  	if (textStatus != 'abort'){
+				  		//showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>获取用户部门内部错误</span>", 1500);
+				  		jQuery.each(uids, function(key){
+					  		jQuery("#uid" + key + " .progroup", friendsList).html("[中国电信]");
+				  		});
+				  	}
+				  }
+			});
+			
+		}
+		function fetchAuth(obj) {
+			var uids = obj.map(function() {
+				return this.id.replace("uid", "");
+			}).get().join(',');
+			
+			if(ajaxAuthGet) ajaxAuthGet.abort();
+			ajaxAuthGet = jQuery.getJSON("api.php?mod=plugin"+"&"+"app=userauth:api"+"&"+"param=" + encodeURIComponent("uid="+uids), function(data) {
+				if(data && data.error == '0') {
+			  		jQuery.each(data.data, function(key, val){
+						if(val.isauth == 1){
+							jQuery("#uid" + key + " dt .perPanel", friendsList).after(getProAuth());
+						}
+			  		});
+			  	}
+			});
+		}
+
+		function getFriendsDl(data){
+			friendsList.empty();
+			jQuery.each(data, function(key, f) {
+				if (f.username == '未知') {return;}
+				var srecord = jQuery('<dl id=uid' + f.uid + ' class="bbda"></dl>');
+				var srecord_usrimg = jQuery('<dd class="m avt"><a href="home.php?mod=space&uid=' + f.uid
+											+ '" class="perPanel" target="_blank">'
+											+ '<img src="' + f.iconurl + '" /></a></dd>');
+				var srecord_usrname = jQuery('<dt><div class="relbtn y">'+getFollowBtn('follow', UID, f.uid, (function(d){jQuery(d).slideUp(200, function(){jQuery(this).remove();});}), '#uid'+f.uid)
+											 + '</div><span class="xi2 xs2 xw1"><a href="home.php?mod=space&uid='
+										     + f.uid + '" class="perPanel" target="_blank">' + f.username
+										     + '</a></span></dt>');
+				var srecord_usrorg = jQuery('<dd class="xg1 progroup"><img src="static/image/common/loading.gif" /></dd>');
+				var srecord_usrnum = jQuery('<dd><span '+ (f.indirectnum>0?'class="indirectnum"':'') +' title="'+f.indirectnum+'个间接关注人">'+f.indirectnum+'个间接关注人</span></dd>');
+				srecord.append(srecord_usrimg);
+				srecord.append(srecord_usrname);
+				srecord.append(srecord_usrorg);
+				srecord.append(srecord_usrnum);
+
+				if (f.indirectnum > 0){
+					var s = '<dd class="indirectBox" style="display:none;"><div class="upindirect"></div><div class="indirect">我关注的人中：';
+
+					if (f.indirectlist){
+						var c = f.indirectlist.length-1;
+						jQuery.each(f.indirectlist, function(key, list) {
+							s += '<a class="xi2" href="home.php?mod=space&uid=' + list.uid + '" title="' + list.username + '" target="_blank">'
+								 + list.username + '</a>' + (c == key ? ' ' : '、');
+						});
+					}
+					s += '等'+f.indirectnum+'人也关注了TA</div></dd>';
+					var srecord_usrindirect = jQuery(s);
+					srecord.append(srecord_usrindirect);
+				}
+
+				friendsList.append(srecord);
+			});
+
+			var box = jQuery('.indirectBox:first', friendsList);
+			box.show();
+			jQuery('.indirectnum', box.parent()).addClass('indirectnumUp');
+
+			fetchProvince(jQuery('dl', friendsList));
+			fetchAuth(jQuery('dl', friendsList));
+
+			jQuery('.indirectnum', friendsList).click(function(){
+				var box = jQuery('.indirectBox', jQuery(this).parents('dl'));
+				if (box.is(':hidden')){
+					box.slideDown('fast');
+					jQuery(this).addClass('indirectnumUp');
+				}else{
+					box.slideUp('fast');
+					jQuery(this).removeClass('indirectnumUp');
+				}
+			});
+		}
+		
+		function callFriendsAPI(apiName){
+			if (apiName){
+				if (apiName == 'dfriend') friendsList.data('df', false);
+				if (apiName == 'ufriend') friendsList.data('uf', false);
+			}
+			var hasDf = (friendsList.data('df') === false)? false : true
+				,hasUf = (friendsList.data('uf') === false)? false : true;
+				
+			if (hasDf || hasUf) {
+			
+				var api = ['dfriend','ufriend'];
+				var odd = friendsList.data('num') || 0;
+				
+				if (!hasDf && api[odd]=='dfriend') {odd = 1;}
+				if (!hasUf && api[odd]=='ufriend') {odd = 0;}
+				
+				friendsList.data('num', (odd+1)%2);
+				
+				if ((hasDf && api[odd]=='dfriend') || (hasUf && api[odd]=='ufriend')) {
+					
+					jQuery('#friendsRecommend h2').text(api[odd]=='ufriend'?'可能感兴趣的人':'在同一个部门里的人');
+					
+					var url = 'api/blog/api_friend.php?ac='+api[odd]+'&'+uidstr+'&size=6';
+						
+					jQuery.ajax({
+						type: "GET",
+						url: url,
+						dataType: 'json',
+					 	success: function(data){
+					 		if (data && data.data && data.data.length!=0){
+					 			jQuery('#friendsRecommend').show();
+					 			getFriendsDl(data.data);
+					 		}else{
+					 			callFriendsAPI(api[odd]);
+					 		}
+					 	},
+					 	error: function(err){
+					 			callFriendsAPI(api[odd]);
+					 	}
+					});
+				}
+			} else {
+				jQuery('#friendsRecommend').hide();
+			}
+		}
+		
+		callFriendsAPI();
+		
+		jQuery('#friendsRecommend #change').click(callFriendsAPI);
+
+	}
+
+	function createGroupList(data, target){
+		var li = '';
+		jQuery.each(data, function(key, g){
+			li += '<li style="width:70px;height:auto;margin-left:-6px;">'
+				+ '  <a class="avt '
+				+ (g.jointype=='-1'?'zone_closed_img':'')
+				+ '" href="forum.php?mod=group&fid='+g.fid+'"><img alt="'+g.name+'" src="'+g.icon+'">'
+				+ (g.jointype=='-1'?'<s class="zone_closed"></s>':'')
+				+ '</a>'
+				+ '  <p style="width:62px;"><a title="" href="forum.php?mod=group&fid='+g.fid+'">'+g.name+'</a></p>'
+				+ (g.type=='20'?'<span class="bizone_s"></span>':'')
+				+ '</li>';
+		});
+		var ul = '<ul class="mlgroup mls cl" style="position:relative;">'+li+'</ul>';
+		target.append(ul);
+
+	}
+
+	function homeGroupJoin(){
+		jQuery.getJSON('api/blog/api_userforum.php?'+uidstr+'&size=8', function(d){
+			if (d && d.data){
+				jQuery('#homeGroupJoin').slideDown(function(){
+					createGroupList(d.data, jQuery('#homeGroupJoin'));
+				});
+			}
+		});
+	}
+
+	function homeGroupManager(){
+		jQuery.getJSON('api/blog/api_usermanageforum.php?'+uidstr+'&size=8', function(d){
+			if (d && d.data){
+				jQuery('#homeGroupManager').slideDown(function(){
+					createGroupList(d.data, jQuery('#homeGroupManager'));
+				});
+			}
+		});
+	}
+
+	function postCourse(){
+		var anchor = jQuery('#gwCourse');
+		var record = null;		//岗位课程序号
+		var ajaxid;
+		var cont = 
+				  '<div class="post_right"> '
+				 +'  <div class="post_right_title"><a onclick="showWinCover(this.id, this.href, \'get\', 0, null, true);" href="home.php?mod=space&do=plugin&plugin_name=coursemap&coursemap_action=index" id="coursemap">选择关注的岗位</a></div> '
+				 +'  <div class="post_right_title_info"></div> '
+				 +'  <div class="post_right_box"> '
+				 +'    <div class="post_ricon_tjkc"></div> '
+				 +'    <div class="post_right_boxt"></div> '
+				 +'    <div class="post_right_boxc"> '
+				 +'    </div> '
+				 +'    <div class="post_right_boxb"> '
+				 +'      <div class="post_right_zfsc"><a title="转发" href="javascript:;" id="course_forward" onclick="showWinCover(this.id, this.href, \'get\',0);">转发</a><a href="javascript:;" style="display:none;">收藏</a></div> '
+				 +'      <div class="post_right_btn"><div class="post_right_btnl" title="上一个课程"></div><div class="post_right_btnr" title="下一个课程"></div></div> '
+				 +'    </div> '
+				 +'  </div> '
+				 +'</div> '
+				 +'';
+
+		function showPostRight(d){
+			jQuery('.post_right_boxc', anchor).html(
+						  '<div class="post_rcontent"> '
+						 +'  <div><a href="'+ d.courselink +'" title="'+ d.coursename +'" target="_blank"><img src="'+ d.courseimg +'" width="223" height="163" /></a></div> '
+						 +'  <div class="post_rcontent_bt">[课程] <a href="'+ d.courselink +'" title="'+ d.coursename +'" target="_blank">'+ suitStr(d.coursename, 22) +'</a></div> '
+						 +'  <div class="post_rcontent_nr">课程介绍：'+ (d.coursecontext?d.coursecontext:'暂无') +'</div> '
+						 +'  <div class="post_rcontent_sj">浏览次数：'+ d.coursereadnum +'次</div> '
+						 +'</div> '
+						 +''
+				 );
+			
+		}
+		
+		function slide(pos){
+			var numstr = '';
+			if(!isNaN(record)){
+				if(pos=='pre') record--;
+				if(pos=='next') record++;
+				numstr = '&num='+record;
+			}
+			
+			var w = jQuery('.post_right_boxc div:first', anchor).outerWidth(true);
+			var h = jQuery('.post_right_boxc div:first').outerHeight(true);
+			jQuery('.post_right_boxc', anchor).html("<div style='text-align:center;width:"+w+"px;height:"+h+"px;'><img src='"+IMGDIR+"/loading.gif' /></div>");
+			
+			if(ajaxid) ajaxid.abort();
+			ajaxid = jQuery.getJSON("api.php?mod=plugin"+"&"+"app=coursemap:api"+"&"+"param="+encodeURIComponent('action=getcourse&uid='+UID+numstr), function(data) {
+				if(data && data.error == null) {
+					record = parseInt(data.sequence, 10);
+				jQuery('#course_forward', anchor).attr('href', 'home.php?mod=space'+'&'+'do=plugin'+'&'+'plugin_name=coursemap'+'&'+'coursemap_action=forward'+'&'+'code='+data.code);
+					showPostRight({'coursename':data.title,'courselink':data.titlelink,'courseimg':data.imglink,'coursecontext':data.context,'coursereadnum':data.readnum});
+				}
+			});
+			
+		}
+		
+		jQuery.getJSON("api.php?mod=plugin"+"&"+"app=coursemap:api"+"&"+"param="+encodeURIComponent('action=getcourse&uid='+UID), function(data) {
+//			var data = {"id":'',"title":'',"code":'',"keyword":'',"security":'',"context":'',"fixobject":'',"uploadtime":'',"userid":'',"username":'',"readnum":'',"sharenum":'',"favoritenum":'',"commentnum":'',"downloadnum":'',"zoneid":'',"folderid":'',"status":'',"imglink":'',"titlelink":'',"kcategory":'',"kcategory_name":'',"uploadCompany":'',"type":'',"averagescore":'',"sequence":''
+//					};
+			if(data && data.error == null) {
+				record = parseInt(data.sequence, 10);
+				anchor.show();
+				anchor.append(cont);
+				
+				var sStatus = parseInt(data.setstatus, 10);
+				var info = '';
+				switch(sStatus){
+					case 0:
+						info = '您还没有设置自己的关注岗位';
+						break;
+					case -1:
+						info = '您设置的岗位已经被删除，请重新设置';
+						break;
+					case 1:
+						info = '您关注了<span style="font-weight:700;color:rgb(0,147,195);">“'+ data.sname +'”</span>岗位';
+						break;
+				}
+				if (info) jQuery('.post_right_title_info', anchor).html(info);
+				
+				jQuery('#course_forward', anchor).attr('href', 'home.php?mod=space'+'&'+'do=plugin'+'&'+'plugin_name=coursemap'+'&'+'coursemap_action=forward'+'&'+'code='+data.code);
+				
+				jQuery('.post_right_btnl', anchor).click(function(){slide('pre');});
+				jQuery('.post_right_btnr', anchor).click(function(){slide('next');});
+				showPostRight({'coursename':data.title,'courselink':data.titlelink,'courseimg':data.imglink,'coursecontext':data.context,'coursereadnum':data.readnum});
+			}
+		});
+
+	}
+
+
+	jQuery(document).ready(function() {
+		jQuery.getJSON("api/blog/api_hottag.php", function(data) {
+			//var data = jQuery.parseJSON('{"hottags": ["CDMA", "岗位技能认证", "移动互联网正在到来", "北京获批开征地方教育附加"]}');
+			if(data.hottags !="" && data.hottags != null) {
+				jQuery("#hotTags").prepend("<h2>标签</h2>");
+				jQuery.each(data.hottags, function(i) {
+					jQuery("#hotTags").append("<a href='home.php?mod=space&do=tag&tagname=" + encodeURIComponent(data.hottags[i].tagname) + "' target='_blank'><strong>" + data.hottags[i].tagname +"</strong></a>");
+					//jQuery("#hotTags").append("<a href='home.php?mod=space&do=tag&tagname=" + encodeURIComponent(data.hottags[i].tagname) + "' target='_blank'><strong>" + data.hottags[i] +"</strong></a>");
+				});
+				jQuery("#hotTags").css("display", "block");
+				jQuery("#hotTags a").each(function() {
+					jQuery(this).width() > 258 ? jQuery(this).width(258) : "";
+				});
+			}
+		});
+		homeGroupJoin();	//我加入的专区
+		homeGroupManager();	//我管理的专区
+		friendsRecommend();	//好友推荐
+		postCourse();		//岗位课程
+	});
+
+	<!--{/if}-->
+</script>
+
+<!--{else}-->
+<div class="ch">
+	<label class="wx">{lang no_login}</label>
+</div>
+
+<!--{/if}-->

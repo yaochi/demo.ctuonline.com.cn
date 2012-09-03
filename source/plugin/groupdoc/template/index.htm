@@ -1,0 +1,320 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/groupdoc/js/moderate.js?{VERHASH}"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	  <!--{if $allowedittype}-->
+					 <a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y" onclick="showWindow(this.id,this.href,'get', 0)">&#43;&nbsp;上传文档</a>
+			 
+	<!--{/if}-->
+	<!--{if !$allowedittype}-->
+					<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;上传文档</a>
+    <!--{/if}-->
+	
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="thumbbtn" class="iconbtn z" href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display'], 'display' => 0));}" onclick=""><img src="{IMGDIR}/esn/btn_thumb.png" width="16" height="16" alt="缩略图方式" /></a>
+		<a id="listbtn" class="iconbtn z" href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display'], 'display' => 1));}" onclick=""><img src="{IMGDIR}/esn/btn_list.png" width="17" height="17" alt="列表方式" /></a>
+		<a id="sortbtn" class="iconbtn y pressed" href="#" onclick="changesort(this)"><img src="{IMGDIR}/esn/btn_sort.png" width="18" height="16" /></a>
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+	<!--{if $categorys}-->
+		<tr id="nav_category">
+			<th>分类:</th>
+			<td class="piped">
+			<!--{if $_G['gp_typeid']}--><a href="{eval echo join_plugin_action2('index', array('timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $key, 'display' => $_GET['display']));}">全部</a><!--{else}--><a class="a" href="{eval echo join_plugin_action2('index', array('timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $key, 'display' => $_GET['display']));}">全部($count)</a><!--{/if}--> 
+			<!--{loop $categorys $id $value}-->
+				<!--{if $_G['gp_typeid'] != $id}-->
+					<a href="{eval echo join_plugin_action2('index', array('typeid' => $id, 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}" >$value['name'] </a>
+				<!--{else}-->
+					<a class="a" href="{eval echo join_plugin_action2('index', array('typeid' => $id, 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}" >$value['name'] ($count)</a>
+				<!--{/if}-->
+			<!--{/loop}-->
+			</td>
+		</tr>
+	<!--{/if}-->
+		<tr>
+			<th>上传时间:</th>
+			<td class="piped">
+			<!--{eval $timerange = array(0 => '全部', 1=> '今天', 2=>'本周', 3=> '一个月内');}-->
+			<!--{loop $timerange $key $value}-->
+				<!--{if $_GET['timerange'] == $key}-->
+			    	<a class="a" href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $key, 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}">$value ($count)</a>
+			    <!--{else}-->	
+			    	<a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $key, 'orderby' => $_GET['orderby'], 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}">$value</a>
+			   	<!--{/if}-->	
+			 <!--{/loop}-->
+			 </td>
+		</tr>
+	<!--{if $_GET['display'] != 1}-->
+		<tr id="nav_order">
+			<th>排序:</th>
+			<td class="piped">
+			<!--{eval $orderbyrange = array('uploadtime' => '按上传时间', 'averagescore'=>'按平均分', 'read'=> '按阅读数', 'share' => '按转发数', 'comment' => '按评论数', 'favorite' => '按收藏数', 'download' => '按下载数');}-->
+			<!--{loop $orderbyrange $key $value}-->
+				<!--{if $_GET['orderby'] == $key || ( !$_GET['orderby'] && $key == 'uploadtime')}-->
+			    	<a class="a"  href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $key, 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}">$value</a>
+			    <!--{else}-->	
+			    	<a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $key, 'orderseq' => $_GET['orderseq'], 'display' => $_GET['display']));}">$value</a>
+			   	<!--{/if}-->	
+			<!--{/loop}-->
+			</td>
+		</tr>
+		<tr id="nav_order_rule">
+			<th>规则:</th>
+			<td class="piped">
+			<!--{if $orderby == 'uploadtime'}-->
+			<!--{eval $orderseqrange = array(0 => '最新', 1=> '最旧');}-->
+			<!--{/if}-->	
+			<!--{if $orderby != 'uploadtime'}-->
+			<!--{eval $orderseqrange = array(0 => '最高', 1=> '最低');}-->
+			<!--{/if}-->	
+			<!--{loop $orderseqrange $key $value}-->
+				<!--{if $_GET['orderseq'] == $key}-->
+					<a class="a" href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $key, 'display' => $_GET['display']));}">$value</a>
+			    <!--{else}-->
+			    	<a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => $_GET['orderby'], 'orderseq' => $key, 'display' => $_GET['display']));}">$value</a>
+			    <!--{/if}-->	
+			<!--{/loop}-->
+			</td>
+		</tr>
+	<!--{/if}-->
+	</table>
+</div>
+<!-- filter & sort Panel end -->
+
+<!--{if $count}-->
+<div class="wdlb_nr bm" id="threadlist" style="position: relative;">
+	<form method="post" autocomplete="off" name="moderate" id="moderate" action="{eval echo join_plugin_action2('topicadmin', array('fid' => $_G['fid'], 'infloat' => '1'))}">
+	<!--{if $_GET['display'] == 1}-->
+	<div class="wd5">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table3">
+        <tr>
+          <td width="42%" height="30" align="center"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'title', 'orderseq' => $_GET['orderby'] != 'title' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">标题</a><!--{if $_GET['orderby'] == 'title'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="15%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'uploadtime', 'orderseq' => (!$_GET['orderby'] || $_GET['orderby'] != 'uploadtime') || $_GET['orderseq']? 0 : 1, 'display' => $_GET['display']));}">上传时间</a><!--{if !$_GET['orderby'] || $_GET['orderby'] == 'uploadtime'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'averagescore', 'orderseq' => $_GET['orderby'] != 'averagescore' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">平均分</a><!--{if $_GET['orderby'] == 'averagescore'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'read', 'orderseq' => $_GET['orderby'] != 'read' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">阅读</a><!--{if $_GET['orderby'] == 'read'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'share', 'orderseq' => $_GET['orderby'] != 'share' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">转发</a><!--{if $_GET['orderby'] == 'share'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'comment', 'orderseq' => $_GET['orderby'] != 'comment' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">评论</a><!--{if $_GET['orderby'] == 'comment'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="7%"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'favorite', 'orderseq' => $_GET['orderby'] != 'favorite' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">收藏</a><!--{if $_GET['orderby'] == 'favorite'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+          <td width="8%" class="qcbx"><a href="{eval echo join_plugin_action2('index', array('typeid' => $_GET['typeid'], 'timerange' => $_GET['timerange'], 'orderby' => 'download', 'orderseq' => $_GET['orderby'] != 'download' || $_GET['orderseq']?0:1, 'display' => $_GET['display']));}">下载</a><!--{if $_GET['orderby'] == 'download'}--><!--{if $_GET['orderseq'] == 0}--><img src="source/plugin/groupdoc/images/wd08_03.jpg" alt="" width="8" height="10" /><!--{else}--><img src="source/plugin/groupdoc/images/wd08_04.jpg" alt="" width="8" height="10" /><!--{/if}--><!--{/if}--></td>
+        </tr>
+        <!--{loop $filelist $k $value}-->
+        <tr <!--{eval echo $k % 2 == 1? "class=a": ""}-->>
+          <td>
+          	<p>
+			<!--{if in_array($value['displayorder'], array(1, 2, 3, 4))}-->
+						<img src="{IMGDIR}/pin_$value[displayorder].gif" alt="$_G[setting][threadsticky][3-$thread[displayorder]]" class='left'/>
+				<!--{/if}-->
+			<span><a href="$value[titlelink]" $value[highlight]><!--{if $allowprefix && !empty($categorys[$value['folderid']])}-->[ {echo $categorys[$value['folderid']]['name'];} ]<!--{/if}-->$value[title]</a></span>
+			<!--{if $value['displayorder'] == 0}-->
+				<!--{if $value[recommendicon]}-->
+					<span><img src="{IMGDIR}/recommend_$value[recommendicon].gif" class="vm" alt="推荐" title="推荐" /></span>
+				<!--{/if}-->
+				<!--{if $value['digest'] > 0}-->
+					<span><img src="{IMGDIR}/digest_$value[digest].gif" class="vm" alt="精华 $value[digest]" title="精华 $value[digest]" /></span>
+				<!--{/if}-->
+			<!--{/if}-->
+			</p>
+			<p>
+			<span><a href="home.php?mod=space&uid=$value[uid]" class="jc" target="_blank">$value[username]</a></span>
+			<!--{if !empty($_G['uid']) && ($value['uid'] == $_G['uid'] || checkperm_group('managedoc'))}-->
+			<span class="left"><a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'edit'));}" >编辑属性</a>
+			<!--{if $allowedittype}-->
+			| <a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'change', 'typeid'=> $value['folder']));}" id="doc_change_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">移动</a>
+			<!--{/if}-->
+			<!--{if checkperm_group('managedoc')}-->
+			| <a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'delete'));}" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a></span>
+			<!--{/if}-->
+			</span>
+			<!--{/if}-->
+			<!--{if $value['status'] == 1}-->
+			<!--{elseif $value['status'] == 2}-->
+			<span class="a"><img src="static/image/home/doc/wd01_11.png" /></span>
+			<!--{elseif $value['status'] == 4}-->
+			<!--{elseif $value['status'] == 8}-->
+			<span class="a"><img src="static/image/home/doc/wd01_19.png" width="50" height="17" /></span>
+			<!--{/if}-->
+			<!--{if $value['security'] == 1}-->
+			<!--{elseif $value['security'] == 2}-->
+			<!--{elseif $value['security'] == 4}-->
+			<span class="a"><img src="static/image/home/doc/a01_25.jpg" width="20" height="20" /></span>
+			<!--{elseif $value['security'] == 8}-->
+			<span class="a"><img src="static/image/home/doc/a01_24.jpg" width="17" height="20" /></span>
+			<!--{/if}-->
+			
+			<!--{if $_G['forum']['ismoderator']}-->
+				<!--{if $value['digest'] >= 0}-->
+					<!--{if $value['displayorder'] <= 3 || $_G['adminid'] == 1}-->
+						<span class="a"><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$value[id]" /></span>
+					<!--{else}-->
+						<span class="a"><input type="checkbox" disabled="disabled" /></span>
+					<!--{/if}-->
+				<!--{else}-->
+					<span class="a"><input type="checkbox" disabled="disabled" /></span>
+				<!--{/if}-->
+			<!--{/if}-->
+			
+			</p>
+		  </td>
+          <td>$value[uploadtime]</td>
+          <td><!--{eval echo empty($value[averagescore])?"--":$value[averagescore];}--></td>
+          <td><!--{eval echo empty($value[readnum])?"--":$value[readnum];}--></td>
+          <td><!--{eval echo empty($value[sharenum])?"--":$value[sharenum];}--></td>
+          <td><!--{eval echo empty($value[commentnum])?"--":$value[commentnum];}--></td>
+          <td><!--{eval echo empty($value[favoritenum])?"--":$value[favoritenum];}--></td>
+          <td class="qcbx"><!--{eval echo empty($value[downloadnum])?"--":$value[downloadnum];}--></td>
+        </tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+	<!--{else}-->
+	<ul>
+	<!--{loop $filelist $k $value}-->
+		<li><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table1">
+		  <tr>
+			<td width="13%" valign="top"><div class="diyavt"><img src="$value[imglink]" alt="" width="81" height="113" /></div></td>
+			<td width="76%" align="center">
+			<table width="96%" border="0" cellpadding="0" cellspacing="0" class="table2"  style="table-layout:fixed;">
+		  <tr>
+			<td width="70%" align="left" class="wdzh">
+
+			<!--{if $_G['forum']['ismoderator']}-->
+				<!--{if $value['digest'] >= 0}-->
+					<!--{if $value['displayorder'] <= 3 || $_G['adminid'] == 1}-->
+						<span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$value[id]" /></span>
+					<!--{else}-->
+						<span><input type="checkbox" disabled="disabled" /></span>
+					<!--{/if}-->
+				<!--{else}-->
+					<span><input type="checkbox" disabled="disabled" /></span>
+				<!--{/if}-->
+                			<!--{if in_array($value['displayorder'], array(1, 2, 3, 4))}-->
+						<img src="{IMGDIR}/pin_$value[displayorder].gif" alt="$_G[setting][threadsticky][3-$thread[displayorder]]" class='left mrngroup'/> 
+				<!--{/if}-->
+			<!--{/if}-->
+			<span class="hongse"><a href="$value[titlelink]" $value[highlight] target="_blank"><!--{if $allowprefix && !empty($categorys[$value['folderid']])}-->[ {echo $categorys[$value['folderid']]['name'];} ]<!--{/if}-->$value[title]</a></span>
+			<!--{if $value['displayorder'] == 0}-->
+				<!--{if $value[recommendicon]}-->
+					<span><img src="{IMGDIR}/recommend_$value[recommendicon].gif" class="vm" alt="推荐" title="推荐" /></span>
+				<!--{/if}-->
+				<!--{if $value['digest'] > 0}-->
+					<span><img src="{IMGDIR}/digest_$value[digest].gif" class="vm" alt="精华 $value[digest]" title="精华 $value[digest]" /></span>
+				<!--{/if}-->
+			<!--{/if}-->
+			
+			
+			<!--{if $value['status'] == 1}-->
+			<!--{elseif $value['status'] == 2}-->
+			<span><img src="static/image/home/doc/wd01_11.png" /></span>
+			<!--{elseif $value['status'] == 4}-->
+			<!--{elseif $value['status'] == 8}-->
+			<span><img src="static/image/home/doc/wd01_19.png" width="50" height="17" /></span>
+			<!--{/if}-->
+			<a href="home.php?mod=spacecp&ac=share&type=doc&id=$value[id]&fid=$value[zoneid]&handlekey=sharedochk_{$value[id]}&subject={echo base64_encode($value['title']);}&subjectlink={echo base64_encode($value['titlelink']);}&authorid=$value[uid]&author={echo base64_encode($value['username']);}&image={echo base64_encode($value['imglink']);}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr right" style="font-size:12px; font-weight:normal;">转发</a>
+			</td>
+		  </tr>
+		  <tr align="left">
+			<td class="wdsj" style="font-size:12px;">$value[uploadtime]
+			<!--{if $value['security'] == 1}-->
+			<!--{elseif $value['security'] == 2}-->
+			<!--{elseif $value['security'] == 4}-->
+			<span class="right">凭密码可见</span>
+			<!--{elseif $value['security'] == 8}-->
+			<span class="right">仅好友可见</span>
+			<!--{/if}-->
+			</td>
+			</tr>
+		  <tr align="left">
+			<td>$value[context]</td>
+			</tr>
+		  <tr align="left">
+			<td style="padding-top:8px;">
+			<!--{loop $value[keywords] $key $keyword}-->
+			<!--{if $keyword != ""}-->
+			<div class="bq">
+			<div class="bq_l"></div>
+			<div class="bq_c">$keyword</div>
+			<div class="bq_r"></div>
+			</div>
+			<!--{/if}-->
+			<!--{/loop}-->
+			</td>
+			</tr>
+		  <tr>
+			<td height="0" align="left">
+			<!--{if !empty($_G['uid']) && ($value['uid'] == $_G['uid'] || checkperm_group('managedoc'))}-->
+			<span class="left"><a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'edit'));}" >编辑属性</a>
+			<!--{if $allowedittype}-->
+			| <a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'change', 'typeid'=> $value['folder']));}" id="doc_change_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">移动</a>
+			<!--{/if}-->
+			<!--{if checkperm_group('managedoc')}-->
+			| <a href="{echo join_plugin_action2('doccp', array('docid' => $value['id'], 'op' => 'delete'));}" id="doc_delete_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">删除</a></span>
+			<!--{/if}-->
+			</span>
+			<span class="right">
+			<!--{else}-->
+			<span class="left">
+			<!--{/if}-->
+			<span class="right">
+			<!--{if $value[readnum]}-->
+			<a>$value[readnum] 次阅读</a> | 
+			<!--{/if}-->
+			<!--{if $value[commentnum]}-->
+			<a>$value[commentnum]个评论</a>
+			<!--{else}-->
+			没有评论
+			<!--{/if}-->
+ 
+			
+			<!--{if $value['security'] != 4}-->
+				<!--{if $orderby=='averagescore'}-->
+				 | <a>$value[averagescore]分</a>
+				<!--{/if}-->
+				<!--{if $orderby=='share'}-->
+				 | <a>$value[sharenum]次转发</a>
+				<!--{/if}-->
+				<!--{if $orderby=='favorite'}-->
+				 | <a>$value[favoritenum]次收藏</a> 
+				<!--{/if}-->
+				<!--{if $orderby=='download'}-->
+				 | <a>$value[downloadnum]次下载</a>
+				<!--{/if}-->
+			<!--{/if}-->
+  
+			</span>
+			</td>
+			</tr>
+		</table></td>
+			<td width="11%" align="center" valign="top" >
+			<div class="">
+			<p><div class="avt"><a href="home.php?mod=space&uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div></p>
+			<p><a href="home.php?mod=space&uid=$value[uid]" class="yhm">$value[username]</a></p>
+			</div>
+			</td>
+		  </tr>
+		</table>
+		</li>
+	<!--{/loop}-->
+	</ul>
+	<!--{/if}-->
+	
+	<!--{if $_G['forum']['ismoderator'] && $count}-->
+		{template groupdoc:topicadmin_modlayer}
+	<!--{/if}-->
+	</form>
+</div>
+<!--{if $pricount}-->
+	<p class="mtm">提示：本页有 $pricount 篇文档因作者的隐私设置而隐藏</p>
+<!--{/if}-->
+<!--{if $multi}--><div class="pgs cl bm">$multi</div><!--{/if}-->
+<!--{else}-->
+	<div class="emp">没有可浏览的列表</div>
+<!--{/if}-->

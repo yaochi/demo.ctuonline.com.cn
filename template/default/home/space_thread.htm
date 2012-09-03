@@ -1,0 +1,212 @@
+<!--{eval 
+	$filter = array('recyclebin' => '{lang recyclebin}', 'aduit' => '{lang pending}', 'close' => '{lang close}', 'common' => '{lang normal}');
+	$_G['home_tpl_titles'] = array('{lang thread}');
+	$_G[home_tpl_spacemenus][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=thread&view=me\">{lang they_thread}</a>";
+}-->
+
+<!--{if empty($diymode)}-->
+<!--{template common/header}-->
+
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=thread">{lang thread}</a>
+	<!--{if $_GET['view']=='me'}-->
+	 &rsaquo; <a href="home.php?mod=space&uid=$space[uid]&do=thread&view=me">{$space[username]}{lang somebody_thread}</a>
+	<!--{/if}-->
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div class="bm">
+		<!--{if $space[self]}-->
+			<h1 class="mt"><img alt="thread" src="{STATICURL}image/feed/thread.gif" class="vm" /> {lang post}</h1>
+			<ul class="tb cl">
+				<li$actives[we]><a href="home.php?mod=space&uid=$space[uid]&do=thread&view=we">{lang friend_post}</a></li>
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=thread&view=me">{lang my_post}</a></li>
+				<li$actives[all]><a href="home.php?mod=space&uid=$space[uid]&do=thread&view=all&order=dateline">{lang view_all}</a></li>
+				<li class="o"><a href="forum.php?mod=misc&action=nav&special=0&from=home&amp;fchannel=xmenur" onclick="showWindow('nav', this.href, 'get', 0)">{lang posted}</a></li>
+			</ul>
+			<!--{if $_GET[view] == 'me'}-->
+			<p class="tbmu bbn">
+				
+			</p>
+			<!--{elseif $_GET[view] == 'all'}-->
+			<p class="tbmu bbn">
+				<a href="home.php?mod=space&do=thread&view=all&order=dateline" $orderactives[dateline]>{lang newest_thread}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=thread&view=all&order=hot" $orderactives[hot]>{lang top_thread}</a>
+			</p>
+			<!--{/if}-->
+		<!--{else}-->
+			<!--{template home/space_menu}-->
+			<p class="tbmu bbn">{lang doing_orderby_time}</p>
+		<!--{/if}-->
+
+		<!--{if $userlist}-->
+			<p class="tbmu bbn">
+				{lang view_by_friend}
+				<select name="fuidsel" onchange="fuidgoto(this.value);" class="ps">
+					<option value="">{lang all_friends}</option>
+					<!--{loop $userlist $value}-->
+					<option value="$value[fuid]"{$fuid_actives[$value[fuid]]}>{eval echo user_get_user_name_by_username($value[fusername])}</option>
+					<!--{/loop}-->
+				</select>
+			</p>
+		<!--{/if}-->
+
+		<!--{if $actives[we] && !$userlist && !$list}-->
+			<p class="mbm"></p>
+		<!--{/if}-->
+
+
+<!--{else}-->
+<!--{template home/space_header}-->
+	<div id="ct" class="wp n cl">
+		<div class="mn">
+			<div class="bm">
+				<h1 class="mt">{lang topic}<!--{if $space[self]}--> <span class="xs1 xw0">( <a href="forum.php?mod=misc&action=nav&special=0&from=home&fchannel=xmenup" onclick="showWindow('nav', this.href, 'get', 0)">{lang posted}</a> )</span><!--{/if}--></h1>
+<!--{/if}-->
+
+			<div class="tl">
+				<table cellspacing="0" cellpadding="0">
+					<tr class="th">
+						<td class="icn">&nbsp;</td>
+						<th>{lang topic}</th>
+						<td class="frm">专区</td>
+						<!--{if !$actives[me]}-->
+						<td class="by">{lang author}</td>
+						<!--{/if}-->
+						<td class="num">{lang reply}</td>
+						<!--{if $actives[me]}-->
+						<td class="by"><cite>{lang last_post}</cite></td>
+						<!--{/if}-->
+					</tr>
+
+				<!--{if $list}-->
+					<!--{loop $list $thread}-->
+					<tr{if $actives[me] && $viewtype=='reply'} class="bbn"{/if}>
+						<td>
+							<a href="forum.php?mod=viewthread&tid=$thread[tid]&highlight=$index[keywords]&from=home" title="{lang open_new_window}" target="_blank">
+							<!--{if $thread[folder] == 'lock'}-->
+								<img src="{IMGDIR}/folder_lock.gif" />
+							<!--{elseif $thread['special'] == 1}-->
+								<img src="{IMGDIR}/pollsmall.gif" alt="{lang poll}" />
+							<!--{elseif $thread['special'] == 2}-->
+								<img src="{IMGDIR}/tradesmall.gif" alt="{lang trade}" />
+							<!--{elseif $thread['special'] == 3}-->
+								<img src="{IMGDIR}/rewardsmall.gif" alt="{lang reward}" />
+							<!--{elseif $thread['special'] == 4}-->
+								<img src="{IMGDIR}/activitysmall.gif" alt="{lang activity}" />
+							<!--{elseif $thread['special'] == 5}-->
+								<img src="{IMGDIR}/debatesmall.gif" alt="{lang debate}" />
+							<!--{elseif in_array($thread['displayorder'], array(1, 2, 3, 4))}-->
+								<img src="{IMGDIR}/pin_$thread[displayorder].gif" alt="$_G[setting][threadsticky][3-$thread[displayorder]]" />
+							<!--{else}-->
+								<img src="{IMGDIR}/folder_$thread[folder].gif" />
+							<!--{/if}-->
+							</a>
+						</td>
+						<th>
+							<!--{if $viewtype == 'reply'}-->
+								<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$thread[pid]&from=home">$thread[subject]</a>
+							<!--{else}-->
+								<a href="forum.php?mod=viewthread&tid=$thread[tid]&from=home">$thread[subject]</a>
+							<!--{/if}-->
+							<!--{if $thread['digest'] > 0}-->
+								<img src="{IMGDIR}/digest_$thread[digest].gif" alt="{lang digest} $thread[digest]" class="vm" />
+							<!--{/if}-->
+							<!--{if $thread['attachment'] == 2}-->
+								<img src="{STATICURL}image/filetype/image_s.gif" alt="{lang photo_accessories}" class="vm" />
+							<!--{elseif $thread['attachment'] == 1}-->
+								<img src="{STATICURL}image/filetype/common.gif" alt="{lang accessory}" class="vm" />
+							<!--{/if}-->
+							<!--{if $thread[multipage]}--><span class="tps">$thread[multipage]</span><!--{/if}-->
+						</th>
+						<td>
+							<a href="forum.php?mod=forumdisplay&fid=$thread[fid]" class="xg1">$thread[forumname]</a>
+						</td>
+
+						<!--{if !$actives[me]}-->
+						<td>
+							<cite><a href="home.php?mod=space&uid=$thread[authorid]">$thread[author]</a></cite>
+							<em>$thread[dateline]</em>
+						</td>
+						<!--{/if}-->
+
+						<td class="num">
+							<a href="forum.php?mod=viewthread&tid=$thread[tid]&from=home" class="xi2">$thread[replies]</a>
+							<em>$thread[views]</em>
+						</td>
+
+						<!--{if $actives[me]}-->
+						<td>
+							<cite><a href="home.php?mod=space&username=$thread[lastposterenc]">$thread[lastposter]</a></cite>
+							<em><a href="forum.php?mod=redirect&tid=$thread[tid]&amp;goto=lastpost#lastpost">$thread[lastpost]</a></em>
+						</td>
+						<!--{/if}-->
+					</tr>
+					<!--{if $actives[me] && $viewtype=='reply'}-->
+					<tr>
+						<td class="icn">&nbsp;</td>
+						<td colspan="4" class="xg1">$thread[message]</td>
+					</tr>
+					<!--{/if}-->
+					<!--{/loop}-->
+				<!--{else}-->
+					<tr>
+						<td colspan="5"><p class="emp">{lang no_related_posts}</p></td>
+					</tr>
+				<!--{/if}-->
+				</table>
+				<!--{if $hiddennum}-->
+					<p class="mtm">{lang hide_thread}</p>
+				<!--{/if}-->
+			</div>
+			<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+
+
+<script type="text/javascript">
+function fuidgoto(fuid) {
+	window.location.href = 'home.php?mod=space&do=thread&view=we&fuid='+fuid;
+}
+</script>
+
+
+<!--{if empty($diymode)}-->
+
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+
+<!--{else}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+<!--{/if}-->
+<!--{template common/footer}-->

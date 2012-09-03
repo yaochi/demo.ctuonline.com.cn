@@ -1,0 +1,237 @@
+{subtemplate common/header}
+<div id="warpper">
+	<div id="enter" style="display:block;">
+		<p class="">欢迎进入新版个人中心</p><br>
+		<button class="pn pnc" onclick="javascript:load_guide();" ><span> 进入 </span></button>
+	</div>
+	<!--<div id="guide" style="display:none; background: url({IMGDIR}/esn/guide1.jpg) no-repeat top center;"></div>-->
+	<div id="guideWrap"><div id="guide"></div></div>
+	<div id="setup" style="display:none;">
+		<div class="prompt">请勾选原系统中设置了可见范围的纪录，删除或者公开(所有人可见)。</div>
+		<form id="memberForm" action="member.php?mod=viewdirection" method="post">
+			<div class="title" <!--{if (!$bloglist) }--> style='display:none' <!--{/if}--> >日志</div>
+			<table>
+				<!--{loop $bloglist $key $blog}-->
+				<tr>
+					<td width="50px"><input type="checkbox" value="$blog[blogid]" name="blogid[]" myvalue="0" class="checkbox" /></td>
+					<td width="600px"><label style="line-height:2em; font-weight:bold;">$blog[subject]</label><br><label>"$blog[message]"</label></td>
+					<td width="150px" class="limits">$blog[friend]</td>
+				</tr>
+				<!--{/loop}-->
+			</table>
+			<div class="title" <!--{if (!$piclist) }--> style='display:none' <!--{/if}--> >相册</div>
+			<table>
+				<!--{loop $piclist $key $pic}-->
+				<tr>
+					<td width="50px"><input type="checkbox" value="$pic[albumid]" name="albumid[]" myvalue="0" class="checkbox"/></td>
+					<td width="600px"><label style="line-height:2em;">$pic[albumname]</label><br>
+						<!--{loop $pic[piclist] $pickey $picture}-->
+						<img src="data/attachment/album/$picture[filepath]" width="60" height="60" style="margin-right:20px;" />
+						<!--{/loop}-->
+					</td>
+					<td width="150px" class="limits">$pic[friend]</td>
+				</tr>
+				<!--{/loop}-->
+			</table>
+			<span class="selectall"><input type="checkbox" id="chkall" /> <label for="chkall">全选</label></span>
+			<button disabled="disabled" class="buttons orange" onclick="subform('del');">删除</button>
+			<button disabled="disabled" class="buttons blue" onclick="subform('pub');">公开</button> 
+			<input name="sureform" type='hidden' value='true'/>
+			<input id="type" name="type" type='hidden' value=''/>
+			<input id="endform" name="endform" type='hidden' value='0'/>
+		</form>
+	</div>
+	<div>
+		<form action="member.php?mod=viewdirection" method="post" id="end">
+			<input id="endform" name="endform" type='hidden' value='1'/>
+		</form>
+	</div>
+</div>
+{subtemplate common/footer}
+
+<style type="text/css">
+#warpper{ margin:0px auto; text-align:center; font-size:12px; }
+#enter{ font-size:18px;font-weight:700; margin:180px 0 230px 0;}
+#guideWrap{ position:relative; overflow: hidden; zoom: 1; cursor: pointer; _width:970px; }
+#guide .pnext{ display:block; width:175px; height:50px; margin: 340px 0 0 800px;}
+#setup{ margin:50px 0;}
+#setup .prompt {color: blue;font-size: 14px;}
+#setup .title{ padding:0; font-size:14px; font-weight:700;line-height:2em; text-align:left; margin-top:30px;}
+#setup form{width:800px; margin:0 auto;}
+#setup table{ width:800px; font-size:12px; text-align:left;}
+#setup table td{ padding:10px; line-height:1.2em; border-bottom:1px dotted #ccc;}
+#setup button{ font-size: 14px;font: bold 16px/1.5 'Helvetica Neue','Segoe UI',Tahoma; width: 122px; height:38px; background:#E3FFD5;  color:#999; border:1px solid #CFF3BB; cursor:pointer; margin:20px 5px;-webkit-border-radius: 6px;-moz-border-radius: 6px;border-radius: 6px;}
+			#setup .blue { border: 1px solid #89c4db; color: rgba(65, 118, 143, 0.3); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4); background: rgb(152,220,246); background: -moz-linear-gradient(top, rgba(152,220,246,1) 0%, rgba(136,213,244,1) 38%, rgba(96,195,239,1) 100%); background: -webkit-linear-gradient(top, rgba(152,220,246,1) 0%,rgba(136,213,244,1) 38%,rgba(96,195,239,1) 100%); background: -o-linear-gradient(top, rgba(152,220,246,1) 0%,rgba(136,213,244,1) 38%,rgba(96,195,239,1) 100%); background: -ms-linear-gradient(top, rgba(152,220,246,1) 0%,rgba(136,213,244,1) 38%,rgba(96,195,239,1) 100%); background: linear-gradient(top, rgba(152,220,246,1) 0%,rgba(136,213,244,1) 38%,rgba(96,195,239,1) 100%); }
+			#setup .orange { border: 1px solid #d59a00; color: rgba(153, 103, 45, 0.3); background: rgb(254,221,83); background: -moz-linear-gradient(top, rgba(254,221,83,1) 0%, rgba(254,212,73,1) 44%, rgba(254,193,54,1) 100%); background: -webkit-linear-gradient(top, rgba(254,221,83,1) 0%,rgba(254,212,73,1) 44%,rgba(254,193,54,1) 100%); background: -o-linear-gradient(top, rgba(254,221,83,1) 0%,rgba(254,212,73,1) 44%,rgba(254,193,54,1) 100%); background: -ms-linear-gradient(top, rgba(254,221,83,1) 0%,rgba(254,212,73,1) 44%,rgba(254,193,54,1) 100%); background: linear-gradient(top, rgba(254,221,83,1) 0%,rgba(254,212,73,1) 44%,rgba(254,193,54,1) 100%); }
+.selectall { float: left; margin-left: 10px; margin-top: 25px; }
+	.selectall label { margin-left: 5px; }
+</style>
+
+<script type="text/javascript">
+	var imgArray = new Array('guide1.jpg','guide2.jpg','guide3.jpg','guide4.jpg','guide5.jpg','guide6.jpg');
+	var imgCount = 0;
+	function load_guide(){
+		jQuery("#hd,#um,#append_parent,#ft").css("display","none");
+		jQuery("#enter").css("display","none");
+		jQuery("#guideWrap").css("display","block");
+		jQuery("#guideWrap").css("height",700);
+		jQuery("body").css("background","url({IMGDIR}/esn/bg_trans.jpg) repeat");
+		//jQuery("body").css("overflow","hidden");
+		
+		var w = jQuery("#guideWrap").width(),
+				mg = 20,
+				tw = w + mg;
+		for (var i=0; i<imgArray.length; i++) {
+			jQuery("#guide").append('<span style="float:left; margin-right: '+mg+'px; width:'+w+'px;height:700px; background: url({IMGDIR}/esn/'+imgArray[i]+') no-repeat top center;"></span>');
+			tw = tw * (i+1);
+		}
+		jQuery("#guide").css("width",tw);
+	}
+	
+	jQuery("#guideWrap").click(function() {
+		imgCount += 1;
+		jQuery("#guide").animate({
+			marginLeft: -((jQuery(this).parent().width()+20) * imgCount)
+		}, 800, 'easeOutQuint', function() {
+			if (imgCount == 6) {
+				load_setup();
+			//}else{
+				//jQuery(this).css("display", "none");
+				//jQuery(this).css("margin", "0 auto");
+				//jQuery(this).fadeIn("fast");
+				//jQuery(this).css("background","url({IMGDIR}/esn/"+imgArray[imgCount]+") no-repeat top center");
+			}
+		});
+
+	});
+		
+	function load_setup(){
+		var endflag = false;
+		<!--{if $piclist}-->
+			endflag = true;
+		<!--{/if}-->
+		<!--{if $bloglist}-->
+			endflag = true;
+		<!--{/if}-->
+
+		if(endflag == true ){
+			jQuery("#hd,#um,#append_parent,#ft").css("display","block");
+			jQuery("body").css("background","none");
+			jQuery("body").css("overflow","auto");
+			jQuery("#guide").css("display","none");
+			jQuery("#guideWrap").css("display","none");
+			jQuery("#setup").css("display","block");
+			
+			jQuery(".limits").each(function(){
+				var anchor = jQuery(this);
+				if(anchor.text()=='1'){
+					anchor.text('仅好友可见');
+				}else if(anchor.text()=='2'){
+					anchor.text('指定好友可见');
+				}else if(anchor.text()=='3'){
+					anchor.text('仅自己可见');
+				}else if(anchor.text()=='4'){
+					anchor.text('评密码可见');
+				}
+			});
+			
+			//全选
+			jQuery('#chkall').click(function(){
+					if (jQuery(this).attr('checked') == 'checked') {
+						jQuery('.checkbox').each(function(){
+							jQuery(this).attr('checked','checked');
+						});
+					}else{
+						jQuery('.checkbox').each(function(){
+							jQuery(this).removeAttr('checked');
+						});
+					}
+					check();
+				});
+			jQuery('.checkbox').click(function(){
+					var flag = true;
+					jQuery('.checkbox').each(function(){
+						if (jQuery(this).attr('checked')!='checked'){
+							flag = false;
+							return false;
+						}
+					});
+					if (flag) {
+						jQuery('#chkall').attr('checked','checked');
+					}else{
+						jQuery('#chkall').removeAttr('checked');
+					}
+				});
+			jQuery(".checkbox").click(function(){
+				var  anchor = jQuery(this);
+				if( anchor.attr("myvalue")=='0'){
+					anchor.attr("myvalue","1");
+				}else{
+					anchor.attr("myvalue","0");
+				}
+				check();
+			});
+			function check(){
+				flag = false;
+				jQuery(".checkbox").each(function(){
+					//if( jQuery(this).attr("myvalue")=='0'){
+					if( jQuery(this).attr("checked")=="checked"){
+						flag = true;
+					}
+				})
+				if(flag == true){
+					jQuery(".buttons").each(function(){
+						var anchor = jQuery(this);
+						anchor.removeAttr("disabled");
+						//anchor.css("font-weight","700").css("border","1px solid #ccc");
+						if( anchor.hasClass("blue")){
+							anchor.css("color","rgba(65, 118, 143, 1)");
+						}else{
+							anchor.css("color","rgba(153, 103, 45, 1)");
+						}
+						
+					})
+					//jQuery("#endform").attr("value","true");
+				}else{
+					jQuery(".buttons").each(function(){
+						var anchor = jQuery(this);
+						anchor.attr("disabled","disabled");
+						//anchor.css("font-weight","normal").css("border","1px solid #CFF3BB");
+						if( anchor.hasClass("blue")){
+							anchor.css("color","rgba(65, 118, 143, 0.3)");
+						}else{
+							anchor.css("color","rgba(153, 103, 45, 0.3)");
+						}
+					})
+				}
+			}
+		}else{
+			jQuery("#end").submit();
+			
+		}
+	}
+	
+	jQuery('#memberForm').submit(function(){
+		var flag = true;
+		jQuery(".checkbox").each(function(){
+				if( jQuery(this).attr("checked")!="checked"){
+					flag = false;
+				}
+			});
+		if (flag) jQuery('#endform').val(1);
+		return true;
+	});
+	
+	function subform(v){
+		jQuery("#type").val(v);
+		jQuery('#memberForm').submit();
+	}
+
+	
+	<!--{if $rein==1}-->
+	// 如果是提交后再返回，不显示导航图片
+	jQuery(function(){
+		jQuery("#enter").css("display","none"); load_setup();
+	});
+	<!--{/if}-->
+</script>

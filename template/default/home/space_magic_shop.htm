@@ -1,0 +1,35 @@
+<p class="tbmu">
+	<!--{if $_G['group']['magicsdiscount']}-->
+		<span class="y">{lang magics_discount}</span>
+	<!--{/if}-->
+	<a $subactives[index]href="home.php?mod=magic&action=shop&operation=index">{lang default}</a><span class="pipe">|</span>
+	<a $subactives[hot]href="home.php?mod=magic&action=shop&operation=hot">{lang top}</a>
+</p>
+<!--{if $magiclist}-->
+	<ul class="mtm ml mlm mgcl cl">
+	<!--{loop $magiclist $key $magic}-->
+		<li>
+			<img src="{STATICURL}/image/magic/$magic[pic]" alt="$magic[name]" title="$magic[description]" />
+			<p><strong>$magic[name]</strong></p>
+			<p class="xg1" title="$magic[description]">$magic[description]</p>
+			<p>{lang magics_price}
+				<!--{if {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]][unit]}}-->
+					<strong>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]][title]} $magic[price] {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]][unit]}/{lang magics_unit}</strong>
+				<!--{else}-->
+					<strong>$magic[price] {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]][title]}/{lang magics_unit}</strong>
+				<!--{/if}-->
+			</p>
+			<!--{if $operation == 'hot'}--><span>({lang sold} $magic[salevolume] {lang magics_unit})</span><!--{/if}-->
+			<p>
+				<a href="home.php?mod=magic&action=shop&operation=buy&mid=$magic[identifier]" onclick="showWindow('magics', this.href);return false;">{lang magics_operation_buy}</a>
+				<!--{if $_G['group']['allowmagics'] > 1}-->
+				<em class="pipe">|</em> <a href="home.php?mod=magic&action=shop&operation=give&mid=$magic[identifier]" onclick="showWindow('magics', this.href);return false;">{lang magics_operation_present}</a>
+				<!--{/if}-->
+			</p>
+		</li>
+	<!--{/loop}-->
+	</ul>
+	<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+<!--{else}-->
+	<p class="emp">{lang data_nonexistence}</p>
+<!--{/if}-->

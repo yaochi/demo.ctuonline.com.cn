@@ -1,0 +1,324 @@
+{subtemplate common/header}
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<!--{if $_G[fid]}-->
+	<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu" class="z">返回列表</a>
+	</div>
+<!--{/if}-->
+<div class="bm">
+
+<div class="h pbm bbs">
+<div class="zyxq_bty" style="margin-top:20px; width:150px;">
+		<p  id="hf1"><span class="y">$class[totalstars]</span><span class="$class[stars] y"></span></p>
+		<div id="hflc1" class="zpf" style="display:none;">
+		<div class="zpf_bj">
+		<p><span class="a">总体评分：</span><span class="$class[stars]"></span><span>$class[totalstars]</span></p>
+		<p><span class="a">前瞻性：</span><span class="$class[stars1]"></span><span>$class[starsone]</span></p>
+		<p><span class="a">教学设计：</span><span class="$class[stars2]"></span><span>$class[starstwo]</span></p>
+		<p><span class="a">内容实用：</span><span class="$class[stars3]"></span><span>$class[starsthree]</span></p>
+		</div>
+	</div>
+	</div>
+<h1 class="ph">$class[name]<!--{if !$class[released]}-->(未审核)<!--{/if}--></h1>
+<p class="xg2">
+<span class="xg1">已有$class[viewtimes]次阅读</span><span class="pipe">|</span>
+<span class="xg1">$class[sugestdateline]</span><span class="pipe">|</span>
+<span class="xg1">分类：<!--{if $class[classification]=='1'}-->管理类<!--{elseif $class[classification]=='2'}-->营销类<!--{elseif $class[classification]=='3'}-->专业类<!--{elseif $class[classification]=='4'}-->通用类<!--{/if}--></span><span class="pipe">|</span>
+<span class="xg1">推荐部门：$class[sugestorgname]</span><!-- {if $_G['forum']['ismoderator']} --><span class="pipe">|</span>
+<span class="xg1"><!--{if $class[released]==1}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=unreleaseclass&id=$class[id]">取消发布</a><!--{else}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=releaseclass&id=$class[id]">发布</a><!--{/if}--></span><span class="pipe">|</span>
+<span class="xg1"><a href="{eval echo join_plugin_action2('editclass',array('id'=>$class[id]))}">编辑</a></span><span class="pipe">|</span>
+<span class="xg1"><a href="javascript:del(this);">删除</a></span><!-- {/if} --></p>
+</div>
+<div class="kcxq_jj">
+<p>$class[descr]</p>
+<!--{if $class[uploadfile]}-->
+<p class="a"><img src="source/plugin/extraresource/assets/image/wd-1.png" width="28" height="30" />$class[uploadfilename] <button class="pn" onclick="window.open('$class[uploadfile]')"><span>点击下载</span></button></p>
+<!--{/if}-->
+</div>
+<div class="clear"></div>
+</div>
+<div class="jsxq_tj" id="jsxq_tj">
+	<div class="jsxq_tjz">
+		<div class="jsxq_tjbj">
+			<p><!--{if $cannotsuguest}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexlec&classid=$class[id]" class="y xi2">推荐教授本课程的其它讲师</a><!--{/if}--><strong>教授本课程的讲师：</strong></p>
+			<!--{if $leclist}-->
+			<!--{loop $leclist $lec}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lec[lecid]">$lec[lecname]<!--{if !$lec[released]}-->(未审核)<!--{/if}--></a> </span><span class="$lec[stars]"></span><span>&nbsp;$lec[lecstars]</span><div class="clear"></div></p>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无讲师！</p>
+			<!--{/if}-->
+			<p><span class="jsxq_ck" id="ckgd" style="display:block;">查看更多</a></span><span class="jsxq_sq" id="sqgd" style="display:none;">收起</a></span></p>
+			<script language="javascript">
+			var ckgd=document.getElementById("ckgd");
+			var sqgd=document.getElementById("sqgd");
+			var heightauto=document.getElementById("jsxq_tj");
+			ckgd.onclick=function () {
+				heightauto.style.height="auto";
+				ckgd.style.display="none";
+				sqgd.style.display="block"
+			}
+			sqgd.onclick=function () {
+				heightauto.style.height="115px";
+				ckgd.style.display="block";
+				sqgd.style.display="none"
+			}
+
+			</script>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="jsxq_tjy">
+		<div class="jsxq_tjbj">
+		<p><strong>本课程所属培训机构：</strong></p>
+		<!--{if $orglist}-->
+		<!--{loop $orglist $org}-->
+		<dl>
+			<dd class="imgh64"><img class="imgtz" src="$org[orglog]" align="top" /></dd>
+			<dt class="a"><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$org[orgid]">$org[orgname]<!--{if !$org[released]}-->(未审核)<!--{/if}--></a></span><span class="$org[stars]"></span><span>&nbsp;$org[orgstars]</span></dt>
+			<dt><button class="pn pnc" type="button" onclick="window.open('forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$org[orgid]');"><span>查看该机构拥有课程及讲师</span></button></dt>
+		</dl>
+		<!--{/loop}-->
+		<!--{else}-->
+		<p>暂无机构！</p>
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+<div class="bm">
+<div id="div_main_content" class="mtm mbm">
+	<h3 class="bbs pbn">
+	<!--{if !empty($comment_list)}-->
+		<a href="#quickcommentform_{$class[id]}" class="y xi2 xw0">发表评论</a>
+	<!--{/if}-->
+	评论<!--{if $comment_needreplynum}-->(<span id="comment_replynum">$comment_replynum</span>  个评论)<!--{/if}-->
+	</h3>
+	<div id="comment">
+		<!--{if $cid}-->
+			<div class="i">
+				{lang current_nwkt_reply}<a href="$comment_refer">{lang click_view_all}</a>
+			</div>
+		<!--{/if}-->
+		<div id="comment_ul" class="xld xlda">
+			<!--{loop $comment_list $k $value}-->
+				<!--{template home/space_comment_li}-->
+			<!--{/loop}-->
+		</div>
+	</div>
+	<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+</div>
+<form onSubmit="return validate_from(this);" autocomplete="off" method="post" action="home.php?mod=spacecp&amp;ac=comment" id="quickcommentform_$class[id]">
+
+<div class="jsxq_df">
+<div class="tmbj" <!--{if $showstars!='1'}-->style="display:none;"<!--{/if}-->>
+<span>您今日已打分；每人每日限打分一次<br />您可以继续进行评论</span>
+</div>
+<h3 class=" xw1 xs2 mtw" style="height:30px;"><span style="margin-left:193px;">请对该课程进行评价:</span></h3>
+<table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="totalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>前瞻性：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="starsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>教学设计：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="starstwo" value="" size="2" />
+		</td>
+      </tr>
+      <tr>
+        <td>内容实用：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="starsthree" value="" size="2" /></td>
+      </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+
+
+<div class="jsxq_pl">
+
+<div class="clear mbm">
+<!--评价--><div class="mtm mbm" id="div_main_content">
+<div id="comment">
+<div class="xld xlda" id="comment_ul"></div>
+</div>
+</div>
+
+<p>
+<span id="comment_face" title="插入表情" onclick="showFace(this.id, 'comment_message');return false;" style="cursor: pointer;"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
+</p>
+<div class="tedt mtn mbn">
+<div class="area" style="height:40px;" id="comment_height">
+	<textarea class="pt" style="height:40px;" name="message" onKeyDown="ctrlEnter(event, 'commentsubmit_btn');" id="comment_message" ></textarea>
+</div>
+</div>
+<p class="pns">
+	<input type="hidden" name="referer" value="$comment_refer" />
+	<input type="hidden" name="id" value="$class[id]" />
+	<input type="hidden" name="idtype" value="extraclassid" />
+	<input type="hidden" name="handlekey" value="qcnwkt_$class[id]" />
+	<input type="hidden" name="commentsubmit" value="true" />
+	<input type="hidden" name="quickcomment" value="true" />
+</p>
+
+<input type="hidden" value="{FORMHASH}" name="formhash">
+<script type="text/javascript">
+	function succeedhandle_qcnwkt_$class[id](url, msg, values) {
+		if(values['cid']) {
+			comment_add(values['cid']);
+			window.location.reload()
+		} else {
+			$('return_qcnwkt_{$class[id]}').innerHTML = msg;
+		}
+	}
+</script>
+</div>
+</div>
+
+
+<hr class="l clml clmr mtn">
+<div class="bm" style="text-align:center"><button class="pn" id="commentsubmit_btn" value="true" name="commentsubmit_btn" type="submit"><strong>发表评价</strong></button>
+<span id="return_qcnwkt_$class[id]"></span></div>
+</div>
+</form>
+
+</div>
+</div>
+<div id="fwin_mods" class="fwinmask" style="position:absolute; z-index: 201; left: 600px; top: 200px; display:none;"><table cellspacing="0" cellpadding="0" class="fwin"><tbody><tr><td class="t_l"></td><td ondblclick="hideWindow('mods')" class="t_c"></td><td class="t_r"></td></tr><tr><td ondblclick="hideWindow('mods')" class="m_l">&nbsp;&nbsp;</td><td id="fwin_content_mods" class="m_c" fwin="mods">
+<div id="floatlayout_topicadmin" class="tm_c" fwin="mods">
+<h3 class="flb" id="fctrl_mods" style="cursor: move;">
+<span>
+<a title="关闭" onclick="$('fwin_mods').style.display = 'none';" class="flbc" href="javascript:;">关闭</a>
+</span>
+</h3>
+<form action="{eval echo join_plugin_action2('deleteclass',array('id'=>$class[id]))}" autocomplete="off" method="post" id="moderateform" fwin="mods">
+<div class="c">
+<div class="tplw">
+<ul class="llst">
+<li>
+<p>您确认要 <strong>删除</strong> 该课程吗?</p>
+</li>
+</ul>
+</div>
+</div>
+<p class="o pns">
+<button value="确定" class="pn pnc" type="submit" id="modsubmit" name="modsubmit" fwin="mods"><span>确定</span></button>
+</p>
+</form>
+</div>
+
+</td><td ondblclick="hideWindow('mods')" class="m_r"></td></tr><tr><td class="b_l"></td><td ondblclick="hideWindow('mods')" class="b_c"></td><td class="b_r"></td></tr></tbody></table></div>
+{subtemplate common/footer}
+<script>
+function del(obj){
+	$('fwin_mods').style.display = '';
+}
+</script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script language="javascript">
+var ahf=document.getElementById("hf1");
+var dhf=document.getElementById("hflc1");
+function divh1(){
+dhf.style.display="block";
+}
+ahf.onmousemove=function(){
+var t9=setTimeout(divh1,200);
+}
+
+dhf.onmousemove=function(){
+dhf.style.display="block";
+}
+
+dhf.onmouseout=function(){
+dhf.style.display="none";
+}
+function validate_from(obj){
+<!--{if $showstars!='1'}-->
+		var flag=0;
+		for(var i=0;i<4;i++){
+			if($('stars2-input'+i).value==''){
+				flag++;
+			}
+		}
+		if(flag==1){
+			var suball=confirm('您还有一项没打分，确认提交吗？');
+		}else if(flag==2){
+			var suball=confirm('您还有两项没打分，确认提交吗？');
+		}else if(flag==3){
+			var suball=confirm('您还有三项没打分，确认提交吗？');
+		}else if(flag==4){
+			var suball=confirm('您还没打分呢，确认提交吗？');
+		}else{
+			var suball=1;
+		}
+<!--{/if}-->
+	if(suball){
+		ajaxpost('quickcommentform_$class[id]', 'return_qcnwkt_$class[id]');
+		doane(event);
+		//location.reload();
+	}else{
+		return false;
+	}
+}
+
+//评分框变高
+
+var pfheight=document.getElementById("comment_message");
+var commentheight=document.getElementById("comment_height");
+
+pfheight.onfocus = function () {
+	pfheight.style.height=100+"px";
+	commentheight.style.height=100+"px";
+}
+</script>

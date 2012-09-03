@@ -1,0 +1,41 @@
+<!--资源列表：独立样式-->
+<!--用户可自由填写项:	* 记录摘要字数
+-->
+<div id="{$resblockid}" class="module cl xld resdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+	<dl class="cl mbm">
+    	<div class="reHeight mbn">
+       		<dd class="y" style="margin:3px 0 0 12px;">
+            	<a href="{$item[titlelink]}" target="_blank" class="diyavt"><img src="{$item[imglink]}" alt="" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}"></a>
+        	</dd>
+        	<dt><a href="{$item[titlelink]}" title="{$item[title]}" target="_blank" class="xs2"><span class="xi2">[{$item[type]}]</span>&nbsp;{$item[title]}</a></dt>
+        	<dd class="xg1 clmb">{$item[uploaddate]}</dd>
+        	<dd class="mtn">{$item[about]}</dd>
+    	</div>
+    	<dd class="hm z brsgroup" style="padding-right:10px"><em class="xi2 xs3"><!--{if $item[readnum]>999 }-->999+<!--{else}-->{$item[readnum]}<!--{/if}--></em><br /><span class="xg1">浏览数</span></dd>
+    	<dd class="hm z" style="padding:0 10px;"><em class="xi2 xs3">{$item[averagescore]}</em><br /><span class="xg1">平均分</span></dd>
+    	<dd class="oneLine mbn xg1" style="position: relative;" title="{$item[fixobject]}"><span class="replaced tag_properUser mrngroup" style="position: absolute;">适用对象</span>适用对象&nbsp;{$item[fixobject]}</dd>
+    	<dd class="oneLine xg1" style="position: relative;" title="{$item[orgname]}"><span class="replaced tag_upOrg mrngroup" style="position: absolute;">上传机构</span>上传机构&nbsp;{$item[orgname]}</dd>
+	</dl>
+	<!--{/loop}-->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	var nodes = document.getElementById("{$resblockid}").getElementsByTagName("dl");
+	for (var i = 0; i < nodes.length; i++) {
+		var divNode = nodes[i].getElementsByTagName("div");
+		var ddNodes = nodes[i].getElementsByTagName("dd");
+		var length = divNode[0].offsetWidth - ddNodes[ddNodes.length-4].offsetWidth - ddNodes[ddNodes.length-3].offsetWidth - 10;
+		ddNodes[ddNodes.length-2].style.width = length + "px";
+		ddNodes[ddNodes.length-1].style.width = length + "px";
+		
+		for (var k = ddNodes.length-4; k < ddNodes.length-2; k++) {
+			var childNodes = ddNodes[k].childNodes;
+			for (var j = 0; j < childNodes.length; j++) {
+				if(childNodes[j].nodeType == 3) {
+					ddNodes[k].removeChild(childNodes[j]);
+				}
+			}
+		}
+	}
+</script>

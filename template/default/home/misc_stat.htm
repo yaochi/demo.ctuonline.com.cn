@@ -1,0 +1,84 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang trends_and_statistics}');}-->
+<!--{template common/header}-->
+
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="home.php?mod=misc&ac=stat">{lang trends_and_statistics}</a></div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<div class="bm">
+			<table cellspacing="0" cellpadding="0" class="dt mbw">
+				<caption>
+					<h2 class="ptm">{lang stat_classification}</h2>
+					<p class="pbm xg1">{lang stat_message}</p>
+				</caption>
+				<tr class="tbmu">
+					<td>{lang basic_data}:</td>
+					<td>
+						<a href="home.php?mod=misc&ac=stat"$actives[all]>{lang comprehensive_overview}</a> &nbsp;
+						<!--{loop $cols['login'] $value}-->
+						<a href="home.php?mod=misc&ac=stat&type=$value"$actives[$value]><!--{eval echo lang('spacecp', "do_stat_$value");}--></a> &nbsp;
+						<!--{/loop}-->
+					</td>
+				</tr>
+				<tr class="tbmu">
+					<td>{lang info_publish}:</td>
+					<td>
+						<!--{loop $cols['add'] $value}-->
+						<a href="home.php?mod=misc&ac=stat&type=$value"$actives[$value]><!--{eval echo lang('spacecp', "do_stat_$value");}--></a> &nbsp;
+						<!--{/loop}-->
+					</td>
+				</tr>
+				<tr class="tbmu">
+					<td>{lang info_interactive}:</td>
+					<td>
+						<!--{loop $cols['comment'] $value}-->
+						<a href="home.php?mod=misc&ac=stat&type=$value"$actives[$value]><!--{eval echo lang('spacecp', "do_stat_$value");}--></a> &nbsp;
+						<!--{/loop}-->
+					</td>
+				</tr>
+				<tr class="tbmu">
+					<td>{lang member_interactive}:</td>
+					<td>
+						<!--{loop $cols['space'] $value}-->
+						<a href="home.php?mod=misc&ac=stat&type=$value"$actives[$value]><!--{eval echo lang('spacecp', "do_stat_$value");}--></a> &nbsp;
+						<!--{/loop}-->
+					</td>
+				</tr>
+			</table>
+
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<!--{if $type=='all'}-->
+				<caption>
+					<h2>{lang comprehensive_overview}</h2>
+					<p class="xg1">{lang comprehensive_overview_message}</p>
+				</caption>
+				<tr>
+					<td>
+						<ul class="ptn pbm xl">
+							{lang interactive_help_message}
+						</ul>
+					</td>
+				</tr>
+				<!--{else}-->
+				<caption>
+					<h2><!--{eval echo lang('spacecp', "do_stat_$type");}--></h2>
+				</caption>
+				<!--{/if}-->
+				<tr><td>
+				<script type="text/javascript">
+						document.write(AC_FL_RunContent(
+							'width', '100%', 'height', '300',
+							'src', '{STATICURL}image/common/stat.swf?$statuspara',
+							'quality', 'high'
+						));
+					</script>
+				</td></tr>
+			</table>
+			
+		</div>
+	</div>
+	<div class="sd">{subtemplate common/userabout}</div>
+</div>
+<!--{template common/footer}-->

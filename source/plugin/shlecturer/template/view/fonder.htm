@@ -1,0 +1,12 @@
+<root><![CDATA[
+<div style="height:30px; line-height:30px;">
+<span class="xg1" style="margin-bottom:2px;">喜欢人数：<!--{if $lecturer['fonders']}-->$lecturer['fonders']<!--{else}-->0<!--{/if}--></span>
+
+</div>
+<div>
+
+<!--{if !$isfondered&&$_G[uid]}-->
+  <button id='fonderbutton' onclick="ajaxgets('forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=viewmenu&diy=&lecid=$lecturer[id]&shlecturer_action=fonder&'),'attusrs'" class="pn z mrngroup" type="button" style="margin:0px 0px 0px 5px;"><em>我喜欢</em></button><!--{/if}-->
+
+</div>
+]]></root>

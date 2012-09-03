@@ -1,0 +1,31 @@
+<!--{template common/header}-->
+	<!--{template home/spacecp_header}-->
+		<!--{template home/spacecp_credit_header}-->
+				<table summary="{lang memcp_credits_log_payment}" cellspacing="0" cellpadding="0" class="dt">
+					<tr>
+						<th>动作名称</th>
+						<th>总次数</th>
+						<th>周期次数</th>
+						<th>单次积分</th>
+						<th>最后奖励时间</th>
+					</tr>
+					<!--{if $loglist}-->
+						<!--{loop $loglist $log}-->
+							<tr>
+								<td>$log[rulename]</td>
+								<td>$log[total]</td>
+								<td>$log[cycleNum]</td>
+								<td>$log[credit]</td>
+								<td><!--{eval echo dgmdate($log[dateLine]) }--></td>
+							</tr>
+						<!--{/loop}-->
+					<!--{else}-->
+						<tr><td colspan="7"><p class="emp">{lang memcp_credits_log_none}</p></td></tr>
+					<!--{/if}-->
+				</table>
+		</div>
+	</div>
+	<div class="sd"></div>
+</div>
+
+<!--{template common/footer}-->

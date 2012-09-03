@@ -1,0 +1,31 @@
+{template common/header}
+
+<div>
+	<h3 class="flb">
+		<em id="return_upload">{lang upload}</em>
+		<span><a href="javascript:;" class="flbc" onclick="hideWindow('upload')" title="{lang close}">{lang close}</a></span>
+	</h3>
+
+	<form id="uploadform" method="post" autocomplete="off" target="uploadattachframe" onsubmit="uploadWindowstart()" action="misc.php?mod=learningupload&operation=learningupload&type=$_G[gp_type]&inajax=yes&infloat=yes&simple=2" enctype="multipart/form-data">
+	<div class="c">
+		<input type="hidden" name="handlekey" value="upload" />
+	    <input type="hidden" name="learntype" id="learntype" value=$_GET[learntype]>
+	    <input type="hidden" name="learid" id="learid" value="$_GET[learid]">
+		<input type="hidden" name="uid" value="$_G['uid']">
+		<input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}">
+		<input type="file" name="Filedata" size="30" class="filedata" />
+		<p class="uploadbtn" id="uploadwindowing" style="visibility:hidden"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /></p>
+	</div>
+	<div class="notice upnf">
+		文件尺寸: <strong>小于 10MB </strong>&nbsp;<br>
+		<p></p>
+		上传多个文件,请打包上传,谢谢
+	</div>
+	<p class="o pns">
+		<button tabindex="1" class="pn pnc" type="submit" id="uploadsubmit" name="uploadsubmit" value="true"><span>{lang upload}</span></button>
+	</p>
+	</form>
+	<iframe name="uploadattachframe" id="uploadattachframe" style="display: none;" onload="uploadWindowload();"></iframe>
+</div>
+
+{template common/footer}

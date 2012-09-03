@@ -1,0 +1,229 @@
+{subtemplate common/header}
+	<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+
+	{ad/text/wp a_t}
+	<style id="diy_style" type="text/css"></style>
+	<div class="wp">
+		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+	</div>
+	<div id="ct" class="wp cl{if !empty($gid) || !empty($sgid)} w{/if}">
+	<!--{if empty($gid) && empty($sgid)}-->
+		<div{if empty($gid) && empty($sgid)} class="mn"{/if}>
+			<div class="ch">
+				<label class="wx"><a href="$_G[setting][navs][3][filename]">$_G[setting][navs][3][navname]</a></label>
+			</div>
+			{hook/group_index_header}
+			<div class="bm">
+				<h2>
+					<span class="y xs1 xg1"><a href="group.php?mod=more&ac=recommend">更多&nbsp;&rsaquo;</a></span>
+					推荐专区
+				</h2>
+				<ul class="mlgroup mls cl">
+                    <!--{loop $recommendgroup $group}-->
+						<li>
+							<a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]" class="avt <!--{if $group[jointype]==-1}-->zone_closed_img<!--{/if}-->"><img src="$group[icon]" alt="$group[name]" />
+                            <!--{if $group[jointype]==-1}-->
+								<s class="zone_closed"></s>
+                            <!--{/if}-->
+							</a>
+							<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]">$group[name]</a></p>
+                            <!--{if $group[type_icn_id]}-->
+							<span class="$group[type_icn_id]"></span>
+                            <!--{/if}-->
+                            <!--{if $group[digest]==1}--><span><img  style="width:21px;height:14px;" src="static/image/images/zqsy_01.jpg" /></span><!--{/if}-->
+						</li>
+                    <!--{/loop}-->
+				</ul>
+			</div>
+			<hr class="da" />
+            <div class="bm">
+				<h2>
+					<span class="y xs1 xg1"><a href="group.php?mod=more&ac=hot">更多&nbsp;&rsaquo;</a></span>
+					活跃专区
+				</h2>
+				<ul class="mlgroup mls cl">
+						<!--{loop $newactivity $group}-->
+						<li>
+							<a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]" class="avt <!--{if $group[jointype]==-1}-->zone_closed_img<!--{/if}-->"><img src="$group[icon]" alt="$group[name]" />
+                            <!--{if $group[jointype]==-1}-->
+								<s class="zone_closed"></s>
+                            <!--{/if}-->
+							</a>
+							<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]">$group[name]</a></p>
+                            <!--{if $group[type_icn_id]}-->
+							<span class="$group[type_icn_id]"></span>
+                            <!--{/if}-->
+							<!--{if $group[digest]==1}--><span><img  style="width:21px;height:14px;" src="static/image/images/zqsy_01.jpg" /></span><!--{/if}-->
+						</li>
+                    <!--{/loop}-->
+				</ul>
+			</div>
+			{hook/index_top}
+            <hr class="da" />
+			<div class="flg flt bm cl">
+				<h2>{lang group_categories}</h2>
+				<!--{loop $categorys $key $group}-->
+						<dl class="flc{echo swapclass('',' gcop')}">
+							<dt><a href="group.php?gid=$group[gid]">$key</a><span>($group[groupnum])</span></dt>
+							<dd>
+								<!--{loop $group[subs] $subg}-->
+								<em><a href="group.php?sgid=$subg[fid]">$subg[name]</a><span>($subg[groupnum])</span></em>
+								<!--{/loop}-->
+							</dd>
+						</dl>
+				<!--{/loop}-->
+			</div>
+			{hook/index_bottom}
+		</div>
+	<!--{else}-->
+		<div id="gm"<!--{if empty($gid) && empty($sgid)}--> class="mn" <!--{/if}--> >
+			<div class="ch">
+				<label class="wx"><a href="$_G[setting][navs][3][filename]">$_G[setting][navs][3][navname]</a></label>
+			</div>
+			<div id="plgnav" class="bbsgroup">
+				<a id="backbtn" href="group.php" class="z">返回首页</a>
+				<div id="toolbar">
+				<h2>{lang group}</h2>
+			</div>
+
+		</div>
+			{hook/index_top}
+			<!--{if $grouplistbytag}-->
+			<div class="bm cl">
+				<span>共有 $grouplistbytag_count 个专区</span>
+			</div>
+			<div class="{if empty($gid) && empty($sgid)}fl{/if} {if $curtype['forumcolumns'] > 1} flg{/if} gl cl">
+<div class="tjlb_bottom_nr">
+                <ul>
+                    <!--{loop $grouplistbytag $val}-->
+                    <li style="position: relative;">
+                        <p class="tx_zqsy_b">
+                        <a class="avt" href="forum.php?mod=group&fid=$val[fid]" title="$val[name]"><img width="48" height="48" src="$val[icon]" alt="$val[name]" /></a>
+							<!--{if $val[type_icn_id]}-->
+							<span class="$val[type_icn_id] " style="top: -3px; left: -2px; width: 50px;"></span>
+                            <!--{/if}-->
+                        </p>
+                        <p>
+                        <span>
+                        <a href="forum.php?mod=group&fid=$val[fid]" title="$val[name]" class="jiachu">$val[name]</a>
+                        </span>
+                        <span>
+                        创建于: $val[dateline]
+                        </span>
+                        </p>
+                        <p class="a"><span>$val[topics]</span><span>主题</span></p>
+                        <p class="a"><span>$val[membernum]</span><span>成员</span></p>
+                    </li>
+                    <!--{/loop}-->
+                </ul>
+            </div>
+			</div>
+
+			{hook/index_bottom}
+			<!--{else}-->
+				<div class="bm">
+					<h2>该tag下暂时没有专区</h2>
+				</div>
+			<!--{/if}-->
+		</div>
+	<!--{/if}-->
+    <!--{if empty($gid) && empty($sgid)}-->
+		<div class="sd pph">
+			<!--{subtemplate common/userabout}-->
+			<!--{if empty($gid) && empty($sgid)}-->
+				<div class="tns">
+					<table cellpadding="4" cellspacing="0" border="0">
+						<tr>
+							<th><p>$todayposts</p>{lang posts_today}</th>
+							<th><p>$joinnum</p>{lang member_joined}</th>
+							<td><p>$groupnum</p>{lang groups_total}</td>
+						</tr>
+					</table>
+				</div>
+				<hr class="l" />
+                <div class="bn">
+					<p>{lang group_create_detail}</p>
+					<p class="ptn cl"><a href='forum.php?mod=group&amp;action=create' class="bac y">{lang group_create}</a></p>
+			</div><hr class="l" />
+                <!--{if $_G['setting']['search']['group']['status'] && ($_G['adminid'] == 1 || ($_G['group']['allowsearch'] & 16)) }-->
+                <div class="bn">
+                	<h2>查找专区</h2>
+                    <div class="mbm gsh">        
+                        <form method="post" action="search.php?mod=group&searchsubmit=1">
+                            <p>
+                            <input type="text" name="srchtxt" id="groupsearch" class="px vm" value="{lang group_search_prompt_groupname}" onclick="this.value=''" style="width: 204px;"/>
+                            &nbsp;<button type="submit" class="pn vm"><strong>{lang search}</strong></button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <hr class="da" />
+               <!--{/if}-->
+
+                <!--{if $groupviewed_list}-->
+                <div class="bn">
+                    <h2>{lang group_visited}</h2>
+                    <ul class="mlgroup mls cl">
+                        <!--{loop $groupviewed_list $groupid $group}-->
+                        <!--{if $group[name]}-->
+                        <li>
+                            <a href="forum.php?mod=group&fid=$groupid" title="$group[titlename]" class="avt <!--{if $group[jointype]==-1}-->zone_closed_img<!--{/if}-->"><img src="$group[icon]" alt="$group[name]" />
+                            <!--{if $group[jointype]==-1}-->
+								<s class="zone_closed"></s>
+                            <!--{/if}-->
+                            </a>
+                            <p><a href="forum.php?mod=group&fid=$groupid" title="$group[titlename]">$group[name]</a></p>
+                            <!--{if $group[type_icn_id]}-->
+                            <span class="$group[type_icn_id]"></span>
+                            <!--{/if}-->
+                            <!--{if $group[digest]==1}--><span><img  style="width:21px;height:14px;" src="static/image/images/zqsy_01.jpg" /></span><!--{/if}-->
+                        </li>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+				<hr class="da" />
+				<!--{/if}-->
+                <!--{if $friendgrouplist}-->
+				<div class="bn">
+					<h2>{lang group_friend_joined}</h2>
+					<ul class="mlgroup mls cl">
+						<!--{loop $friendgrouplist $fid $group}-->
+							<li>
+								<a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]" class="avt <!--{if $group[jointype]==-1}-->zone_closed_img<!--{/if}-->"><img src="$group[icon]" alt="$group[name]" />
+	                            <!--{if $group[jointype]==-1}-->
+									<s class="zone_closed"></s>
+	                            <!--{/if}-->
+								</a>
+								<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[titlename]">$group[name]</a></p>
+								<!--{if $group[type_icn_id]}-->
+								<span class="$group[type_icn_id]"></span>
+								<!--{/if}-->
+								<!--{if $group[digest]==1}--><span><img  style="width:21px;height:14px;" src="static/image/images/zqsy_01.jpg" /></span><!--{/if}-->
+							</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<hr class="da" />
+				<!--{/if}-->
+				<!--{if $newgrouplist}-->
+					<div class="bn">
+						<h2>{lang group_new}</h2>
+						<ul class="xl xl2 cl">
+							<!--{loop $newgrouplist $fid $group}-->
+								<li><a href="forum.php?mod=group&fid=$fid" title="$group[titlename]">$group[name]</a><span class="xg1"></span></li>
+							<!--{/loop}-->
+						</ul>
+					</div>
+					<hr class="da" />
+				<!--{/if}-->
+			<!--{/if}-->
+		</div>
+        <!--{/if}-->
+	</div>
+
+<div class="wp mtn">
+	<!--[diy=diy4]--><div id="diy4" class="area"></div><!--[/diy]-->
+</div>
+
+{subtemplate common/footer}

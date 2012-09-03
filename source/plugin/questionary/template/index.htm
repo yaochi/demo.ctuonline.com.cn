@@ -1,0 +1,144 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/questionary/js/questionary_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=$mod&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;新建问卷</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="sortbtn" class="iconbtn y pressed" href="#" onclick="changesort(this)"><img src="{IMGDIR}/esn/btn_sort.png" width="18" height="16" /></a>
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+		<tr id="nav_category">
+			<th>分类:</th>
+		    <td class="piped">
+			<!--{if $is_enable_category}-->
+				<!--{if $gettype!=0}-->
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu">全部</a>
+    			<!--{else}-->
+    			<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu" class="a">全部 ($getcount)</a>
+    		<!--{/if}-->
+		 	<!-- {eval $num=count($categorys);$i=1 } -->
+        	<!--{loop $categorys $id $cat}-->
+				<!--{if $gettype != $id}-->
+					<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&gettype=$id" <!--{if $num==$i}-->class="last"<!--{else}--> {eval $i=$i+1} <!--{/if}-->  >$cat[name]</a>
+				<!--{else}-->
+					<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&gettype=$id" class="a <!--{if $num==$i}-->last<!--{else}--> {eval $i=$i+1} <!--{/if}-->">$cat[name] ($getcount)</a>
+				<!--{/if}-->
+			<!--{/loop}-->
+		<!--{/if}-->
+			</td>
+		  </tr>
+		  <tr id="nav_order">
+		  	<th>排序:</th>
+		    <td class="piped">
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&getorder=dateline&getrole=$getrole" <!--{if ($getorder==''|| $getorder=='dateline')}--> class="a" <!--{/if}--> >按上传时间</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&getorder=joiner&getrole=$getrole"  class="<!--{if $getorder=='joiner'}-->a<!--{/if}--> last"  >按参加人数</a>
+			</td>
+		  </tr>
+		  <tr id="nav_order_rule">
+		  	<th>规则:</th>
+		    <td class="piped">
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&getorder=$getorder&getrole=DESC" <!--{if ($getrole==''|| $getrole=='DESC')}--> class="a" <!--{/if}--> >最新</a>
+				<a href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=questionary&plugin_op=groupmenu&getorder=$getorder&getrole=ASC"  class=" <!--{if $getrole=='ASC'}-->a <!--{/if}-->last">最旧</a>
+			</td>
+		  </tr>
+		</table>
+	</div>
+<!-- filter & sort Panel end -->
+
+<div class="tzgg" id="questionarylist" style="position: relative;">
+<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=questionarymoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="listextra" value="$extra" />
+	<ul>
+	<!-- {loop $questionaries $questionary} -->
+		<li>
+		  <table width="100%" border="0" cellspacing="0" style="table-layout:fixed" cellpadding="0">
+            <tr>
+              <td width="76%" height="23" class="wdzh">
+			  <!-- {if $_G['forum']['ismoderator']} -->
+			  <span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$questionary[questid]" /></span>
+			  <!-- {/if} -->
+			 
+			<!-- {if in_array($questionary['displayorder'], array(1, 2, 3, 4))} -->
+				 <span> <a href="{eval echo join_plugin_action('answer',array('questid'=>$questionary[questid]))}" title="新窗口打开" target="_blank"><img src="static/image/images/wd01_31.jpg" /></a></span>
+			<!-- {else} -->
+				<span> <a href="{eval echo join_plugin_action('answer',array('questid'=>$questionary[questid]))}" title="新窗口打开" target="_blank"><img src="static/image/images/renwu_03.jpg" width="16" height="16" /></a></span>
+			<!-- {/if} -->
+			  <span class="heise"><a href="{eval echo join_plugin_action2('answer',array('questid'=>$questionary[questid]))}" $questionary[highlight]><!-- {if ($categorys[$questionary[classid]][name]&&$prefix) } -->[ $categorys[$questionary[classid]][name] ]<!-- {/if} --> $questionary[questname]</a></span>			
+		 <!-- {if $questionary['digest'] > 0} -->
+			<span><img src="static/image/images/zqsy_01.jpg" class="vm" alt="{lang thread_digest} $thread[digest]" title="精" /></span>	
+		<!-- {/if} -->  
+			  </td>
+              <td width="9%">&nbsp;</td>
+              <td width="15%" rowspan="3" valign="top">
+			<div class="tx right">
+			<!--{if $questionary[repeats]}-->
+			<p><a class="avt" href="forum.php?mod=group&fid=$questionary[repeats][fid]"><img src="data/attachment/group/$questionary[repeats][icon]"></a></p><p><a title="$questionary[repeats][name]" href="forum.php?mod=group&fid=$questionary[repeats][fid]">$questionary[repeats][name]</a></p>
+			<!--{else}-->
+			<p><a href="home.php?mod=space&uid=$questionary[uid]" class="tx_zqsy"><img src="uc_server/avatar.php?uid=$questionary[username]&size=small" width="48" height="48" border="0" /></a></p>
+			<p class="txtop"><a href="home.php?mod=space&uid=$questionary[uid]" class="yhma"> {eval echo user_get_user_name_by_username($questionary[username])}</a></p>
+			<!--{/if}-->
+			</div>			  </td>
+            </tr>
+            <tr>
+              <td colspan="2"><span>$questionary[questdescr]</span></td>
+              </tr>
+            
+            <tr>
+            <td colspan="2" align="left">共有<span class="lanse">$questionary[joiner]</span>人参加 | {eval echo dgmdate($questionary[dateline])}</td>
+              </tr>
+          </table>
+		</li>
+		<!-- {/loop} -->
+	</ul>
+	<!--{if $_G['forum']['ismoderator']}-->
+		<div id="mdly" style="display: none;">
+		<input type="hidden" name="optgroup" />
+		<input type="hidden" name="operation" />
+		<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+		<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+		<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+		<p>
+		<!--{if $_G['group']['allowdelpost']}-->
+			<strong><a href="javascript:;" onclick="tmodnotices(3, 'delete');return false;">删除</a></strong>
+			<strong><a href="javascript:;" onclick="tmodnotices(3, 'category');return false;">分类</a></strong>
+		<!--{/if}-->
+		</p>
+		<p>
+			<!--{if $_G['group']['allowstickthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'stick');return false;">置顶</a>
+			<!--{/if}-->
+			<!--{if $_G['group']['allowdigestthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'digest');return false;">精华</a>
+			<!--{/if}-->
+			<!--{if $_G['group']['allowhighlightthread']}-->
+				<a href="javascript:;" onclick="tmodnotices(1, 'highlight');return false;">高亮</a>
+			<!--{/if}-->
+		</p>
+	</div>
+<!--{/if}-->
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+	</form>
+</div>
+	
+
+
+
+
+
+
+
+
+
+
+
+

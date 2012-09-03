@@ -1,0 +1,66 @@
+k{template common/header}
+<script type="text/javascript">
+
+function selectTeacher(){
+	var ids = document.getElementsByName("ids");
+	var val = "";
+	var title = "";
+	for(var i=0; i<ids.length; i++){
+		if(ids[i].checked){
+			title = title+ids[i].title+",";
+			val = val + ids[i].value+",";
+		}
+	}
+	$("teacherids").value = $("teacherids").value+val;
+	$("teacher").value = $("teacher").value+title;
+	hideWindow("teacherwin");
+}
+
+function queryajax(url, params, html){
+    var x = new Ajax();
+    x.post(url, params, function(content){$(html).innerHTML=content;});
+}
+</script>
+
+<div id="main_messaqge" style="width:300px;">
+    <h3 class="flb">
+        <em id="returnmessage4">讲师</em>
+        <span><a href="javascript:;" class="flbc" onclick="hideWindow('teacherwin')" title="关闭">关闭</a></span>
+    </h3>
+    <br/>
+    讲师名<input type="text" name="username" id="username" value="$name" />
+    <input type="button" name="button" value="提 交" onclick="javascript:queryteacher();"/>
+
+<div id="data">
+<table width="100%">
+	<tr><td colspan="2"><h2>索检到结果 $count 条</h2></td></tr>
+	<tr><td>选择</td><td>名称</td></tr>
+	<!--{loop $teachers $teacher}-->
+	<tr><td><input type="checkbox" id="ids" name="ids" value="$teacher[id]" title="$teacher[name]"/></td><td>$teacher[name]</td></tr>
+	<!--{/loop}-->
+    <tr><td colspan="2">$multipage</td></tr>
+</table>
+</div>
+
+ <p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" type="button" onclick="selectTeacher()"><strong>选择讲师</strong></button></p>
+</div>
+<script>
+	function queryteacher(){
+		var username=document.getElementById('username');
+		if(trim(username.value).length<=0){
+			showDialog("请输入你要查询的讲师");
+			return false;
+		}
+		var usernamevalue=encodeURIComponent(username.value);
+		url = "misc.php?mod=queryteacher"+"&name="+usernamevalue;
+		showWindow('teacherwin', url, 'get', 0);
+		//var x = new Ajax();
+		//x.get(,function(s){
+			//	 alert(s);
+		//});
+	}
+	function queryteachercallback(s){
+		;
+	}
+	</script>
+{template common/footer}

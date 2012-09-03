@@ -1,0 +1,168 @@
+{subtemplate common/header}
+
+<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
+	<form method="post" autocomplete="off" name="modactions" id="modactions">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="optgroup" />
+	<input type="hidden" name="operation" />
+	<input type="hidden" name="listextra" value="$_G[gp_extra]" />
+	</form>
+<!--{/if}-->
+
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{IMAGEMAXWIDTH}';var aimgcount = new Array();</script>
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" id="fjump"{if $_G['setting']['forumjump'] == 1} class="dropmenu" onmouseover="showMenu({'ctrlid':this.id})"{/if} class="nvhm">$_G[setting][bbname]</a>
+	&rsaquo; <a href="group.php">专区</a>
+	$groupnav
+</div>
+
+<div id="ct" class="wp cl n">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx home"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+		</div>
+		<!--{if $space[self]}-->
+		<div class="bm pl">
+			<h1 class="mt"><img alt="blog" src="{STATICURL}image/feed/blog.gif" class="vm" /> {lang blog}</h1>
+			<ul class="tb cl">
+				<li$actives[we]><a href="home.php?mod=space&uid=$space[uid]&do=blog&view=we">{lang friend_blog}</a></li>
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=blog&view=me">{lang my_blog}</a></li>
+				<li$actives[all]><a href="home.php?mod=space&uid=$space[uid]&do=blog&view=all">{lang view_all}</a></li>
+				<li class="o"><a href="home.php?mod=spacecp&ac=blog">{lang post_new_blog}</a></li>
+			<!--{if $_G[referer]}-->
+				<li class="y"><a href="$_G[referer]">&laquo; {lang previous_page}</a></li>
+			<!--{/if}-->
+			</ul>
+		<!--{else}-->
+		<div class="pl">
+			<!--{template home/space_menu}-->
+			<div class="bm">
+		<!--{/if}-->
+
+			<div class="vw mtm mbm">
+				<div class="h pbm bbs">
+					<h1 class="ph">$_G[forum_thread][subject]</h1>
+					<p class="xg2">
+						<span class="xg1">{lang home_view_num}: $_G[forum_thread][views]</span><span class="pipe">|</span>
+						<span class="xg1">{lang home_reply_num}: $_G[forum_thread][replies]</span><span class="pipe">|</span>
+						<span class="xg1"><!--{date($_G[forum_thread][dateline])}--></span>
+						<!--{if $_G['group']['raterange'] && $post['authorid']}-->
+						<span class="pipe">|</span><a href="javascript:;" onclick="showWindow('rate', 'forum.php?mod=misc&action=rate&amp;tid=$_G[tid]&amp;pid=$post[pid]{if $_G[gp_from]}&from=$_G[gp_from]{/if}');return false;" class="xg1">{lang rate}</a>
+						<!--{/if}-->
+						<!--{if (($_G['forum']['ismoderator'] && $_G['group']['alloweditpost'] && (!in_array($post['adminid'], array(1, 2, 3)) || $_G['adminid'] < $post['adminid'])) || ($_G['forum']['alloweditpost'] && $_G['uid'] && $post['authorid'] == $_G['uid']))}-->
+						<span class="pipe">|</span>
+                        <a href="forum.php?mod=post&action=edit&amp;fid=$_G[fid]&amp;tid=$_G[tid]&amp;pid=$post[pid]{if !empty($_G[gp_modthreadkey])}&amp;modthreadkey=$_G[gp_modthreadkey]{/if}&amp;page=$page{if $_G[gp_from]}&from=$_G[gp_from]&special=$_G[gp_special]&plugin_name=$_G[gp_plugin_name]&plugin_op=$_G[gp_plugin_op]{/if}" class="xg1"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}</a><!--{/if}-->
+						<!--{/if}-->
+					</p>
+				</div>
+
+				<div id="blog_article" class="mtw d cl">
+					{subtemplate forum/viewthread_node_body}
+				</div>
+				<!--{if !empty($aimgs[$post[pid]])}-->
+				<script type="text/javascript" reload="1">aimgcount[{$post[pid]}] = [{echo implode(',', $aimgs[$post[pid]]);}];attachimgshow($post[pid]);</script>
+				<!--{/if}-->
+
+				<div id="div_main_content" class="mtm mbm">
+					<h3 class="bbs pbn">
+						<!--{if !empty($postlist)}-->
+						<a href="#f_pst" class="y xi2 xw0">
+							<!-- {if $_G[forum_thread][special]==3} -->
+								回答提问
+							<!-- {/if} -->
+							<!-- {if $_G[forum_thread][special]!=3} -->
+								{lang home_publish_comment}
+							<!-- {/if} -->
+						</a>
+						<!--{/if}-->
+						<!-- {if $_G[forum_thread][special]==3} -->
+								回答 (<span id="comment_replynum">$_G[forum_thread][replies]</span>回答)
+						<!-- {/if} -->
+						<!-- {if $_G[forum_thread][special]!=3} -->
+								{lang home_comment} (<span id="comment_replynum">$_G[forum_thread][replies]</span> {lang reply})
+								&nbsp;&nbsp;
+								<!--{if $_G[special]==0}-->
+						        <span class="xi2 xw1">{lang home_pageview}</span>
+								<!--{if $_G['per']==10}-->
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=10&ordertype=$_G['ordertype']#div_main_content"><span>{lang home_Ten}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=25&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_Twentyfive}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=50&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_fiten}</span></a>
+								<!--{elseif $_G['per']==25}-->
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=10&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_Ten}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=25&ordertype=$_G['ordertype']#div_main_content"><span>{lang home_Twentyfive}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=50&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_fiten}</span></a>
+								<!--{elseif $_G['per']==50}-->
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=10&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_Ten}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=25&ordertype=$_G['ordertype']#div_main_content"><span class="xi2 xw1">{lang home_Twentyfive}</span></a>,
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=50&ordertype=$_G['ordertype']#div_main_content"><span>{lang home_fiten}</span></a>
+								<!--{/if}-->
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<!--{if $_G['ordertype']=='desc' }-->
+								<a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=$_G['per']&ordertype=asc#div_main_content" style="color:red"><span>{lang home_Positive}</span></a>
+								<!--{elseif $_G['ordertype']=='asc'}-->
+						        <a href="forum.php?mod=$_G['mod']&fid=$_G['fid']&special=$_G['special']&plugin_name=$_G['plugin_name']&plugin_op=$_G['plugin_op']&tid=$_G['tid']&per=$_G['per']&ordertype=desc#div_main_content" style="color:red"><span>{lang home_Negative}</span></a>
+						<!--{/if}-->
+
+						<!--{/if}-->
+						<!-- {/if} -->
+
+					</h3>
+					<!--{loop $postlist $postid $post}-->
+						<!--{if $postid && !$post['first']}-->
+						<div id="post_$post[pid]" class="xld xlda">
+							{subtemplate forum/viewthread_from_node}
+						</div>
+						<!--{/if}-->
+					<!--{/loop}-->
+					<div id="postlistreply" class="xld xlda mbm"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
+					<!--{if $multipage}-->
+					<div class="pgs cl">$multipage</div>
+					<!--{/if}-->
+
+					<!--{if $_G['setting']['fastpost'] && $allowpostreply && !$_G['forum_thread']['archiveid']}-->
+						{subtemplate forum/viewthread_fastpost}
+					<!--{/if}-->
+				</div>
+			</div>
+			<!--{if !$space[self]}-->
+			</div>
+			<!--{/if}-->
+		</div>
+	</div>
+
+	<div class="sd">
+		{hook/viewthread_side_bottom}
+	</div>
+</div>
+
+$_G['forum_tagscript']
+
+<!--{if $relatedthreadlist && $_G['setting']['qihoo']['relate']['position']}-->
+	{template forum/viewthread_relatedthread}
+<!--{/if}-->
+
+{hook/viewthread_bottom}
+
+<!--{if $_G['setting']['visitedforums']}-->
+	<ul class="p_pop" id="visitedforums_menu" style="display: none; width: 120px;">
+	$_G['setting']['visitedforums']
+	</ul>
+<!--{/if}-->
+
+<!--{if $_G['setting']['forumjump']}-->
+	<div class="p_pop" id="fjump_menu" style="display: none">
+	$forummenu
+	</div>
+<!--{/if}-->
+
+</div>
+
+{subtemplate common/footer}

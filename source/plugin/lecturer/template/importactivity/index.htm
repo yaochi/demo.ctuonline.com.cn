@@ -1,0 +1,31 @@
+<div class="center_zqsy_left" id="">
+	<form method="post" action="{eval echo join_plugin_action('create')}" onsubmit="return validate_from(this);">
+	<input type="hidden" name="fid" value="$_G[fid]" />
+    <div class="wdlb_nr"><div class="wd5">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_skjl">
+        <tbody><tr>
+          <td height="30" width="5%">&nbsp;</td>
+          <td height="30" width="29%">讲师姓名</td>
+          <td width="13%">创建时间</td>
+          </tr>
+		<!--{loop $data $topic}-->
+		<tr>
+			<td>
+            <input type="checkbox" value="$topic[id]" name="ids[]">
+			</td>
+			<td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=groupmenu&lecid=$topic[id]&lecturer_action=view" target="_blank">$topic[lecname]</a></td>
+			<td>$topic[dateline]</td>
+		</tr>
+		<!--{/loop}-->
+      </tbody></table>
+    </div></div>
+        <button type="submit" class="pn pnc" id="submit" name="submit">
+            <strong>导入</strong>
+        </button>
+	</form>
+	$multipage
+</div>
+<script type="text/javascript">
+function validate_from(obj) {
+}
+</script>

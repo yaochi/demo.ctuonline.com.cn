@@ -1,0 +1,88 @@
+<!--{loop $listdata $item}-->
+<!--{if $item[type]=='general'}-->
+<div class="module cl actdiym actnormal"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <dl class="reHeight">
+    	<!--{if $item[str_start_time][mday] && $item[str_end_time][mday]}-->
+        <dd class="m">
+        <!--{else}-->
+        <dd class="m" style="margin-top: 2px"><!--用于修正无日期时缩略图与标题的对齐-->
+        <!--{/if}-->
+        	<a href="{$item[url]}" title="{$item[name]}" target="_blank">
+	        	<!--{if $item['banner']}-->
+				<img src="{$item['pic']}" width="140" height="140" />
+				<!--{else}-->
+				<img src="static/image/images/def_activity.png" width="140" height="140" />
+				<!--{/if}-->
+			</a>
+        </dd>
+        <!--{if $item[str_start_time][mday] && $item[str_end_time][mday]}-->
+        <dd class="reHeight">
+            <p class="date z"><em class="brs">{$item[str_start_time][mday]}</em><br /><span class="xs0 xg1">{$item[str_start_time][year]}年{$item[str_start_time][mon]}月</span></p>
+            <span class="dash z xg1">&ndash;</span><p class="date z"><em class="brs">{$item[str_end_time][mday]}</em><br /><span class="xs0 xg1">{$item[str_end_time][year]}年{$item[str_end_time][mon]}月</span></p>
+        </dd>
+        <!--{/if}-->
+        <dt class="xs2"><a href="{$item[url]}" title="{$item[name]}" target="_blank" class="xs2">{$item[name]}</a></dt>
+        <dd id="intro" class="xg1">
+			{$item[description]} 
+        </dd>
+        <dd class="xg1">
+            <span class="xw1">已有&nbsp;<span class="xi2">{$item[membernum]}</span>&nbsp;人参加</span>
+        </dd>
+    </dl>
+</div>
+<!--{/if}-->
+
+<!--{if $item[type]=='live'}-->
+<div class="module cl actdiym actlive"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <dl class="reHeight">
+        <dd class="m">
+        	<a href="{$item[url]}" title="{$item[name]}" target="_blank">
+	            <!--{if $item['banner']}-->
+				<img src="{$item['pic']}" width="140" height="140" />
+				<!--{elseif $item[img_activity]}-->
+				<img src="{$item[teacher_img]}" width="140" height="140">
+				<!--{else}-->
+				<img src="static/image/images/def_activity.png" width="140" height="140" />
+				<!--{/if}-->
+			</a>
+        </dd>
+        <dd class="y clmb">平均分：<span class="xi2">{$item[average]}</span>&nbsp;分</dd>
+        <dt class="xs2"><a href="{$item[url]}" title="{$item[name]}" target="_blank" class="xs2">{$item[name]}</a></dt>
+        <dd class="y mlmgroup" style="margin-top: 4px;">
+            <div class="tag"><span class="tag_teacher replaced z">讲师</span></div>
+            <strong class="mlngroup xg1">{$item[teacher_names]}</strong>
+            <div class="tag"><span class="tag_liveDates z replaced clearL mtn">课程安排</span></div>
+            <!--{if $item[whatstatus]=='1'}-->
+            <div class="tag"><span class="tag_live2 replaced mlngroup z mtn">正在直播</span></div>
+            <!--{/if}-->
+            <!--{loop $item[lives] $lives}-->
+				<!--{loop $lives $live}-->
+            <div class="xs3 xg1 clearL mbn">
+				{$live[startime]} - {$live[endtime]}
+				<!--{if $live[whatstatus]=='0'}-->
+				<p class="ptn pns" style="display:inline;">
+					<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn" onclick="javascript:window.open('forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');"><em>预告</em></button>
+				</p>
+				<!--{elseif $live[whatstatus]=='1'}-->
+				<p class="ptn pns" style="display:inline;">
+					<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn pnor" onclick="javascript:window.open('forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');"><em>进入</em></button>
+				</p>
+				<!--{elseif $live[whatstatus]=='2'}-->
+				<p class="ptn pns" style="display:inline;">
+					<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn" onclick="javascript:window.open('forum.php?mod=group&action=plugin&fid={$live[fid]}&plugin_name=grouplive&plugin_op=groupmenu&liveid={$live[liveid]}&op=join&grouplive_action=livecp','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');"><em>学习</em></button>
+				</p>
+				<!--{/if}-->
+            </div>
+			  <!--{/loop}-->
+            <!--{/loop}-->
+        </dd>
+        <dd id="intro" class="xg1">
+			{$item[description]} 
+        </dd>
+        <dd class="xg1">
+            <span class="xw1">已有&nbsp;<span class="xi2">{$item[membernum]}</span>&nbsp;人参加</span>
+        </dd>
+    </dl>
+</div>
+<!--{/if}-->
+<!--{/loop}-->

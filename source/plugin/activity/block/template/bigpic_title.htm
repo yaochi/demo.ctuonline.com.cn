@@ -1,0 +1,18 @@
+<div class="module cl ml actdiym actpictitle"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li style="width: {$parameter[pic_width]}px;">
+            <a href="{$item[url]}" target="_blank">
+            	<!--{if $item['banner']}-->
+				<img src="{$item['pic']}" width="{$parameter[pic_width]}" height="{$parameter[pic_height]}" alt="{$item[name]}"/>
+				<!--{elseif $item[img_activity]}-->
+				<img src="{$item[img_activity]}" width="{$parameter[pic_width]}" height="{$parameter[pic_height]}" alt="">
+				<!--{else}-->
+				<img src="static/image/images/def_activity.png" width="{$parameter[pic_width]}" height="{$parameter[pic_height]}" alt="" />
+				<!--{/if}-->
+            </a>
+            <p><a href="{$item[url]}" title="{$item[name]}" target="_blank" class="xs2">{$item[name]}</a></p>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

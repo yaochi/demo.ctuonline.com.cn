@@ -1,0 +1,19 @@
+<div class="module cl xld lecturerdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+    <dl class="cl">
+        <dd class="m" style="margin-right:12px;">
+            <a href="{$item[url]}" target="_blank" class="avt">
+                <!--讲师照片-->
+                <!--{if !$item[imgurl]}-->
+					<img src="static/image/images/def_lecturer.png" alt="{$item[name]}" style="width: {$parameter[top_pic_width]}px; height: {$parameter[top_pic_height]}px"/>
+				<!--{else}-->
+					<img src="{$item[imgurl]}" alt="{$item[name]}" style="width: {$parameter[top_pic_width]}px; height: {$parameter[top_pic_height]}px">
+				<!--{/if}-->
+            </a>
+        </dd>
+        <dt><a href="{$item[url]}" title="{$item[name]}" target="_blank" class="xs2">{$item[name]}</a></dt>
+        <dd><div class="xg1">{$item[orgname]}</div></dd>
+        <dd><p>{$item[bginfo]}</p></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

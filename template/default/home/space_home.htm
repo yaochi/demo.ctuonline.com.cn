@@ -1,0 +1,727 @@
+<!--{eval $_G['home_tpl_titles'] = array('{lang feed}');}-->
+<!--{if empty($diymode)}-->
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a>
+</div>
+
+<div id="ct" class="wp cl bgnoz">
+
+	<div class="mn bgwhite mn_home fpr">
+
+		<div class="ch">
+			<label class="wx"><a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a></label>
+			{hook/space_home_header}
+		</div>
+		<!--{if $_GET[view] != 'notice'}-->
+			<!--{template home/space_status}-->
+		<!--{/if}-->
+
+		<!-- Feeds Filter Panel START-->
+		<!--{if $_GET[view] != 'notice' }-->
+
+
+			<!--{if $return}-->
+			<div id="homeTopAdsContainer">
+				<ul id="homeTopAds">
+					<!--{loop $return $key=>$item}-->
+					<li>$item[code]</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<!--{/if}-->
+
+			<div id="ffp" class="cl"></div>
+
+			<script type="text/javascript">
+				var var1, var2;
+				var objfixedSign, calendarJSLoaded = false;
+				var fvArray = "$_G[member][indexsetting]";
+
+				function creategroup(){
+					var mode = 'confirm';
+					var t = '建立新分组';
+					var msg = '<div style="font-size:14px;">分组名：<input id="group_newname" type="text" value="" onkeyup="limitDo.call(this,16)" onblur="limitDo.call(this,16)" maxlength="16" style="width:200px; padding:2px;"></div>';
+					var func = function(){
+						var groupname = jQuery("#group_newname").attr("value");
+						jQuery.getJSON("api/blog/api_group_create.php?uid="+$space[uid]+"&"+"groupname="+encodeURIComponent(groupname)+"&code="+jQuery.md5('esn'+groupname+$space[uid]),function(data){
+							if(data.success == 'Y'){
+									var groupid = data.gid;
+									showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>创建分组成功 现为您跳转至分组管理...</span>", 1000);
+									setTimeout(function() {
+										window.location.href = "home.php?mod=space&uid=" + $_G[uid] + "&do=follow&group=" + groupid;
+									}, 2000);
+							}else{
+								showGrowl("<span class='pc_icn_error z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>创建失败 "+ data.message +"</span>", 3000);
+							}
+						 });
+					}
+					showDialog(msg, mode, t, func);
+				}
+
+				jQuery(window).scroll(function(){
+					if(!objfixedSign) { var1 = jQuery("#ffp").offset().top; }
+					var2 = jQuery(window).scrollTop();
+					if(var2 >= var1) {
+						if(!objfixedSign) {
+							jQuery("#ffp").addClass("fixed");
+							jQuery("#ffp").css("borderBottom", "1px solid #eaeaea");
+							jQuery("#ffp ~ .bm:eq(0)").css("marginTop", jQuery("#ffp").height());
+							objfixedSign = true;
+						}
+
+						if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) == 6) {
+							jQuery("#ffp").css("top", var2-jQuery(".mn").offset().top);
+						}
+					} else {
+						if(objfixedSign) {
+							jQuery("#ffp").removeClass("fixed");
+							jQuery("#ffp").css("borderBottom", "none");
+							jQuery("#ffp ~ .bm:eq(0)").css("marginTop", "0");
+
+							if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) == 6) {
+								jQuery("#ffp").css("top", 0);
+							}
+							objfixedSign = false;
+						}
+					}
+				});
+			</script>
+
+		<!--{/if}-->
+		<!-- Feeds Filter Panel END -->
+
+		<div class="bm" style="padding-top: 5px;">
+<!--{else}-->
+
+<!--{template home/space_header}-->
+<div id="ct" class="wp n cl">
+	<div class="mn">
+		<div class="bm">
+			<h1 class="mt">{lang feed}</h1>
+			<!--{if $_GET[do] == 'home'}-->
+			<div id="filterType"></div>
+			<!--{/if}-->
+<!--{/if}-->
+
+			<div id="feed_div" class="e">
+				<!--{if $_GET[view] == 'notice'}-->
+				<div class="cl" id="ffp"><div class="ffpops xs2 mtm pbm"><span style="margin: 4px 0pt 0pt 8px;" class="icn_nwkt replaced z mrngroup"></span><span class="xs3 xw1">通知通告</span></div><div class="nvShadow"></div></div>
+				
+					<!--{if $list}-->
+						<div class="xld xlda mcenter mtm"> <!-- �����ʽ  mcenter-->
+						<!--{loop $list $key $value}-->
+							<dl class="bbda cl $value[dl_class]{if $value[dl_class] == 'item_grey'} xg1{/if}"> <!-- �����ʽ item_g item_r-->
+								<dd class="m avt mbn">
+
+								<!-- ֪ͨͷ�� -->
+								<!--{if $value[extra][logo]}-->
+									<img src="$value[extra][logo]"  />
+								<!--{else}-->
+									<!--{if $value[authorid]}-->
+									<a href="home.php?mod=space&uid=$value[authorid]"><!--{avatar($value[authorid],small)}--></a>
+									<!--{else}-->
+									<img src="{IMGDIR}/systempm.gif" alt="systempm" />
+									<!--{/if}-->
+								<!--{/if}-->
+								</dd>
+								<dt>
+								<!-- 屏蔽设置 -->
+								<!--{if !$value[ptype]}-->
+									<!-- <a class="d b" href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]&handlekey=addfriendhk_{$value[authorid]}" id="a_note_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang shield}</a> -->
+								<!--{/if}-->
+									<span class="xg1 xw0"><!--{date($value[dateline], 'u')}--></span>
+								</dt>
+								<dd style="$value[style]">
+									$value[note]
+								</dd>
+
+								<!--{if $value[from_num]}-->
+								<dd class="xg1 xw0">{lang ignore_same_notice_message}</dd>
+								<!--{/if}-->
+
+								<!--{if $value[authorid] && !$value[isfriend]}-->
+								<dd class="mtw">
+									<a href="javascript:;" id="add_note_friend_$value[authorid]" onclick="follow($_G[uid], $value[authorid], this);">加关注</a>
+									<span class="pipe">|</span>
+									<a href="home.php?mod=spacecp&ac=poke&op=send&uid=$value[authorid]" id="a_poke_$value[authorid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang say_hi}</a>
+								</dd>
+								<!--{/if}-->
+							</dl>
+						<!--{/loop}-->
+						</div>
+
+						<!--{if $view!='userapp' && $space[notifications]}-->
+						<div class="mtm mbm"><a href="home.php?mod=space&do=notice&ignore=all">{lang ignore_same_notice_message} &rsaquo;</a></div>
+						<!--{/if}-->
+
+					<!--{else}-->
+						<div class="emp">{lang no_new_notice}</div>
+					<!--{/if}-->
+				<!--{else}-->
+
+					<div class="xld xlda" >
+						<!----------------------------------------------------------------------------->
+						<!---------------------------- modified by Hera ------------------------------->
+
+						<!---------------------------- modified by Hera ------------------------------->
+						<!----------------------------------------------------------------------------->
+						<div id="feed" <!--{if $_G[gp_uid] != '' && $_G[gp_do] == 'home' && $_G[gp_from] == 'space'}-->class='space'<!--{/if}-->>
+
+							<!---------------------------- json --------------------------------------->
+						</div>
+					</div>
+
+					<!--{if $filtercount}-->
+					<div class="i" id="feed_filter_notice_{$start}">
+						{lang depending_your}<a href="home.php?mod=spacecp&ac=privacy&op=filter">{lang filter_settings}</a>,{lang shield_feed_message} (<a href="javascript:;" onclick="filter_more($start);" id="a_feed_privacy_more">{lang click_view}</a>)
+					</div>
+					<div id="feed_filter_div_{$start}" style="display:none;">
+						<h4 class="et">{lang following_feed_shielding}</h4>
+						<ul class="el">
+						<!--{loop $filter_list $value}-->
+						<!--{template home/space_feed_li}-->
+						<!--{/loop}-->
+						<li><a href="javascript:;" onclick="filter_more($start);">&laquo; {lang pack_up}</a></li>
+						</ul>
+					</div>
+				<!--{/if}-->
+
+				<!--{/if}-->
+			</div>
+			<!--/id=feed_div-->
+
+<!--{if empty($diymode)}-->
+
+			<!--------------------------------  分页  --------------------------------------->
+			<div class="pg"></div>
+
+
+
+			{hook/space_home_bottom}
+			<div id="ajax_wait"></div>
+		</div>
+	</div>
+	<!--/content-->
+
+	<div class="sd" style="overflow: visible;">
+		<!--{template common/userabout}-->
+	</div>
+
+	<!--/sidebar-->
+</div>
+
+<!--{eval my_checkupdate();}-->
+<!--{eval my_showgift();}-->
+
+<!--{else}-->
+
+			<!--{if $count==$perpage}-->
+			<div class="pg mtw mbw"></div>
+			<div id="ajax_wait"></div>
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate home/space_userabout}
+	</div>
+</div>
+
+<!--{/if}-->
+
+<script type="text/javascript">
+
+	function filter_more(id) {
+		if($('feed_filter_div_'+id).style.display == '') {
+			$('feed_filter_div_'+id).style.display = 'none';
+			$('feed_filter_notice_'+id).style.display = '';
+		} else {
+			$('feed_filter_div_'+id).style.display = '';
+			$('feed_filter_notice_'+id).style.display = 'none';
+		}
+	}
+
+	function close_feedbox() {
+		var x = new Ajax();
+		x.get('home.php?mod=spacecp&ac=common&op=closefeedbox', function(s){
+			$('feed_box').style.display = 'none';
+		});
+	}
+
+	function showmore(day, uid, e) {
+		var obj = 'feed_more_div_'+day+'_'+uid;
+		$(obj).style.display = $(obj).style.display == ''?'none':'';
+		if(e.className == 'unfold'){
+			e.innerHTML = '{lang pack_up}';
+			e.className = 'fold';
+		} else if(e.className == 'fold') {
+			e.innerHTML = '{lang open}';
+			e.className = 'unfold';
+		}
+	}
+
+	var elems = selector('li[class~=magicthunder]', $('feed_div'));
+	for(var i=0; i<elems.length; i++){
+		magicColor(elems[i]);
+	}
+</script>
+
+<script type="text/javascript" src="{$_G[setting][jspath]}common_feed.js?{VERHASH}" charset="utf-8"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	/* 判断个人首页模式 */
+	var url1 = window.location.href;
+	var paraString;
+	if(url1.indexOf("?") != -1) {
+		paraString = url1.substring(url1.indexOf("?")+1, url1.length).split("&");
+	}
+
+	space_uid = '$space[uid]';
+
+	if(paraString != null) {
+		var parameters = "{";
+		jQuery.each(paraString, function(key, value) {
+			var tmpStr = value.split("=");
+			parameters += (key == 0 ? "" : ",") + "\"" + tmpStr[0] + "\":" + "\"" + tmpStr[1] + "\"";
+		});
+		parameters += "}";
+		parameters = jQuery.parseJSON(parameters);
+	}
+
+	//if(paraString != null && parameters.view == "sfeed") {
+	//	var ffobj = new ffPanel("title");
+	//	ffobj.append("<h2 class='xi2 xw1'>@提到我的</h2>");
+	//
+	//	getSingleFeed(parseInt(parameters.feedid));
+	//
+	//} else
+	var spaceUid = '$_G[gp_uid]', spaceDo = '$_G[gp_do]', spaceFrom = '$_G[gp_from]';
+	if (spaceUid != '' && spaceDo == 'home' && spaceFrom == 'space'){
+		loadspace('$feedid');
+
+//	} else if (paraString != null && parameters.view == "rcomment") {	//我收到的评论，home.php?view=rcomment
+//		loadcomments('receive');
+//		jQuery("#msel a").each( function(){	jQuery("#msel a").removeClass("on"); });
+//		jQuery('#index_comment').addClass("on");
+//
+//	} else if (paraString != null && parameters.view == "atme") {	//@提到我的，home.php?view=atme
+//		loadatme();
+//		jQuery("#msel a").each( function(){	jQuery("#msel a").removeClass("on"); });
+//		jQuery('#index_atme').addClass("on");
+
+	} else if ('$_G[gp_view]' != "notice") {
+		loadfollow();
+		/*
+		//设置了默认首页显示默认首页，否则，如果粉丝数大于等于5显示follow，其余all
+		flag = '$_G[myself][common_member_field_home][$_G[uid]][viewindex]';
+		//alert(flag);
+		if (flag != ''){
+			if( flag == 'follow'){
+				jQuery("#index_follow").addClass("on");
+				loadfollow();
+			}else if( flag == 'all'){
+				jQuery("#index_all").addClass("on");
+				loadall();
+			}
+		}else{
+			jQuery.getJSON("api/blog/api_usercart.php?uid="+$_G[uid] + "&" + "&code="+jQuery.md5('esn'+ $_G[uid]), function(data) {
+				if (data.follows >= 5){
+					loadfollow();
+				}else{
+					loadall();
+				}
+			})
+		}*/
+		jQuery(".commentSay").trigger("comment_none");
+	}
+});
+//广告加载
+jQuery(document).ready(function() {
+	var isAdClosed = getcookie("homeTopAdsClose");
+	if(!isAdClosed) {
+		var countNum = jQuery("#homeTopAdsContainer ul img").length;
+		var homeTopAdIntervalProcess;
+		var runFlag = true;
+
+//		jQuery("#homeTopAdsContainer ul img").each(function() {
+//			console.log(this.complete);
+//		});
+		
+//		jQuery("#homeTopAdsContainer ul img").on("load", function() {
+//			countNum++;
+		if(countNum > 0) {
+			jQuery("#homeTopAdsContainer").slideDown();
+		
+			if (!jQuery("#homeTopAdsContainer #homeTopAdClose").length){
+				if(countNum > 1) {
+					jQuery("#homeTopAdsContainer").append("<ul id='homeTopAdsNumArea'></ul>");
+					while(countNum != 0) {
+						jQuery("#homeTopAdsNumArea").prepend("<li><a href='javascript:;'>" + countNum + "</a></li>");
+						countNum--;
+					}
+
+					jQuery("#homeTopAdsNumArea a:first").addClass("on");
+					homeTopAdIntervalProcess = setInterval(function() {
+						if(runFlag) {
+							jQuery("#homeTopAdsNumArea a").removeClass("on");
+							jQuery("#homeTopAdsNumArea a:eq(" + countNum + ")").addClass("on");
+							jQuery("#homeTopAds li:first").animate({
+								marginTop: -jQuery("#homeTopAds li:first").height() * countNum
+							}, 1000, 'easeInOutBack', function() {
+								countNum++;
+								if(countNum == jQuery("#homeTopAds li").length) {
+									countNum = 0;
+								}
+							});
+						}
+					}, 2000);
+
+					jQuery("#homeTopAdsNumArea a").click(function() {
+						countNum = jQuery(this).text() - 1;
+						jQuery("#homeTopAdsNumArea a").removeClass("on");
+						jQuery("#homeTopAdsNumArea a:eq(" + countNum + ")").addClass("on");
+						jQuery("#homeTopAds li:first").animate({
+							marginTop: -jQuery("#homeTopAds li:first").height() * countNum
+						}, 800, 'easeInOutBack', function() {
+							countNum++;
+							if(countNum == jQuery("#homeTopAds li").length) {
+								countNum = 0;
+							}
+						});
+					});
+
+					jQuery("#homeTopAdsContainer").hover(function() {
+						runFlag = false;
+					}, function() {
+						runFlag = true;
+					});
+				}
+
+//				jQuery("#homeTopAdsContainer").append("<a href='javascript:;' id='homeTopAdClose'>关闭广告</a>");
+
+//				jQuery("#homeTopAdClose").click(function() {
+//					jQuery("#homeTopAdsContainer").slideUp("fast", function() {
+//						jQuery("#homeTopAdsContainer").remove();
+//					});
+//					setcookie('homeTopAdsClose', 'true', 86400);
+//				});
+			}
+		}
+//		});
+	} else {
+		jQuery("#homeTopAdsContainer").remove();
+	}
+});
+
+function loadspace(feedid){
+	load_wait();
+	flag = 'user';
+	feedSign = false;
+	typeid = (space_uid == UID)?'self':'';
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	var func = '';	
+	if(feedid){ 
+		func = function(){ //多图片评论，跳转到个人空间动态中，展开评论
+			//jQuery('#'+feedid+' a.btn_comment').trigger('click');
+			jQuery('#'+feedid+' .commentSay').show();
+			jQuery('#'+feedid+' '+textarea).focus();
+		}
+		feedSign = true; 
+	}
+
+	load_feed(flag,currNum,initNum,typeid,'','','','',func,feedid);
+	currNum += initNum;
+
+	jQuery('#filterType').append('<a id="t_all" class="xi2 xw1" href="javascript:;">全部</a>'
+				+ '<input type="checkbox" name="t_doing" value="blogid" class="pc" idtype="blogid" id="search_do"/><label for="t_doing">记录</label>'
+				+ '<input type="checkbox" name="t_share" value="link" class="pc" idtype="link"/><label for="t_share">转发</label>'
+				+ '<input type="checkbox" name="t_pic" value="albumid" class="pc" idtype="albumid"/><label for="t_pic">图片</label>'
+				+ '<input type="checkbox" name="t_video" value="flash" class="pc" idtype="flash"/><label for="t_video">视频</label>'
+				+ '<input type="checkbox" name="t_music" value="music" class="pc" idtype="music"/><label for="t_music">音乐</label>'
+				+ '<input type="checkbox" name="t_class" value="class" class="pc"  idtype="class"/><label for="t_class">课程</label>'
+				+ '<input type="checkbox" name="t_doc" value="doc" class="pc"  idtype="doc"/><label for="t_doc">文档</label>'
+				+ '<input type="checkbox" name="t_case" value="case" class="pc"  idtype="case"/><label for="t_case">案例</label>'
+	);
+		jQuery('#filterType *').css({
+				'vertical-align': 'middle',
+				'margin-left': '5px'
+			});
+			jQuery('#filterType a').css({
+					'color': '#444444',
+					'border-right': '1px dotted #999',
+					'padding-right': '10px'
+				});
+			jQuery('#filterType input').css({
+					'margin-left': '10px'
+				});
+}
+
+function loadfollow(){
+	load_wait();
+	flag = 'follow';
+	feedSign = false;
+	typeid = "";
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	load_feed(flag,currNum,initNum,'','','','');
+	currNum += initNum;
+
+	var ffobj = new ffPanel("filter", $_G[uid]);
+	jQuery("#ffpfv a:first").addClass("xi2 xw1");
+
+	var ffpma = ffobj.getFfpma();
+	var addGroup_menu = ffobj.getAddGroup_menu();
+
+	ffpma.append('<a id="filterSwitch" href="javascript:switchFilter(false, \'范围:\');" class="xg1 y mlmgroup">高级筛选</a>'
+				+ '<table><tr><td id="followGroup" class="grouplist"><a href="javascript:;" class="xi2 xw1" id="follow_group_" >全部</a><a href="javascript:;" id="follow_group_-2">好友</a><a href="javascript:;"><img src="{IMGDIR}/loading.gif" /></a><a href="javascript:;" id="follow_group_-1">未分组</a></td><td><a id="addGroup" href="javascript:;" onclick="showPpmuMenu(this, event, \'#ffp\');" class="more"></a></td></tr>'
+				+ '<tr style="display: none;"><th>类型:</th><td id="filterType" class="grouplist"><a id="t_all" class="xi2 xw1" href="javascript:;">全部</a>'
+				+ '<input type="checkbox" name="t_doing" value="blogid" class="pc" idtype="blogid" id="search_do"/><label for="t_doing" class="mtn">记录</label>'
+				+ '<input type="checkbox" name="t_share" value="link" class="pc" idtype="link"/><label for="t_share" class="mtn">转发</label>'
+				+ '<input type="checkbox" name="t_pic" value="albumid" class="pc" idtype="albumid"/><label for="t_pic" class="mtn">图片</label>'
+				+ '<input type="checkbox" name="t_video" value="flash" class="pc" idtype="flash"/><label for="t_video" class="mtn">视频</label>'
+				+ '<input type="checkbox" name="t_music" value="music" class="pc" idtype="music"/><label for="t_music" class="mtn">音乐</label>'
+				+ '<input type="checkbox" name="t_class" value="class" class="pc"  idtype="class"/><label for="t_class" class="mtn">课程</label>'
+				+ '<input type="checkbox" name="t_doc" value="doc" class="pc"  idtype="doc"/><label for="t_doc" class="mtn">文档</label>'
+				+ '<input type="checkbox" name="t_case" value="case" class="pc"  idtype="case"/><label for="t_case" class="mtn">案例</label>'
+				+ '</td></tr></table>');
+	addGroup_menu.append('<li><a href="javascript:creategroup();" hidefocus="true">创建新分组</a></li>'
+						 + '<li><a href="home.php?mod=space&uid=$G_[uid]&do=follow" hidefocus="true">管理分组</a></li>');
+
+	jQuery.getJSON("api/blog/api_followgroup.php?uid=" + $_G[uid], function(data){
+		var strname = '';
+		if(data){
+			jQuery.each(data, function(key, value) {
+				jQuery.each(value, function(key, groupname) {
+					strname += '<a href="javascript:;" id="follow_group_'+key+'">'+groupname+'</a>';
+				});
+			});
+			jQuery("#followGroup a:last").prev().remove();
+			jQuery("#followGroup a:eq(1)").after(strname);
+		}
+
+		jQuery("#followGroup a").each(function(index){
+				jQuery(this).click(function(){
+					typeid= jQuery(this).attr("id");
+					var str = 'follow_group_';
+					typeid = typeid.substring(str.length,typeid.length);
+					jQuery("#followGroup a").removeClass("xi2 xw1");
+					jQuery(this).addClass("xi2 xw1");
+					flag = 'follow';
+					feedSign = false;
+					load_wait();
+					//alert(typeid);
+					typeStr = [];
+					pageReset();
+					load_feed(flag,currNum,initNum,typeid,'','','');
+					currNum += initNum;
+				});
+
+				if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 9 && index == jQuery("#followGroup a").length - 1) {
+					jQuery(this).css("background", "none");
+				}
+		});
+	});
+
+}
+
+function loadgroup(){
+	load_wait();
+	flag = 'group';
+	feedSign = false;
+	typeid = "";
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	load_feed(flag,currNum,initNum,'','','','');
+	currNum += initNum;
+
+	var ffobj = new ffPanel("filter", $_G[uid]);
+	jQuery("#ffpfv a:eq(1)").addClass("xi2 xw1");
+
+	var ffpma = ffobj.getFfpma();
+	var addGroup_menu = ffobj.getAddGroup_menu();
+
+	ffpma.append('<a id="filterSwitch" href="javascript:switchFilter(false, \'范围:\');" class="xg1 y mlmgroup">高级筛选</a>'
+				+ '<table><tr><td id="GroupGroup" class="grouplist"><a href="javascript:;" class="xi2 xw1" id="group_group_" >全部</a></td></tr>'
+				+ '</table>');
+
+	jQuery.getJSON("api/blog/api_usergroup.php?uid=" + $_G[uid], function(data){
+		var strname = '';
+		if(data){
+			jQuery.each(data.grouplist, function(key, value) {
+					strname += '<a href="javascript:;" title="'+value.name+'" id="group_group_'+value.fid+'">'+value.name+'</a>';
+			});
+
+			jQuery("#GroupGroup").append(strname);
+		}
+
+		jQuery("#GroupGroup a").each(function(index){
+				jQuery(this).click(function(){
+					typeid= jQuery(this).attr("id");
+					var str = 'group_group_';
+					typeid = typeid.substring(str.length,typeid.length);
+					jQuery("#GroupGroup a").removeClass("xi2 xw1");
+					jQuery(this).addClass("xi2 xw1");
+					flag = 'group';
+					feedSign = false;
+					load_wait();
+					//alert(typeid);
+					typeStr = [];
+					pageReset();
+					load_feed(flag,currNum,initNum,typeid,'','','');
+					currNum += initNum;
+
+					jQuery(this).data("id", typeid);
+					jQuery(this).data("type", "group");
+					jQuery(this).trigger("autoAddAt");
+				});
+
+				if(jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 9 && index == jQuery("#GroupGroup a").length - 1) {
+					jQuery(this).css("background", "none");
+				}
+		});
+	});
+}
+
+function loadall(){
+	load_wait();
+	flag = 'all';
+	feedSign = false;
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	load_feed(flag,currNum,initNum,'','','','');
+	currNum += initNum;
+
+	var ffobj = new ffPanel("filter", $_G[uid]);
+	jQuery("#ffpfv a:eq(2)").addClass("xi2 xw1");
+
+	var ffpma = ffobj.getFfpma();
+	var addGroup_menu = ffobj.getAddGroup_menu();
+
+	ffpma.remove();
+	/*ffpma.append('<a id="filterSwitch" href="javascript:switchFilter(false, \'范围:\');" class="xg1 y mlmgroup">高级筛选</a>'
+				+ '<table><tr style="display:none"><td><input type="text" readonly="readonly" class="px pxn"  name="starttime" id="starttime" style="width: 100px;"/>&nbsp;~&nbsp;<input type="text" readonly="readonly" class="px pxn" name="endtime" id="endtime" style="width: 100px; margin-left: 0;"/></td></tr></table>');*/
+}
+
+function loadme(){
+	load_wait();
+	flag = 'user';
+	feedSign = false;
+	typeStr = [];
+	pageReset();
+	jQuery(".mifm").css("display", "none");
+	jQuery("#homeTopAdsContainer").css("display", "none");
+	load_feed(flag,currNum,initNum,'','','','');
+	currNum += initNum;
+
+	var ffobj = new ffPanel("title");
+	ffobj.append("<span class='icn_mypost replaced z mrngroup' style='margin: 4px 0 0 8px;'></span><span class='xs3 xw1'>我发表的内容</span>");
+}
+function loadffpscFeeds(source) {
+	load_wait();
+	flag = jQuery(source).data("type");
+	feedSign = false;
+	typeid = jQuery(source).data("id");
+	typeStr = [];
+	pageReset();
+	load_feed(flag,currNum,initNum,typeid,'','','');
+	currNum += initNum;
+
+	if(flag == "group") {
+		jQuery(source).trigger("autoAddAt");
+	}
+
+	var sourceID = jQuery(source).data("id");
+	var ffobj = new ffPanel("filter", $_G[uid]);
+	var ffpfv = ffobj.getFfpfv();
+	var ffpma = ffobj.getFfpma();
+	var addFeedView_menu = ffobj.getAddFeedView_menu();
+
+	if(jQuery(source).parent().parent().parent().attr("id") == "ffpmenu") {
+		jQuery("#ffpmenu a").each(function() {
+			if(jQuery(this).data("id") == sourceID) {
+				jQuery(this).text(jQuery(this).data("abbr"));
+				jQuery("li:last", ffpfv).before(jQuery(this).parent());
+			}
+		});
+
+		var ffpWidth = ffpfv.width();
+		var existWidth = 0;
+		jQuery("li", ffpfv).each(function() {
+			existWidth += jQuery(this).outerWidth();
+		});
+		var fvnum;
+
+		while(existWidth > ffpWidth) {
+			fvnum =  jQuery("li", ffpfv).length;
+			jQuery("li:eq(" + (fvnum - 3) +") a", ffpfv).text(jQuery("li:eq(" + (fvnum - 3) +") a", ffpfv).attr("title"));
+			addFeedView_menu.prepend(jQuery("li:eq(" + (fvnum - 3) +")", ffpfv));
+
+			existWidth = 0;
+			jQuery("li", ffpfv).each(function() {
+				existWidth += jQuery(this).outerWidth();
+			});
+		}
+	}
+
+	jQuery("#ffpfv a").each(function() {
+		if(jQuery(this).data("id") == sourceID) {
+			jQuery(this).addClass("xi2 xw1");
+		}
+	});
+	jQuery(source).addClass("xi2 xw1");
+	ffpma.remove();
+	/*ffpma.append('<a id="filterSwitch" href="javascript:switchFilter(false);" class="xg1 y mlmgroup">高级筛选</a>'
+							+ '<table><tr><td id=""></td><td></td></tr>'
+							+ '<tr style="display: none;"><th>时间:</th><td><input type="text" readonly="readonly" class="px pxn"  name="starttime" id="starttime" style="width: 100px;"/>&nbsp;~&nbsp;<input type="text" readonly="readonly" class="px pxn" name="endtime" id="endtime" style="width: 100px; margin-left: 0;"/></td></tr></table>');*/
+}
+
+
+
+
+
+////展开、收起评论回复
+//jQuery("body").on("click",".btn_comReply",function(){
+//			var anchor = jQuery(this);
+//			var conanchor = anchor.parent().parent().parent();
+//			jQuery(".commentReplay",conanchor).slideToggle(150, "easeOutQuint");
+//			jQuery(textarea,conanchor).val('回复 @'+ anchor.attr('id') +' : ');
+//
+//});
+//
+//function succeedhandle_ComReply(url, msg, values) {
+//	showGrowl("<span class='pc_icn_mark z' style='margin-top: 3px'></span><span class='xw1 xs2 mlmgroup'>评论回复成功</span>", 1500);
+//
+//	var anchor = jQuery("#comReply_"+currFeedID);
+//
+//	jQuery(textarea,anchor).attr("value","").css("height","16px").removeAttr("readonly").growfield('restart');
+//
+//	anchor.slideUp(150, "easeOutQuint");
+//
+//}
+
+function loadfilterType(idtype){
+	load_wait();
+	//flag = 'follow';
+	feedSign = false;
+	typeStr = idtype;
+	pageReset();
+	jQuery(".mifm").css("display", "block");
+	disFilterCheck(true);
+	load_feed(flag,currNum,initNum,typeid,typeStr,'','',false,function(){
+			disFilterCheck(false);
+		});
+	currNum += initNum;
+}
+
+
+</script>
+
+
+{subtemplate common/footer}

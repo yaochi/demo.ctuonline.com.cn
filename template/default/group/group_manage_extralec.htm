@@ -1,0 +1,32 @@
+<div id="stacoursemanage">
+	<div class="bm mtm mbm">
+		<a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=downloadlec" class="xi2 y">下载数据导入模板</a>
+		<h1 class="wx xg1 xs3 pbw">组件数据导入</h1>
+		<form enctype="multipart/form-data" id="importform" method="post" autocomplete="off" action="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=uploadlec" class="reHeight">
+			<input type="hidden" name="max_file_size" value="2000000">
+			<div id="importpanel" class="z">
+				<p>请选择文件以导入</p>
+				<input type="file" name="upload" size="20" class="pf mtn" id="upload">
+			</div>
+			<button type="submit" name="importbtn" class="pn pnp z mtn mlwgroup" value="1" onclick="return validate();"><strong>开始导入</strong></button>
+		</form>
+		<p class="xg1 mtm cl">
+			数据必须按照表格形式进行填写<br />
+			请勿选择大于2 MB的文件；导入后将会覆盖讲师库之前所有数据
+		</p>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	function validate() {
+		var uploadFile = $("upload");
+		if(uploadFile) {
+			var slen = strlen(uploadFile.value);						
+			if (slen < 1) {
+				showDialog("请选择导入的文件");
+				return false;
+			}
+			
+			return true;
+		}
+	}
+</script>

@@ -1,0 +1,173 @@
+<div class="wp cl">
+<script type="text/javascript">
+	function clearname() {
+		$('firstman_names').value='';
+		$('firstman_names_uids').value='';
+	}
+
+	function checkselectuser() {
+		if($('firstman_names').value!='') {
+			showDialog("已选择，请删除后在操作");
+		} else {
+		}
+	}
+	
+	function validate_from(obj) {
+		
+	}
+</script>
+<div class="mn">
+<div style="padding:10px;">
+<!--{if $_G["forum"]["type"] == 'sub' }-->
+<form action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=createmenu&lecturer_action=search&select=search" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<!--{else}-->
+<form action="forum.php?mod=activity&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=createmenu&lecturer_action=search&select=search" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<!--{/if}-->
+<input type="hidden" name="createtype" value="2"/>
+<input type="hidden" name="lectype" value="1"/>
+<div class="sszy">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+	  <tr>
+	    <td align="right" valign="top">讲师类型：</td>
+	    <td valign="top"><input type="radio" checked="checked" name="isinnerlec" value="0" />
+	    内部讲师 
+	      <input type="radio" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=createmenu&lecturer_action=search_outter&ac=search_out&select=search';" name="isinnerlec" value="1" />
+	    外部讲师</td>
+	    <td align="right" valign="top">&nbsp;</td>
+	    <td valign="top">&nbsp;</td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="top">讲师名称：</td>
+	    <td valign="top" class="xian"><p>
+		      <input type="text" class="zybjan" id="name" name="name" value="$name"/>
+		    </p>
+	        <p class="b">
+	          <label>
+	          <input type="checkbox" name="iscollegelec" <!--{if $iscollegelec==1}-->checked="checked"<!--{/if}--> value="1" />
+	          </label>
+	          学院课程讲师</p>
+	    </td>
+	    <td align="right" valign="top">工作单位：</td>
+	    <td valign="top"><p>
+	        <input type="text" readonly="readonly" name="orgname_input" id="orgname_input" value="$orgname_input"/>
+			<input type="hidden" id="orgname_input_id" name="orgname_input_id" value="$orgname_input_id">
+			<a href="misc.php?mod=queryorg" onclick="showWindow('orgtree', this.href, 'get', 0);">选择</a>
+	      </p>
+	        <p class="b">
+	          <label>
+	          <input type="checkbox" name="includechild" <!--{if $includechild==1}-->checked="checked"<!--{/if}--> value="1" />
+	          </label>
+	          包含子机构 </p></td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="top">讲师级别：</td>
+	    <td valign="top" class="xian"><select name="rank">
+	    				<option value="0" <!--{if !$rank || $rank==0 }-->selected="selected"<!--{/if}-->>全部</option>
+						<option value="1" <!--{if $rank==1 }-->selected="selected"<!--{/if}-->>集团级</option>
+						<option value="2" <!--{if $rank==2 }-->selected="selected"<!--{/if}-->>省级</option>
+						<option value="3" <!--{if $rank==3 }-->selected="selected"<!--{/if}-->>地市级</option>
+						<option value="4" <!--{if $rank==4 }-->selected="selected"<!--{/if}-->>其他</option>
+					</select></td>
+	    <td align="right" valign="top">主要培训课程：</td>
+	    <td valign="top"><input type="text" class="zybjan" name="courses" value="$courses"/></td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="top">授课方向：</td>
+	    <td valign="top"><select name="teachdirection" >
+	    				<option value="0" <!--{if !$teachdirection || $teachdirection==0 }-->selected="selected"<!--{/if}-->>全部</option>
+						<option value="1" <!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>领导力发展与管理类</option>
+						<option value="2" <!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>营销类</option>
+						<option value="3" <!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>技术类</option>
+						<option value="4" <!--{if $teachdirection==4 }-->selected="selected"<!--{/if}-->>通用类</option>
+					</select></td>
+	    <td align="right" valign="top">&nbsp;</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td colspan="4" align="center" valign="top"><button name="Submit2" type="submit" class="pn"><b>搜索资源</b></button></td>
+	    </tr>
+	</table>
+	</div>
+</form>
+<!--{if $lecturers }-->
+<div class="ssjg">
+<form action="{eval echo join_plugin_action('step2')}" onsubmit="return validate(this)" method="post" enctype="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+  <tr>
+    <td width="9%" style="padding: 10px 0;"><b>搜索结果：</b></td>
+    <td width="91%" class="huise">有 $total 项符合的查询结果</td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jglb">
+      <tr class="qcbj">
+        <td width="5%" height="27" class="xiaxian">&nbsp;</td>
+        <td align="center" class="xiaxian">姓名</td>
+        <td width="12%" align="center" class="xiaxian">是否为学院课程讲师</td>
+        <td width="11%" align="center" class="xiaxian">讲师级别</td>
+        <td width="19%" align="center" class="xiaxian">授课方向</td>
+        <td width="26%" align="center" class="xiaxian">工作单位</td>
+        <td width="11%" align="center" class="xiaxian">主要培训课程</td>
+      </tr>
+      <!--{loop $lecturers $key $lecturer}-->
+      <tr class="qcbj line{eval echo ($key%2)}">
+        <td height="64"><input type="checkbox" name="lecturercheckbox[]" id="lecturercheckbox[]" value="$lecturer[id]"/></td>
+        <td width="16%">
+			<p><a href="forum.php?mod=group&action=plugin&fid=$lecturer[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$lecturer[id]" target="_blank" class="tx_zqsy left">
+			<!--{if !$lecturer[imgurl]}-->
+				<img src="static/image/images/def_lecturer.png" width="48" height="48" border="0" />
+			<!--{else}-->
+				<img src="$lecturer[imgurl]" width="48" height="48" border="0" />
+			<!--{/if}-->	
+			</a></p>
+			<span class="min"><a href="forum.php?mod=group&action=plugin&fid=$lecturer[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$lecturer[id]" target="_blank">$lecturer['name']</a></span></td>
+        <td align="center"><!--{if $lecturer['iscollegelec']==1}-->
+			是
+			<!--{elseif $lecturer['iscollegelec']!=1}-->
+			否
+			<!--{/if}--></td>
+        <td align="center"><!--{if $lecturer['rank']==1}-->
+			集团级
+			<!--{elseif $lecturer['rank']==2}-->
+			省级
+			<!--{elseif $lecturer['rank']==3}-->
+			地市级
+			<!--{elseif $lecturer['rank']==4}-->
+			其他
+			<!--{/if}--></td>
+        <td align="center"><!--{if $lecturer['teachdirection']==1}-->
+			领导力发展与管理类
+			<!--{elseif $lecturer['teachdirection']==2}-->
+			营销类
+			<!--{elseif $lecturer['teachdirection']==3}-->
+			技术类
+			<!--{elseif $lecturer['teachdirection']==4}-->
+			通用类
+			<!--{/if}--></td>
+        <td align="left">$lecturer['orgname']</td>
+        <td align="center" class="qcxian">
+        	<a href="javascript:;" onclick="showDialog('<div class=\'altw\'><p class=\'fltc\'>$lecturer[courses]</p></div>', 'info', '主要培训课程', null, 1)"><span class="jsjyimg"></span></a>
+        </td>
+      </tr>
+      <!--{/loop}-->
+      <tr>
+      	<td colspan="7" style="background-color: white; padding-top: 30px; border: none;">$multipage</td>
+      </tr>
+    </table></td>
+    </tr>
+  <tr>
+    <td colspan="2" style="padding-left: 62px !important; padding-left: 50px;"><input name="Submit22" type="submit" class="ckxq_sy left" value="下一步" /></td>
+  </tr>
+</table>
+</form>
+</div>
+<!--{else}-->
+<div>
+查找不到符合条件的讲师
+</div>
+<!--{/if}-->
+</div>
+</div>
+<div class="sd">
+</div>
+</div>
+<script type="text/javascript" src="source/plugin/lecturer/js/lecturer_post.js?{VERHASH}"></script>

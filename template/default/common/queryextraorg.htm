@@ -1,0 +1,91 @@
+{template common/header}
+<script type="text/javascript">
+	function selectorg(){
+	var orgid = document.getElementsByName("orgid");
+	var val = "";
+	for(var i=0; i<orgid.length; i++){
+		if(orgid[i].checked){
+			val='<p><input type="hidden" name="orgids[]" id="orgids[]" value="'+orgid[i].value+'" /><input type="hidden" name="orgnames[]" id="orgnames[]" value="'+orgid[i].title+'" /><a href="javascript:;" onclick="deleteorg(this)" class="delicn y" title="删除此机构"></a>'+orgid[i].title+'<div class="clear"></div></p>';
+		}
+	}
+	$("extraorg").innerHTML=$("extraorg").innerHTML+val;
+	hideWindow("orgwindow");
+}
+</script>
+
+<div id="main_messaqge">
+    <h3 class="flb" id="fctrl_query" style="cursor: move;">
+<em id="returnmessage4" fwin="query">查找机构</em>
+<span>
+<a title="关闭" onclick="hideWindow('orgwindow')" class="flbc" href="javascript:;">关闭</a></span>
+</h3>
+<div class="usd">
+<ul class="cl tbx">
+<li>
+<p>按机构名查找</p>
+<p class="mtn">
+<input type="text" autocomplete="off" value="" class="px" id="orgname1" size="25" name="orgname1" fwin="query">
+</p>
+</li>
+<li>
+<div style=" padding-top:18px; padding-left:5px;" class="tbx">
+<span class="a brs" onclick="queryorg()">查找机构</span>
+</div>
+</li>
+</ul>
+
+</div>
+
+
+
+
+<div class="czyh" style="width:400px;">
+<!--{if $orgs}-->
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<th width="40"></th>
+<th>机构名称</th>
+</tr>
+<!--{loop $orgs $k $org}-->
+<tr class="line<!--{eval echo($k%2)}-->">
+<td><span><input type="radio" value="$org[id]" class="pc" name="orgid" title="$org[name]" ></span></td>
+<td><a href="#">$org[name]<!--{if !$org[released]}-->(未审核)<!--{/if}--></a></td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<div class="pgs cl bm mtm">$multipage</div>
+
+<!--{elseif $name}-->
+<p class="hm mtw mbw"><span class="xg1">找不到相应资源</span><br />
+<a id="org_create" href="forum.php?mod=group&action=plugin&fid=$fid&plugin_name=extraresource&plugin_op=createmenu&extraresource_action=indexorg1&"  onclick="showWindow(this.id, this.href, 'get', 0, 1);hideWindow('orgwindow');">点击以推荐机构...</a></p>
+<!--{else}-->
+<!--{/if}-->
+</div>
+
+
+<p class="o pns"><button value="yes" name="querysubmit" class="pn pnc" onclick="selectorg()" type="submit"><strong>确定</strong></button></p>
+
+</div>
+</div>
+<script>
+	function queryorg(){
+		var orgname=document.getElementById('orgname1');
+		if(trim(orgname.value).length<=0){
+			showDialog("请输入你要查询的机构名称");
+			return false;
+		}
+		var orgnamevalue=encodeURIComponent(orgname.value);
+		url = "misc.php?mod=queryextraorg"+"&fid="+$fid+"&name="+orgnamevalue;
+		showWindow('orgwindow', url, 'get', 0);
+		//var x = new Ajax();
+		//x.get(,function(s){
+			//	 alert(s);
+		//});
+	}
+	function queryteachercallback(s){
+		;
+	}
+	</script>
+{template common/footer}

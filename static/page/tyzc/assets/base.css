@@ -1,0 +1,183 @@
+/* 
+    Document   : base.css
+    Author     : Izzln Yin
+    Version    : 20110228.1024.b
+*/
+
+/* RESET */
+html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input { margin: 0; padding: 0; }
+h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,em,strong,th { font-size: 1em; font-weight: normal; font-style: normal; }
+ul,ol { list-style: none; }
+fieldset,img { border: none; }
+caption,th { text-align: left; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* TYPE */
+html { overflow-x: hidden; overflow-y: auto; }
+body { border: 0px; font: 12px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Kaku Gothic Pro", "Microsoft YaHei", sans-serif; color: #333; background-color: #fff; }
+a { color: #333; }
+a:link, a:visited, a:active { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* LAYOUT */
+.replaced { display: block; overflow: hidden; outline: none; text-indent: -9999px; text-decoration: none; text-align: left; }
+.z { float: left; } .y { float: right; }
+/* 自动闭合浮动 .cl --> Clear */ .cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; } .cl { zoom: 1; }
+/* 用于修正由于float导致无高度 Added by Izzln */ .reHeight{ overflow: hidden; zoom:1; }
+.hm { text-align: center; }
+.hr { text-align: right; }
+.vm { vertical-align: middle; }
+
+.pipe { margin: 0 5px; color: #CCC; position: static; }
+
+.piped { display: block; zoom: 1; }
+.piped li { float: left; display: inline; }
+.piped a { border-right: 1px solid #B1B1B1; padding: 0 6px; }
+.piped a.first { padding-left: 0; margin-left: 0; }
+.piped a.last { border-right: 0 !important; padding-right: 0; margin-right: 0 !important; }
+
+.wp { margin: 0 auto; width: 970px; _margin-left: 25px; } #wp { z-index: 50; position: relative; }
+#wrapper { width: 1024px; overflow: hidden; background-color: #006ed0; background-repeat: no-repeat; position: absolute; padding: 114px 0 0 0; left: 50%; margin-left: -512px; }
+#fwin_mask { width: 100%; height: 100%; display: none; position: absolute; top: 0; left: 0; background-color: #000; z-index: 100; zoom: 1; }
+#fwin_content { width: 700px; display: none; padding: 10px; position: absolute; left: 50%; margin-left: -350px; background-color: #fff; z-index: 150; zoom: 1; }
+#fwin_close { width: 20px; height: 20px; background: url(cls.gif) no-repeat 0 0;  }
+#fwin_close:hover { background-position: 0 -20px; }
+
+/* 字号 .xs --> text size 文字大小, 0=10px, 1=12px, 2=14px by Pony 3=16px 4=18px 7=24px Added by Izzln */
+.xs0 { font-size: 10px; }
+.xs1 { font-size: 12px; }
+.xs2 { font-size: 14px; }
+.xs3 { font-size: 16px; }
+.xs4 { font-size: 18px !important; }
+.xs7 { font-size: 24px !important; }
+
+/* 颜色 .xg --> text gray level, 0=#D6D6D6, 1=#999, 2=#666 Added by Izzln */
+.xg0, .xg0 a { color: #d6d6d6; }
+.xg1, .xg1 a { color: #929292 !important; }
+
+/* 加亮颜色 .xi --> text important level, 1=#F60, 2\3=#369 */
+.xi1 { color: {NOTICETEXT}; }
+.xi2, .xi2 a { color: #ff8d00; }
+.xi3, .xi3 a { color: #4e1502; } /* 咖啡色 Added by Betty */
+.xi4, .xi4 a { color: #fe6c00; } /* 橘黄色 Added by Betty */
+
+/* 粗细 .xw --> text weight level, 0=normal, 1=bold by Pony */
+.xw0 { font-weight: 400; }
+.xw1 { font-weight: 700; }
+
+/* 外边距 Margin，三组从窄到宽，级别分别为：n, m, w */
+.mtn { margin-top: 5px !important; }
+.mbn { margin-bottom: 5px !important; }
+.mtm { margin-top: 10px !important; }
+.mbm { margin-bottom: 10px !important; }
+.mtw { margin-top: 20px !important; }
+.mbw { margin-bottom: 20px !important; }
+
+/*  Added by Izzln */
+.mlngroup { margin-left: 5px !important; }
+.mrngroup { margin-right: 5px !important; }
+.mlmgroup { margin-left: 10px !important; }
+.mrmgroup { margin-right: 10px !important; }
+.mlwgroup { margin-left: 20px !important; }
+.mrwgroup { margin-right: 20px !important; }
+.mbww { margin-bottom: 40px !important; }
+
+/* 按钮 Modified by Izzln */
+button::-moz-focus-inner { border: 0; padding: 0; }
+.pn { margin-right: 3px; padding: 0 16px; height: 30px; border: 1px solid #C7C7C7; -moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px; z-index: 0; background: url(pn.png) no-repeat 50% -41px; color: #333; line-height: 30px; font-size: 12px; vertical-align: middle; cursor: pointer;
+	position: relative\9; padding: 0 0 0 16px\9; border: none\9; background: url(pn.png) no-repeat 0 0\9; overflow: visible\9; 
+}
+	@media screen and (-webkit-min-device-pixel-ratio:0) { .pn { font-family: "Microsoft YaHei", "Hiragino Sans GB", STHeiti, SimHei, sans-serif; } }
+	.pn * { position: relative\9; display: block\9; padding-right: 16px\9; *height: 30px\9; background: url(pn.png) no-repeat 100% -40px\9; *line-height: 30px\9; white-space: nowrap\9;  font-weight: 700; }
+	.pn em { font-weight: 700; font-style: normal; }
+	.pn strong { padding-left: 4px; letter-spacing: 4px; }
+	.pnc { color: #0D4078; border-color: #5DA8DB; background-position: 50% -281px; background-position: 0 -240px\9; }
+		.pnc * { background-position: 100% -280px\9; }
+	.pnp { color: #FFF; background-position: 50% -121px; background-position: 0 -80px\9; border-color: #0A0A0A; }
+		.pnp * { background-position: 100% -120px\9; text-shadow: 1px 1px 1px #0A0A0A; }
+	.pns .pn { height: 26px; background-image: url(pns.png); line-height: 26px; font-size: 12px; }
+		.pns .pn * { height: 26px\9; background-image: url(pns.png)\9; line-height: 26px\9; }
+		.pns .px { padding: 2px 4px; }
+	.pnbr { color: #7B4A22; border-color: #CF9C39; background-position: 50% -361px; background-position: 0 -320px\9; }
+		.pnbr * { background-position: 100% -360px\9; }
+	.pnor { color: #fff; border-color: #DE6111; background-position: 50% -441px; background-position: 0 -400px\9; }
+		.pnor * { background-position: 100% -440px\9; }
+	.ch .pn { float: right; display: inline; margin: 8px 10px 0 0; padding: 0 6px; padding: 0 0 0 7px\9; border-color: #CFCFCF; -webkit-border-radius: 5px; -moz-border-radius: 5px; background-position: 50% -361px; background-position: 0 -320px\9;  }
+		.ch .pn * { padding: 0 7px 0 0\9; background-position: 100% -360px; }
+	a.pn { height: 29px; height: 31px\9; }
+		.pns a.pn { height: 24px; height: 26px\9; }
+	/* for IE8 button bug */
+	.pn:active { -ms-background-position-x: 1px; -ms-background-position-y: 1px; }
+	.pnc:active { -ms-background-position-x: 1px; -ms-background-position-y: -239px; }
+	.pnp:active { -ms-background-position-x: 1px; -ms-background-position-y: -79px; }
+
+
+.avt img { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 4px; background: #fff; border: 1px solid #d6d6d6; }
+
+#notice { padding-left: 24px; background: url(notice.gif) no-repeat 0 3px; }
+	#notice marquee { height: 42px; }
+
+
+/* portal */
+#hd { width: 100%; height: 150px; overflow: hidden; background: url(title.jpg) no-repeat 0 0; position: absolute; z-index: 1; margin-top: -114px; left: 50%; margin-left: -512px; }
+	ul#menu { width: 196px; overflow: hidden; zoom: 1; margin: 18px 0 0 800px; }
+	ul#menu a { width: 98px; height: 33px; zoom: 1; margin-bottom: 8px;}
+	ul#menu li { display: inline; float: left; }
+	
+	#un-back a { background: url(btn_back_1.gif) no-repeat 0 0; }
+	#un-back a.on { background: url(btn_back.gif) no-repeat 0 0; }
+	#nv_portal #un-back a { visibility: hidden; }
+	
+	#un-alhj a { background: url(btn_alhj_1.gif) no-repeat 0 0; }
+	#un-alhj a.on { background: url(btn_alhj.gif) no-repeat 0 0; }
+	
+	#un-zxsx a { background: url(btn_zxsx_1.gif) no-repeat 0 0; }
+	#un-zxsx a.on { background: url(btn_zxsx.gif) no-repeat 0 0; }
+	
+	#un-enter a { background: url(btn_enter_1.gif) no-repeat 0 0; }
+	#un-enter a.on { background: url(image/btn_enter.gif) no-repeat 0 0; }
+
+#ft { height: 30px; margin-top: 20px; }
+	
+.tab-title { height: 36px; overflow: hidden; padding:0 16px; }
+	.tb li { float: left; display: inline; margin: 1px 0 0 -1px; }
+	.tb li a { display: block; float: left; padding: 0 12px; height: 36px; line-height: 36px; font-size: 14px; }
+	.tb .a { background: #fff; font-weight: 700; }
+.tab-content { padding: 20px 16px; background: #fff; position: relative; zoom: 1; }
+
+.xfs_4 { border: 1px solid #ff8d00; }
+	.xfs_4 .tab-title { background: url(mu.png) repeat-x 0 -298px; }
+	.xfs_4 .tb li { margin-top: 0 !important; }
+	.xfs_4 .tb li a { color: #501700; border-left: 1px solid #fff; border-right: 1px solid #fff; }
+	.xfs_4 .tb .a { background: #fcffec; }
+	.xfs_4 .tab-content { background: #fcffec; }
+
+/* caselist */
+#caseContainer { background: #fff; overflow: hidden; }
+
+#caseTitle01, #caseTitle02, #caseTitle03, #caseTitle04 { height: 28px; background: url(subtitle01.gif) no-repeat; }
+	#caseTitle01 { width: 154px; background-position: 0 0; }
+	#caseTitle02 { width: 192px; background-position: 0 -28px; }
+	#caseTitle03 { width: 144px; background-position: 0 -56px; }
+	#caseTitle04 { width: 192px; background-position: 0 -84px; }
+	
+table.ts_1 { width: 100%; border-collapse: collapse; }
+table.ts_1 caption { height: 34px; vertical-align: top; }
+table.ts_1 tr { background-color: #fff; height: 32px; }
+table.ts_1 td, table.ts_1 th { border: 1px dashed #ffd369; padding: 0 5px; }
+
+table.ts_2 td { vertical-align: middle; line-height: 40px; }
+table.ts_2 button { float: right; margin-top: 5px; }
+
+.tab-content dl { margin: 8px 0; }
+
+.emth th { font-weight: 700; color: #501700; background: url(tr_gradient.png) repeat-x 0 0; }
+
+.alRowColor { background-color: #fff7b9 !important; }
+.clbr { border-right: none !important; }
+.clbl { border-left: none !important; }
+
+#ztbs { font-weight: 700; }
+
+/* rules */
+.email { color: #005aff; font-weight: 300; }

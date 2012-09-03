@@ -1,0 +1,185 @@
+<script type="text/javascript">
+	function checkform(theform) {
+		if (theform.contact.value == '') {
+			alert('{lang activiy_linkman_input}');
+			theform.contact.focus();
+			return false;
+		} else if (theform.contact.value.length > 200) {
+			alert('{lang activiy_linkman_more}');
+			theform.contact.focus();
+			return false;
+		} else if (theform.message.value.length > 200) {
+			alert('{lang activiy_guest_more}');
+			theform.message.focus();
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<div class="act pbm cl">
+	<div class="spvimg">
+		<!--{if $activity['thumb']}--><a href="javascript:;"><img src="$activity['thumb']" onclick="zoom(this, '$activity[attachurl]')" width="{if $activity[width] > 300}300{else}$activity[width]{/if}" /></a><!--{else}--><img src="{IMGDIR}/nophoto.gif" width="300" height="300" /><!--{/if}-->
+	</div>
+	<div class="spi">
+		<dl>
+			<dt>{lang activity_type}:</dt>
+			<dd><strong>$activity[class]</strong></dd>
+			<dt>{lang activity_starttime}:</dt>
+			<dd>
+				<!--{if $activity['starttimeto']}-->
+					{lang activity_start_between}
+				<!--{else}-->
+					$activity[starttimefrom]
+				<!--{/if}-->
+			</dd>
+			<dt>{lang activity_space}:</dt>
+			<dd>$activity[place]</dd>
+			<dt>{lang gender}:</dt>
+			<dd>
+				<!--{if $activity['gender'] == 1}-->
+					{lang male}
+				<!--{elseif $activity['gender'] == 2}-->
+					{lang female}
+				<!--{else}-->
+					 {lang unlimited}
+				<!--{/if}-->
+			</dd>
+			<!--{if $activity['cost']}-->
+				<dt>{lang activity_payment}:</dt>
+				<dd>$activity[cost] {lang payment_unit}</dd>
+			<!--{/if}-->
+		</dl>
+		<!--{if !$_G['forum_thread']['is_archived']}-->
+		<dl class="nums mtw">
+			<dt>{lang activity_already}:</dt>
+			<dd>
+				<em>$applynumbers</em> {lang activity_member_unit}
+				<!--{if $_G['forum_thread']['authorid'] == $_G['uid'] || $_G['group']['alloweditactivity']}-->
+					<a href="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&pid=$post[pid]{if $_G['gp_from']}&from=$_G['gp_from']{/if}" onclick="showWindow('activity', this.href)" title="{lang show}">{lang show}</a> &nbsp; <a href="forum.php?mod=misc&action=activityexport&tid=$_G[tid]" title="{lang pm_archive}">{lang pm_archive}</a>
+				<!--{/if}-->
+			</dd>
+		</dl>
+		<dl>
+			<!--{if $activity['number']}-->
+			<dt>{lang activity_about_member}</dt>
+			<dd>
+				$aboutmembers {lang activity_member_unit}
+				<!--{if $_G['forum_thread']['authorid'] == $_G['uid'] || $_G['group']['alloweditactivity']}--><a href="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&pid=$post[pid]{if $_G['gp_from']}&from=$_G['gp_from']{/if}" onclick="showWindow('activity', this.href)" title="{lang activity_apply_confirm}">{lang activity_apply_confirm}</a><!--{/if}-->
+			</dd>
+			<!--{/if}-->
+			<!--{if $activity['expiration']}-->
+				<dt>{lang post_closing}:</dt>
+				<dd>$activity[expiration]</dd>
+			<!--{/if}-->
+			<dt></dt>
+			<dd>
+				<!--{if $applied}-->
+					<!--{if !$isverified}--><p class="xg1 xs1">{lang activity_wait}</p><!--{else}--><p class="xg1 xs1">{lang activity_join_audit}</p><!--{/if}-->
+				<!--{elseif $_G['uid'] && !$activityclose}-->
+					<p class="pns"><button class="pn" value="true" name="ijoin" onclick="showDialog($('activityjoin').innerHTML, 'info', '{lang activity_join}')"><span>{lang activity_join}</span></button></p>
+				<!--{/if}-->
+			</dd>
+		</dl>
+		<!--{/if}-->
+	</div>
+</div>
+
+<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_$post[pid]">$post[message]</td></tr></table>
+
+
+<!--{if $_G['uid'] && !$activityclose && !$applied}-->
+	<div id="activityjoin" style="display:none">
+	<!--{if $_G['forum']['status'] == 3 && $isgroupuser != 'isgroupuser'}-->
+		<p>{lang activity_no_member}</p><a href="forum.php?mod=group&action=join&fid=$_G[fid]">{lang activity_join_group}</a>
+	<!--{else}-->
+		<form name="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if $_G['gp_from']}&from=$_G['gp_from']{/if}">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="c">
+				<table summary="{lang activity_join}" cellpadding="0" cellspacing="0" class="actl">
+					<tr>
+						<th>{lang activity_paytype}</th>
+						<td>
+							<label><input class="pr vm" type="radio" value="0" name="payment" checked="checked" /> {lang activity_pay_myself}</label>
+							<label><input class="pr vm" type="radio" value="1" name="payment" /> {lang activity_would_payment}</label> <input name="payvalue" size="3" class="px pxs vm" /> {lang payment_unit}
+						</td>
+					</tr>
+					<tr>
+						<th>{lang activity_linkman}</th>
+						<td><input type="text" name="contact" style="width:80%" maxlength="200" class="px" /></td>
+					</tr>
+					<tr>
+						<th>{lang leaveword}</th>
+						<td><input type="text" name="message" style="width:80%" maxlength="200" class="px" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="o pns"><button class="pn pnc" type="submit" name="activitysubmit" value="true"><span>{lang submit}</span></button></div>
+		</form>
+	<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+
+<!--{if ($_G['forum_thread']['authorid'] == $_G['uid'] || $_G['group']['alloweditactivity']) && $applylistverified}-->
+	<div class="bm als">
+		<h2>{lang activity_new_signup}</h2>
+		<ul class="ml mls cl">
+		<!--{loop $applylistverified $apply}-->	
+			<li <!--{if !$_G['forum_thread']['is_archived']}-->onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"<!--{/if}--> id="aplayuid$apply[uid]">
+				<a target="_blank" href="home.php?mod=space&uid=$apply[uid]" class="avt">{echo discuz_uc_avatar($apply[uid], 'small')}</a>
+				<p><a target="_blank" href="home.php?mod=space&uid=$apply[uid]">$apply[username]</a></p>
+			</li>
+			<div class="attp" id="aplayuid$apply[uid]_menu" style="display: none">
+				<div class="crly">
+					<!--{if $_G['forum_thread']['authorid'] == $_G['uid']}-->
+						<!--{if $apply[contact]}--><p>$apply[contact]</p><!--{/if}-->
+						<!--{if $apply[message]}--><p>$apply[message]</p><!--{/if}-->
+					<!--{/if}-->					
+					<p><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></p>
+					<p>$apply[dateline]</p>
+					<!--{if $_G['forum_thread']['authorid'] == $_G['uid']}-->
+						<p>
+							<a href="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&pid=$post[pid]&uid=$apply[uid]{if $_G['gp_from']}&from=$_G['gp_from']{/if}" onclick="hideMenu();showWindow('activity', this.href)">{lang confirm}</a> |
+							<a href="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&pid=$post[pid]&uid=$apply[uid]&operation=delete{if $_G['gp_from']}&from=$_G['gp_from']{/if}" onclick="hideMenu();showWindow('activity', this.href)">{lang activity_refuse}</a>
+						</p>
+					<!--{/if}-->
+				</div>
+				<div class="mncr"></div>
+			</div>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	<hr class="l"/>
+<!--{/if}-->
+
+<!--{if $applylist}-->
+	<div class="bm als">
+		<h2>{lang activity_new_join}</h2>
+		<ul class="ml mls cl">
+		<!--{loop $applylist $apply}-->
+			<li <!--{if !$_G['forum_thread']['is_archived']}-->onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"<!--{/if}--> id="aplayuid$apply[uid]">
+				<a target="_blank" href="home.php?mod=space&uid=$apply[uid]" class="avt">{echo discuz_uc_avatar($apply[uid], 'small')}</a>
+				<p><a target="_blank" href="home.php?mod=space&uid=$apply[uid]">$apply[username]</a></p>
+			</li>
+			<div class="attp" id="aplayuid$apply[uid]_menu" style="display: none">
+				<div class="crly">
+					<!--{if $_G['forum_thread']['authorid'] == $_G['uid']}-->
+						<!--{if $apply[contact]}--><p>$apply[contact]</p><!--{/if}-->
+					<!--{/if}-->
+					<!--{if $apply[message]}--><p>$apply[message]</p><!--{/if}-->
+					<p><!--{if $apply[payment] >= 0}-->$apply[payment] {lang payment_unit}<!--{else}-->{lang activity_self}<!--{/if}--></p>
+					<p>$apply[dateline]</p>
+					<!--{if $_G['forum_thread']['authorid'] == $_G['uid']}-->
+						<p>
+							<a href="forum.php?mod=misc&action=activityapplylist&tid=$_G[tid]&pid=$post[pid]&uid=$apply[uid]&operation=delete{if $_G['gp_from']}&from=$_G['gp_from']{/if}" onclick="hideMenu();showWindow('activity', this.href)">{lang activity_refuse}</a>
+							<a href="home.php?mod=spacecp&ac=pm&op=showmsg&handlekey=showmsg_$apply[uid]&touid=$apply[uid]&pmid=0&daterange=2" onclick="hideMenu('aplayuid{$apply[uid]}_menu');showWindow('sendpm', this.href)">{lang send_pm}</a>
+						</p>
+					<!--{/if}-->
+					</div>
+				<div class="mncr"></div>
+			</div>
+		<!--{/loop}-->
+		</ul>
+	</div>
+<!--{/if}-->

@@ -1,0 +1,9 @@
+<div class="module cl xld"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl class="ptn pbn">
+        <dd class="clmb xs1 xi2">{$item[author]} ›</dd>
+        <dt class="clp"><a href="{$item[url]}" title="{$item[name]}" target="_blank">{$item[name]}</a></dt>
+        <dd class="clmb">{$item[description]}</dd>
+    </dl>
+    <!--{/loop}-->
+</div>

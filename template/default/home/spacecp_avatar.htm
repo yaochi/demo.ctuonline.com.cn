@@ -1,0 +1,39 @@
+<!--{eval $_G[home_tpl_titles] = array('{lang modifiy_avatar}');}-->
+<!--{template common/header}-->
+	<!--{template home/spacecp_header}-->
+			<script type="text/javascript">
+				function updateavatar() {
+					window.location.reload();
+				}
+			</script>
+			<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=avatar&ref">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<caption>
+						<h2 class="wx">{lang current_my_space}</h2>
+						<p>{lang setting_avatar_message}</p>
+					</caption>
+					<tr>
+						<td>
+							<!--{avatar($space[uid],big)}-->
+						</td>
+					</tr>
+				</table>
+
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<caption>
+						<h2 class="wx">{lang setting_my_new_avatar}<br/>新头像会在24小时之内更新</h2>
+						<p>{lang setting_my_new_avatar_message}</p>
+					</caption>
+					<tr>
+						<td>
+							<script type="text/javascript">document.write(AC_FL_RunContent('{echo implode("','", $uc_avatarflash);}'));</script>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+			</form>
+		</div>
+	</div>
+	<div class="sd"></div>
+</div>
+<!--{template common/footer}-->

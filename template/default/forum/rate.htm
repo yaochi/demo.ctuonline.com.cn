@@ -1,0 +1,119 @@
+{template common/header}
+<!--{if empty($_G['gp_infloat'])}-->
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; $navigation</div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+<!--{/if}-->
+<!--
+<script type="text/javascript">
+function doshare(v) {
+	$('doshare').value = v;
+	ajaxpost('rateform', 'return_rate', 'return_rate', 'onerror');
+}
+</script>
+-->
+<!--{if $_G[gp_action] == 'rate'}-->
+<div class="tm_c" id="floatlayout_topicadmin">
+	<h3 class="flb">
+		<em id="return_rate">{lang rate}</em>
+		<span>
+			<!--{if !empty($_G['gp_infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('rate')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="rateform" method="post" autocomplete="off" action="forum.php?mod=misc&action=rate&ratesubmit=yes&infloat=yes" onsubmit="ajaxpost('rateform', 'return_rate', 'return_rate', 'onerror');">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="tid" value="$_G[tid]" />
+		<input type="hidden" name="pid" value="$_G[gp_pid]" />
+		<!--<input type="hidden" name="doshare" value="0" id="doshare" />-->
+		<!--{if !empty($_G['gp_infloat'])}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
+		<div class="c">
+			<ul class="llst">
+			<!--{loop $ratelist $id $options}-->
+				<li class="hasd cl">
+					<label for="score$id" title="{lang rate_quota_today}">{$_G['setting']['extcredits'][$id][img]} {$_G['setting']['extcredits'][$id][title]}</label>
+					<input type="text" id="score$id" name="score$id" value="0" class="px" /> 
+					<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'score$id', 'scoreoption$id')">^</a>
+					<ul id="scoreoption$id" style="display:none">$options</ul>
+				</li>
+			<!--{/loop}-->
+			</ul>
+
+			<div class="tpclg">
+				<h4>
+					<a onclick="showselect(this, 'reason', 'reasonselect')" class="dpbtn" href="javascript:;">^</a>
+					{lang admin_operation_explain}:
+				</h4>
+				<p><textarea id="reason" name="reason" class="pt" onkeyup="seditor_ctlent(event, '$(\'rateform\').ratesubmit.click()')"></textarea></p>
+				<ul id="reasonselect" style="display: none">{echo modreasonselect()}</ul>
+			</div>
+		</div>
+		<p class="o pns">
+			<button name="ratesubmit" type="submit" class="pn pnc" ><span>{lang confirms}</span></button>
+			<input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>
+		</p>
+	</form>
+</div>
+
+<!--{elseif $_G[gp_action] == 'removerate'}-->
+
+<form id="rateform" method="post" autocomplete="off" action="forum.php?mod=misc&action=removerate&ratesubmit=yes&infloat=yes" onsubmit="ajaxpost('rateform', 'return_rate', 'return_rate', 'onerror');return false;">
+<div class="f_c">
+	<h3 class="flb">
+		<em id="return_rate">{lang thread_removerate}</em>
+		<span>
+			<!--{if !empty($_G['gp_infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('rate')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>	
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="tid" value="$_G[tid]">
+	<input type="hidden" name="pid" value="$_G[gp_pid]">
+	<!--{if !empty($_G['gp_infloat'])}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
+	<div class="c floatwrap">
+		<table class="list" cellspacing="0" cellpadding="0" width="100%">
+			<thead>
+				<tr>
+					<td>&nbsp;</td>
+					<td>{lang username}</td>
+					<td>{lang time}</td>
+					<td>{lang credits}</td>
+					<td>{lang reason}</td>
+				</tr>
+			</thead>
+		<!--{loop $ratelogs $ratelog}-->
+			<tr>
+				<td><input type="checkbox" name="logidarray[]" value="$ratelog[uid] $ratelog[extcredits] $ratelog[dbdateline]" /></td>
+				<td><a href="home.php?mod=space&uid=$ratelog[uid]">$ratelog[username]</a></td>
+				<td>$ratelog[dateline]</td>
+				<td>{$_G['setting']['extcredits'][$ratelog[extcredits]][title]} <span class="bold">$ratelog[scoreview]</span> {$_G['setting']['extcredits'][$ratelog[extcredits]][unit]}</td>
+				<td>$ratelog[reason]</td>
+			</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+</div>
+<div class="o pns">
+	<label class="z"><input class="checkbox header pc" type="checkbox" name="chkall" onclick="checkall(this.form, 'logid')" /> {lang checkall}</label>
+	<label><input type="checkbox" name="sendreasonpm" id="sendreasonpm" style="vertical-align: middle" class="checkbox"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} /> <label for="sendreasonpm" />{lang admin_pm}</label>
+	{lang admin_operation_explain}: <input name="reason" class="txt" />
+	<button class="pn pnc" type="submit" value="true" name="ratesubmit"><span>{lang submit}</span></button>
+</div>
+</form>
+<!--{/if}-->
+
+<script type="text/javascript" reload="1">
+function succeedhandle_rate(locationhref) {
+	{if !empty($_G['gp_from'])}
+		location.href = locationhref;
+	{else}
+		ajaxget('forum.php?mod=viewthread&tid=$_G[tid]&viewpid={$_G['gp_pid']}', 'post_{$_G['gp_pid']}', 'post_{$_G['gp_pid']}');
+		hideWindow('rate');
+	{/if}
+}
+loadcss('forum_moderator');
+</script>
+
+<!--{if empty($_G['gp_infloat'])}-->
+	</div>
+</div>
+<!--{/if}-->
+{template common/footer}

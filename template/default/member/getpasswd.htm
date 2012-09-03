@@ -1,0 +1,35 @@
+{subtemplate common/header}
+<div id="pt" class="wp"><a href="forum.php">$_G['setting']['bbname']</a> &rsaquo; {lang getpassword}</div>
+
+<div id="ct" class="wp cl"><div class="mn"><div class="content nofloat">
+	<div class="f_c altw">
+		<form method="post" autocomplete="off" action="member.php?mod=getpasswd&uid=$uid&id=$hashid">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="postbox"><div class="alert_info">
+				{lang getpassword}
+			</div>
+			<div class="alert_act">
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th>{lang username}:</th>
+						<td>$member[username]</td>
+					</tr>
+					<tr>
+						<th>{lang new_password}:</th>
+						<td><input type="password" name="newpasswd1" size="25" /></td>
+					</tr>
+					<tr>
+						<th>{lang new_password_confirm}:</th>
+						<td><input type="password" name="newpasswd2" size="25" /><br />
+					</tr>
+					<tr>
+						<th>&nbsp;</th>
+						<td><button type="submit" class="submit" name="getpwsubmit" value="true">{lang submit}</button></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+</div></div></div>
+
+{subtemplate common/footer}

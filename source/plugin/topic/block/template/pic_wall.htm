@@ -1,0 +1,50 @@
+<div class="module cl picdiym picpictitle"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <input type="hidden" id="keys" name="keys" value="{$keys}" />
+        <input type="hidden" id="fid" name="fid" value="{$_G[fid]}" />
+        <!--{loop $listdata $k $item}-->
+        <li>
+            <a href="{$item[url]}" target="_blank" class="diyavt">
+            	<img src="{$item[imglink]}" width="{$parameter[top_pic_width]}" height="{$parameter[top_pic_height]}" alt="{$item[title]}" /></a><p class="hm">
+            	{$item[realname]} <span id="group_{$k}"></span><br />
+            人气&nbsp;<span class="xcred">{$item[views]}</span>&nbsp;
+            <a href="javascript:recommend_add('{$k}');">支持</a>&nbsp;<span id="zhichi_{$k}" class="xcred">{$item[recommend]}</span></p>
+            <input type="hidden" id="regname_{$k}" name="regname_{$k}" value="{$item[author]}" />
+        </li>
+        <!--{/loop}-->
+        <script type="text/javascript">
+            var keys=document.getElementById("keys").value;
+            strs=keys.split(","); //字符分割    
+            for (i=1;i<strs.length ;i++ )   
+            {   
+                var regname=document.getElementById("regname_"+strs[i]).value;
+                var callurl="api/sso/getuserprogroup.php?pro=group"+"&"+"regname="+regname+"&"+"ptype=1"+"&"+"tpid="+strs[i];
+                getJSONP(callurl, "getinf");
+            }
+            
+            function getinf(data) {
+                var group=data.s;
+                if(group=='中国电信集团') group='集团';
+                else group=group.substr(4,2);
+                var did="group_"+data.tpid;
+                document.getElementById(did).innerHTML="["+group+"]";
+            }
+                        
+            function recommend_add(tid){
+                var fid=document.getElementById('fid').value;
+           	    var callurl = "forum.php?mod=group" + "&" + "action=plugin&fid="+fid+"&plugin_name=topic&plugin_op=groupmenu&topic_action=recommend&tid=" + tid;
+                getJSONP(callurl, "addback");
+
+            }
+
+            function addback(data) {
+	           if(data.s == 0) alert("您不能评价自己的帖子");
+                else if(data.s == 2) alert("您已经评价过本主题了");
+                else if(data.s == 1) {
+                var num=document.getElementById("zhichi_"+data.tid).innerHTML;
+                document.getElementById("zhichi_"+data.tid).innerHTML=parseInt(num)+1;
+                }
+            }
+        </script>
+    </ul>
+</div>

@@ -1,0 +1,249 @@
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexlec" class="z">返回列表</a>
+	<div id="toolbar">
+
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<form action="{eval echo join_plugin_action('viewcomparelec')}" autocomplete="off" method="post" id="moderateform" fwin="mods" onsubmit="return validate();">
+<div id="fspanel">
+<!--{if $compare}-->
+<p>                            &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+							<select id="lecid_lef" name="orgname_lef" style="width: 150px;" onchange="leccompare()">
+							<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $leclef_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+							&nbsp;~~&nbsp;
+							<select id="lecid_rig" name="orgname_rig" style="width: 150px;" onchange="leccompare_rg()">
+														<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $lecrig_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+							&nbsp;~~&nbsp;
+							<select id="lecid_align" name="orgname_rig" style="width: 150px;" onchange="leccompare_align()">
+														<!--{loop $compare $pare}-->
+							<option value="$pare[extra_id]" <!--{if $lecalign_id==$pare[extra_id]}-->selected<!--{/if}-->>$pare[name]</option>
+							<!--{/loop}-->
+							</select>
+                            </p>
+                             <!--{else}-->
+                               <p style="text-align: center;">没有可对比的讲师信息</p>
+                            <!--{/if}-->
+
+</div>
+<!--{if $compare}-->
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<td width="50">讲师</td>
+<td style="text-align: left;" id="lecref_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lecture[id]">$lecture[name]<!--{if !$lecture[released]}-->(未审核)<!--{/if}--></a></td>
+<td style="text-align: left;" id="lecrig_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lectureriglist[id]">$lectureriglist[name]<!--{if !$lectureriglist[released]}-->(未审核)<!--{/if}--></a></td>
+<td style="text-align: left;" id="lecalign_name"><a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lecturealignlist[id]">$lecturealignlist[name]<!--{if !$lecturealignlist[released]}-->(未审核)<!--{/if}--></a></td>
+</tr>
+<tr>
+<td width="50">授课方向</td>
+<td style="text-align: left;" id="lecref_teach"><!--{if $lecture[teachdirection]=='1'}-->领导力发展及管理类<!--{elseif $lecture[teachdirection]=='2'}-->营销类<!--{elseif $lecture[teachdirection]=='3'}-->技术类<!--{/if}--></td>
+<td style="text-align: left;" id="lecrig_teach"><!--{if $lectureriglist[teachdirection]=='1'}-->领导力发展及管理类<!--{elseif $lectureriglist[teachdirection]=='2'}-->营销类<!--{elseif $lectureriglist[teachdirection]=='3'}-->技术类<!--{/if}--></td>
+<td style="text-align: left;" id="lecalign_teach"><!--{if $lecturealignlist[teachdirection]=='1'}-->领导力发展及管理类<!--{elseif $lecturealignlist[teachdirection]=='2'}-->营销类<!--{elseif $lecturealignlist[teachdirection]=='3'}-->技术类<!--{/if}--></td>
+</tr>
+<tr>
+<td width="50">工作单位</td>
+<td style="text-align: left;" id="lecref_orgname">$lecture[relationorgname] </td>
+<td style="text-align: left;" id="lecrig_orgname">$lectureriglist[relationorgname]</td>
+<td style="text-align: left;" id="lecalign_orgname">$lecturealignlist[relationorgname]</td>
+</tr>
+<tr>
+<td width="50">推荐课程</td>
+<td style="text-align: left;" id="lecref_class"><!--{if $classlist}-->
+			<!--{loop $classlist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无课程！</p>
+			<!--{/if}--></td>
+<td style="text-align: left;" id="lecrig_class"><!--{if $classriglist}-->
+			<!--{loop $classriglist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无课程！</p>
+			<!--{/if}--></td>
+			<td style="text-align: left;" id="lecalign_class"><!--{if $classriglist}-->
+			<!--{loop $classalignlist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span></p>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无课程！</p>
+			<!--{/if}--></td>
+</tr>
+<tr>
+<td width="50">推荐部门</td>
+<td style="text-align: left;" id="lecref_sugestorgname">$lecture[sugestorgname]</td>
+<td style="text-align: left;" id="lecrig_sugestorgname">$lectureriglist[sugestorgname]</td>
+<td style="text-align: left;" id="lecalign_sugestorgname">$lecturealignlist[sugestorgname]</td>
+</tr>
+<tr>
+<td width="50">讲师级别</td>
+<td  style="text-align: left;" title="$lecture[totalstars]" id="lecref_title"><span class="$lecture[stars]" id="lecref_stars"></span></td>
+<td style="text-align: left;" title="$lectureriglist[totalstars]" id="lecrig_title"><span class="$lectureriglist[stars]" id="lecrig_stars"></td>
+<td style="text-align: left;" title="$lecturealignlist[totalstars]" id="lecalign_title"><span class="$lecturealignlist[stars]" id="lecalign_stars"></td>
+</tr>
+
+
+
+<tr>
+<td width="50">培训特点</td>
+<td style="text-align: left;" id="lec_trainingtrait">$lecture[trainingtrait]</td>
+<td style="text-align: left;" id="lecrig_trainingtrait">$lectureriglist[trainingtrait]</td>
+<td style="text-align: left;" id="lecalign_trainingtrait">$lecturealignlist[trainingtrait]</td>
+</tr>
+
+<tr>
+<td width="50">授课费用</td>
+<td style="text-align: left;" id="lecref_fee">$lecture[minfee]&nbsp;-&nbsp;$lecture[maxfee] 元/天</td>
+<td style="text-align: left;" id="lecrig_fee">$lectureriglist[minfee]&nbsp;-&nbsp;$lectureriglist[maxfee] 元/天</td>
+<td style="text-align: left;" id="lecalign_fee">$lecturealignlist[minfee]&nbsp;-&nbsp;$lecturealignlist[maxfee] 元/天</td>
+</tr>
+
+<tr>
+<td width="50">背景介绍 	</td>
+<td style="text-align: left;" id="lecref_desc" ><a href="javaScript:" onclick="lecdescrview($lecture[id])">查看</a></td>
+<td style="text-align: left;" id="lecrig_desc"><a href="javaScript:" onclick="lecdescrview($lectureriglist[id])">查看</a></td>
+<td style="text-align: left;" id="lecalign_desc"><a href="javaScript:" onclick="lecdescrview($lecturealignlist[id])">查看</a></td>
+</tr>
+</tbody>
+</table>
+<!--{/if}-->
+</form>
+<script type="text/javascript">
+function validate(){
+var orglef_id=$('orgid_lef');
+var orgrig_id=$('orgid_rig');
+if(orglef_id.value=='-1'){
+showDialog('请选择要对比的机构！');
+return false;
+}if(orgrig_id.value=='-1'){
+showDialog('请选择要对比的机构！');
+return false;
+}
+}
+function leccompare(){
+var lecid=document.getElementById('lecid_lef').value;
+var url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=comparelec"+"&"+"lecid="+lecid;
+getJSONP(url,"lecdata");
+}
+function lecdata(data){
+document.getElementById('lecref_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec_id+"'>"+data.lec['name']+"</a>";
+var lecref_class='';
+if(data.lec['teachdirection']==1){
+document.getElementById('lecref_teach').innerHTML='领导力发展及管理类';
+}if(data.lec['teachdirection']==2){
+document.getElementById('lecref_teach').innerHTML='营销类';
+}if(data.lec['teachdirection']==3){
+document.getElementById('lecref_teach').innerHTML='技术类';
+}
+document.getElementById('lecref_orgname').innerHTML=data.lec['relationorgname'];
+
+if(data.class==null){
+document.getElementById('lecref_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+lecref_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</a><br>";
+document.getElementById('lecref_class').innerHTML=lecref_class;
+}else{
+lecref_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</a><br>";
+document.getElementById('lecref_class').innerHTML=lecref_class;
+}
+}
+}
+document.getElementById('lecref_sugestorgname').innerHTML=data.lec['sugestorgname'];
+document.getElementById('lecref_title').title=data.lec['totalstars'];
+document.getElementById('lecref_stars').className=data.lec['stars'];
+document.getElementById('lec_trainingtrait').innerHTML=data.lec['trainingtrait'];
+document.getElementById('lecref_fee').innerHTML=""+data.lec['minfee']+"&nbsp;-&nbsp;"+data.lec['maxfee']+"元/天";
+document.getElementById('lecref_desc').innerHTML="<a href='javaScript:' onclick='lecdescrview("+data.lec['id']+")'>查看</a>";
+}
+function leccompare_rg(){
+var lecid=document.getElementById('lecid_rig').value;
+var url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=comparelec"+"&"+"lecid="+lecid;
+getJSONP(url,"lecdatarg");
+}
+function lecdatarg(data){
+document.getElementById('lecrig_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec_id+"'>"+data.lec['name']+"</a>";
+if(data.lec['teachdirection']==1){
+document.getElementById('lecrig_teach').innerHTML='领导力发展及管理类';
+}if(data.lec['teachdirection']==2){
+document.getElementById('lecrig_teach').innerHTML='营销类';
+}if(data.lec['teachdirection']==3){
+document.getElementById('lecrig_teach').innerHTML='技术类';
+}
+document.getElementById('lecrig_orgname').innerHTML=data.lec['relationorgname'];
+var lecrig_class='';
+if(data.class==null){
+document.getElementById('lecrig_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+lecrig_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</a><br>";
+document.getElementById('lecrig_class').innerHTML=lecrig_class;
+}else{
+lecrig_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</a><br>";
+document.getElementById('lecrig_class').innerHTML=lecrig_class;
+}
+}
+}
+document.getElementById('lecrig_sugestorgname').innerHTML=data.lec['sugestorgname'];
+document.getElementById('lecrig_title').title=data.lec['totalstars'];
+document.getElementById('lecrig_stars').className=data.lec['stars'];
+document.getElementById('lecrig_trainingtrait').innerHTML=data.lec['trainingtrait'];
+document.getElementById('lecrig_fee').innerHTML=""+data.lec['minfee']+"&nbsp;-&nbsp;"+data.lec['maxfee']+"元/天";
+document.getElementById('lecrig_desc').innerHTML="<a href='javaScript:' onclick='lecdescrview("+data.lec['id']+")'>查看</a>";
+}
+function leccompare_align(){
+var lecid=document.getElementById('lecid_align').value;
+var url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=comparelec"+"&"+"lecid="+lecid;
+getJSONP(url,"lecdatalign");
+}
+function lecdatalign(data){
+document.getElementById('lecalign_name').innerHTML="<a style='color:#333333' href='forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id="+data.lec_id+"'>"+data.lec['name']+"</a>";
+if(data.lec['teachdirection']==1){
+document.getElementById('lecrig_teach').innerHTML='领导力发展及管理类';
+}if(data.lec['teachdirection']==2){
+document.getElementById('lecalign_teach').innerHTML='营销类';
+}if(data.lec['teachdirection']==3){
+document.getElementById('lecalign_teach').innerHTML='技术类';
+}
+document.getElementById('lecalign_orgname').innerHTML=data.lec['relationorgname'];
+var lecrig_class='';
+if(data.class==null){
+document.getElementById('lecalign_class').innerHTML='暂无课程！';
+}else{
+for(var i=0;i<data.class.length;i++){
+if(data.class[i]['released']==0){
+lecrig_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"(未审核)</a><br>";
+document.getElementById('lecralign_class').innerHTML=lecrig_class;
+}else{
+lecrig_class+="<a href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id="+data.class[i]['classid']+"'>"+data.class[i]['classname']+"</a><br>";
+document.getElementById('lecalign_class').innerHTML=lecrig_class;
+}
+}
+}
+document.getElementById('lecalign_sugestorgname').innerHTML=data.lec['sugestorgname'];
+document.getElementById('lecalign_title').title=data.lec['totalstars'];
+document.getElementById('lecalign_stars').className=data.lec['stars'];
+document.getElementById('lecalign_trainingtrait').innerHTML=data.lec['trainingtrait'];
+document.getElementById('lecalign_fee').innerHTML=""+data.lec['minfee']+"&nbsp;-&nbsp;"+data.lec['maxfee']+"元/天";
+document.getElementById('lecalign_desc').innerHTML="<a href='javaScript:' onclick='lecdescrview("+data.lec['id']+")'>查看</a>";
+}
+function lecdescrview(id){
+showWindow('lecdescview','forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=lecdescrview&id='+id,'get',0);
+}
+</script>

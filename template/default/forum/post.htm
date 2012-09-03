@@ -1,0 +1,463 @@
+{subtemplate common/header}
+
+{if $_G[gp_action] == 'edit'}{eval  $editor[value]= discuzcode($postinfo['message'], $postinfo['smileyoff'], $postinfo['bbcodeoff'],1, $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $postinfo['authorid'] != $_G['uid'] ? 1 : 0), 0, $postinfo['authorid'], 1, $postinfo['pid']);}
+{elseif $_G[gp_action] == 'reply'}{eval $editor[value]= discuzcode($message, $thaquote['smileyoff'], $thaquote['bbcodeoff'],1, $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $thaquote['authorid'] != $_G['uid'] ? 1 : 0), 0, $thaquote['authorid'], 1, $thaquote['pid']);}{else}{eval $editor[value] = $message;}{/if}
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
+
+<!--{block actiontitle}-->
+	<!--{if $_G['gp_action'] == 'newthread'}-->
+		<!--{if $special == 0}-->{lang post_newthread}
+		<!--{elseif $special == 1}-->{lang post_newthreadpoll}
+		<!--{elseif $special == 2}-->{lang post_newthreadtrade}
+		<!--{elseif $special == 3}-->发布新提问
+		<!--{elseif $special == 4}-->{lang post_newthreadactivity}
+		<!--{elseif $special == 5}-->{lang post_newthreaddebate}
+		<!--{elseif $specialextra}-->{$_G['setting']['threadplugins'][$specialextra][name]}
+		<!--{/if}-->
+	<!--{elseif $_G['gp_action'] == 'reply' && !empty($_G['gp_addtrade'])}-->
+		{lang trade_add_post}
+	<!--{elseif $_G['gp_action'] == 'reply'}-->
+		{lang join_thread}
+	<!--{elseif $_G['gp_action'] == 'edit'}-->
+		<!--{if $special == 2}-->{lang edit_trade}<!--{elseif $special==3}-->编辑提问<!--{elseif $special==1}-->编辑投票<!--{else}-->{lang edit_thread}<!--{/if}-->
+	<!--{/if}-->
+<!--{/block}-->
+
+<!--{block icon}-->
+	<!--{if $special == 1}-->poll
+	<!--{elseif $special == 2}-->trade
+	<!--{elseif $special == 3}-->reward
+	<!--{elseif $special == 4}-->activity
+	<!--{elseif $special == 5}-->debate
+	<!--{elseif $isfirstpost && $sortid}-->sort
+	<!--{/if}-->
+<!--{/block}-->
+
+<!--{block homenavigation}-->
+	<!--{if $homedo}-->
+		<!-- {if $_G['forum'][type]=='sub'} -->
+			&rsaquo; <a href="forum.php?mod=group&fid=$_G[forum][fid]">{$_G['forum']['name']}</a>
+		<!-- {elseif $_G['forum'][type]=='activity' } -->
+			&rsaquo; <a href="forum.php?mod=group&fid=$_G[forum][fid]">{$_G['parent']['name']}</a>
+			&rsaquo; <a href="forum.php?mod=group&fid=$_G[forum][fid]&fup=$_G[forum][fup]">活动</a>
+		<!-- {/if} -->
+
+		<!-- {if $special==3} -->
+		&rsaquo; <a href="forum.php?mod=group&action=plugin&fid=$_G[forum][fid]&plugin_name=qbar&plugin_op=groupmenu">提问吧</a>
+		<!-- {elseif $special==1} -->
+		&rsaquo; <a href="forum.php?mod=group&action=plugin&fid=$_G[forum][fid]&plugin_name=poll&plugin_op=groupmenu">投票</a>
+				<!-- {elseif $special==0} -->
+		&rsaquo; <a href="forum.php?mod=group&action=plugin&fid=$_G[forum][fid]&plugin_name=topic&plugin_op=groupmenu">话题</a>
+		<!-- {/if} -->
+	<!--{/if}-->
+<!--{/block}-->
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a>
+	&rsaquo; <a href="group.php">专区</a>
+	<!-- {if $_G[parent]} -->
+	<!--&rsaquo; <a href="forum.php?mod=group&fid=$_G[parent][fid]">$_G[parent][name]</a>  -->
+	<!-- {/if} -->
+	 $navigation$homenavigation</div>
+
+{eval $adveditor = $isfirstpost && $special || $special == 2 && ($_G['gp_action'] == 'newthread' || $_G['gp_action'] == 'reply' && !empty($_G['gp_addtrade']) || $_G['gp_action'] == 'edit' && $thread['special'] == 2);}
+{eval $advmore = !$showthreadsorts && !$special || $_G['gp_action'] == 'reply' && empty($_G['gp_addtrade']) || $_G['gp_action'] == 'edit' && !$isfirstpost && ($thread['special'] == 2 && !$special || $thread['special'] != 2);}
+
+<div id="ct" class="wp cl n">
+<div style="float: right;padding-right: 190px;padding-top: 10px;">
+	<!-- {if $special==3} -->
+    &lt;<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=qbar&plugin_op=groupmenu">返回列表</a>
+    <!-- {elseif $special==1} -->
+    &lt;<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=poll&plugin_op=groupmenu">返回列表</a>
+   	<!-- {elseif $special==0} -->
+   	&lt;<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=topic&plugin_op=groupmenu">返回列表</a>
+   	<!-- {/if} -->
+    </div>
+	<ul class="tb cl">
+        <li <!--{if $_G[gp_plugin_op]!='importmenu'}-->class="a"<!--{/if}--> > <a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu"><!--{if $_G[gp_action]=="edit"}-->编辑<!--{else}-->新建<!--{/if}--></a></li>
+        <!--{if $_G["forum"]["type"]=="activity"}-->
+        <li <!--{if $_G[gp_plugin_op]=='importmenu'}-->class="a"<!--{/if}-->><a href="forum.php?mod=activity&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=importmenu">从专区导入</a></li>
+        <!--{/if}-->
+    </ul>
+	<div class="mn">
+		<div class="ch">
+			<label class="wx{if $_G['basescript'] == 'forum' && $homedo} home{elseif $_G[gp_from] == 'portal'} portal{/if}">
+				<!--{if $_G['basescript'] == 'forum' && $_G['forum']['status'] != 3 && !$homedo}-->
+					<!--{if $_G[gp_from] != 'portal'}-->
+						<a href="$_G[setting][navs][2][filename]">$_G[setting][navs][2][navname]</a>
+					<!--{else}-->
+						<a href="portal.php">{lang portal}</a>
+					<!--{/if}-->
+				<!--{elseif $_G['basescript'] == 'group' || $_G['forum']['status'] == 3}-->
+					<a href="$_G[setting][navs][3][filename]">$_G[setting][navs][3][navname]</a>
+				<!--{elseif $_G['basescript'] == 'forum' && $homedo}-->
+					<a href="$_G[setting][navs][3][filename]">$_G[setting][navs][4][navname]</a>
+				<!--{/if}-->
+			</label>
+			{hook/post_header}
+			<!--{if $_G[gp_action] == 'newthread'}-->
+				<!--{if !$homedo}-->
+					<button type="button" class="pn" onclick="window.location.href='$returnurl';"><em>&lsaquo; {lang return_forumdisplay}</em></button>
+				<!--{else}-->
+					<button type="button" class="pn" onclick="window.location.href='home.php?mod=space&do=$homedo';"><em>&lsaquo; {lang post_back_space}</em></button>
+				<!--{/if}-->
+			<!--{else}-->
+				<button type="button" class="pn" onclick="window.location.href='forum.php?mod=viewthread&tid=$_G[tid]{if $_G[gp_from]}&from=$_G[gp_from]{/if}'"><em>&lsaquo; {lang post_back_topic}</em></button>
+			<!--{/if}-->
+		</div>
+		<form method="post" autocomplete="off" id="postform"
+			{if $_G[gp_action] == 'newthread'}action="forum.php?mod=post&action={if $special != 2}newthread{else}newtrade{/if}&fid=$_G[fid]&extra=$extra&topicsubmit=yes"
+			{elseif $_G[gp_action] == 'reply'}action="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$extra&replysubmit=yes"
+			{elseif $_G[gp_action] == 'edit'}action="forum.php?mod=post&action=edit&extra=$extra&editsubmit=yes&mod=$mod" $enctype
+			{/if}
+			onsubmit="return validate(this)">
+			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+            <input type="hidden" name="plugin_name" id="plugin_name" value="$_G[gp_plugin_name]" />
+            <input type="hidden" name="plugin_op" id="plugin_name" value="$_G[gp_plugin_op]" />
+            <input type="hidden" name="special" value="$_G[gp_special]" />
+			<input type="hidden" name="fid" id="fid" value="$_G[gp_fid]" />
+			<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+			<!--{if !empty($_G['gp_modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_G['gp_modthreadkey']" /><!--{/if}-->
+			<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+			<!--{if $_G[gp_action] == 'reply'}-->
+				<input type="hidden" name="noticeauthor" value="$noticeauthor" />
+				<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+				<input type="hidden" name="noticeauthormsg" value="$noticeauthormsg" />
+			<!--{/if}-->
+			<!--{if $_G[gp_action] == 'edit'}-->
+				<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
+				<input type="hidden" name="tid" value="$_G[tid]" />
+				<input type="hidden" name="pid" value="$pid" />
+				<input type="hidden" name="page" value="$_G[gp_page]" />
+			<!--{/if}-->
+			<!--{if $special}-->
+				<input type="hidden" name="empiricalvalue" id="empiricalvalue" value="$empiricalvalue"/>
+
+			<!--{/if}-->
+			<!--{if $specialextra}-->
+				<input type="hidden" name="specialextra" value="$specialextra" />
+			<!--{/if}-->
+			
+				<input type="hidden" name="anonymity" id="anonymity" value="" />
+			<div class="bm cl"{if !$showthreadsorts && !$adveditor} id="editorbox"{/if}>
+				<h1 id="sti" class="mt">
+					<em class="wx $icon" id="returnmessage">
+						$actiontitle
+						<!--{if $showthreadsorts}--> $_G['forum'][threadsorts][types][$sortid]<!--{/if}-->
+						<!--{if $_G[gp_action] == 'newthread' && $modnewthreads}--><span class="xg1">({lang approve})</span><!--{/if}-->
+						<!--{if $_G[gp_action] == 'reply' && $modnewreplies}--><span class="xg1">({lang approve})</span><!--{/if}-->
+					</em>
+				</h1>
+				<div id="postbox">
+					{hook/post_top}
+					<div class="pbt cl">
+						<div class="z">
+							<!--{if !$special && ($threadsorts = $_G['forum']['threadsorts']) && ($_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost && !$thread['sortid'])}-->
+							<div class="ftid">
+								<select name="sortid" id="sortid" change="switchsort()">
+								<!--{if !$_G['forum']['threadsorts']['required']}--><option value="0">{lang threadtype_option}</option><!--{/if}-->
+								<!--{loop $threadsorts[types] $tsortid $name}-->
+									<option value="$tsortid"{if $sortid == $tsortid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+								<!--{/loop}-->
+								</select>
+							</div>
+							<!--{/if}-->
+							<!--{if $_G[gp_action] == 'edit' && $isfirstpost && $sortid}-->
+								<input type="hidden" name="sortid" value="$sortid" />
+							<!--{/if}-->
+							<!--{if $isfirstpost && !empty($_G['forum'][threadtypes][types])}-->
+							<div class="ftid">
+								<select name="typeid" id="typeid">
+								<option value="0">{lang types}</option>
+								<!--{loop $_G['forum'][threadtypes][types] $typeid $name}-->
+									<option value="$typeid"{if $thread['typeid'] == $typeid || $_G['gp_typeid'] == $typeid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+								<!--{/loop}-->
+								</select>
+							</div>
+							<!--{/if}-->
+						</div>
+
+						<!--{if $_G[gp_action] == 'reply' && !empty($_G['gp_addtrade']) || $_G[gp_action] == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
+							<input name="subject" type="hidden" value="" />
+						<!--{else}-->
+							<!--{if $_G[gp_action] != 'reply'}-->
+								<span><input type="text" name="subject" id="subject" class="px" value="$postinfo[subject]" tabindex="1" style="width: 25em" /></span>
+							<!--{else}-->
+								<span id="subjecthide" class="z">RE: $thread[subject]
+									<!-- {if $thread[special]!=3} -->
+										[<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');$('subject').value='RE: {echo htmlspecialchars(str_replace('\'', '\\\'', $thread[subject]))}'">{lang modify}</a>]
+									<!-- {/if} -->
+								</span>
+								<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" tabindex="1" style="width: 25em" /></span>
+							<!--{/if}-->
+						<!--{/if}-->
+						<!--{if $_G[gp_action] == 'edit' && ($isfirstpost && $thread['replies'] < 1 || !$isfirstpost && ($isorigauthor || $_G['forum']['ismoderator']))}-->
+							<!--{if !$rushreply}-->
+							<div class="y"><input type="checkbox" name="delete" id="delete" class="pc" value="1" title="{lang post_delpost}{if $thread[special] == 3}{lang reward_price_back}{/if}"><label for="delete">{lang delete_check}</label></div>
+							<!--{/if}-->
+						<!--{/if}-->
+					</div>
+					<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand) && $_G[gp_action] != 'edit'}-->
+					<div class="pbt cl">
+						<div class="ftid">
+							<select name="stand" id="stand">
+								<option value="">{lang debate_viewpoint}</option>
+								<option value="0">{lang debate_neutral}</option>
+								<option value="1"{if $stand == 1} selected="selected"{/if}>{lang debate_square}</option>
+								<option value="2"{if $stand == 2} selected="selected"{/if}>{lang debate_opponent}</option>
+							</select>
+						</div>
+					</div>
+					<!--{/if}-->
+			<!--{if $showthreadsorts}-->
+				<div class="exfm cl" id="threadsorts">
+					<span id="threadsortswait"></span>
+				</div>
+			<!--{elseif $adveditor}-->
+				<!--{if $special == 1}-->{template forum/post_poll}
+				<!--{elseif $special == 2 && ($_G[gp_action] != 'edit' || ($_G[gp_action] == 'edit' && ($thread['authorid'] == $_G['uid'] && $_G['group']['allowposttrade'] || $_G['group']['allowedittrade'])))}-->{template forum/post_trade}
+				<!--{elseif $special == 3}-->{template forum/post_reward}
+				<!--{elseif $special == 4}-->{template forum/post_activity}
+				<!--{elseif $special == 5}-->{template forum/post_debate}
+				<!--{elseif $specialextra}--><div class="specialpost s_clear">$threadplughtml</div>
+				<!--{/if}-->
+			<!--{/if}-->
+
+
+            <div class="pbt cl">
+            <!--{if $is_enable_category}-->
+	            <strong>分类:</strong>
+	            <select name="category" id="category">
+	            	<!-- {if !$required} --><option value="0">--请选择--</option><!--{/if}-->
+	            	<!-- {if $categorys}-->
+			            <!-- {loop $categorys $id $cat}-->
+			            	<option value="$id" <!--{if $thread[category_id]==$id||$classid==$id}-->selected<!--{/if}--> >$cat[name]</option>
+			            <!--{/loop}-->
+	            	<!-- {/if}  -->
+
+	            </select>
+            <!--{/if}-->
+            </div>
+
+
+			<div class="edt">
+			<script charset="utf-8" src="static/js/kindeditor/kindeditor.js"></script>
+			<script>
+			var editor;
+        	KindEditor.ready(function(K) {
+                editor = K.create('#{$editorid}_textarea', {
+					resizeType : 0,
+					items : [
+						'source', '|', 'undo', 'redo', '|',   'cut', 'copy', 'paste',
+						'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+						'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+						'superscript', 'clearhtml', 'quickformat', 'selectall', 'fullscreen', '/',
+						'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+						'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','media',
+						'insertfile', 'table', 'hr', 'pagebreak',
+						'link', 'unlink'
+						]
+			});
+        	});
+			</script>
+
+				<div class="area" style="border: 1px solid #bfbfbf;">
+					<textarea name="$editor[textarea]" id="{$editorid}_textarea" style="width:100%;height:300px;visibility:hidden;">$editor[value]</textarea>
+				</div>
+
+			</div>
+
+			{hook/post_middle}
+
+			<!--{if $_G['group']['maxprice'] && ($_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost)}-->
+				<div class="mtm">
+					<!--{if $_G['setting']['maxincperthread']}--><img src="{IMGDIR}/arrow_right.gif" />{lang post_price_income_comment}<!--{/if}-->
+					<!--{if $_G['setting']['maxchargespan']}--><img src="{IMGDIR}/arrow_right.gif" />{lang post_price_charge_comment}<!--{if $_G[gp_action] == 'edit' && $freechargehours}-->{lang post_price_free_chargehours}<!--{/if}--><!--{/if}-->
+				</div>
+			<!--{/if}-->
+
+			<!--{if $_G[gp_action] != 'edit' && checkperm('seccode') && ($secqaacheck || $seccodecheck)}-->
+				{block sectpl}<sec> <span id="sec<hash>" onclick="showMenu(this.id)"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div>{/block}
+				<div class="mtm">{template common/seccheck}</div>
+			<!--{/if}-->
+
+			<div class="mtm">
+				<!--{if $_G[gp_action] == 'newthread' && $_G['setting']['sitemessage'][newthread] || $_G[gp_action] == 'reply' && $_G['setting']['sitemessage'][reply]}-->
+					<a href="javascript:;" id="custominfo" class="y">&nbsp;<img src="{IMGDIR}/info_small.gif" alt="{lang faq}" /></a>
+				<!--{/if}-->
+				<!--{if false}-->
+				<!--<a href="home.php?mod=spacecp&ac=credit&op=rule&fid=$_G['fid']" class="y" target="_blank">{lang post_credits_rule}</a>-->
+				<!--{/if}-->
+				<button type="submit" id="postsubmit" class="pn pnc" value="true" name="{if $_G[gp_action] == 'newthread'}topicsubmit{elseif $_G[gp_action] == 'reply'}replysubmit{elseif $_G[gp_action] == 'edit'}editsubmit{/if}" tabindex="1">
+				<span>
+				<!--{if $_G[gp_action] == 'newthread'}-->
+					<!--{if $special == 0}-->{lang post_newthread}
+					<!--{elseif $special == 1}-->{lang post_newthreadpoll}
+					<!--{elseif $special == 2}-->{lang post_newthreadtrade}
+					<!--{elseif $special == 3}-->发表提问
+					<!--{elseif $special == 4}-->{lang post_newthreadactivity}
+					<!--{elseif $special == 5}-->{lang post_newthreaddebate}
+					<!--{elseif $special == 127}-->
+						<!--{if $buttontext}-->$buttontext<!--{else}-->{lang post_newthread}<!--{/if}-->
+					<!--{/if}-->
+				<!--{elseif $_G[gp_action] == 'reply' && !empty($_G['gp_addtrade'])}-->{lang trade_add_post}
+				<!--{elseif $_G[gp_action] == 'reply'}-->{lang join_thread}
+				<!--{elseif $_G[gp_action] == 'edit'}-->{lang edit_save}
+				<!--{/if}-->
+				</span>
+				</button>
+			</div>
+			{hook/post_bottom}
+		</div>
+	</div>
+
+	</div>
+
+	<div id="psd" class="sd">
+		<div class="h bbs"><h3 class="bn">{lang post_additional_options}</h3></div>
+		<div class="bn">
+			{hook/post_side_top}
+		<!--{if $_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost}-->
+			<!--{if $_G['group']['allowsetreadperm']}-->
+			<p>{lang readperm}:</p>
+			<p><input type="text" name="readperm" class="px pxs" value="$thread[readperm]" tabindex="1" /> {lang post_zero_is_nopermission}</p>
+			<hr class="bk" />
+			<!--{/if}-->
+			<!--{if $_G['group']['maxprice'] && !$special}-->
+			<p>{lang price}({$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}):</p>
+			<p><input type="text" name="price" class="px pxs" value="$thread[pricedisplay]" tabindex="1" /> {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][unit]} <span title="{lang post_price_free_comment}">{lang post_price_comment}</span>
+			<hr class="bk" />
+			<!--{/if}-->
+		<!--{/if}-->
+
+		<!--{if ($_G['forum']['allowhtml'] || ($_G[gp_action] == 'edit' && ($orig['htmlon'] & 1))) && $_G['group']['allowhtml']}-->
+			<p class="mbn"><input type="checkbox" name="htmlon" id="htmlon" class="pc" value="1" $htmloncheck disabled="disabled" checked="checked"/><input type="hidden" name="htmlon" value="1"/><label for="htmlon">{lang post_html}</label></p>
+		<!--{else}-->
+			<p class="mbn"><input type="checkbox" name="htmlon" id="htmlon" class="pc" value="0" $htmloncheck disabled="disabled"/><label for="htmlon">{lang post_html}</label></p>
+		<!--{/if}-->
+		<p class="mbn"><input type="checkbox" id="allowimgcode" class="pc" disabled{if $_G['forum']['allowimgcode']} checked="checked"{/if} /><label for="allowimgcode">{lang post_imgcode}</label></p>
+		<p class="mbn"><input type="checkbox" name="parseurloff" id="parseurloff" class="pc" value="1" $urloffcheck tabindex="1" /><label for="parseurloff">{lang disable} {lang post_parseurl}</label></p>
+		<p class="mbn"><input type="checkbox" name="smileyoff" id="smileyoff" class="pc" value="1" $smileyoffcheck tabindex="1" /><label for="smileyoff">{lang disable} {lang smilies}</label></p>
+		<p class="mbn"><input type="checkbox" name="bbcodeoff" id="bbcodeoff" class="pc" value="1" $codeoffcheck tabindex="1" /><label for="bbcodeoff">{lang disable} {lang discuzcode}</label></p>
+
+		<hr class="bk" />
+
+		<!--{if $_G['uid'] && ($_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost) && $special != 3}-->
+			<p class="mbn"><input type="checkbox" name="ordertype" id="ordertype" class="pc" value="1" $ordertypecheck tabindex="1" /><label for="ordertype">{lang post_descview}</label></p>
+		<!--{/if}-->
+
+		<hr class="bk" />
+
+		<!--{if $_G[gp_action] == 'newthread' && $_G['forum']['ismoderator'] && ($_G['group']['allowdirectpost'] || !$_G['forum']['modnewposts'])}-->
+			<!--{if $_G[gp_action] == 'newthread' && $_G['forum']['ismoderator'] && ($_G['group']['allowdirectpost'] || !$_G['forum']['modnewposts'])}-->
+				<p class="mbn"><input type="checkbox" name="sticktopic" id="sticktopic" class="pc" value="1" $stickcheck tabindex="1" /><label for="sticktopic">{lang post_stick_thread}</label></p>
+				<p class="mbn"><input type="checkbox" name="addtodigest" id="addtodigest" class="pc" value="1" $digestcheck tabindex="1" /><label for="addtodigest">{lang post_digest_thread}</label></p>
+			<!--{/if}-->
+		<!--{elseif $_G[gp_action] == 'edit' && $_G['forum_auditstatuson']}-->
+			<p class="mbn"><input type="checkbox" name="audit" id="audit" class="pc" value="1"><label for="audit">{lang auditstatuson}</label></p>
+		<!--{/if}-->
+		<!--{if $_G[gp_action] != 'edit' && $_G['forum']['allowfeed']}-->
+			<p class="mbn"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck><label for="addfeed">{lang addfeed}</label></p>
+		<!--{/if}-->
+		<!--{if $_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost}-->
+			<p class="mbn"><input type="checkbox" name="hiddenreplies" id="hiddenreplies"{if $thread['hiddenreplies']} class="pc" checked="checked"{/if} value="1"><label for="hiddenreplies">{lang hiddenreplies}</label></p>
+		<!--{/if}-->
+		<!--{if $_G[gp_action] == 'newthread' && $_G['group']['allowpostrushreply']&&$special!=3}-->
+				<p class="mbn"><input type="checkbox" name="rushreply" id="rushreply" class="pc" value="1"><label for="rushreply">{lang rushreply}</label></p>
+		<!--{/if}-->
+		<!--{if $_G[gp_action] == 'edit' && getstatus($thread['status'], 3)}-->
+				<p class="mbn"><input type="checkbox" disabled="disabled" class="pc" checked="checked"><label for="rushreply">{lang rushreply}</label></p>
+		<!--{/if}-->
+
+		<hr class="bk" />
+		<!--{if $_G[gp_action] == 'newthread' || ($_G[gp_action] != 'newthread' && $special == 0)}-->
+			<!-- 话题的新建和回复，都有匿名发布功能；投票和提问吧，新建有匿名功能，回复则没有匿名功能 -->
+			<p class="mbn"><input type="checkbox" name="isanonymity" id="isanonymity" class="pc" value="-1" tabindex="1" /><label for="isanonymity">{lang post_anonymous}</label></p>
+		<!--{/if}-->
+			</div>
+			{hook/post_side_bottom}
+		</div>
+	</div>
+</form>
+</div>
+
+<div id="{$editorid}_menus" class="editorrow" style="overflow: hidden; margin-top: -5px; height: 0; border: none; background: transparent;">
+	{subtemplate common/editor_menu}
+	{subtemplate forum/editor_menu_forum}
+</div>
+
+<!--{if $special}-->
+<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<!--{/if}-->
+<script type="text/javascript">
+	var editorsubmit = $('postsubmit');
+	var editorform = $('postform');
+	var allowpostattach = parseInt('{$_G['group']['allowpostattach']}');
+	var allowpostimg = parseInt('$allowpostimg');
+	var pid = parseInt('$pid');
+	var extensions = '{$_G['group']['attachextensions']}';
+	var imgexts = '$imgexts';
+	var postminchars = parseInt('$_G['setting']['minpostsize']');
+	var postmaxchars = parseInt('$_G['setting']['maxpostsize']');
+	var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
+	var seccodecheck = parseInt('$seccodecheck');
+	var secqaacheck = parseInt('$secqaacheck');
+	var typerequired = parseInt('{$_G[forum][threadtypes][required]}');
+	var sortrequired = parseInt('{$_G[forum][threadsorts][required]}');
+	var special = parseInt('$special');
+	var isfirstpost = {if $isfirstpost}1{else}0{/if};
+	var allowposttrade = parseInt('{$_G['group']['allowposttrade']}');
+	var allowpostreward = parseInt('{$_G['group']['allowpostreward']}');
+	var allowpostactivity = parseInt('{$_G['group']['allowpostactivity']}');
+	var sortid = parseInt('$sortid');
+	var special = parseInt('$special');
+	var fid = $_G['fid'];
+
+	{if $isfirstpost && !empty($_G[forum][threadtypes][types])}
+		simulateSelect('typeid');
+	{/if}
+	{if !$isfirstpost && $thread['special'] == 5 && empty($firststand) && $_G[gp_action] != 'edit'}
+		simulateSelect('stand');
+	{/if}
+	{if !$special && $_G[forum][threadsorts] && ($_G[gp_action] == 'newthread' || $_G[gp_action] == 'edit' && $isfirstpost && !$thread[sortid])}
+		simulateSelect('sortid');
+		function switchsort() {
+			if($('sortid').value) {
+				saveData(1);
+				{if $isfirstpost && $sortid}
+					ajaxget('forum.php?mod=post&action=threadsorts&sortid=' + $('sortid').value + '&fid=$_G[fid]{if !empty($modelid)}&modelid=$modelid{/if}{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+				{else}
+					location.href = 'forum.php?mod=post&action=$_G[gp_action]&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra{if !$sortid}&cedit=yes{/if}&sortid=' + $('sortid').value;
+				{/if}
+				Editorwin = 0;
+			}
+		}
+	{/if}
+	{if $isfirstpost}
+		{if $sortid}
+			ajaxget('forum.php?mod=post&action=threadsorts&sortid=$sortid&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}&inajax=1{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+		{elseif $_G['forum']['threadsorts']['required'] && !$special}
+			{eval $threadsortids = array_keys($threadsorts[types]);}
+			ajaxget('forum.php?mod=post&action=threadsorts&sortid={$threadsortids[0]}&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}&inajax=1{if !empty($_G[gp_modthreadkey])}&modthreadkey=$_G[gp_modthreadkey]{/if}', 'threadsorts', 'threadsortswait', null, null, function () { seteditorcontrolpos(); });
+		{/if}
+	{/if}
+
+	{if $_G[gp_action] == 'newthread' && $_G['setting']['sitemessage'][newthread] || $_G[gp_action] == 'reply' && $_G['setting']['sitemessage'][reply]}
+		showPrompt('custominfo', 'click', '{if $_G[gp_action] == 'newthread'}{echo trim($_G['setting']['sitemessage'][newthread][array_rand($_G['setting']['sitemessage'][newthread])])}{elseif $_G[gp_action] == 'reply'}{echo trim($_G['setting']['sitemessage'][reply][array_rand($_G['setting']['sitemessage'][reply])])}{/if}', $_G['setting']['sitemessage'][time]);
+	{/if}
+	{if $_G['setting']['swfupload'] != 1 && $_G['group']['allowpostattach']}addAttach();{/if}
+	{if $_G['setting']['swfupload'] != 1 && $allowpostimg}addAttach('img');{/if}
+	
+	/*
+	** 匿名发布checkbox点击后，向hidden框填充
+	*/
+	jQuery('#isanonymity').live('click', function(){
+			if (jQuery(this).attr('checked') == 'checked') {
+				jQuery('#anonymity').val('-1');
+			}else{
+				jQuery('#anonymity').val('');
+			}
+		});
+</script>
+
+{subtemplate common/footer}

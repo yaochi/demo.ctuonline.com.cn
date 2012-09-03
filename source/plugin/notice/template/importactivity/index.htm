@@ -1,0 +1,29 @@
+<div class="center_zqsy_left" id="">
+	<form method="post" action="{eval echo join_plugin_action('create')}">
+	<input type="hidden" name="fid" value="$_G[fid]" />
+    <div class="wdlb_nr"><div class="wd5">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_skjl">
+        <tbody><tr>
+          <td height="30" width="5%">&nbsp;</td>
+          <td height="30" width="29%">通知公告</td>
+          <td width="11%">作者</td>
+          <td width="13%">最后发表时间</td>
+          </tr>
+		<!--{loop $data $topic}-->
+		<tr>
+			<td>
+            <input type="checkbox" value="$topic[id]" name="ids[]">
+			</td>
+			<td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=notice&plugin_op=viewmenu&diy=&noticeid=$topic[id]&notice_action=index" target="_blank">$topic[title]</a></td>
+			<td>$topic[realname]</td>
+			<td>$topic[dateline]</td>
+		</tr>
+		<!--{/if}-->
+      </tbody></table>
+    </div></div>
+        <button type="submit" class="pn pnc" id="submit" name="submit">
+            <strong>导入</strong>
+        </button>
+	</form>
+	$multipage
+</div>

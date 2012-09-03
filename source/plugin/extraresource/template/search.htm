@@ -1,0 +1,158 @@
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/questionary/js/questionary_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=$mod&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&extraresource_action=indexclass&" class="fourWord y">&#43;&nbsp;新建资源</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="sortbtn" class="iconbtn y pressed" href="#" onclick="changesort(this)"><img src="{IMGDIR}/esn/btn_sort.png" width="18" height="16" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<form action="{eval echo join_plugin_action('search')}" autocomplete="off" method="post" id="moderateform" fwin="mods">
+<div id="fspanel">
+<p>
+                            <strong>全局搜索:</strong>
+							<input type="text" name="groupsearch" style="width: 204px;" onclick="this.value=''" value="$groupsearch" class="px vm" id="groupsearch" name="srchtxt">
+                            &nbsp;<button class="pn vm" type="submit"><strong>搜索</strong></button>
+							<button type="button" name="cleanName" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu'" class="pn"><em>清空</em></button>
+  </p>
+</div>
+</form>
+<div style="position: relative;" id="threadlist" class="bm">
+<ul>
+  <div class="ssjg_fl">
+  	<div class="ssjg_flbt">课程</div>
+	<div class="ssjg_flnr">
+	<!--{if $classlist}-->
+		<ul>
+		<!--{loop $classlist $class}-->
+			<li><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[id]">$class[name]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span><span class="xg1">$class[sugestorgname] | $class[sugestdateline] | <!--{if $class[status]=='1'}-->
+<a href="javaScript:classcompare($class[id])" id="class_$class[id]">取消信息对比</a>
+<!--{elseif $class[status]=='0'}-->
+<a href="javaScript:classcompare($class[id])" id="class_$class[id]">加入信息对比</a>
+<!--{else}-->
+<a href="javaScript:classcompare($class[id])" id="class_$class[id]">加入信息对比</a>
+<!--{/if}--></span><span class="$class[stars] y"></span></li>
+		<!--{/loop}-->
+		</ul>
+	<!--{else}-->
+		<ul>
+			<li><span  class="xg1">本分类下暂无结果</span></li>
+		</ul>
+	<!--{/if}-->
+	</div>
+  </div>
+  <div class="ssjg_fl">
+  	<div class="ssjg_flbt">讲师</div>
+	<div class="ssjg_flnr">
+	<!--{if $leclist}-->
+		<ul>
+			<!--{loop $leclist $lec}-->
+			<li><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewlec&id=$lec[id]">$lec[name]</a></span><span class="xg1">$lec[sugestorgname] | $lec[sugestdateline] | <!--{if $lec[status]=='1'}-->
+<a href="javaScript:leccompare($lec[id])" id="lec_$lec[id]">取消信息对比</a>
+<!--{elseif $lec[status]=='0'}-->
+<a href="javaScript:leccompare($lec[id])" id="lec_$lec[id]">加入信息对比</a>
+<!--{else}-->
+<a href="javaScript:leccompare($lec[id])" id="lec_$lec[id]">加入信息对比</a>
+<!--{/if}--></span><span class="$lec[stars] y"></span></li>
+			<!--{/loop}-->
+		</ul>
+	<!--{else}-->
+		<ul>
+			<li><span  class="xg1">本分类下暂无结果</span></li>
+		</ul>
+	<!--{/if}-->
+	</div>
+  </div>
+  <div class="ssjg_fl">
+  	<div class="ssjg_flbt">培训机构</div>
+	<div class="ssjg_flnr">
+	<!--{if $orglist}-->
+		<ul>
+			<!--{loop $orglist $org}-->
+			<li><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$org[id]">$org[name]</a></span><span class="xg1">$org[sugestorgname] | $org[sugestdateline] | <!--{if $org[status]=='1'}-->
+<a href="javaScript:orgcompare($org[id])" id="org_$org[id]">取消信息对比</a><br>
+<!--{elseif $org[status]=='0'}-->
+<a href="javaScript:orgcompare($org[id])" id="org_$org[id]">加入信息对比</a><br>
+<!--{else}-->
+<a href="javaScript:orgcompare($org[id])" id="org_$org[id]">加入信息对比</a><br>
+<!--{/if}--></span><span class="$org[stars] y"></span></li>
+
+    <!--{/loop}-->
+		</ul>
+	<!--{else}-->
+		<ul>
+			<li><span  class="xg1">本分类下暂无结果</span></li>
+		</ul>
+	<!--{/if}-->
+	</div>
+  </div>
+</div>
+<div class="cl mtw fpr" id="lecturerlist"></div>
+<script>
+function validate(){
+	var groupsearch=$('groupsearch').value;
+	if(groupsearch.length==0){
+		showDialog("请填写要查找的内容的名称！");
+		return false;
+	}
+}
+function classcompare(classid){
+var status=document.getElementById("class_"+classid).innerHTML;
+var url="";
+if(status=="取消信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompareclass"+"&"+"id="+classid+"&type=delcompare";
+getJSONP(url,"classurldata");
+}if(status=="加入信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompareclass"+"&"+"id="+classid+"&type=addcompare";
+getJSONP(url,"classurldata");
+}
+}
+function classurldata(data){
+if(data.is==0){
+document.getElementById("class_"+data.id).innerHTML="加入信息对比";
+}if(data.is==1){
+document.getElementById("class_"+data.id).innerHTML="取消信息对比";
+}
+}
+function leccompare(lecid){
+var status=document.getElementById('lec_'+lecid).innerHTML;
+var url="";
+if(status=="取消信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracomparelec"+"&"+"id="+lecid+"&type=delcompare";
+getJSONP(url,"lecurldata");
+}if(status=="加入信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracomparelec"+"&"+"id="+lecid+"&type=addcompare";
+getJSONP(url,"lecurldata");
+}
+}
+function lecurldata(data){
+if(data.is==0){
+document.getElementById('lec_'+data.id).innerHTML="加入信息对比";
+}if(data.is==1){
+document.getElementById('lec_'+data.id).innerHTML="取消信息对比";
+}
+}
+function orgcompare(orgid){
+var status=document.getElementById('org_'+orgid).innerHTML;
+var url="";
+if(status=="取消信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompare"+"&"+"id="+orgid+"&type=delcompare";
+getJSONP(url,"orgurldata");
+}if(status=="加入信息对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompare"+"&"+"id="+orgid+"&type=addcompare";
+getJSONP(url,"orgurldata");
+}
+}
+function orgurldata(data){
+if(data.is==0){
+document.getElementById('org_'+data.id).innerHTML="加入信息对比";
+}if(data.is==1){
+document.getElementById('org_'+data.id).innerHTML="取消信息对比";
+}
+}
+</script>

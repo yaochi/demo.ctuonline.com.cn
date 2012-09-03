@@ -1,0 +1,70 @@
+<link rel="stylesheet"
+	href="source/plugin/sharesource/assets/style/learning.css?{VERHASH}"
+	type="text/css" />
+<script type="text/javascript"
+	src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+<div id="plgnav" class="bbsgroup"><a id="backbtn"
+	href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a> <!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+<a id="createbtn"
+	href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu"
+	class="sixWord y">我要分享</a> <!--{/if}-->
+	<div id="toolbar">
+	<h2>政企培训资源列表</h2>
+	</div>
+	</div>
+
+<div id="fspanel">
+<table>
+	<tr id="nav_category">
+		<th>分类:</th>
+		<td class="piped"><a
+			href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=sharesource&plugin_op=groupmenu&type=0"
+			class="<!--{if $type==0}-->a<!--{/if}-->">全部</a> <a
+			href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=sharesource&plugin_op=groupmenu&type=1"
+			class="<!--{if $type==1}-->a<!--{/if}-->">领导力与管理类</a> <a
+			href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=sharesource&plugin_op=groupmenu&type=2"
+			class="<!--{if $type==2}-->a<!--{/if}-->">营销力与专业类</a> <a
+			href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=sharesource&plugin_op=groupmenu&type=3"
+			class="<!--{if $type==3}-->a<!--{/if}-->">通用类</a> <a
+			href="forum.php?mod=$mod&action=plugin&fid=$_G['fid']&plugin_name=sharesource&plugin_op=groupmenu&type=-1"
+			class="<!--{if $type==-1}-->a<!--{/if}-->">$uname</a></td>
+	</tr>
+</table>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+<div id="lecturerlist" class="tl" style="position: relative;"><!--{if !$list}-->
+<p class="xg1 hm">暂时还没有课程分享记录！</p>
+<!--{else}-->
+<table width="100%" border="0" cellpadding="0" cellspacing="0"
+	style="font-family:'微软雅黑'; font-size:12px;">
+	<tr>
+		<td width="40%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555; text-indent:8px;">课程名称</td>
+		<td width="20%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555;">讲师</td>
+		<td width="15%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555;">分享人</td>
+		<td width="10%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555; text-align:center;">评论数</td>
+		<td width="15%" height="36" bgcolor="#F8F8F8"
+			style="font-weight:bold; color:#555;">最后回复</td>
+	</tr>
+
+	<!--{loop $list $key $share}-->
+	<tr>
+		<td height="30"
+			style="border-bottom:1px dashed #d6d6d6; text-indent:8px;"><a
+			href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=viewmenu&id=$share[id]">$share[coursename]</a></td>
+		<td style="border-bottom:1px dashed #d6d6d6;">$share[lecturer]</td>
+		<td style="border-bottom:1px dashed #d6d6d6;">$share[contactor]</td>
+		<td style="text-align:center; border-bottom:1px dashed #d6d6d6;">$share[commentnum]</td>
+		<td style="border-bottom:1px dashed #d6d6d6;"><!--{if $share[lastname]}-->$share[lastname]<!--{else}-->—<!--{/if}--></td>
+	</tr>
+	<!--{/loop}-->
+</table>
+<!--{/if}--></div>
+</div>
+<!--{if $multi}-->
+<div class="pgs cl">$multi</div>
+<!--{/if}-->

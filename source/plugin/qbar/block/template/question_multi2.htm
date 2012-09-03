@@ -1,0 +1,14 @@
+<!-- 标题，作者，时间 -->
+<div class="module cl xl xl1"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <ul>
+        <!--{loop $listdata $item}-->
+        <li>
+    		<span class="y xi2"><a href="{$item[homeurl]}">{$item[realname]}</a></span>
+        	<!-- {if $item['category_name']} -->
+    		<span class="xi2">[{$item[category_name]}]&nbsp;</span>
+        	<!-- {/if} -->
+    		<a href="{$item[url]}" title="{$item[name]}" target="_blank">{$item[name]}</a>
+        </li>
+        <!--{/loop}-->
+    </ul>
+</div>

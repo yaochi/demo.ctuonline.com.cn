@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=$mod&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&extraresource_action=indexclass&" class="fourWord y">&#43;&nbsp;新建资源</a>
+	<!--{/if}-->
+
+	<div id="toolbar">
+		<a id="sortbtn" class="iconbtn y pressed" href="#" onclick="changesort(this)"><img src="{IMGDIR}/esn/btn_sort.png" width="18" height="16" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+<form action="{eval echo join_plugin_action('search')}" autocomplete="off" method="post" id="moderateform" fwin="mods">
+<div id="fspanel">
+<p>
+                            <strong>全局搜索:</strong>
+							<input type="text" style="width: 204px; color: #999;" name='groupsearch' onclick="this.value=''; this.style.color='#333'; " value="课程/讲师/培训机构" class="px vm" id="groupsearch" name="srchtxt">
+                            &nbsp;<button class="pn vm" type="submit"><strong>搜索</strong></button>
+                            <button class="pn vm" type="reset" name="reset" onclick="compareclickclass()"><strong>查看课程对比</strong></button>
+                            <!--{if $_G['forum']['ismoderator']}-->
+                            <button class="pn vm" type="reset" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&extraresource_action=extraexpt&type=indexclass'"><strong>课程导出</strong></button>
+	                       <!--{/if}-->
+                            </p>
+</div>
+</form>
+<div id="fspanel">
+<table>
+<tbody><tr>
+<th>资源类型：</th>
+<td class="piped">
+  	 	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu" class="a">课程</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexlec">讲师</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexorg">培训机构</a>
+  </td>
+</tr>
+<tr id="nav_order">
+<th>排序:</th>
+<td class="piped">
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=desc" <!--{if ($role==''|| $role=='desc')}--> class="a" <!--{/if}-->>最新</a>
+    	<a a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=asc" <!--{if ($role=='asc')}--> class="a" <!--{/if}-->>最旧</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=sugestdateline" <!--{if ($role=='sugestdateline')}--> class="a" <!--{/if}-->>按推荐时间</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=totalstars" <!--{if ($role=='totalstars')}--> class="a" <!--{/if}-->>按星级</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=classname" <!--{if ($role=='classname')}--> class="a" <!--{/if}-->>按名称</a>
+    	<a href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&role=ification" <!--{if ($role=='ification')}--> class="a" <!--{/if}-->>按分类</a
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+
+<div style="position: relative;" id="extraresourcelist" class="wdlb_nr bm">
+<form action="forum.php?mod=topicadmin&action=extraresourcemoderate&fid=$_G[fid]&infloat=yes&nopost=yes" id="moderate" name="moderate" autocomplete="off" method="post">
+<!--{if $classlist}-->
+<table cellspacing="0" cellpadding="0" border="0" class="lectList">
+<tbody>
+<tr>
+<th width="7%"></th>
+<th class="teachdir">课程名称</th>
+<th class="teachdir">培训机构</th>
+<th width="24%">推荐部门</th>
+<th width="15%">课程星级</th>
+<th width="14%">分类</th>
+<th width="18%">信息对比</th>
+</tr>
+
+<!--{loop $classlist $class}-->
+<tr class="line0 <!--{if !$class[released]}-->wqy<!--{/if}-->">
+<td style="text-align: left;"> <!-- {if $_G['forum']['ismoderator']} --><span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$class[id]" /></span><!-- {/if} --></td>
+<td><!--{if mb_strlen($class[name],'utf-8') > 10}--> <a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[id]">{echo  mb_substr($class[name],0,10,'utf-8')}...</a><!--{else}-->
+<a style="color:#333333" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[id]">{echo $class[name]}</a> <!--{/if}--></td>
+<td ><!--{if mb_strlen($class[relationorgname],'utf-8') > 10}-->{echo  mb_substr($class[relationorgname],0,10,'utf-8')}...<!--{else}-->$class[relationorgname]<!--{/if}--></td>
+<td >$class[sugestorgname]</td>
+<td>$class[totalstars]分</td>
+<td><!--{if $class[classification]=='1'}-->管理类<!--{elseif $class[classification]=='2'}-->营销类<!--{elseif $class[classification]=='3'}-->专业类<!--{elseif $class[classification]=='4'}-->通用类<!--{/if}--></td>
+<td>
+<!--{if $class[status]=='1'}-->
+<a href="javaScript:compare($class[id])" id="class_$class[id]">取消对比</a>
+<!--{elseif $class[status]=='0'}-->
+<a href="javaScript:compare($class[id])" id="class_$class[id]">加入对比</a>
+<!--{else}-->
+<a href="javaScript:compare($class[id])" id="class_$class[id]">加入对比</a>
+<!--{/if}-->
+</td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<!--{/if}-->
+<!--TODO 使用帖子权限-->
+<div style="display: none;" id="mdly">
+<input type="hidden" name="extratype" value="class">
+<input type="hidden" name="optgroup">
+<input type="hidden" name="operation">
+<label><input type="checkbox" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" name="chkall" class="pc"> 全选</label>
+<h6><span>选中</span><strong id="mdct" onclick="$('mdly').className=''"></strong><span>个: </span></h6>
+<p>
+<strong><a onclick="tmodextraresources(3, 'delete');return false;" href="javascript:;">删除</a></strong>
+<span class="pipe">|</span>
+<strong><a onclick="tmodextraresources(3, 'release');return false;" href="javascript:;">发布</a></strong>
+</p>
+</div></form>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+</div>
+
+<script>
+function validate(){
+	var groupsearch=$('groupsearch').value;
+	if(groupsearch.length==0){
+		showDialog("请填写要查找的内容的名称！");
+		return false;
+	}
+}
+function compareclickclass(){
+window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=$_G[gp_plugin_name]"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=viewcompareclass";
+}
+function compare(classid){
+var status=document.getElementById("class_"+classid).innerHTML;
+var url="";
+if(status=="取消对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompareclass"+"&"+"id="+classid+"&type=delcompare";
+getJSONP(url,"urldata");
+}if(status=="加入对比"){
+url="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=extraresource"+"&"+"plugin_op=groupmenu"+"&"+"extraresource_action=extracompareclass"+"&"+"id="+classid+"&type=addcompare";
+getJSONP(url,"urldata");
+}
+}
+function urldata(data){
+if(data.is==0){
+document.getElementById("class_"+data.id).innerHTML="加入对比";
+}if(data.is==1){
+document.getElementById("class_"+data.id).innerHTML="取消对比";
+}
+}
+</script>

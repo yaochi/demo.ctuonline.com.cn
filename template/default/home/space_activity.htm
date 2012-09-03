@@ -1,0 +1,184 @@
+<!--{eval 
+	$_G[home_tpl_titles] = array('{lang activity}');
+	$_G[home_tpl_spacemenus][] = "<a href=\"home.php?mod=space&uid=$space[uid]&do=activity&view=me\">{lang they_activity}</a>";
+}-->
+<!--{template common/header}-->
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="home.php">$_G[setting][navs][4][navname]</a> &rsaquo; 
+	<a href="home.php?mod=space&do=activity">{lang activity}</a>
+	<!--{if $_GET['view']=='me'}-->
+	 &rsaquo; <a href="home.php?mod=space&uid=$space[uid]&do=activity&view=me">{$space[username]}{lang somebody_activity}</a>
+	<!--{/if}-->
+</div>
+<!--{eval 
+	$weekarr = array(0 => '{lang day}', 1 => '{lang one}', 2 => '{lang two}', 3 => '{lang three}', 4 => '{lang four}', 5 => '{lang five}', 6 => '{lang six}');
+}-->
+	
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+	
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx">
+				<a href="$_G[setting][navs][4][filename]">$_G[setting][navs][4][navname]</a>
+			</label>
+		</div>
+		<div class="bm">
+		<!--{if $space[self]}-->
+			<h1 class="mt"><span class="icn_activity replaced z mrngroup" style="margin-top: 4px;"></span>{lang activity}</h1>
+			<ul class="tb cl">
+				
+				<li$actives[me]><a href="home.php?mod=space&uid=$space[uid]&do=activity&view=me&type=orig">{lang my_activity}</a></li>
+				
+				</li>
+			</ul>
+		<!--{else}-->
+			<!--{template home/space_menu}-->
+			<div class="tbmu">{lang doing_orderby_time}</div>
+		<!--{/if}-->
+
+		
+			<div class="tbmu">
+				<a href="home.php?mod=space&do=activity&view=me&type=orig" $orderactives['orig']>{lang my_create_activity}</a><span class="pipe">|</span>
+				<a href="home.php?mod=space&do=activity&view=me&type=apply" $orderactives['apply']>{lang my_join_activity}</a>
+			</div>
+		
+
+		
+		
+		<!--{if $activitylist}-->
+		
+		
+<!-- 显示活动 -->		
+		
+<div class="bm cl actlist" id="activitylist" style="position: relative;">
+    <form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=activitymoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+    <input type="hidden" name="formhash" value="{FORMHASH}" />
+    <input type="hidden" name="listextra" value="$extra" />
+	<!--{loop $activitylist $forum}-->
+	<dl class="bbda reHeight">
+		<dd class="m">
+            <!--{if $forum[ffatype]=='live'}-->
+			<span class="live replaced">直播活动</span>
+			<!--{if $forum[banner]}-->
+            <a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']"><img src="data/attachment/group/$forum[banner]" width="140" height="140"/></a>
+			<!--{elseif $forum[teacher_img]}-->
+            <a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']"><img src="$forum[teacher_img]" width="140" height="140" /></a>
+			<!--{else}-->
+			<a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']"><img src="static/image/images/def_activity.png" width="140" height="140"/></a>
+			<!--{/if}-->
+            <!--{/if}-->
+            <!--{if $forum[ffatype]=='general'}-->
+			<!--{if $forum[banner]}-->
+            <a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']"><img src="data/attachment/group/$forum[banner]" width="140" height="140"/></a>
+			<!--{else}-->
+			<a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']"><img src="static/image/images/def_activity.png" width="140" height="140"/></a>
+			<!--{/if}-->
+            <!--{/if}-->
+		</dd>
+		<dd class="avt">
+			<a href="home.php?mod=space&uid=$forum[founderuid]"><!--{avatar($forum[founderuid],small)}--></a><p><a title="$forum[realname]" href="home.php?mod=space&uid=$forum[founderuid]">$forum[realname]</a></p>
+		</dd>
+		<dd class="reHeight">
+			<p class="y taR mtn xg1"><span class="xw1">已有&nbsp;<span class="xi2">$forum[membernum]</span>&nbsp;人参加</span></p>
+              <!--{if $forum[str_start_time]}-->
+			<p class="date z"><em class="brs">$forum[str_start_time][mday]</em><br />
+                <span class="xs0 xg1"><!--{$forum[str_start_time][year]}-->年<!--{$forum[str_start_time][mon]}-->月</span></p>
+
+			<span class="dash z xg1">&ndash;</span><p class="date z"><em class="brs">$forum[str_end_time][mday]</em><br />
+                <span class="xs0 xg1"><!--{$forum[str_end_time][year]}-->年<!--{$forum[str_end_time][mon]}-->月</span></p>
+            <!--{/if}-->
+		</dd>
+		<dt class="xs2">
+			<!--{if $_G['forum']['ismoderator']}-->
+            <span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="actpc" value="$forum[fid]" /></span>
+            <!--{/if}-->
+			<a href="forum.php?mod=activity&fup=$forum['fup']&fid=$forum['fid']">
+			<!--{if $categorys[$forum[category_id]][name] }-->
+			[ $categorys[$forum[category_id]][name] ]
+			
+			<!--{/if}-->
+			
+			$forum['name']
+			</a>
+			<!--{if $forum['digest'] > 0}-->
+			<img src="{IMGDIR}/digest_$forum[digest].gif" class="vm" alt="{lang thread_digest} $thread[digest]" title="精" />
+			<!--{/if}-->
+		</dt>
+		<dd id="intro" class="xg1">
+			$forum['description']
+		</dd>
+		<dd class="xg1">
+            <!--{if  $categorys[$forum[category_id]][name]}-->
+            $categorys[$forum[category_id]][name]
+            <span class="pipe">|</span>
+            <!--{/if}-->
+			$forum['viewnum'] 次查看
+			<span class="pipe">|</span>
+			平均分：<span class="xi2">$forum[average]</span>&nbsp;分
+		</dd>
+	</dl>
+    <!--{/loop}-->
+    <!--{if $_G['forum']['ismoderator']}-->
+	<div id="mdly" style="display: none;">
+		<input type="hidden" name="optgroup" />
+		<input type="hidden" name="operation" />
+		<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+		<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+		<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+		<p>
+		<!--{if $_G['group']['allowdelpost']}-->
+			<strong><a href="javascript:;" onclick="tmodactivitys(3, 'delete');return false;">删除</a></strong>			
+		<!--{/if}-->
+		<!--{if $is_enable_category}--><span class="pipe">|</span><strong><a href="javascript:;" onclick="tmodactivitys(2, 'type');return false;">分类</a></strong><!--{/if}-->
+		</p>
+		<p>
+			<!--{if $_G['group']['allowstickthread']}-->
+				<a href="javascript:;" onclick="tmodactivitys(1, 'stick');return false;">置顶</a>
+			<!--{/if}-->
+			<!--{if $_G['group']['allowdigestthread']}-->
+				<a href="javascript:;" onclick="tmodactivitys(1, 'digest');return false;">精华</a>
+			<!--{/if}-->
+		</p>
+	</div>
+	<!--{/if}-->
+    </form>
+    <!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->
+</div>
+
+<!-- 显示活动 -->
+
+			<!--{if $hiddennum}-->
+			<p class="mtm">{lang hide_activity}</p>
+			<!--{/if}-->
+			<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+		<!--{else}-->
+			<div class="emp">{lang no_activity}</div>
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="sd">
+		{subtemplate common/userabout}
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+	
+<script type="text/javascript">
+function fuidgoto(fuid) {
+	window.location.href = 'home.php?mod=space&do=activity&view=we&fuid='+fuid;
+}
+</script>
+
+<!--{template common/footer}-->

@@ -1,0 +1,95 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="source/plugin/exam/assets/style/learning.css" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=exam&plugin_op=groupmenu" class="z">返回</a>
+	<div id="toolbar">
+		<h2>$base[title]</h2>
+	</div>
+</div>
+
+<div class="bm pgs ptn cl"> </div>
+<div id="lecturerlist" class="tl" style="position: relative;">
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<tr id="nav_category">
+			<td>题目答对率统计</td>
+		</tr>
+	</table>
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<thead id="nav_category">
+			<tr id="nav_category">
+				<td width="5%"></td>
+				<td width="60%">题目</td>
+				<td width="20%">答对/参与</td>
+				<td width="20%">比率</td>
+			</tr>
+		</thead>
+		<tr class="line0">
+			<td></td>
+			<td><span id="">本次有奖问答整体答对率</span></td>
+			<td>
+				<em>$base[rightnum]/$base[addnum]</em>
+			</td>
+			<td>
+				{echo $base[rightnum]/$base[addnum]}
+			</td>
+		</tr>
+	<tbody>
+		<!--{loop $questions $key $question}-->
+		<tr class="line{eval echo ($key%2)}">
+			<td></td>
+			<td><span id="">$question[title]</span></td>
+			<td>
+				<em>$question[rightnum]/$base[addnum]</em>
+			</td>
+			<td>
+				{echo $question[rightnum]/$base[addnum]}
+			</td>
+		</tr>
+       <!--{/loop}-->
+	</tbody>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<tr id="nav_category">
+			<td>本次答题前20名</td>
+		</tr>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<thead id="nav_category">
+			<tr id="nav_category">
+				<td width="5%"></td>
+				<td width="10%">排名</td>
+				<td width="20%">姓名</td>
+				<td width="30%">联系手机</td>
+				<td width="15%">答对题数</td>
+				<td width="20%">答题时间</td>
+			</tr>
+		</thead>
+	<tbody>
+		<!--{loop $answerlist $key $user}-->
+		<tr class="line{eval echo ($key%2)}">
+			<td></td>
+			<td>{echo $key+1}</td>
+			<td><span id="">$user[realname]</span></td>
+			<td>
+				<em>$user[tel]</em>
+			</td>
+			<td><em>$user[rightnum]</em></td>
+			<td>
+				<em>{eval echo dgmdate($user[dateline])}</em>
+			</td>
+		</tr>
+       <!--{/loop}-->
+	</tbody>
+	</table>
+</div>

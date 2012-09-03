@@ -1,0 +1,150 @@
+{subtemplate common/header}
+	<div id="pt" class="wp">
+		<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a>
+		<!--{if $groupnav}-->
+			$groupnav
+		<!--{elseif $action == 'create'}-->
+		 	&rsaquo; {lang group_create}
+		<!--{/if}-->
+	</div>
+
+	{ad/text/wp a_t}
+
+	<style id="diy_style" type="text/css"></style>
+
+	<div id="ct" class="wp cl{if $action == 'index' && ($status != 2 && $status != 3)} w{/if}"{if $action == 'index' && ($status == 2 || $status == 3)} style="background-color: #F8F8F8;{/if}">
+		<!--{if $action != 'create' && ($status == 2 || $status == 3)}-->
+			<div id="fh" class="m z{if $action == 'index' && ($status == 2 || $status == 3)} brsgroup{/if}">
+						
+				<div id="gh" class="{if $action == 'index' && ($status == 2 || $status == 3)}gsth{else}bm{/if} ih ptw mbm cl h">
+					<div class="avt" style="display:inline"><img src="$_G['forum']['icon']" style="margin-right: 10px;"/></div>
+					<span id="$_G['forum']['type_icn_id']" class="replaced {if $action == 'index' && ($status == 2 || $status == 3)}ss2{/if}">机构专区</span>
+					<div>
+						<h1 class="wx">$_G[forum][name]</h1>
+						<!--{if $_G['forum']['displayorder']}-->
+							<img class="digest" src="{IMGDIR}/digest_1.gif" class="vm" alt="精华专区" title="精华专区">
+						<!--{/if}-->
+						<!--{if $_G['current_grouplevel']['icon']}--><img src="$_G[current_grouplevel][icon]" height="25" width="25" title="{lang group_level}: $_G[current_grouplevel][leveltitle]"><!--{/if}-->
+						<!--{if $status != 2 && $status != 3}-->
+							<cite class="xg1 clearL">
+								{lang group_moderator}: <!--{loop $groupmanagers $manage}--><a href="home.php?mod=space&amp;uid=$manage[uid]" target="_blank"><!--{eval echo user_get_user_name($manage[uid])}--></a> <!--{/loop}-->&nbsp;
+								{lang member}: $_G[forum][membernum]&nbsp;
+	                                     访问数: $_G[forum][viewnum]
+							</cite>
+						<!--{/if}-->
+						<!--{if $action == 'index' && ($status == 2 || $status == 3)}-->
+							<dd class="clearL clmr">
+								{lang group_join_type}:
+								<!--{if $_G['forum']['jointype'] == 1}-->
+								<strong>{lang group_join_type_invite}</strong>
+								<!--{elseif $_G['forum']['jointype'] == 2}-->
+								<strong>{lang group_join_type_moderate}</strong>
+								<!--{elseif $_G['forum']['jointype'] == 3}-->
+								<strong>{lang group_join_type_forbid}</strong>
+								<!--{else}-->
+								<strong>{lang group_join_type_free}</strong>
+								<!--{/if}-->
+								{lang group_perm_visit}:<strong>{lang group_perm_member_only}</strong>
+							</dd>
+						<!--{/if}-->
+					</div>
+							
+					<div class="y">
+							<em class="fct y">
+								<a href="home.php?mod=spacecp&ac=favorite&type=group&id=$_G[fid]&handlekey=favoritegroup" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang favorite}"><img src="{IMGDIR}/icon_fav.png" alt="{lang favorite}" /></a>
+								<!--{if $_G[setting][rssstatus] && !$_G['gp_archiveid']}--><!--  <a href="forum.php?mod=rss&fid=$_G[fid]&amp;auth=$rssauth" target="_blank" title="RSS"><img src="{IMGDIR}/icon_feed.png" alt="RSS" /></a>--><!--{/if}-->
+							</em>
+							<!--{if $status != 2 && $status != 3}-->
+								<!--{if $_G[forum][my_empirical]!=0}-->
+								<cite class="xg1 y mtn clearR">
+									您的经验值: $_G[forum][my_empirical]
+								</cite>
+								<!--{else}-->
+								<cite class="xg1 y mtn clearR">
+									您的经验值: 0
+								</cite>
+	                                 	<!--{/if}-->
+							<!--{/if}-->
+						
+						
+							<!--{if  $userlevel[level_name]}-->
+							<cite class="xg1 y mtn clearR">
+								您的经验值等级: $userlevel[level_name]
+							</cite>
+							<!--{/if}-->
+					</div>
+				</div>			
+				<p class="xg1 clearL{if $action == 'index' && ($status == 2 || $status == 3)} gst{else} bm mtm mbww{/if}">$_G['forum']['description']</p>
+				<!--{if $action == 'index' && ($status == 2 || $status == 3)}-->
+				<div class="gst cl">
+					<p>
+						<!--{if $status == 3 }-->
+							<strong>{lang group_has_joined}</strong>
+						<!--{elseif $status == 2 && $jointype==1}-->
+							<strong>请联系专区管理员</strong>
+						<!--{else}-->
+							<a href="forum.php?mod=group&amp;action=join&amp;fid=$_G[fid]" class="bac">{lang group_join_group}</a>
+						<!--{/if}-->
+					</p>
+				</div>
+				<hr class="da gst" />
+				<div class="gst">
+					<h2>{lang administrator}</h2>
+					<ul class="ml mls cl">
+						<!--{loop $groupmanagers $manage}-->
+							<li>
+								<a href="home.php?mod=space&amp;uid=$manage[uid]" target="_blank" class="avt">{echo discuz_uc_avatar($manage[uid], 'small')}</a>
+								<p><a href="home.php?mod=space&amp;uid=$manage[uid]" target="_blank"><!--{eval echo user_get_user_name($manage[uid])}--></a></p>
+							</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{/if}-->
+				
+				<!--{if CURMODULE == 'group'}-->{hook/group_top}<!--{else}-->{hook/forumdisplay_top}<!--{/if}-->
+			</div>		
+		<!--{/if}-->
+		
+		<!--{if $action != 'index' }-->
+			<div class="reHeight">
+				<div class="mn">
+					<!--{if $action == 'create'}-->
+						{subtemplate group/group_create}
+					<!--{elseif $action == 'list'}-->
+						{subtemplate group/group_list}
+					<!--{elseif $action == 'memberlist'}-->
+						{subtemplate group/group_memberlist}
+					<!--{elseif $action == 'invite'}-->
+						{subtemplate group/group_invite}
+					<!--{elseif $action == 'manage'}-->
+						{subtemplate group/group_manage}
+		            <!--{elseif $action == 'plugin'}-->
+		                {eval include join_plugin_template($_G['gp_plugin_name'], $_G["gp_".$_G["gp_plugin_name"]."_action"]);}
+					<!--{/if}-->
+					<!--{if CURMODULE == 'group'}-->{hook/group_bottom}<!--{else}-->{hook/forumdisplay_bottom}<!--{/if}-->
+				</div>
+				
+				<!--{if $action != 'create'}-->
+				<div class="sd pph">
+					<div id="plgnav" class="bbsgroup hm">
+					<!--{if ($action == 'plugin' || $action == 'list' || $action == 'memberlist') }-->
+						<h2>专区组件</h2>
+					<!--{/if}-->
+					</div>
+					<!--{if ($action == 'plugin' || $action == 'list' || $action == 'memberlist') }-->
+					<div id="ppc_menu" class="y">
+						{subtemplate common/group}
+					</div>
+					<!--{/if}-->
+				</div>
+				<!--{/if}-->
+			</div>
+		<!--{elseif ($status != 2 && $status != 3)}-->
+			<div>
+				<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+			</div>
+		<!--{/if}-->
+		
+	</div>
+{subtemplate common/footer}
+

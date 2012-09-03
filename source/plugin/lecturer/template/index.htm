@@ -1,0 +1,77 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/lecturer/js/lecturer_moderate.js"></script>
+<!--{/if}-->
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;创建讲师</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="bm cl">
+<script type="text/javascript">
+		function inner() {
+			$('inner').style.display ='block';
+			$('outter').style.display='none';
+		}
+		function outter() {
+			$('inner').style.display='none';
+			$('outter').style.display='block';
+		}
+	</script>
+	<div id="lecturerlist" style="position: relative;">
+		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=lecturermoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="listextra" value="$extra" />
+		<div class="wdlb_nr">
+			<!--{loop $lecturers $lecturer}-->
+			<ul>
+				<li><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jslb">
+				  <tr>
+				  	<td width="13%" rowspan="3" valign="top" class="avt">
+				  	<!--{if !$lecturer[fimgurl]}-->
+						<img src="static/image/images/def_lecturer.png" style="width:120px; height:120px;" />
+					<!--{else}-->
+						<img src="$lecturer[fimgurl]" style="width:120px; height:120px;" />
+					<!--{/if}-->	
+				  	</td>
+					 <!--{if $_G['forum']['ismoderator']}-->
+					<td width="1%" height="25" class="wdzh" style="padding-right:5px !important; padding:0px;">
+					<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$lecturer[id]" />
+				</td>
+				<!--{/if}-->
+					<td width="85%" class="wdzh">						<span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturer&plugin_op=groupmenu&lecid=$lecturer[id]&lecturer_action=view" class="a">$lecturer[name]</a></span>	</td>
+				  </tr>
+				  <tr>
+				  	<td height="25" colspan="2" class="a">$lecturer[orgname]</td>
+				    </tr>
+				  <tr>
+				  	<td colspan="2" valign="top" style=" height: auto !important; height:76px;">$lecturer[fabout]</td>
+				    </tr>
+				</table>
+				</li>
+			</ul>
+			<!--{/loop}-->
+		</div>
+		<!--{if $_G['forum']['ismoderator']}-->
+		<div id="mdly" style="display: none;">
+			<input type="hidden" name="optgroup" />
+			<input type="hidden" name="operation" />
+			<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+			<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+			<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+			<p>
+			<!--{if $_G['group']['allowdelpost']}-->
+				<strong><a href="javascript:;" onclick="tmodlecturers(3, 'delete');return false;">删除</a></strong>
+			<!--{/if}-->
+			</p>
+		</div>
+		<!--{/if}-->
+		</form>
+	</div>
+</div>
+$multipage

@@ -1,0 +1,57 @@
+<form action="forum.php?mod=group&action=manage&op=manageplugin&fid=$_G['gp_fid']" method="post">
+<table class="tbcommon tb2 nobdb" width="100%">
+    <tbody>
+        <tr><th>插件名称</th><!--<th>特殊名称</th>--><!--{if group_is_group_moderator($_G[fid], $_G[uid]) }--><th>状态</th><th>内容创建权限</th><!--{else}--><th>状态</th><th>内容创建权限</th><!--{/if}--><th>主题分类</th></tr>
+        <!--{loop $_G["group_plugins"]["group_all"] $id $value}-->
+        <tr class="hover">
+            <td class="td28">
+                
+                <!--{eval echo $_G["group_plugins"]["group_available"]["groupmenu"][$id]["menu"]?$_G["group_plugins"]["group_available"]["groupmenu"][$id]["menu"]:$value["name"]; }--></td>
+                     <!--{if group_is_group_moderator($_G[fid], $_G[uid]) }-->
+           <!--  <td class="td28">
+					 <input type="hidden" name="plugin_ids[]" value="$id"/>
+					 <input type="text" name="fname[$id]" value="$cur_group_plugins[$id]['fname']" />
+					 </td> -->
+            <td class="td28">
+            <input type="hidden" name="plugin_ids[]" value="$id"/>
+            <select name="m[$id]">
+                <option value="disable" <!--{if $cur_group_plugins[$id]["status"]=="N"}-->selected="true"<!--{/if}--> >关闭</option>
+                <option value="enable" <!--{if $cur_group_plugins[$id]["status"]=="Y"}-->selected="true"<!--{/if}-->>开启</option>
+            </select></td>
+            <td class="td28">
+			<!--{if $id!='repeats'}-->
+            <select name="oper[$id]">
+                <!-- {if $id!='groupad'&&$id!='extraresource'} -->
+                    <!--{loop $levels $v}-->
+	                	<option value="$v[level_name]" <!--{if $cur_group_plugins[$id]["auth_group"]==$v[level_name]}-->selected="true"<!--{/if}--> >$v[level_name]</option>
+	                <!--{/loop}-->
+	            <!-- {else} -->
+	            <option value="群主" <!--{if $cur_group_plugins[$id]["auth_group"]=="群主"}-->selected="true"<!--{/if}--> >群主</option>
+	            <option value="副群主" <!--{if $cur_group_plugins[$id]["auth_group"]=="副群主"}-->selected="true"<!--{/if}--> >副群主</option>
+                <!-- {/if} -->
+
+            </select> 
+             <!--{/if}-->
+            </td>         
+<!--{else}-->  
+ 		<td class="td28">
+               <!--{if $cur_group_plugins[$id]["status"]=="N"}-->关闭<!--{/if}--> 
+               <!--{if $cur_group_plugins[$id]["status"]=="Y"}-->开启<!--{/if}-->
+          </td>
+            <td class="td28">  
+                <!--{loop $levels $v}-->
+                <!--{if $cur_group_plugins[$id]["auth_group"]==$v[level_name]}-->$v[level_name]<!--{/if}-->
+                <!--{/loop}--> 
+            </td>
+         
+<!--{/if}-->
+            <td>
+			<!--{if plugin_check_category($id)}-->
+			<a href="forum.php?mod=group&action=manage&op=managecategory&fid=$_G['gp_fid']&id=$id">主题分类</a>
+			<!--{/if}-->
+			</td></tr>
+       <!--{/loop}-->
+       <tr><td colspan="4"><input type="submit" value="保存"/></td></tr>
+    </tbody>
+</table>
+</form> 

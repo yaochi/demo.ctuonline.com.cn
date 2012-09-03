@@ -1,0 +1,24 @@
+<div id="mdly" style="display: none;">
+	<input type="hidden" name="optgroup" />
+	<input type="hidden" name="operation" />
+	<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+	<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> {lang checkall}</label>
+	<h6><span>{lang admin_select}</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>{lang piece}: </span></h6>
+	<p>
+	<!--{if $_G['group']['allowdelpost']}-->
+		<strong><a href="javascript:;" onclick="tmodthreads(3, 'delete');return false;">{lang delete}</a></strong>
+	<!--{/if}-->
+	
+	</p>
+	<p>
+		<!--{if $_G['group']['allowstickthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'stick');return false;">{lang thread_stick}</a>
+		<!--{/if}-->
+		<!--{if $_G['group']['allowdigestthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'digest');return false;">{lang thread_digest}</a>
+		<!--{/if}-->
+		<!--{if $_G['group']['allowhighlightthread']}-->
+			<a href="javascript:;" onclick="tmodthreads(1, 'highlight');return false;">{lang thread_highlight}</a>
+		<!--{/if}-->
+	</p>
+</div>

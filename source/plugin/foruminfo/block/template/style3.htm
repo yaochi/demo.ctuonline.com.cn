@@ -1,0 +1,48 @@
+<div class="module cl ficddiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<div class="bm">
+		<em class="y">
+			<a href="{$shareurl}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" title="转发"><img src="static/image/common/esn/share.gif" alt="转发" /></a>
+			<a href="home.php?mod=spacecp&ac=favorite&type=group&id={$_G[fid]}&handlekey=favoritegroup" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" title="收藏"><img src="static/image/common/fav.gif" alt="收藏" /></a>
+		</em>
+		<h1 class="wx xs4">[myself_value_forum_name]</h1>
+	</div>
+	<div class="fpr mtn bm" style="overflow: hidden; zoom: 1;">
+		<a href="javascript:;" onclick="switchFicExtraInfo(this);" class="xg1" style="position: absolute; bottom: 0; right: 0;">展开</a>
+		<ul>
+			<li><a href="javascript:;"><span class="flnum">[myself_value_forum_membernum]</span><span>成员</span></a></li>
+			<li><a href="javascript:;"><span class="flnum">{$threads}</span><span>已发表</span></a></li>
+			<li><a href="javascript:;"><span class="flnum">[myself_value_forum_viewnum]</span><span>访问</span></a></li>
+		</ul>
+	</div>
+	<div class="extraInfo">
+		<div class="desc mtn mbn xg1"><p class="bm mtn">{$description}</p></div>
+		<div class="adminSection bm xg1">
+			<!--{loop $moderatorlist $value}-->
+				<a class="perPanel" href="home.php?mod=space&uid={$value[uid]}" target="_blank">{$value[realname]}</a>
+			<!--{/loop}-->
+		</div>
+		<div class="scoreSection bm xg1">您的经验值：[myself_value_forum_my_empirical]</div>
+	</div>
+</div>
+
+<script>
+	if(jQuery.browser.msie) {
+		jQuery(".ficddiym li:first").css({paddingLeft: 0});
+		jQuery(".ficddiym li:last").css({background: "none"});
+	}
+	
+	function switchFicExtraInfo(source) {
+		var currentFic = jQuery(source).parent().parent();
+		var divShown = jQuery(".extraInfo:visible", currentFic).length != 0 ? true : false;
+		var currentFicHeight = currentFic.height();
+		if(divShown) {
+			jQuery(".extraInfo", currentFic).hide(300, 'easeOutQuad', function(){
+				jQuery(source).text("展开");
+			});
+		} else {
+			jQuery(".extraInfo", currentFic).show(300, 'easeOutQuad', function(){
+				jQuery(source).text("收起");
+			});
+		}
+	}
+</script>

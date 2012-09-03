@@ -1,0 +1,23 @@
+<div class="module cl"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{loop $listdata $item}-->
+	<div class="z">
+		<p class="hm xg1 xs3">
+			<em>{$item[startdate]}</em><br />
+			<em style="color: #333;" class="xw1 oneLine">{$item[starttimestamp]}&ndash;{$item[endtimestamp]}</em>
+		</p>
+		<!--{if $item[whatstatus]=='0'}-->
+		<p class="ptn pns hm">
+			<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn" onclick="javascript:window.open('{$item[play]}','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');" ><em>预告</em></button>
+		</p>
+		<!--{elseif $item[whatstatus]=='1'}-->
+		<p class="ptn pns hm">
+			<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn pnor" onclick="javascript:window.open('{$item[play]}','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');" ><em>进入</em></button>
+		</p>
+		<!--{elseif $item[whatstatus]=='2'}-->
+		<p class="ptn pns hm">
+			<button type="submit" name="pollsubmit" id="pollsubmit" value="true" class="pn" onclick="javascript:window.open('{$item[play]}','newwindow','height=600,width=800,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,location=yes,status=yes');" ><em>学习</em></button>
+		</p>
+		<!--{/if}-->
+	</div>
+	<!--{/loop}-->
+</div>

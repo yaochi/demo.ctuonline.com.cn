@@ -1,0 +1,358 @@
+{subtemplate common/header}
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<!--{if $_G[fid]}-->
+	<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=indexlec" class="z">返回列表</a>
+	</div>
+<!--{/if}-->
+<div class="bm">
+<p style="padding-top: 15px;" class="y xg1">
+<input type="hidden" value="" id="hasrecord" name="hasrecord">
+<input type="hidden" value="" id="hasothergroup" name="hasothergroup">
+<!--{if $_G['forum']['ismoderator']}-->
+<!--{if $lecture[released]==1}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=unreleaselec&id=$lecture[id]">取消发布</a><!--{else}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=releaselec&id=$lecture[id]">发布</a><!--{/if}-->
+<span class="pipe">|</span>
+<a href="{eval echo join_plugin_action2('editlec',array('id'=>$lecture[id]))}">编辑</a>
+<span class="pipe">|</span><a href="javascript:del(this);">删除</a><!--{/if}-->
+</p>
+<dl class="lectDescription" style="position:relative;">
+<dd class="diyavt m">
+<a href="#"><img width="120" height="120" <!--{if $lecture[uploadfile]}-->src="$lecture[uploadfile]"<!--{else}-->src="static/image/images/def_lecturer.png"<!--{/if}-->>
+</a>	
+</dd>
+<dt class="xs3">
+<a href="#">$lecture[name]<!--{if !$lecture[released]}-->(未审核)<!--{/if}--></a>
+</dt>
+<dd class="xg1">$lecture[relationorgname]</dd>
+<dd class="xg1">推荐部门：$lecture[sugestorgname]</dd>
+<dd class="pns mtn">
+		<p id="hf1"><span class="$lecture[stars] z"></span><span class="xxwz">$lecture[totalstars]</span></p>
+</dd>
+<div id="hflc1" class="zpf" style="display:none;">
+		<div class="zpf_bj">
+		<p><span class="a">总体评分：</span><span class="$lecture[stars]"></span><span>$lecture[totalstars]</span></p>
+		<p><span class="a">授课态度：</span><span class="$lecture[stars1]"></span><span>$lecture[starsone]</span></p>
+		<p><span class="a">授课思路：</span><span class="$lecture[stars2]"></span><span>$lecture[starstwo]</span></p>
+		<p><span class="a">授课技巧：</span><span class="$lecture[stars3]"></span><span>$lecture[starsthree]</span></p>
+		</div>
+		</div>
+		<div class="clear"></div>
+</dl>
+<table cellspacing="0" cellpadding="0" border="0" class="lectDetailTable">
+<tbody><tr>
+<th>背景介绍</th>
+<td>$lecture[descr] </td>
+</tr>
+<tr>
+<th>培训经历</th>
+<td>$lecture[trainingexperince]</td>
+</tr>
+<tr>
+<th>培训特点</th>
+<td>$lecture[trainingtrait]</td>
+</tr>
+<th>授课费用</th>
+<td>$lecture[minfee]&nbsp;-&nbsp;$lecture[maxfee] 元/天</td>
+</tr>
+<tr>
+<th>授课方向</th>
+<td><!--{if $lecture[teachdirection]=='1'}-->领导力发展及管理类<!--{elseif $lecture[teachdirection]=='2'}-->营销类<!--{elseif $lecture[teachdirection]=='3'}-->技术类<!--{/if}--></td>
+</tr>
+<tr>
+<th>联系电话</th>
+<td><!--{if $cannotsuguest}-->$lecture[telephone]<!--{else}-->请联系您所在省培训管理员以获取详细信息<!--{/if}--></td>
+</tr>
+<tr>
+<th>Email</th>
+<td><!--{if $cannotsuguest}-->$lecture[email]<!--{else}-->请联系您所在省培训管理员以获取详细信息<!--{/if}--></td>
+</tr>
+</tbody></table>
+
+</div>
+<div class="jsxq_tj" id="jsxq_tj">
+	<div class="jsxq_tjz">
+		<div class="jsxq_tjbj">
+			<p><!--{if $cannotsuguest}--><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu&extraresource_action=indexclass&lecid=$lecture[id]" class="y xi2">推荐本讲师教授的其余推荐课程</a><!--{/if}--><strong>本讲师教授的推荐课程：</strong></p>
+			<!--{if $classlist}-->
+			<!--{loop $classlist $class}-->
+			<p><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=viewclass&id=$class[classid]">$class[classname]<!--{if !$class[released]}-->(未审核)<!--{/if}--></a></span><span class="$class[stars]"></span><span>&nbsp;$class[classstars]</span><div class="clear"></div></p>
+			<!--{/loop}-->
+			<!--{else}-->
+			<p>暂无课程！</p>
+			<!--{/if}-->
+			<p><span class="jsxq_ck" id="ckgd" style="display:block;">查看更多</a></span><span class="jsxq_sq" id="sqgd" style="display:none;">收起</a></span></p>
+			<script language="javascript">
+			var ckgd=document.getElementById("ckgd");
+			var sqgd=document.getElementById("sqgd");
+			var heightauto=document.getElementById("jsxq_tj");
+			ckgd.onclick=function () {
+				heightauto.style.height="auto";
+				ckgd.style.display="none";
+				sqgd.style.display="block"
+			}
+			sqgd.onclick=function () {
+				heightauto.style.height="115px";
+				ckgd.style.display="block";
+				sqgd.style.display="none"
+			}
+
+			</script>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="jsxq_tjy">
+		<div class="jsxq_tjbj">
+		<p><strong>本讲师所属培训机构：</strong></p>
+		<!--{if $orglist}-->
+		<!--{loop $orglist $org}-->
+			<dl>
+				<dd class="imgh64"><img class="imgtz" src="$org[orglog]" align="top" /></dd>
+				<dt class="a"><span><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$org[orgid]">$org[orgname]<!--{if !$org[released]}-->(未审核)<!--{/if}--></a></span><span class="$org[stars]"></span><span>&nbsp;$org[orgstars]</span></dt>
+				<dt><button class="pn pnc" type="button" onclick="window.open('forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=extraresource&plugin_op=groupmenu&extraresource_action=vieworg&id=$org[orgid]');"><span>查看该机构拥有课程及讲师</span></button></dt>
+			</dl>
+		<!--{/loop}-->
+		<!--{else}-->
+			<p>暂无机构！</p>
+		<!--{/if}-->
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="bm">
+<div id="div_main_content" class="mtm mbm">
+	<h3 class="bbs pbn">
+	<!--{if !empty($comment_list)}-->
+		<a href="#quickcommentform_{$class[id]}" class="y xi2 xw0">发表评论</a>
+	<!--{/if}-->
+	评论<!--{if $comment_needreplynum}-->(<span id="comment_replynum">$comment_replynum</span>  个评论)<!--{/if}-->
+	</h3>
+	<div id="comment">
+		<!--{if $cid}-->
+			<div class="i">
+				{lang current_nwkt_reply}<a href="$comment_refer">{lang click_view_all}</a>
+			</div>
+		<!--{/if}-->
+		<div id="comment_ul" class="xld xlda">
+			<!--{loop $comment_list $k $value}-->
+				<!--{template home/space_comment_li}-->
+			<!--{/loop}-->
+		</div>
+	</div>
+	<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+</div>
+
+<form <!--{if $showstars!='1'}-->onSubmit="return validate_from(this);"<!--{else}-->onSubmit="ajaxpost('quickcommentform_$lecture[id]', 'return_qcnwkt_$lecture[id]');doane(event);"<!--{/if}--> autocomplete="off" method="post" action="home.php?mod=spacecp&amp;ac=comment" id="quickcommentform_$lecture[id]">
+
+<div class="jsxq_df">
+<div class="jsxq_df">
+<div class="tmbj" <!--{if $showstars!='1'}-->style="display:none;"<!--{/if}-->>
+<span>您今日已打分；每人每日限打分一次<br />您可以继续进行评论</span>
+</div>
+<h3 class=" xw1 xs2 mtw" style="height:30px;"><span style="margin-left:193px;">请对该讲师进行评价:</span></h3>
+<table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="totalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>授课态度：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="starsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>授课思路：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="starstwo" value="" size="2" />
+		</td>
+      </tr>
+      <tr>
+        <td>授课技巧：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="starsthree" value="" size="2" /></td>
+      </tr>
+    </table>
+</div>
+
+<div class="jsxq_pl">
+<div class="clear mbm">
+<!--评价--><div class="mtm mbm" id="div_main_content">
+<div id="comment">
+<div class="xld xlda" id="comment_ul"></div>
+</div>
+</div>
+<p>
+<span id="comment_face" title="插入表情" onclick="showFace(this.id, 'comment_message');return false;" style="cursor: pointer;"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
+</p>
+<div class="tedt mtn mbn">
+<div class="area" style="height:40px;" id="comment_height">
+	<textarea class="pt" style="height:40px;" name="message" onKeyDown="ctrlEnter(event, 'commentsubmit_btn');" id="comment_message" ></textarea>
+</div>
+</div>
+<p class="pns">
+<p class="pns">
+	<input type="hidden" name="referer" value="$comment_refer" />
+	<input type="hidden" name="id" value="$lecture[id]" />
+	<input type="hidden" name="idtype" value="extralecid" />
+	<input type="hidden" name="handlekey" value="qcnwkt_$lecture[id]" />
+	<input type="hidden" name="commentsubmit" value="true" />
+	<input type="hidden" name="quickcomment" value="true" />
+</p>
+
+<input type="hidden" value="{FORMHASH}" name="formhash">
+<script type="text/javascript">
+	function succeedhandle_qcnwkt_$lecture[id](url, msg, values) {
+		if(values['cid']) {
+			comment_add(values['cid']);
+			//window.location.reload();
+		} else {
+			$('return_qcnwkt_{$lecture[id]}').innerHTML = msg;
+		}
+	}
+</script>
+</div>
+</div>
+
+
+
+<hr class="l clml clmr mtn">
+<div class="bm" style="text-align:center"><button class="pn" id="commentsubmit_btn" value="true" name="commentsubmit_btn" type="submit"><strong>发表评价</strong></button>
+<span id="return_qcnwkt_$lecture[id]"></span></div>
+</div>
+</form>
+
+
+</div>
+</div>
+<div id="fwin_mods" class="fwinmask" style="position:absolute; z-index: 201; right: 200px; top: 180px; display:none;"><table cellspacing="0" cellpadding="0" class="fwin"><tbody><tr><td class="t_l"></td><td ondblclick="hideWindow('mods')" class="t_c"></td><td class="t_r"></td></tr><tr><td ondblclick="hideWindow('mods')" class="m_l">&nbsp;&nbsp;</td><td id="fwin_content_mods" class="m_c" fwin="mods">
+<div id="floatlayout_topicadmin" class="tm_c" fwin="mods">
+<h3 class="flb" id="fctrl_mods" style="cursor: move;">
+<span>
+<a title="关闭" onclick="$('fwin_mods').style.display = 'none';" class="flbc" href="javascript:;">关闭</a>
+</span>
+</h3>
+<form action="{eval echo join_plugin_action2('deletelec',array('id'=>$lecture[id]))}" autocomplete="off" method="post" id="moderateform" fwin="mods">
+<div class="c">
+<div class="tplw">
+<ul class="llst">
+<li>
+<p>您确认要 <strong>删除</strong> 该讲师吗?</p>
+</li>
+</ul>
+</div>
+</div>
+<p class="o pns">
+<button value="确定" class="pn pnc" type="submit" id="modsubmit" name="modsubmit" fwin="mods"><span>确定</span></button>
+</p>
+</form>
+</div>
+
+</td><td ondblclick="hideWindow('mods')" class="m_r"></td></tr><tr><td class="b_l"></td><td ondblclick="hideWindow('mods')" class="b_c"></td><td class="b_r"></td></tr></tbody></table></div>
+
+{subtemplate common/footer}
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function del(obj){
+	$('fwin_mods').style.display = '';
+}
+</script>
+
+<script language="javascript">
+var ahf=document.getElementById("hf1");
+var dhf=document.getElementById("hflc1");
+function divh1(){
+dhf.style.display="block";
+}
+ahf.onmousemove=function(){
+var t9=setTimeout(divh1,200);
+}
+
+dhf.onmousemove=function(){
+dhf.style.display="block";
+}
+
+dhf.onmouseout=function(){
+dhf.style.display="none";
+}
+function validate_from(obj){
+<!--{if $showstars!='1'}-->
+		var flag=0;
+		for(var i=0;i<4;i++){
+			if($('stars2-input'+i).value==''){
+				flag++;
+			}
+		}
+		if(flag==1){
+			var suball=confirm('您还有一项没打分，确认提交吗？');
+		}else if(flag==2){
+			var suball=confirm('您还有两项没打分，确认提交吗？');
+		}else if(flag==3){
+			var suball=confirm('您还有三项没打分，确认提交吗？');
+		}else if(flag==4){
+			var suball=confirm('您还没打分呢，确认提交吗？');
+		}else{
+			var suball=1;
+		}
+<!--{/if}-->
+	if(suball){
+		ajaxpost('quickcommentform_$lecture[id]', 'return_qcnwkt_$lecture[id]');
+		doane(event);
+		//setTimeout(window.location.reload(),2000);
+	}else{
+		return false;
+	}
+}
+
+//评分框变高
+
+var pfheight=document.getElementById("comment_message");
+var commentheight=document.getElementById("comment_height");
+
+pfheight.onfocus = function () {
+	pfheight.style.height=100+"px";
+	commentheight.style.height=100+"px";
+}
+</script>

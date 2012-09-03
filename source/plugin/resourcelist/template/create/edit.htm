@@ -1,0 +1,76 @@
+<div class="zysxbj">
+<form id="postform" method="post" action="{eval echo join_plugin_action('update')}">
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="resourceid" id="resourceid" value="$resource[id]"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zysxbj">
+  <tr>
+    <td width="100" align="right"><strong>资源名称：</strong></td>
+    <td colspan="2" valign="top" class="huise">$resource[title]</td>
+    </tr>
+  <tr>
+    <td align="right"><strong>适用对象：</strong> </td>
+    <td colspan="2">
+    <input type="text" tabindex="1" onblur="checkgroupname()" autocomplete="off" value="$resource[fixobject]" size="36" class="px" id="name" name="fixobject">
+
+    </td>
+    </tr>
+    
+    <!--{if $is_enable_category}-->  
+    <tr>
+    <td align="right"><strong>所属分类：</strong> </td>
+    <td colspan="2">
+			            
+	            <select name="category" id="category">
+	            	<!-- {if !$required} --><option value="0">--请选择--</option><!--{/if}-->
+	            	<!-- {if $categorys}-->
+			            <!-- {loop $categorys $id $cat}-->
+			            	<option value="$id" {if $resource[fcategoryid]==$id}selected{/if}>$cat[name]</option>
+			            <!--{/loop}-->
+	            	<!-- {/if}  -->
+
+	            </select>
+           
+    </td>
+    </tr>
+     <!--{/if}-->
+  <tr>
+    <td align="right" valign="top"><strong>资源简介：</strong></td>
+    <td colspan="2">
+    <textarea class="pt" tabindex="3" name="descriptionnew" cols="36" rows="4" name="about">$resource[about]</textarea>
+    </td>
+    </tr>
+  <tr>
+    <td align="right"><strong>封面选择：</strong></td>
+    <td width="40%">
+    	<!--{if $resource[imglink]}-->
+		<img class="spimg" src="$resource[imglink]" alt="" />
+		<!--{/if}-->
+    	<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updateresourceattach(aid, url, '{$_G['setting']['attachurl']}home')})"><span><!--{if $resource[imglink]}-->{lang update}<!--{else}-->{lang upload}<!--{/if}--></span></button>
+		<div id="resourceattach_image">
+		</div>
+    </td>
+    <td rowspan="2" align="right" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td valign="top" class="hongse">自动缩略成80x112像素大小图片<br />
+文件小于100KB<br />
+可用扩展名JPG,GIF</td>
+    </tr>
+    
+  <tr>
+  <td>
+  </td>
+  <td>
+      <button type="submit" class="pn pnp" id="submit" name="submit">
+          <strong>提交</strong>
+      </button>
+  </td>
+  <td>
+  </td>
+  </tr>
+</table>
+</form>
+</div>
+
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>

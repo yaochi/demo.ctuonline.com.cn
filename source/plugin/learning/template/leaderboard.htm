@@ -1,0 +1,110 @@
+<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}home_post.js?{VERHASH}"></script>
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2></h2>
+	</div>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+			<p class="sb_title">我要提交</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">成果展示</p>
+		</div>
+		<div class="stationSplit"></div>
+		<div id="stationBlock3" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+        <p class="sb_title">学习力排行榜</p>
+      	</div>
+      	<div class="stationSplit"></div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(3);
+</script>
+
+
+
+   <div id="fspanel">
+	<table>
+		<tr id="nav_category">
+		  		<th>我的积分榜：</th>
+		  		<td class="piped">
+		  		累计积分是&nbsp;<span style="font-weight:bold;">$mytop[totalcredit]</span>&nbsp;分,可兑换积分是&nbsp;<span style="font-weight:bold;">$mytop[exchangecredit]</span>&nbsp;分,排名第&nbsp;<span style="font-weight:bold;">$mytop[top]</span>&nbsp;名。
+                 </td>
+		    </tr>
+		</table>
+		<tr id="nav_category">
+		    姓名：<input  class="px va" type="text" name="realname" id="realname" size="20" value="请输入姓名" onblur="searchBlurL2(this);" onfocus="searchFocusL2(this);" autocomplete="off">
+   		    <button class="pn vm " onclick="loadseach()"><em>搜索</em></button>
+   		    <button class="pn vm " onclick="loadall()"><em>全部</em></button>
+		    </tr>
+	</div>
+<div class="mbm"> </div>
+<div id="lecturerlist" class="tl" style="position: relative;">
+		<!--{if !$list}-->
+	<p class="xg1 hm">当前没有相关学习力排行榜</p>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" border="0" >
+		<thead id="nav_category">
+			<tr id="nav_category">
+				<td class="icn">&nbsp;</td>
+				<td class="icn">&nbsp;</td>
+				<td width="25%">姓名</td>
+				<td width="35%">公司</td>
+				<td width="15%" style="text-align:center;">累计积分</td>
+				<td width="15%" style="text-align:center;">可兑换积分</td>
+			</tr>
+		</thead>
+	<tbody>
+		<!--{loop $list $key $bord}-->
+		<tr class="line{eval echo ($key%2)}">
+			<td>&nbsp;</td>
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id="">$bord[realname]</span></td>
+			<td>
+				<cite><a href="forum.php?mod=group&amp;fid=792"></a></cite>
+				<em>$bord[company]</em>
+			</td>
+			<td style="text-align:center;">
+				<cite><a href="forum.php?mod=group&amp;fid=792"></a></cite>
+				<em>$bord[totalcredit]</em>
+			</td>
+			<td style="text-align:center;">
+				<cite><a href="forum.php?mod=group&amp;fid=792"></a></cite>
+				<em>$bord[exchangecredit]</em>
+			</td>
+		</tr>
+       <!--{/loop}-->
+	</tbody>
+	</table>
+	<!--{/if}-->
+	<script type="text/javascript">
+   function loadseach(){
+   var realname=$('realname').value;
+		window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=learning"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=leaderboard"+"&"+"realname="+realname;
+   }
+   function loadall(){
+   window.location.href="forum.php?mod=group"+"&"+"action=plugin"+"&"+"fid=$_G[fid]"+"&"+"plugin_name=$_G[gp_plugin_name]"+"&"+"plugin_op=groupmenu"+"&"+"learning_action=leaderboard";
+   }
+	</script>
+</div>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->

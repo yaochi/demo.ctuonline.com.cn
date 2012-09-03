@@ -1,0 +1,52 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo;
+	<a href="$_G[setting][navs][1][filename]">$_G[setting][navs][1][navname]</a> &rsaquo;
+	{lang comment_view}
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch"><label class="wx"><a href="$_G[setting][navs][1][filename]">$_G[setting][navs][1][navname]</a></label></div>
+		<div class="bm">
+			<h1 class="ph"><a href="portal.php?mod=view&aid=$aid">$article[title]</a> <span class="xg1">{lang comment} ($article[commentnum])</span></h1>
+		</div>
+		<hr class="l" />
+		<div class="bm">
+			<!--{loop $commentlist $comment}-->
+				<!--{template portal/comment_li}-->
+			<!--{/loop}-->
+		</div>
+		<div class="bm cl">$multi</div>
+		<!--{if $article['allowcomment'] == 1}-->
+		<div class="bm">
+			<form name="cform" action="portal.php?mod=portalcp&ac=comment" method="post" autocomplete="off">
+			<textarea name="message" cols="60" rows="6" class="pt" id="message"></textarea>
+			<input type="hidden" name="aid" value="$aid">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<p class="ptn"><button type="submit" name="commentsubmit" value="true" class="pn"><strong>{lang comment}</strong></button></p>
+			</form>
+		</div>
+		<!--{/if}-->
+	</div>
+	<div class="sd pph">
+		<!--{template common/userabout}-->
+
+		<div class="drag">
+			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+		</div>
+		
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+{subtemplate common/footer}

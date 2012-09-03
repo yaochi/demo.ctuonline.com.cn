@@ -1,0 +1,36 @@
+
+<div class="center_zqsy_left" id="">
+<!--{if $data}-->
+	<form method="post" action="{eval echo join_plugin_action('create')}">
+	<input type="hidden" name="fid" value="$_G[fid]" />
+    <div class="wdlb_nr"><div class="wd5">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_skjl">
+        <tbody><tr>
+          <td height="30" width="5%">&nbsp;</td>
+          <td height="30" width="29%">问卷名</td>
+          <td width="11%">作者</td>
+          <td width="13%">最后发表时间</td>
+          </tr>
+		<!--{loop $data $topic}-->
+		<tr>
+			<td>
+            <input type="checkbox" value="$topic[questid]" name="ids[]">
+			</td>
+			<td>$topic[questname]</td>
+			<td>$topic[username]</td>
+			<td>$topic[dateline]</td>
+		</tr>
+		<!--{/if}-->
+      </tbody></table>
+    </div></div>
+        <button type="submit" class="pn pnc" id="submit" name="submit">
+            <strong>导入</strong>
+        </button>
+	</form>
+	$multipage
+	<!--{else}-->
+	<div class="emp">
+	没有可浏览的列表。
+	</div>
+	<!--{/if}-->
+</div>

@@ -1,0 +1,44 @@
+<div class="appl cl">
+    <ul>	
+		<!--{loop $_G["group_plugins"]["group_available"]["groupmenu"] $id $item}-->
+        <!--{if $id!='groupad'&& $id!='repeats'}-->
+        <li onmouseout="this.className=''" onmouseover="this.className='hvr'">
+            <a href="forum.php?mod=group&action=plugin&fid={$_G[fid]}&plugin_name={$id}&plugin_op=groupmenu">
+                <img alt="" src="static/image/plugins/{$id}.gif" width="16" height="16">{$item["menu"]}</a>
+        </li>
+        <!--{/if}-->
+        <!--{/loop}-->
+	</ul>
+</div>
+<hr class="da" />
+<div class="appl cl">
+
+	
+<!--{if $status != 2 && $status != 3}-->
+<!--{if $status != 'isgroupuser'}-->
+<!--{if $_G[uid] && ($_G[forum][jointype]==0 || $_G[forum][jointype]==2) && $_G["forum"]["group_type"]!=1}-->
+	<div class="hm"><button type="button" class="pn" onclick="location.href='forum.php?mod=group&amp;action=join&amp;fid={$_G[fid]}'"><em>加入专区</em></button></div>
+<!--{/if}-->
+<!--{/if}-->
+<!--{/if}-->
+
+
+	<ul>
+		<!--{if $_G['forum']['ismoderator']}-->
+        	<li <!--{if $action == 'manage'}-->class="a"<!--{/if}-->>
+        		<a href="forum.php?mod=group&amp;action=manage&amp;fid={$_G[fid]}#groupnav">管理专区</a>
+        	</li>
+        <!--{/if}-->
+
+			<!--{if $status != 2 && $status != 3}-->
+			<!--{if $status == 'isgroupuser'}-->
+			<!--{if !group_is_group_founder($_G[fid], $_G[uid]) && $_G["forum"]["group_type"][group_type]!=1 }-->
+
+	    	<li>
+	    		<a href="javascript:;" onclick="showDialog('退出专区您在此专区中的经验值将不被保留。确定要退出该专区吗？', 'confirm', '', function(){location.href='forum.php?mod=group&amp;action=out&amp;fid={$_G[fid]}'})">退出专区</a>
+	    	</li>
+			<!--{/if}-->
+			<!--{/if}-->
+			<!--{/if}-->
+    </ul>
+</div>

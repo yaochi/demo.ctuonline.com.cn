@@ -1,0 +1,48 @@
+<div class="wp cl" style="width:789px; float:left; padding:0 15px;">
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+	
+		<div style="font-size:16px; color:#333333; padding:16px 0 0px 0; font-weight:bold;">自定义讲师属性</div>
+	
+	<div id="lecturerlist" class="nr">
+		<form action="{eval echo join_plugin_action('step2_save')}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="total" id="total" value="$total" />
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jsxq">
+			<!--{loop $lecturers $key $lecturer}-->
+			<tr>
+			<td width="1%" rowspan="2" align="right"><span class="hongse">*</span></td>
+			<td width="9%" rowspan="2" valign="top"><div id="lecturerattach_image$key" style="padding-top:25px; float: left;">
+					
+					<p class="jszp">
+						<!--{if !$lecturer[imgurl]}-->
+							<img src="static/image/images/def_lecturer.png" class="lbimg" />
+						<!--{else}-->
+							<img width="120px" height="120px" src="$lecturer[imgurl]" alt="" />
+						<!--{/if}-->	
+					</p>
+					
+					<input type="hidden" name="lecimgurl$key" id="lecimgurl$key" value="$lecturer[imgurl]"/>
+				</div></td>
+			<td width="90%" valign="top" class="a" style="padding-top:25px;">
+				<span style="font-size:14px; font-weight:bold;">$lecturer["name"]</span>
+			</td>
+			</tr>
+			
+			<tr>
+				<td style="padding-top:5px;">
+					<input type="hidden" name="lecid$key" id="lecid$key" value="$lecturer[id]"/>
+					<input type="hidden" name="lecname$key" id="lecname$key" value="$lecturer[name]"/>
+					<textarea rows="" cols="" name="about$key" id="about$key" style="width:100%; height:90px; line-height:18px;">$lecturer["about"]</textarea>
+				</td>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jsxq">
+    <tr>
+      <td height="80" align="center"><input type="submit" name="submit" id="submit" class="wjxx_an" value="保存创建" /></td>
+      </tr>
+  </table>
+		</form>
+	</div>
+</div>

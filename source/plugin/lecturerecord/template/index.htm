@@ -1,0 +1,186 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/lecturerecord/js/lecturerecord_moderate.js"></script>
+<!--{/if}-->
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="sixWord y">&#43;&nbsp;新建授课记录</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<a id="filterbtn" class="iconbtn y pressed" href="#" onclick="changecategory(this)"><img src="{IMGDIR}/esn/btn_filter.png" width="18" height="15" /></a>
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<!-- filter & sort Panel begin -->
+<div id="fspanel">
+	<table>
+		<tr id="nav_category">
+			<th>分类:</th>
+    		<td class="piped">
+				<a <!--{if $_GET[type]=='apply' || !$_GET[type]}-->class="a"<!--{/if}--> href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index&type=apply&lecid=$lecid">授课申报</a>
+                <a <!--{if $_GET[type]=='dev'}-->class="a"<!--{/if}--> href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index&type=dev&lecid=$lecid">课程开发</a>
+                <a <!--{if $_GET[type]=='research'}-->class="a"<!--{/if}--> href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index&type=research&lecid=$lecid">课程研究</a>
+                <a <!--{if $_GET[type]=='tu'}-->class="a"<!--{/if}--> href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=index&type=tu&lecid=$lecid">在线课程辅导</a>
+    		</td>
+  		</tr>
+	</table>
+</div>
+<!-- filter & sort Panel end -->
+
+<div class="wd5" id="lecturerecordlist" style="position: relative;">
+	<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=lecturerecordmoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="listextra" value="$extra" />
+      <table cellspacing="0" cellpadding="0" border="0" width="100%" class="table_skjl">
+        <tbody>
+        <!--{if $results}-->
+        <!--{if $type==1}-->
+        <tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="30" width="5%" style="border-right: none;">&nbsp;</td>
+          <!--{/if}-->
+          <td height="30">授课名称 </td>
+          <td width="8%">讲师</td>
+		  <td width="20%">主办方</td>
+		  <td width="15%">课程时长</td>
+          <td width="20%">时间</td>
+          <td width="9%">地点</td>
+          <td width="6%">人数</td>
+        </tr>
+		<!--{loop $results $key $item}-->
+        <tr class="line{eval echo ($key%2)}">
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="64" style="border-right: none;">
+           	<span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$item[id]" /></span>
+          </td>
+          <!--{/if}-->
+          <td height="64" class="textleft"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$item[id]&lecturerecord_action=index&type=apply">$item[name]</a></td>
+          <td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$item[teacher_id]">$item["teacher_name"]</a></td>
+		  <td>$item["org_name"]</td>
+		  <td>$item["class_time"] 小时</td>
+          <td>$item["starttime"]</td>
+          <td>$item["address"]</td>
+          <td>$item["class_stud_num"]</td>
+        </tr>
+		<!--{/loop}-->
+		<!--{/if}-->
+		
+		
+		
+		
+		<!--{if $type==2}-->
+		<tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="30" width="" style="border-right: none;">
+          	
+          	&nbsp;
+          	
+          </td>
+          <!--{/if}-->
+          <td height="30" width="">课程名称 </td>
+          <td width="10%">讲师</td>
+          <td width="15%">主办方</td>
+          <td width="18%">时间</td>
+          <td width="10%">地点</td>
+		  <td width="10%">课程级别</td>
+		  <td width="10%">参与度</td>
+          </tr>
+		<!--{loop $results $item}-->
+        <tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="64" style="border-right: none;">
+           	<span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$item[id]" /></span>
+          </td>
+          <!--{/if}-->
+          <td height="64" class="textleft"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$item[id]&lecturerecord_action=index&type=dev">$item["name"]</a></td>
+          <td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$item[teacher_id]">$item["teacher_name"]</a></td>
+          <td>$item["org_name"]</td>
+          <td>$item["starttime"]</td>
+          <td>$item["address"]</td>
+		  <td><!--{if $item[class_level]==2}-->集团级<!--{else}-->省级<!--{/if}--></td>
+		  <td><!--{if $item[class_result]==1}-->牵头人<!--{else}--> 参与人<!--{/if}--></td>
+          </tr>
+		<!--{/loop}-->
+		<!--{/if}-->
+		<!--{if $type==3}-->
+				<tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="30" width="" style="border-right: none;">
+          	
+          	&nbsp;
+          	
+          </td>
+          <!--{/if}-->
+          <td height="30" width="">课题名称 </td>
+          <td width="15%">讲师</td>
+          <td width="25%">组织部门</td>
+		  <td width="15%">研讨次数</td>
+          </tr>
+		<!--{loop $results $item}-->
+        <tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="64" style="border-right: none;">
+           	<span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$item[id]" /></span>
+          </td>
+          <!--{/if}-->
+          <td height="64" class="textleft"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$item[id]&lecturerecord_action=index&type=research">$item["name"]</a></td>
+          <td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$item[teacher_id]">$item["teacher_name"]</a></td>
+          <td>$item["org_name"]</td>
+          <td>$item["join_num"]次</td>
+          </tr>
+		<!--{/loop}-->
+		<!--{/if}-->
+		<!--{if $type==4}-->
+				<tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="30" width="" style="border-right: none;">
+          	
+          	&nbsp;
+          	
+          </td>
+          <!--{/if}-->
+          <td height="30" width="">课程名称 </td>
+          <td width="15%">讲师</td>
+          <td width="25%">组织部门</td>
+		  <td width="15%">辅导课时</td>
+          </tr>
+		<!--{loop $results $item}-->
+        <tr>
+        <!--{if $_G['forum']['ismoderator']}-->
+          <td height="64" style="border-right: none;">
+           	<span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$item[id]" /></span>
+          </td>
+          <!--{/if}-->
+          <td height="64" class="textleft"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturerecord&plugin_op=viewmenu&recordid=$item[id]&lecturerecord_action=index&type=tu">$item["name"]</a></td>
+          <td><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=lecturermanage&plugin_op=viewmenu&lecturermanage_action=index&lecid=$item[teacher_id]">$item["teacher_name"]</a></td>
+          <td>$item["org_name"]</td>
+          <td>$item["tu_num"]课时</td>
+          </tr>
+		<!--{/loop}-->
+		<!--{/if}-->
+		
+		<!--{else}-->
+		<!-- EKSN-285 授课记录模块增加"查看自己的授课记录"功能 -->
+		<tr><p class="hm xg1">没有相关的授课记录！</p></tr>
+		<!--{/if}-->
+		<tr>
+			<td colspan="9">$multipage</td>
+		</tr>
+      </tbody></table>
+      <!--{if $_G['forum']['ismoderator']}-->
+		<div id="mdly" style="display: none;">
+			<input type="hidden" name="optgroup" />
+			<input type="hidden" name="operation" />
+			<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+			<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+			<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+			<p>
+			<!--{if $_G['group']['allowdelpost']}-->
+				<strong><a href="javascript:;" onclick="tmodlecturers(3, 'delete');return false;">删除</a></strong>
+			<!--{/if}-->
+			</p>
+		</div>
+		<!--{/if}-->
+    </form>
+    </div>

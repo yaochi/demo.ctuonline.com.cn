@@ -1,0 +1,72 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+
+<link rel="stylesheet" href="source/plugin/learning/assets/style/learning.css?{VERHASH}" type="text/css" />
+<script type="text/javascript" src="source/plugin/learning/assets/js/learning.js?{VERHASH}"></script>
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="cl stacourselist corlist" style="position: relative;">
+	<div id="stacoursepanel">
+		<div id="stationBlock0" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=create'">
+			<p class="sb_title">我要提交</p>
+		</div>
+		<div id="stationBlock1" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=optionreply'">
+			<p class="sb_title">意见回复</p>
+		</div>
+		<div id="stationBlock2" class="stationBlock" onclick="location.href='forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu'">
+			<p class="sb_title">成果展示</p>
+		</div>
+		<div id="stationBlock3" class="stationBlock" onclick="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=groupmenu&learning_action=leaderboard'">
+        <p class="sb_title">学习力排行榜</p>
+      </div>
+		<div id="stationArrow"></div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+posArrow(1);
+</script>
+
+
+
+
+<div class="bm pgs ptn cl"> </div>
+
+<div id="lecturerlist" class="tl mgh" style="position: relative;">
+	<!--{if !$learnexcit}-->
+	<h3 class="mbm">当前没有待审核学习评估列表</h3>
+	<!--{else}-->
+	<h3 class="mbm">待审核评估列表</h3>
+	<table cellspacing="0" cellpadding="0" border="0">
+		<thead>
+			<tr>
+				<td class="icn">&nbsp;</td>
+				<th>主题</th>
+				<td class="by">作者/时间</td>
+			</tr>
+		</thead>
+	<tbody>
+	<!--{loop $learnexcit $key $learn}-->
+		<tr>
+			<td class="icn"><a target="_blank" title="新窗口打开" href=""><img src="static/image/common/folder_new.gif"></a></td>
+			<td><span id="">
+			<!--{if $_G['forum']['ismoderator']==1 ||$_G[uid]==$learn[uid] }-->
+			<a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=viewmenu&learning_action=optionview&learnid=$learn[id]&tap=1&uid=$learn[uid]&examinestatus=1">$learn[learnname]</a>
+                <!--{else}-->
+                 $learn[learnname]
+				<!--{/if}-->
+			</span></td>
+			<td>
+				<em>$learn[subrealname]/{eval echo dgmdate($learn[subdateline])}</em>
+			</td>
+		</tr>
+		 <!--{/loop}-->
+       </tbody>
+	</table>
+	<!--{/if}-->
+</div>
+<!--{if $multipage}--><div class="pgs cl">$multipage</div><!--{/if}-->

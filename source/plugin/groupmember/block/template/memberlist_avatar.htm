@@ -1,0 +1,50 @@
+<!--{if $listdata[newuserlist]}-->
+<ul class="module ml mls cl" style="display:block;">
+	<!--{loop $listdata[newuserlist] $user}-->
+	<li>
+		<a href="home.php?mod=space&amp;uid={$user[uid]}" title="<!--{if $user['level'] == 1}-->群主<!--{elseif $user['level'] == 2}-->副群主<!--{elseif $user['level'] == 3}-->外部专家<!--{/if}--><!--{if $user['online']}-->在线<!--{/if}-->" class="avt">
+			<!--{if $user['level'] == 1}-->
+				<em class="gm"></em>
+			<!--{elseif $user['level'] == 2}-->
+				<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+			<!--{elseif $user['level'] == 3}-->
+				<em class="gs"></em>
+			<!--{/if}-->
+			<!--{if $user['online']}-->
+				<em class="gol"<!--{if $user['level'] <= 3}--> style="margin-top: 15px;"<!--{/if}-->></em>
+			<!--{/if}-->
+			<!--<img src="uc_server/avatar.php?uid={$user[uid]}&size=small">-->
+			<img src="{$user['userImage']}">
+		</a>
+		<p>
+			<a href="home.php?mod=space&uid={$user[uid]}" title="{$newuserrealnames[$user['uid']][realname]}">{$newuserrealnames[$user['uid']][realname]}</a>
+		</p>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+<!--{if $listdata[activityuserlist]}-->
+<ul class="ml mls cl" style="display:block;">
+	<!--{loop $listdata[activityuserlist] $user}-->
+	<li>
+		<a href="home.php?mod=space&amp;uid={$user[uid]}" title="<!--{if $user['level'] == 1}-->群主<!--{elseif $user['level'] == 2}-->副群主<!--{elseif $user['level'] == 3}-->外部专家<!--{/if}--><!--{if $user['online']}-->在线<!--{/if}-->" class="avt">
+			<!--{if $user['level'] == 1}-->
+				<em class="gm"></em>
+			<!--{elseif $user['level'] == 2}-->
+				<em class="gm" style="filter: alpha(opacity=50); opacity: 0.5"></em>
+			<!--{elseif $user['level'] == 3}-->
+				<em class="gs"></em>
+			<!--{/if}-->
+			<!--{if $user['online']}-->
+				<em class="gol"<!--{if $user['level'] <= 3}--> style="margin-top: 15px;"<!--{/if}-->></em>
+			<!--{/if}-->
+			<!--<img src="uc_server/avatar.php?uid={$user[uid]}&size=small">-->
+			<img src="{$user['userImage']}">
+		</a>
+		<p>
+			<a href="home.php?mod=space&uid={$user[uid]}" title="{$activityuserrealnames[$user['uid']][realname]}">{$activityuserrealnames[$user['uid']][realname]}</a>
+		</p>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->

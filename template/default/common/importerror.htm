@@ -1,0 +1,60 @@
+{subtemplate common/header}
+
+<div id="wp" class="wp">
+	<div id="pt" class="wp">
+		<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav
+	</div>
+	<div id="ct" class="wp cl">
+		<div class="reHeight">
+			<div class="mn">
+				<div id="plgnav" class="bbsgroup">
+					<a id="backbtn" href="$error['url']" class="z">返回管理</a>
+					<div id="toolbar">
+						<h2>数据导入</h2>
+					</div>
+				</div>
+				
+				<div class="bm reHeight" style="padding-top: 30px;">
+					<div class="cl mlwgroup">
+						<img src="{IMGDIR}/error_big.gif" width="34" height="34" class="z" />
+						<h1 class="wx xs7 z mlmgroup" style="line-height: 34px;">本次导入发生错误</h1>
+					</div>
+					<p class="xs2 xg1 mtn" style="margin-left: 65px;">$error['summary']<br/>您可根据如下错误提示修改待导入表格 然后再次尝试导入</p>
+				</div>
+				<!--{loop $error['errorarr'] $value}-->
+				<p class="mtw hm"><span class="xw1">$value['sheetname']:&nbsp;</span>$value['lisummary']</p>
+				<table class="ierrTable mbw mtn">
+				<!--{loop $value['sheeterror'] $key $val}-->
+					<tr>
+						<th>{eval echo($key+1)}</th>
+						<td>$val</td>
+					</tr>
+					<!--{/loop}-->
+				</table>
+				 <!--{/loop}-->
+			</div>
+		
+			<div class="sd pph">
+				<div id="plgnav" class="bbsgroup hm">
+			</div>
+		</div>
+	</div>	
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	var tables = document.getElementsByTagName("table");
+	
+	alternatingRowColor(tables);
+
+	function alternatingRowColor(tables) {
+		if(tables) {
+			for(var i = 0; i < tables.length; i++) {
+				var rows = tables[i].getElementsByTagName("tr");
+							
+				for(var j = 0; j < rows.length; j++) { j%2 ? "": addClass(rows[j], "alRowColor"); }		
+			}
+		}
+	}
+
+</script>
+{subtemplate common/footer}

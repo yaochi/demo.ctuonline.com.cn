@@ -1,0 +1,52 @@
+<form action="forum.php?mod=group&action=manage&op=settingempirical&m=save&fid=$_G[fid]" method="post" onsubmit="javascript:return checkform();">
+    <input type="hidden" name="id" value="$result[id]" />
+    <table class="tb tb2 nobdb">
+    	<tr><td>
+    		<input id='cycletype1' type="radio" name="cycletype" value="1" <!--{if $result[cycletype]==1}-->checked="true"<!--{/if}--> onclick="relhidden('cycle')"/>仅次数
+    	</td></tr>
+        <tr><td><input id="cycletype2" type="radio" name="cycletype" value="2" onclick="reldisplay('cycle')" <!--{if $result[cycletype]!=1}-->checked="true"<!--{/if}--> />周期</td></tr>
+        <tr><td>次数<input id="total" type="text" name="total" value="$result[total]"/></td></tr>
+        <tr id="cycle" <!--{if $result[cycletype]==1}-->style="display:none"<!--{/if}-->>
+            <td>分钟数<input id="cyclemin" type="text" name="cycle" value="$result[cycle]"/></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="提交" class="btn"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript">
+    // 只能显示正整数
+    function checkIsPositive(input_value){
+        var patrn = /^\\d+$/
+        if (!patrn.exec(input_value)){
+            alert("不能输入负数，字母或者中文字符");
+        }
+        return true
+    }
+    function checkform(){
+    	var patrn =/^[0-9]*$/;
+        var total=document.getElementById('total').value;
+        
+        //alert(total);
+        if (!patrn.exec(total)){
+        	alert("次数不能输入负数，字母或者中文字符");
+        	return false;
+        }
+        if(document.getElementById('cycletype2').checked==true){
+            var cycle=document.getElementById('cyclemin').value;
+            //alert(cycle);
+            if (!patrn.exec(cycle)){
+            	alert("分钟数不能输入负数，字母或者中文字符");
+            	return false;
+            }           
+        }
+        return true;
+    }
+
+</script>
+
+
+

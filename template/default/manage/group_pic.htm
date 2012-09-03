@@ -1,0 +1,74 @@
+{subtemplate manage/common_header}
+
+<table id="tips" class="tb tb2 ">
+<tbody><tr><th class="partition">技巧提示</th></tr>
+<tr><td class="tipsblock">
+        <ul id="tipslis">
+            <li>通过图片管理，您可以对用户的图片进行，查找、查看、删除。</li>
+            <li>请先根据条件搜索记录，然后选择相应的操作。</li>
+        </ul>
+    </td></tr></tbody></table>
+<script src="static/js/forum_calendar.js"></script>
+<div id="searchmembers">
+    <form id="cpform" action="manage.php?mod=group&op=pic" autocomplete="off" method="post" name="cpform">
+        <input type="hidden" name="method" value="search"/>
+<table class="tb tb2 ">
+<tbody><tr><td class="td27" colspan="2">姓名</td></tr>
+<tr class="noborder"><td class="vtop rowform">
+<input type="text" class="txt" value="$_G[gp_usernames]" readonly="readonly" name="usernames" id="usernames"><input type="hidden" id="usernames_uids" name="usernames_uids" value="$_G[gp_usernames_uids]"><input type="button" onclick="showWindow('query', 'misc.php?mod=queryuser&id=usernames&type=radio', 'get', 0);" value="选择人员" class="btn" />&nbsp;&nbsp;<input type="button" onclick="clearname()" value="清除" class="btn" /></td><td>请选择一个用户</td></tr>
+<tr><td class="td27" colspan="2">所在相册:</td></tr>
+<tr class="noborder"><td class="vtop rowform">
+<input type="text" class="txt" value="$_G[gp_content]" name="content"></td><td class="vtop tips2"></td></tr>
+<tr><td class="td27" colspan="2">发表时间范围:</td></tr>
+<tr class="noborder"><td class="vtop rowform">
+<input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-right: 5px;" value="$_G[gp_starttime]" name="starttime" class="txt"> --
+<input type="text" onclick="showcalendar(event, this)" style="width: 108px; margin-left: 5px;" class="txt" value="$_G[gp_endtime]" name="endtime"></td><td class="vtop tips2">格式 yyyy-mm-dd，不限制请输入 0</td></tr>
+</tbody><tbody><tr><td colspan="15">
+            <div class="fixsel">
+                <input type="submit" value="搜索" title="按 Enter 键可随时提交您的修改" name="submit" id="submit_submit" class="btn"> &nbsp;
+            </div></td></tr>
+</tbody></table>
+</form>
+</div>
+
+<form id="deletefrm" action="manage.php?mod=group&op=pic" autocomplete="off" method="post" name="cpform" onsubmit="javascript:return checkform();">
+        <input type="hidden" name="method" value="delete"/>
+<table class="tb tb2 ">
+<tbody><tr><th class="partition" colspan="15">共搜索到<strong> $count </strong>个符合条件的记录</th></tr>
+<tr class="header"><th></th><th>图片</th><th>相册名</th><th>发表时间</th><th>作者</th></tr>
+<!--{loop $piclist $pic}-->
+<tr>
+<input type="hidden" value="$pic[fid]" name="fidarray[]"/>
+<input type="hidden" value="$rlist[$pic[picid]][uid]" name="uidarray[]"/>
+<td><input type="checkbox" class="checkbox" value="$pic[picid]" name="ridarray[]"></td>
+<td><a target="_blank" href="forum.php?mod=group&action=plugin&fid=$pic[fid]&plugin_name=groupalbum2&plugin_op=groupmenu&picid=$pic[picid]&groupalbum2_action=index&"><img class="a" src="$pic[pic]" alt=""></a></td>
+<td><a target="_blank" href="forum.php?mod=group&action=plugin&fid=$pic[fid]&plugin_name=groupalbum2&plugin_op=groupmenu&id=$pic[albumid]&groupalbum2_action=index&">$pic[albumname]</a>(所在<!--{if $pic[type]=='activity'}-->活动<!--{else}-->专区<!--{/if}-->：<a target="_blank" href="forum.php?mod=group&fid=$pic[fid]">$pic[forumname]</a>)</td>
+<td>$pic[date]</td><td><a target="_blank" href="home.php?mod=space&uid=$rlist[$pic[picid]][uid]">$rlist[$pic[picid]][realname]</a></td>
+</tr>
+<!--{/loop}-->
+<tr><td colspan="15">
+        <div class="cuspages right">
+        $multipage
+        </div>
+        <div class="fixsel">
+            <input type="checkbox" class="checkbox" onclick="checkAll('prefix', this.form, 'ridarray')" name="chkall">删? &nbsp;
+            <input type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="submit" id="submit_submit" class="btn">
+        </div></td></tr>
+</tbody></table>
+</form>
+<script>
+function checkform(){
+	var ridarray=document.getElementsByName("ridarray[]");	
+	for(var i=0;i<ridarray.length;i++){
+		if(ridarray[i].checked==true){
+			return confirm("您确认要删除选中内容吗?");
+			//if(confirm("您确认要删除选中内容吗?")){
+		    //	document.forms[0].submit();
+		    //}
+		}		
+	}	
+	alert("请选择您要删除的内容!");
+	return false;
+}
+</script>
+{subtemplate manage/common_footer}

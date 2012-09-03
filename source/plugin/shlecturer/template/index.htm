@@ -1,0 +1,181 @@
+<!--{if $_G['forum']['ismoderator']}-->
+	<script type="text/javascript" src="source/plugin/shlecturer/js/shlecturermanage_moderate.js"></script>
+<!--{/if}-->
+
+<div id="plgnav" class="bbsgroup">
+	<a id="backbtn" href="forum.php?mod=group&fid=$_G[fid]" class="z">返回首页</a>
+	<!--{if $_G["uid"] && $_G["group_plugins"]["group_available"]["createmenu"][$_G["gp_plugin_name"]]}-->
+	<a id="createbtn" href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=$_G[gp_plugin_name]&plugin_op=createmenu" class="fourWord y">&#43;&nbsp;创建讲师</a>
+	<!--{/if}-->
+	<div id="toolbar">
+		<h2>$_G["group_plugins"]["group_available"]["groupmenu"][$_G[gp_plugin_name]][menu]</h2>
+	</div>
+</div>
+
+<div class="mn">
+	<script type="text/javascript">
+		function inner() {
+			$('inner').style.display ='block';
+			$('outter').style.display='none';
+		}
+		function outter() {
+			$('inner').style.display='none';
+			$('outter').style.display='block';
+		}
+	</script>
+	
+	<div class="lecturer_search">
+	<form action="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=groupmenu&shlecturer_action=index" method="post" enctype="multipart/form-data">
+    <div class="sszy" id='sszy1' style="display:none;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+		<tr>
+		    <td align="right" valign="top">讲师名称：</td>
+		    <td valign="top" class="xian"><p><input type="text" name="name" id="name" value="$name"/></p>			</td>
+			<td align="right" valign="top"></td>
+			<td align="right" valign="top" >&nbsp;</td>
+		</tr>
+		  <tr>
+		  	<td align="right" valign="top">讲师类型：</td>
+		    <td valign="top"  class="xian"><input type="radio" onclick="inner()" name="isinnerlec" value="1" />
+		    内部讲师
+            <input type="radio" onclick="outter()" name="isinnerlec" value="2" />
+		    外部讲师</td>
+		    <td align="right" valign="top">讲师级别：</td>
+		    <td valign="top">
+			<div id="inner" style="display: block;">
+			<select name="rank_inner">
+				<option value="0" <!--{if !$rank_inner || $rank_inner==0 }-->selected="selected"<!--{/if}-->>全部</option>
+				<option value="1" <!--{if $rank_inner==1 }-->selected="selected"<!--{/if}-->>集团级</option>
+				<option value="2" <!--{if $rank_inner==2 }-->selected="selected"<!--{/if}-->>公司级</option>
+				<option value="3" <!--{if $rank_inner==3 }-->selected="selected"<!--{/if}-->>直属单位级</option>
+				<option value="4" <!--{if $rank_inner==4 }-->selected="selected"<!--{/if}-->>其他</option>
+			</select></div>
+						<div id="outter" style="display: none;">
+						<select name="rank_outter">
+							<option value="0" <!--{if !$rank_outter || $rank_outter==0 }-->selected="selected"<!--{/if}-->>全部</option>
+							<option value="1" <!--{if $rank_outter==1}-->selected="selected"<!--{/if}-->>客座教授</option>
+							<option value="2" <!--{if $rank_outter==2}-->selected="selected"<!--{/if}-->>荣誉教授</option>
+							<option value="3" <!--{if $rank_outter==3}-->selected="selected"<!--{/if}-->>专家教授</option>
+							<option value="4" <!--{if $rank_outter==4}-->selected="selected"<!--{/if}-->>讲师</option>
+						</select></div></td>
+		  </tr>
+		  <tr>
+		  	<td align="right" valign="top">授课方向：</td>
+		    <td valign="top" class="xian"><select name="teachdirection">
+		    				<!--{if !$teachdirection || $teachdirection==1 }-->selected="selected"<!--{/if}-->>全部<!--{if !$teachdirection || $teachdirection==1 }-->selected="selected"<!--{/if}-->>全部<option value="0" <!--{if !$teachdirection || $teachdirection==1 }-->selected="selected"<!--{/if}-->>全部</option>
+							<!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>市场类<!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>市场类<option value="1" <!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>市场类</option>
+							<!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>销售与服务类<!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>销售与服务类<option value="2" <!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>销售与服务类</option>
+							<!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>产品类<!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>产品类<option value="3" <!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>产品类</option>
+							<!--{if $teachdirection==4 }-->selected="selected"<!--{/if}-->>企业信息化类<!--{if $teachdirection==4 }-->selected="selected"<!--{/if}-->>企业信息化类<option value="4" <!--{if $teachdirection==4 }-->selected="selected"<!--{/if}-->>企业信息化类</option>
+							<!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>维护与服务支撑类<!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>维护与服务支撑类<option value="5" <!--{if $teachdirection==1 }-->selected="selected"<!--{/if}-->>维护与服务支撑类</option>
+							<!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>网发建设类<!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>网发建设类<option value="6" <!--{if $teachdirection==2 }-->selected="selected"<!--{/if}-->>网发建设类</option>
+							<!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>综合类<!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>综合类<option value="7" <!--{if $teachdirection==3 }-->selected="selected"<!--{/if}-->>综合类</option>
+						</select></td>
+		    <td align="right" valign="top">所授课程：</td>
+		    <td valign="top" ><p><input type="text" name="course" id="course" value="$course"/></p>			</td>
+		  </tr>
+		 <tr>
+		    <td colspan="3" align="center" valign="top">
+            <button class="pn y" style="margin-right:60px;" type="submit"><span>搜索讲师</span></button>           </td>
+           <td align="right" valign="top" style="line-height:30px; padding-right:20px;">
+			<a id='yincang' onclick="$('sszy1').style.display='none';$('sszy2').style.display='';" href="#">&lsaquo;&lsaquo; 普通搜索</a></td>
+		 </tr>
+		</table>
+      </div>
+      <div class="sszy" id='sszy2'>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_zy">
+		<tr id='select4'>
+		    <td width="37%" align="right" valign="top" style=" padding-bottom:0px;">讲师名称：</td>
+		    <td width="63%" colspan="2" valign="top" style="line-height:26px; padding-bottom:0px;"><p><input type="text" name="name" id="name" value="$name" style="width:160px;"/><button class="pn" type="submit" style="margin-left:10px;"><span>搜索讲师</span></button></p>			</td>
+          </tr>
+		 <tr id='select3'>
+         <td style="padding:0px;">
+         </td>
+           <td align="right" valign="top" style="line-height:30px; padding:0px;padding-right:20px;"><a id='xianshi' onclick="$('sszy1').style.display='';$('sszy2').style.display='none';" href="#">高级搜索 &rsaquo;&rsaquo;</a>
+			</td>
+		 </tr>
+		</table>
+      </div>
+	</form>
+	</div>
+	<div>
+		<div id="lecturerlist" style="position: relative;">
+			<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=shlecturermoderate&fid=$_G[fid]&infloat=yes&nopost=yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="listextra" value="$extra" />
+			
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_jglb" style="margin-top:20px;">
+					<tr class="qcbj qcxx">
+						<!--{if $_G['forum']['ismoderator']}-->
+						<td class="xiaxian" width="30">选择</td>
+						<!--{/if}-->
+						<td class="xiaxian" width="60">姓名</td>
+						<td class="xiaxian" align="center">工作单位</td>
+						<td class="xiaxian" width="80">级别</td>
+					</tr>
+					<!--{if !$lecturers}-->
+					<tr><td colspan="6">查找不到相关讲师</td></tr>
+					<!--{/if}-->
+					<!--{loop $lecturers $key $lecturer}-->
+					<tr class="qcbj line{eval echo ($key%2)}">
+						<!--{if $_G['forum']['ismoderator']}-->
+		              	<td><span><input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$lecturer[id]" /></span></td>
+		              	<!--{/if}-->
+						<!-- <td>
+						<!--{if !$lecturer[imgurl]}-->
+							<img src="static/image/images/def_lecturer.png" width="117" height="117" style="border:1px solid #ddd;" />
+						<!--{else}-->
+							<img alt="" src="$lecturer[imgurl]" class="" width="117" height="117" style="border:1px solid #ddd;" />
+						<!--{/if}-->	
+						</td> -->
+						<td align="center"><a href="forum.php?mod=group&action=plugin&fid=$_G[fid]&plugin_name=shlecturer&plugin_op=viewmenu&shlecturer_action=index&lecid=$lecturer[id]" target="_blank">$lecturer[name]</a></td>
+						<td>$lecturer[orgname]</td>
+						<td align="center">
+							<!--{if $lecturer[isinnerlec]==1}-->
+								<!--{if $lecturer[rank]==1}-->
+								集团级
+								<!--{elseif $lecturer[rank]==2}-->
+								公司级
+								<!--{elseif $lecturer[rank]==3}-->
+								直属单位级
+								<!--{elseif $lecturer[rank]==4}-->
+								其他
+								<!--{/if}-->
+							<!--{elseif $lecturer[isinnerlec]==2}-->
+								<!--{if $lecturer[rank]==1}-->
+								客座教授
+								<!--{elseif $lecturer[rank]==2}-->
+								荣誉教授
+								<!--{elseif $lecturer[rank]==3}-->
+								专家教授
+								<!--{elseif $lecturer[rank]==4}-->
+								讲师
+								<!--{/if}-->
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{/loop}-->
+				</table>
+			<div class="bn z"><button class="pn mtm" type="button" style="margin-left:10px;" onclick="window.open('forum.php?mod=forumdisplay&action=list&fid=536&special=0&plugin_name=topic&plugin_op=groupmenu&category_id=818');"><span>互动交流</span></button></div>
+            <div class="bn">
+                <div class="pgs cl">$multipage</div>
+			</div>
+			<!--{if $_G['forum']['ismoderator']}-->
+			<div id="mdly" style="display: none;">
+				<input type="hidden" name="optgroup" />
+				<input type="hidden" name="operation" />
+				<a class="cp" href="javascript:;" onclick="$('mdly').className='cpd'">{lang zoom_out}</a>
+				<label><input class="pc" type="checkbox" name="chkall" onclick="if(!($('mdct').innerHTML = modclickcount = checkall(this.form, 'moderate'))) {$('mdly').style.display = 'none';}" /> 全选</label>
+				<h6><span>选中</span><strong onclick="$('mdly').className=''" id="mdct"></strong><span>篇: </span></h6>
+				<p>
+				<!--{if $_G['group']['allowdelpost']}-->
+					<strong><a href="javascript:;" onclick="tmodlecturers(3, 'delete');return false;">删除</a></strong>
+				<!--{/if}-->
+				</p>
+			</div>
+			<!--{/if}-->
+			</form>
+		</div>
+	</div>
+	
+</div>

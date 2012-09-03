@@ -1,0 +1,86 @@
+a {
+color: #333333;
+}
+a:link, a:visited, a:active {
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+.tab-content {
+width:882px; margin:0 auto;
+}
+
+.xfs_4 {display: table;
+width:910px; margin:195px auto 0 auto;
+ background: url(/static/page/tyzc/assets/listpanelbg.png) no-repeat;
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/page/tyzc/assets/listpanelbg.png', sizingMethod='crop');
+_background: none;
+}
+.xfs_4 .tab-title {
+
+}
+.xfs_4 .tb li {
+margin-top: 0 !important;
+}
+.xfs_4 .tb li a {
+border-left: 1px solid #FFFFFF;
+border-right: 1px solid #FFFFFF;
+color: #501700;
+}
+.xfs_4 .tb .a {
+background: none repeat scroll 0 0 #FCFFEC;
+}
+.xfs_4 .tab-content {
+
+}
+
+table.ts_1 {
+border-collapse: collapse;
+width: 100%;
+}
+table.ts_1 caption {
+height: 34px;
+vertical-align: top;
+}
+table.ts_1 tr {
+background-color: #FFFFFF;
+height: 32px;
+}
+table.ts_1 td, table.ts_1 th {
+border: 1px dashed #FFD369;
+padding: 0 5px;
+}
+table.ts_2 td {
+line-height: 40px;
+vertical-align: middle;
+}
+table.ts_2 button {
+float: right;
+margin-top: 5px;
+}
+.alRowColor {
+background-color: #FFF7B9 !important;
+}
+
+
+.tyzc_bj{ background: url(/static/page/tyzc/assets/bg.jpg) no-repeat; min-height: 400px; _height:400px;}
+.xfs_bt{ display:table; margin:0px auto 30px auto; width:264px; height:24px; background: url(/static/page/tyzc/assets/qbtf_title.png) no-repeat;
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/page/tyzc/assets/qbtf_title.png', sizingMethod='image');
+_background: none;}
+
+.xfs_cz{display:table; padding-left:350px; margin:35px 0 15px 0;}
+.xfs_cz span{ padding-left:20px; color:#FFFFFF; margin:0 2px; float:left;}
+.xfs_cz span.d { padding:0px;}
+.xfs_cz span.a{background: url(/static/page/tyzc/assets/icn_home.png) no-repeat 0 2px;
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/page/tyzc/assets/icn_home.png', sizingMethod='crop');
+_background: none;}
+.xfs_cz span.b{background: url(/static/page/tyzc/assets/icn_share.png) no-repeat 0 2px;
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/page/tyzc/assets/icn_share.png', sizingMethod='crop');
+_background: none;}
+.xfs_cz span.c{background: url(/static/page/tyzc/assets/icn_fav.png) no-repeat 0 2px;
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/page/tyzc/assets/icn_fav.png',
+sizingMethod='crop');
+_background: none;}
+.xfs_cz a{ color:#FFFFFF;}
+.xfs_cz a:hover{ text-decoration:underline;}

@@ -1,0 +1,136 @@
+{template common/header}
+<!--{if !$_G['inajax']}-->
+<div id="pt" class="wp"><a href="portal.php">$_G['setting']['bbname']</a> &rsaquo; {lang query_user}</div>
+<div id="ct" class="wp cl">
+	<div class="mn">
+		<div class="ch">
+			<label class="wx">{lang invite}</label>
+		</div>
+		<div class="bm">
+<!--{/if}-->
+<!--{if $_G['gp_action'] == 'query'}-->
+$jsstr
+<!--{elseif $_G['gp_action'] == 'select'}-->
+$jsstr
+<!--{else}-->
+<!--{if !$_G['inajax']}-->
+			<h1 class="mt">{lang query_user}$invitename</h1>
+			<div class="usd usd2">
+<!--{else}-->
+		<div id="main_messaqge">
+			<h3 class="flb">
+				<em id="returnmessage4">{lang query_user}$invitename</em>
+				<span>
+					<!--{if $_G['inajax']}--><a href="javascript:;" class="flbc" onclick="hideWindow('query')" title="{lang close}">{lang close}</a><!--{/if}-->
+				</span>
+			</h3>
+			<div class="usd">
+<!--{/if}-->
+				<ul class="cl">
+					<li>
+						<p>{lang query_orderby_name}</p>
+						<p class="mtn">
+						<input type="text" name="username" size="25" id="username" class="px" value="" autocomplete="off" />
+						</p>
+						<script type="text/javascript">
+							var invitefs;
+						</script>
+					</li>
+					<li>
+						<div class="tbx" style=" padding-top:15px;">
+						<span onclick="getUser(page, 1)" class="a brs">{lang query_user}</span>
+						</div>
+					</li>
+				</ul>
+				<div class="tbx">
+					<span class="y">{lang invite_still_choose}(<strong id="remainNum">0</strong>){lang unit}</span>
+					<span id="showUser_0" onclick="invitefs.showUser(0)" class="a brs">{lang query_all_user}</span>
+					<span id="showUser_1" onclick="invitefs.showUser(1)">{lang selected}(<strong id="selectNum">0</strong>)</span>
+					<span id="showUser_2" onclick="invitefs.showUser(2)">{lang unselected}(<cite id="unSelectTab">0</cite>)</span>
+				</div>
+			</div>
+			<ul class="usl cl{if empty($_G['inajax'])} usl2{/if}" id="friends" style="height:200px;"></ul>
+			<script type="text/javascript" src="{$_G[setting][jspath]}home_userselector.js?{VERHASH}"></script>
+			<script type="text/javascript">
+				var num = 255;
+				<!--{if $_GET['type'] == 'radio'}-->
+				num = 1;
+				<!--{/if}-->
+				var parameter = {'searchId':'username', 'showId':'friends', 'formId':'inviteform', 'showType':1, 'handleKey':'invitefs', 'maxSelectNumber':num, 'selectTabId':'selectNum', 'unSelectTabId':'unSelectTab', 'maxSelectTabId':'remainNum'};				
+				
+				var intervalProcess = setInterval(function(){
+					try {
+						invitefs = new userSelector(parameter);
+						
+						if(typeof (invitefs) != 'undefined') {
+							clearInterval(intervalProcess);
+						}
+					} catch(err) {}
+				}, 1000);
+				
+				var clearlist = 0;
+				var listObj = $('friends');
+				var page = 1;
+				var showNum = 0;
+				var haveFriend = true;
+				var nDivHight = listObj.offsetHeight;
+				//判断滚动条到底，翻页
+				listObj.onscroll = function() {
+					if((nDivHight + this.scrollTop) >= this.scrollHeight) {
+						page++;
+						if(haveFriend) {
+							getUser(page);
+						}
+					}
+				}
+
+				function getUser(pageId, clear) {
+                    $("friends").innerHTML = "正在查找...";
+					page = parseInt(pageId);
+					if(typeof (clear) == 'undefined'){
+						clear = clearlist;
+					}
+					if(clear){
+						invitefs = new userSelector(parameter);
+					}
+					
+					var searchkey = $('username').value;
+					searchkey = encodeURI(searchkey);
+					var x = new Ajax();
+					x.get('misc.php?mod=queryuser&action=query&inajax=1&page='+ page + '&searchkey=' + searchkey, function(s) {
+						var data = eval('('+s+')');
+                        if(!data.userdata){
+                            $("friends").innerHTML = "未找到用户...";
+                        }
+						var singlenum = parseInt(data['singlenum']);
+						var maxfriendnum = parseInt(data['maxfriendnum']);
+						
+						invitefs.addDataSource(data, clear);
+						haveFriend = singlenum && singlenum == 20 ? true : false;
+						if(singlenum && invitefs.allNumber < 20 && invitefs.allNumber < maxfriendnum && maxfriendnum > 20 && haveFriend) {
+							page++;
+							getUser(page);
+						}
+					});
+				}
+				<!--{if $_GET['sub_op'] == 'query'}-->
+				//getUser(page, 1);
+				<!--{/if}-->
+			</script>
+			<form method="post" autocomplete="off" name="invite" id="inviteform" target="queryuserframe" action="misc.php?mod=queryuser&amp;action=select&amp;id=$_G[gp_id]">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="$_G['referer']" />
+				<!--{if !empty($_G['inajax'])}--><input type="hidden" name="handlekey" value="$_G['gp_handlekey']" /><!--{/if}-->
+				<p class="o pns{if empty($_G['inajax'])} mtw{/if}"><button type="submit" class="pn pnc" name="querysubmit" value="yes"><strong>{lang query_select}</strong></button></p>
+			</form>
+			<iframe name="queryuserframe" id="queryuserframe" style="display: none;"></iframe>
+<!--{if $_G['inajax']}-->
+		</div>
+<!--{/if}-->
+<!--{/if}-->
+<!--{if !$_G['inajax']}-->
+		</div>
+	</div>
+</div>
+<!--{/if}-->
+{template common/footer}

@@ -1,0 +1,62 @@
+/*
+** 学习力评估表，Added by Betty
+*/
+
+/* Tab */
+.corlist #stacoursepanel { background: url(../image/tab_bg.png) repeat-x; height: 40px; border: 0 none; }
+		 #stacoursepanel .stationBlock { height: 20px; padding: 10px 15px; border: 0 none; }
+		 #stacoursepanel .stationBlock .sb_title { color: #FFF; font-size: 14px; font-weight: 700; }
+		 #stacoursepanel .stationSplit { float: left; background: url(../image/tab_split.png) no-repeat; width: 2px; height: 40px; }
+		 #stacoursepanel #stationArrow { top: 40px; background: url(../image/tab_arrow.gif) no-repeat; width: 7px; height: 6px; }
+
+/* 意见回复 */
+.tfm th { width: 65px; }
+#lectSearchFieldComplex .tfm caption
+	, #lectSearchFieldComplex .tfm th
+	, #lectSearchFieldComplex .tfm td { padding: 4px 2px; }
+.px, .pt { padding: 1px; }
+
+/* 我要提交 */
+.mainbg { background: url("../image/table_bg.png"); }
+
+.promptbg { background: url(../image/prompt_bg.png); }
+.promptShadow { background: url("../image/nv_shadow2.png") no-repeat scroll center 0 transparent; height: 5px; width: 100%;
+					_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src='../image/nv_shadow2.png', sizingMethod='image');
+					_background: none;}
+
+#classtable { border-color: #D6D6D6; }
+	#classtable th, #classtable td { border-right: 1px solid #D6D6D6; border-bottom: 1px solid #D6D6D6; padding: 2px; }
+		#classtable .firstrow th, #classtable .firstrow td { border-top: 1px solid #D6D6D6; }
+		#classtable .lasttd {border-right:0 none;}
+		#classtable th { text-align: center; vertical-align:middle; width: 15%; }
+		#classtable td { background-color: #FFF; }
+			#classtable td.w { width: 35%; }
+	#classtable .pt, #classtable .px { width: 95%;  border: 0 none; padding: 2px; }
+	.view .pt, .view .px { color: #333; }
+		#classtable .pt { overflow: auto; }
+	#classtable .rq { float: none; font-size: 14px; margin-right: 3px; }
+	#classtable .example { background-color:#f5f5f5; line-height: 24px;}
+
+.btnarea { text-align: right; margin: 5px 10px; }
+.learpsth{
+ background-color: #FFF4DD;
+    background-position: 100% 50%;
+    color: #FF6600;
+    font-size: 12px;
+}
+.exampleBtn { float: right; cursor: pointer; background:url(../image/ex_arrow.gif) no-repeat 0 4px; margin-right: 5px; text-indent: 12px;}
+	.exampleOff { background-position:0 -25px;}
+
+.filebtn { float:right; margin-right:5px;}
+/* 列表页 */
+#fspanel { background: url(../image/search_bg.png); }
+
+.tl .line0 { background-color: #fff4bd !important; }
+.tl .line1 { background-color: #FFF !important; }
+
+.sbt { vertical-align: 2px; _vertical-align: middle; *vertical-align: middle; }
+.va { vertical-align: middle;}
+
+/* 详情页 */
+.viewbg { background: url(../image/view_bg.png); }
+

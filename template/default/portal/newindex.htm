@@ -1,0 +1,113 @@
+{subtemplate common/header}
+
+<div id="pt" class="wp">
+	<a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a>
+</div>
+<div class="wp cl">
+	<div id="billboard1">$ads[NP1]</div>
+	<div id="billboard2">$ads[NP2]</div>
+</div>
+<div class="wp cl">
+	<div id="officalBlog" class="reHeight">
+		<a href="home.php?mod=space&uid=$official_blog_info[gbloguid]" target="_blank">
+			<h2 id="obtitle" class="replaced">官方博客</h2>
+		</a>
+		<ul class="top2">
+			<!--{loop $official_blog_info[top] $value}-->
+			<li>
+				<dl>
+					<dt class="xs2 xw1">
+						<span class="xi2">&#91;$value[classname]&#93;</span>
+						<a href="home.php?mod=space&uid=$value[uid]&do=blog&id=$value[blogid]&from=space" title="$value[subject]" target="_blank">$value[subject]</a>
+					</dt>
+					<dd class="topDate">
+						<em class="xg1">$value[dateline]</em>
+						<img src="{IMGDIR}/esn/nv_calender.png" width="12" height="12" />
+					</dd>
+					<dd class="xg1">
+						$value[message]
+					</dd>
+					
+				</dl>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		<hr class="da">
+		<ul class="recent6">
+			<!--{loop $official_blog_info[new] $value}-->
+			<li>
+				<em class="xg1">$value[dateline]</em>
+				<img src="{IMGDIR}/esn/nv_calender.png" width="12" height="12" />
+				<p>
+					<span class="xi2 xw1">&#91;$value[classname]&#93;</span>
+					<a href="home.php?mod=space&uid=$value[uid]&do=blog&id=$value[blogid]&from=space" title="$value[subject]" target="_blank">$value[subject]</a>
+				</p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<div id="brandZone">
+		<table>
+			<tr>
+				<td><div class="dim1">$ads[NB1]</div></td>
+				<td><div class="dim1">$ads[NB2]</div></td>
+				<td><div class="dim2">$ads[NB3]</div></td>
+			</tr>
+			<tr>
+				<td><div class="dim1">$ads[NB4]</div></td>
+				<td><div class="dim1">$ads[NB5]</div></td>
+				<td><div class="dim2">$ads[NB6]</div></td>
+			</tr>
+		</table>
+		<div class="nvShadow"></div>
+	</div>
+	<div id="recentRes" class="reHeight">
+		<div id="newestRes" class="z">
+			<h2 id="newestRes_title" class="replaced">最新资源</h2>
+			<ul>
+			<!--{loop $newlist $list}-->
+				<li><span class="xi2 xw1">$list[fortitle]&nbsp;</span><a href="$list[titlelink]" title="$list[title]" target="_blank">$list[title]</a></li>
+			<!--{/loop}-->	
+				<!--<li><span class="xi2 xw1">&#91;文档&#93;&nbsp;</span><a href="$newlist[newsnsdoc][titlelink]" title="$newlist[newsnsdoc][title]" target="_blank">$newlist[newsnsdoc][title]</a></li>
+				<li><span class="xi2 xw1">&#91;案例&#93;&nbsp;</span><a href="$newlist[newcase][titlelink]" title="$newlist[newcase][title]" target="_blank">$newlist[newcase][title]</a></li>
+				<li><span class="xi2 xw1">&#91;直播&#93;&nbsp;</span><a href="$newlist[newlive][url]" title="$newlist[newlive][subject]" target="_blank">$newlist[newlive][subject]</a></li>
+				<li><span class="xi2 xw1">&#91;你我课堂&#93;&nbsp;</span><a href="home.php?mod=space&uid=$newlist[newnwkt][uid]&do=nwkt&id=$newlist[newnwkt][nwktid]" title="$newlist[newnwkt][subject]" target="_blank">$newlist[newnwkt][subject]</a></li>
+				<li><span class="xi2 xw1">&#91;话题&#93;&nbsp;</span><a href="forum.php?mod=viewthread&special=0&plugin_name=topic&plugin_op=groupmenu&tid=$newlist[newtopic1][tid]" title="$newlist[newtopic1][subject]" target="_blank">$newlist[newtopic1][subject]</a></li>
+				<li><span class="xi2 xw1">&#91;活动&#93;&nbsp;</span><a href="forum.php?mod=group&fid=$newlist[newactivity][fid]" title="$newlist[newactivity][name]" target="_blank">$newlist[newactivity][name]</a></li>-->
+			</ul>
+		</div>
+		<div id="hottestRes" class="y">
+			<h2 id="hottestRes_title" class="replaced">最热资源</h2>
+			<ul>
+			<!--{loop $hotlist $list}-->
+				<li><span class="xi2 xw1">$list[fortitle]&nbsp;</span><a href="$list[titlelink]" title="$list[title]" target="_blank">$list[title]</a></li>
+			<!--{/loop}-->	
+				<!--<li><span class="xi2 xw1">&#91;课程&#93;&nbsp;</span><a href="$hotlist[hotcourse][titlelink]" title="$hotlist[hotcourse][title]" target="_blank">$hotlist[hotcourse][title]</a></li>
+				<li><span class="xi2 xw1">&#91;文档&#93;&nbsp;</span><a href="$hotlist[hotdoc][titlelink]" title="$hotlist[hotdoc][title]" target="_blank">$hotlist[hotdoc][title]</a></li>
+				<li><span class="xi2 xw1">&#91;案例&#93;&nbsp;</span><a href="$hotlist[hotcase][titlelink]" title="$hotlist[hotcase][title]" target="_blank">$hotlist[hotcase][title]</a></li>
+				<li><span class="xi2 xw1">&#91;社区文档&#93;&nbsp;</span><a href="$hotlist[hotsnsdoc][titlelink]" title="$hotlist[hotsnsdoc][title]" target="_blank">$hotlist[hotsnsdoc][title]</a></li>
+				<li><span class="xi2 xw1">&#91;活动&#93;&nbsp;</span><a href="forum.php?mod=group&fid=$hotlist[hotactivity1][fid]" title="$hotlist[hotactivity1][name]" target="_blank">$hotlist[hotactivity1][name]</a></li>
+				<li><span class="xi2 xw1">&#91;活动&#93;&nbsp;</span><a href="forum.php?mod=viewthread&special=0&plugin_name=topic&plugin_op=groupmenu&tid=$hotlist[hotactivity2][tid]" title="$hotlist[hotactivity2][subject]" target="_blank">$hotlist[hotactivity2][subject]</a></li>
+				<li><span class="xi2 xw1">&#91;话题&#93;&nbsp;</span><a href="forum.php?mod=viewthread&special=0&plugin_name=topic&plugin_op=groupmenu&tid=$hotlist[hottopic][tid]" title="$hotlist[hottopic][subject]" target="_blank">$hotlist[hottopic][subject]</a></li>-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="promos" class="wp cl mtm">
+	<ul>
+		<li>$ads[NP3]</li>
+		<li>$ads[NP4]</li>
+		<li>$ads[NP5]</li>
+		<li>$ads[NP6]</li>
+		<li>$ads[NP7]</li>
+	</ul>
+</div>
+<script type="text/javascript" charset="utf-8">
+	if(BROWSER.ie) {
+		var promoAds = $("promos").getElementsByTagName("ul")[0];
+		getLastChild(promoAds).style.width = "192px";
+		getLastChild(promoAds).style.background = "none";
+	}
+</script>
+
+{subtemplate common/footer}

@@ -1,0 +1,64 @@
+<div class="module cl tl"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+	<!--{if $listdata}-->
+		<table cellpadding="0" cellspacing="0" border="0">
+			<thead>
+				<tr>
+					<td class="icn">&nbsp;</td>
+					<th>主题</th>
+					<td class="by">作者/时间</td>
+					<td class="num">回复</td>
+					<td class="by">最后发表</td>
+				</tr>
+			</thead>
+			<tbody id="{$item[id]}">
+			<!--{loop $listdata $item}-->
+					<tr>
+						<td class="icn">
+							<a href="{$item[url]}" title="新打开" target="_blank">
+							<!--{if $item[folder] == 'lock'}-->
+								<img src="static/image/common/folder_lock.gif" />
+							<!--{elseif $item['displayorder'] > 0}-->
+								<img src="static/image/common/pin_1.gif" alt="置顶" />
+							<!--{else}-->
+								<img src="static/image/common/folder_new.gif" />
+							<!--{/if}-->
+							</a>
+						</td>
+						<th>
+							<span id="thread_{$item[tid]}"><a href="{$item[url]}">{$item[subject]}</a></span>
+						</th>
+						<td class="by">
+							<cite>
+							<!--{if $item['authorid'] && $item['author']}-->
+								<a href="home.php?mod=space&uid={$item[authorid]}">{$item[author]}</a>
+							<!--{else}-->
+								<!--{if $_G['forum']['ismoderator']}-->
+									<a href="home.php?mod=space&uid={$item[authorid]}">{$item[author]}</a>
+								<!--{else}-->
+									{$item[author]}
+								<!--{/if}-->
+							<!--{/if}-->
+							</cite>
+							<em>{$item[dateline]}</em>
+						</td>
+						<td class="num">
+							<a class="xi2" href="{$item[url]}">{$item[replies]}</a><em>{$item[views]}</em>
+						</td>
+						<td class="by">
+							<cite>
+								<!--{if $item['lastposterenc']}-->
+									<a href="home.php?mod=space&uid={$item[lastposteruid]}">{$item[lastposter]}</a>
+								<!--{else}-->
+									<a href="home.php?mod=space&uid={$item[lastposteruid]}">{$item[lastposter]}</a>
+								<!--{/if}-->
+							</cite>
+								<em>{$item[lastpost]}</em>
+						</td>
+					</tr>
+			<!--{/loop}-->
+			</tbody>
+		</table>
+	<!--{else}-->
+		<p class="xg2"></p>
+	<!--{/if}-->	
+</div>

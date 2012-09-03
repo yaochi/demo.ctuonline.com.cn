@@ -1,0 +1,16 @@
+<div class="module cl xld tpemdiym"<!--{if $parameter[blockheight] != 0}--> style="height:{$parameter[blockheight]}px"<!--{/if}-->>
+    <!--{loop $listdata $item}-->
+    <dl class="mbw">
+        <dt>
+        	<div class="quote clm">
+        		<a href="{$item[url]}" target="_blank">
+        			<blockquote>
+        				{$item[description]}
+        			</blockquote>
+        		</a>
+        	</div>
+        </dt>
+        <dd><a href="home.php?uid={$item[authorid]}" title="{$item[realname]}" target="_blank" class="xi2 mrmgroup">{$item[realname]}</a><em class="xg1 mrmgroup">{$item[dateline]}</em><em class="xg1"><span class="xi2">{$item[replies]}</span>&nbsp;个回复</em></dd>
+    </dl>
+    <!--{/loop}-->
+</div>

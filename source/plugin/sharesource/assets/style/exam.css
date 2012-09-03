@@ -1,0 +1,54 @@
+.mn { margin-bottom:0px !important; _margin-bottom:0px;}
+
+.mainbg { background:url("../images/table_bg.png"); overflow:hidden; min-height:344px;}
+
+.promptbg { background:url(../images/prompt_bg.png);}
+	.promptShadow { background:url("../images/nv_shadow2.png") no-repeat scroll center 0 transparent; height:5px; width:100%; 
+						_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src='../images/nv_shadow2.png', sizingMethod='image');
+						_background:none;}
+
+.exam-page { margin:15px 30px; border:1px dotted #fd9800; background-color:#FFF;
+				-webkit-border-radius: 5px;
+				   -moz-border-radius: 5px; 
+				 		border-radius: 5px;
+				-webkit-box-shadow: 3px 3px 3px #CCC;
+				   -moz-box-shadow: 3px 3px 3px #CCC;
+				   		box-shadow: 3px 3px 3px #CCC;}
+						
+	.exam-page .tl { font-weight:700; padding:8px;}
+		.info { color: #FF9900; font-size:15px; font-weight:700; height:100px; line-height:100px; text-align:center;}
+	
+		.infoTable { width:100%;}
+			.infoTable th, .infoTable td { border:1px solid #d6d6d6;}
+				.infoTable th { text-align:center; font-weight:700; width:14%;}
+				.infoTable td { width:36%; padding:3px;}
+					.infoTable .first { border-left:0;}
+					.infoTable .last { border-right:0;}
+				.infoTable .px { width:95%; height:14px;}
+				
+		.exam-list { padding:15px 20px; line-height:240%;}
+			.exam-list input { margin-right:15px; margin-top:8px; _margin-top:4px; *margin-top:4px;}
+			.exam-list .rules { border-bottom:1px dotted #fd9800;}
+		
+		.btn-area { margin:20px; text-align:right;}
+		
+		.uploadTable { width:100%;}
+			.uploadTable th { width:12%; text-align:center; font-weight:700;}
+			.uploadTable td.w { width:38%;}
+			.uploadTable .px { width:94%; border:0; height:20px;}
+			.uploadTable .pf { }
+			.uploadTable .ll { border-left:1px solid #d6d6d6;}
+			.uploadTable .lt { border-top:1px solid #d6d6d6;}
+			.uploadTable .claim { padding:15px; line-height:200%;}
+			
+.exam-answer-head { padding:10px 20px; border-bottom:1px dotted #fd9800;}
+	.exam-answer-head  label { font-weight:700; padding-right:20px;}
+	.exam-answer-head  span { padding-right:30px;}
+.exam-answer-list { margin:20px 40px; line-height:240%;}
+	.exam-answer-list input { margin-right:15px;}
+	.exam-answer-list .rules { border-bottom:1px dotted #fd9800;}
+	.exam-answer-list .myans { color:#F00; font-size:14px; padding:0 10px;}
+	.exam-answer-list .ans-yes { float:right; color:#F00; font-size:16px; padding-left:50px; background:url(../images/yes.gif) no-repeat 0 -8px;}
+	.exam-answer-list .ans-no { float:right; color:#009800; font-size:16px; padding-left:50px; background:url(../images/no.gif) no-repeat 0 -8px;}
+	.exam-answer-list .bottom { padding:10px 0; font-size:14px; text-align:right;}
+		.exam-answer-list .bottom span { padding:0 5px; font-size:18px; color:#F00;}

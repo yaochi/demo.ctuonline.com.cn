@@ -1,0 +1,102 @@
+﻿{subtemplate common/header}
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="wp">
+<div id="pt" class="wp"><a href="http://www.myctu.cn" class="nvhm">$_G[setting][bbname]</a> &rsaquo; <a href="group.php">专区</a> $groupnav </div>
+<div id="ct" class="wp cl n">
+<div class="mn">
+<!--{if $_G[fid]}-->
+	<div id="plgnav" class="bbsgroup">
+		<a id="backbtn" href="forum.php?mod=group&action=plugin&fid=$_G['fid']&plugin_name=extraresource&plugin_op=groupmenu" class="z">返回列表</a>
+	</div>
+<!--{/if}-->
+<div class="bm cl">
+
+<h1 class="mt">编辑课程</h1>
+<div id="postbox">
+<form action="{eval echo join_plugin_action2('editclass')}" autocomplete="off" method="post" onsubmit="return validate_from(this);" enctype="multipart/form-data">
+<input type="hidden" name="id" value="$class[id]" />
+<input type="hidden" name="classtotalstars" value="$class[totalstars]" />
+<!--课程--> 
+<table width="97%" name="classtable" id="classtable"  cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd" style="margin-top:11px;">
+  <tbody>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程名称：</strong></th>
+    <td><input type="text" class="px" id="classname" name="classname" value="$class[name]"></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程简介：</strong></th>
+    <td valign="top"><textarea class="pt" id="classdescr" name="classdescr" cols="40" rows="5">$class[descr]</textarea></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程大纲：</strong></th>
+    <td><input type="file" name="classinfo" id="classinfo" value=''></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程分类：</strong></th>
+    <td><label>
+     <select name="classification" class="ps">
+		<option value="1" <!--{if $lecture[teachdirection]=='1'}-->selected="selected"<!--{/if}-->>管理类</option>
+		<option value="2" <!--{if $lecture[teachdirection]=='2'}-->selected="selected"<!--{/if}-->>营销类</option>
+		<option value="3" <!--{if $lecture[teachdirection]=='3'}-->selected="selected"<!--{/if}-->>专业类</option>
+		<option value="4" <!--{if $lecture[teachdirection]=='4'}-->selected="selected"<!--{/if}-->>通用类</option>
+	</select>
+    </label></td>
+  </tr>
+    <tr>
+    <th><strong class="rq y">*</strong><strong>教授本门课程的讲师：</strong></th>
+    <td><div id="extralec"><!--{if $leclist}--><!--{loop $leclist $lec}--><p><input type="hidden" value="$lec[lecid]" id="lecids[]" name="lecids[]"><a title="删除此选项" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$lec[lecname]</p><!--{/loop}--><!--{/if}--></div>
+	<a href="#" onclick="showWindow('lecwindow', 'misc.php?mod=queryextralec', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加讲师</a></td>
+  </tr>
+    <tr>
+    <th><strong>本门课程所属机构：</strong></th>
+    <td><div id="extraorg"><!--{if $orglist}--><!--{loop $orglist $org}--><p><input type="hidden" value="$org[orgid]" id="orgids[]" name="orgids[]"><input type="hidden" value="$org[orgname]" id="orgnames[]" name="orgnames[]"><a title="删除此课程" class="delicn y" onclick="deleteorg(this)" href="javascript:;"></a>$org[orgname]</p><!--{/loop}--><!--{/if}--></div>
+	<a href="#" onclick="showWindow('orgwindow', 'misc.php?mod=queryextraorg', 'get', 0);"><img src="source/plugin/extraresource/assets/image/zjan.png" width="14" height="15" /> 点击以添加机构</a></td>
+  </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+</tbody></table>
+<input type="hidden" name="editsubmit" value="true" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+
+function validate_from(obj) {
+		var classname = $('classname');
+		if (classname) {
+			var slen = strlen(classname.value);
+			if (slen < 1) {
+				showDialog("请填写课程名称");
+				classname.focus();
+				return false;
+			}
+		}
+		var classdescr = $('classdescr');
+		if (classdescr) {
+			var slen = strlen(classdescr.value);
+			if (slen < 1) {
+				showDialog("请填写课程简介");
+				classdescr.focus();
+				return false;
+			}
+		}
+		var extralec=$('extralec');
+		if(extralec.innerHTML==''){
+			showDialog("请选择讲师");
+			return false;
+		}
+
+}
+
+</script>
+
+{subtemplate common/footer}

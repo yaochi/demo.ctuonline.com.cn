@@ -1,0 +1,130 @@
+﻿<!--{template common/header}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_cookie.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_common.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_face.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G[setting][jspath]}home_manage.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_calendar.js?{VERHASH}"></script>
+<link rel="stylesheet" href="source/plugin/extraresource/assets/style/extraresource.css?{VERHASH}" type="text/css" />
+<div class="mn">
+<div class="bm cl">
+
+<h3 class="flb clpl clpr">
+	<em id="return_$_G[gp_handlekey]">推荐课程</em>
+	<span><a href="javascript:;" onclick="hideWindow('$_G[gp_handlekey]');" class="flbc" title="关闭">关闭</a></span>
+</h3>
+<div id="postbox" style="height: 400px; overflow-x: hidden; overflow-y: scroll; position: relative;">
+<form id="classform" action="{eval echo join_plugin_action2('createclass1')}" autocomplete="off" method="post" onsubmit="ajaxpost(this.id, 'return_$_G[gp_handlekey]');" enctype="multipart/form-data">
+<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_G[gp_handlekey]" /><!--{/if}-->
+<!--课程--> 
+<table width="97%" name="classtable" id="classtable"  cellspacing="0" cellpadding="0" border="0" class="tfm tablezykd100" style="margin-top:11px;">
+  <tbody>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程名称：</strong></th>
+    <td><input type="text" class="px" id="classname" name="classname"></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程简介：</strong></th>
+    <td valign="top"><textarea class="pt" id="classdescr" name="classdescr" cols="40" rows="5"></textarea></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程大纲：</strong></th>
+    <td><input type="file" name="classinfo" id="classinfo" value=''></td>
+  </tr>
+  <tr>
+    <th><strong class="rq y">*</strong><strong>课程分类：</strong></th>
+    <td><label>
+     <select name="classification" class="ps">
+		<option value="1">管理类</option>
+		<option value="2">营销类</option>
+		<option value="3">专业类</option>
+		<option value="4">通用类</option>
+	</select>
+    </label></td>
+  </tr>   
+    <tr>
+    <th><strong class="rq y">*</strong><strong>请进行打分：</strong></th>
+    <td>
+    <table border="0" cellspacing="0" cellpadding="0" class="jsxq_table">
+      <tr>
+        <td width="80">总体评分：</td>
+        <td width="193">
+			<ul class="zzjsnet" id="wwwzzjs0">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="120"><span id="stars2-tips0" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input0" name="classtotalstars" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>前瞻性：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs1">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips1" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input1" name="classstarsone" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>教学设计：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs2">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td width="163"><span id="stars2-tips2" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input2" name="classstarstwo" value="" size="2" /></td>
+      </tr>
+      <tr>
+        <td>内容实用：</td>
+        <td>
+			<ul class="zzjsnet" id="wwwzzjs3">
+			<li><a href="javascript:void(0);" class="one-star" star:value="1">1</a></li>
+			<li><a href="javascript:void(0);" class="two-stars" star:value="2">2</a></li>
+			<li><a href="javascript:void(0);" class="three-stars" star:value="3">3</a></li>
+			<li><a href="javascript:void(0);" class="four-stars" star:value="4">4</a></li>
+			<li><a href="javascript:void(0);" class="five-stars" star:value="5">5</a></li>
+			</ul>
+		</td>
+        <td><span id="stars2-tips3" class="result"><b>点击星星评分</b></span>
+		<input type="hidden" id="stars2-input3" name="classstarsthree" value="" size="2" /></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+      <td><button class="pn pnp" id="issuance" type="submit"><strong>提交</strong></button></td>
+    </tr>
+</tbody></table>
+<input type="hidden" name="aid" id="aid" tabindex="1" />
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+</form>
+
+</div></div>
+</div>
+<script type="text/javascript" src="static/js/home_post.js?{VERHASH}"></script>
+<script type="text/javascript" src="source/plugin/extraresource/assets/js/extraresource_common.js?{VERHASH}"></script>
+<script>
+function deleteorg(obj){
+	obj.parentNode.parentNode.removeChild(obj.parentNode);
+}
+
+		function succeedhandle_$_G['gp_handlekey'] (url, message, values) {
+			class_add(values['classid']);
+		}
+</script>
+
+<!--{template common/footer}-->

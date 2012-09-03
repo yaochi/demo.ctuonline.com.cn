@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="assets/style/home.css" rel="stylesheet" type="text/css" />
+        <title>中国电信网上大学</title>
+        {csstemplate}
+    </head>
+    <body id="nv_<!--{if $_G['basescript'] == 'forum' && !empty($_G['forum']) && $_G['forum']['status'] == 3}-->group<!--{else}-->$_G[basescript]<!--{/if}-->" class="pg_{CURMODULE}" onkeydown="if(event.keyCode==27) return false;">
+		<div id="hd">
+			<div class="wp">
+				<div class="hdc cl">
+					<h2><a href="http://www.myctu.cn" title="$_G['setting']['bbname']"><img src="{IMGDIR}/esn/logo.gif" alt="中国电信网上大学" border="0"></a></h2>
+				</div>
+			</div>
+		</div>
+		<div id="wp" style="height: 100%;">
+			<div id="loginPromtPanel">
+				<span id="loginPrompt" class="replaced">您尚未登录 正在为您跳转至登录页</span>
+				<span id="countingdown" class="number3 replaced">3</span>
+				<a href="$url_forward" class="xs2 xi2">{lang message_forward}</a>
+			</div>
+		</div>
+	<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+	<script type="text/javascript" charset="utf-8">
+		var countd = document.getElementById("countingdown");
+		var i = 3;
+		var countdClass = "replaced";
+
+		addLoadListener(function() {
+			var intervalProcess = setInterval(function() {
+				if(i > 0) {
+					countd.className = countdClass + " number" + i;
+					countd.innerHTML = i--;
+				} else {
+					clearInterval(intervalProcess);
+					window.location = '$url_forward';
+				};
+			}, 1000);
+		});
+	</script>
+	</body>
+</html>

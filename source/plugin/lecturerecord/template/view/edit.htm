@@ -1,0 +1,265 @@
+<script src="static/js/forum_calendar.js?{VERHASH}" type="text/javascript"></script>
+<form action="{eval echo join_plugin_action('update')}" method="post" onsubmit="return validate_from(this);">
+<input type="hidden" name="orgname_input_id" id="orgname_input_id" value="$record[org_id]"/>
+<input type="hidden" name="jgname_input_id" id="jgname_input_id" value="$record[address_id]"/>
+<input type="hidden" name="teacherids" id="teacherids"/>
+<input type="hidden" name="recordid" id="recordid" value="$record[id]"/>
+<input type="hidden" name="teacherid" id="teacherid" value="$record[teacher_id]"/>
+<input type="hidden" name="type_lr" id="type_lr" value="$type"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_skjl">
+  <!-- {if $type=='apply'} -->
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>讲师名称：</td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>授课名称：</td>
+    <td align="left"><input type="text" class="zybjan" name="name" id="name" value="$record[name]"/>
+    <button class="pn vm" type="button" onclick="showWindow('addCourse', 'forum.php?mod=group&action=plugin&fid=197&plugin_name=lecturerecord&plugin_op=groupmenu&lecturerecord_action=operate&oper=select');"><em>选择集团课程</em></button>
+    </td>
+  </tr>
+    <tr>
+
+    <td width="150" align="right"><span class="hongse">*</span>培训班级别：</td>
+
+    <td align="left"><select id="class_level" name="class_level">
+	  <option value="2" <!--{if $record[class_level]==2}-->selected<!--{/if}-->>集团级</option>
+	  <option value="1" <!--{if $record[class_level]==1}-->selected<!--{/if}-->>省级</option>
+	</select>
+    </td>
+
+  </tr>
+  <tr>
+    <td align="right" valign="top"><span class="hongse">*</span>主办方：</td>
+    <td align="left">
+    	<input type="text" name="orgname_input" value="$record[org_name]" class="zybjan" id="orgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>课程时长：</td>
+    <td align="left"><input type="text" class="zbbjan2" name="class_time" id="class_time" value="$record[class_time]"/>小时</td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>时间：</td>
+    <td align="left"><input type="text" value="$record[starttime]" class="zbbjan2" name="starttime" id="starttime" onclick="showcalendar(event, this, true)" />
+      ~
+    <input type="text" class="zbbjan2" value="$record[endtime]" name="endtime" id="endtime" onclick="showcalendar(event, this, true)" /></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>地点：</td>
+    <td align="left"><input type="text" class="zybjan" name="address" id="address" value="$record[address]"/></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>人数：</td>
+    <td align="left"><input type="text" class="zbbjan2" name="class_stud_num" id="class_stud_num" value="$record[class_stud_num]"/></td>
+  </tr>
+  <tr>
+
+    <td align="right"><span class="hongse">*</span>评估分：</td>
+
+    <td align="left"><input type="text" class="zbbjan2" value="$record[class_result]" id="class_result" name="class_result"/>
+
+    分</td>
+
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left"><input name="Submit222" type="submit" class="ckxq_sy left" value="保存修改" /></td>
+  </tr>
+    <!-- {/if} -->
+  <!-- {if $type=='dev'} -->
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>讲师名称：</td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>课程开发名称：</td>
+    <td align="left"><input type="text" class="zybjan" name="name" id="name" value="$record[name]"/></td>
+  </tr>
+
+  <tr>
+
+    <td width="150" align="right"><span class="hongse">*</span>课程级别：</td>
+
+    <td align="left"><select id="class_level" name="class_level">
+	  <option value="2" <!--{if $record[class_level]==2}-->selected<!--{/if}-->>集团级</option>
+	  <option value="1" <!--{if $record[class_level]==1}-->selected<!--{/if}-->>省级</option>
+	</select>
+    </td>
+
+  </tr>
+  <tr>
+    <td align="right" valign="top"><span class="hongse">*</span>主办方：</td>
+    <td align="left">
+    	<input type="text" name="orgname_input" value="$record[org_name]" class="zybjan" id="orgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>时间：</td>
+    <td align="left"><input type="text" value="$record[starttime]" class="zbbjan2" name="starttime" id="starttime" onclick="showcalendar(event, this, true)" />
+      ~
+    <input type="text" class="zbbjan2" value="$record[endtime]" name="endtime" id="endtime" onclick="showcalendar(event, this, true)" /></td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>地点：</td>
+    <td align="left">
+    	<input type="text" name="jgname_input" value="$record[address]" class="zybjan" id="jgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg&channel=jgname">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>参与度：</td>
+    <td align="left"><select id="class_result" name="class_result">
+	  <option value="1" <!--{if $record[class_result]==1}-->selected<!--{/if}-->>牵头人</option>
+	  <option value="0.5" <!--{if $record[class_result]==0.5}-->selected<!--{/if}-->>参与人</option>
+	</select></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left"><input name="Submit222" type="submit" class="ckxq_sy left" value="保存修改" /></td>
+  </tr>
+    <!-- {/if} -->
+  <!-- {if $type=='research'} -->
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>讲师名称：</td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>专项课题名称：</td>
+    <td align="left"><input type="text" class="zybjan" name="name" id="name" value="$record[name]"/></td>
+  </tr>
+  <tr>
+    <td align="right" valign="top"><span class="hongse">*</span>组织部门：</td>
+    <td align="left">
+    	<input type="text" name="orgname_input" value="$record[org_name]" class="zybjan" id="orgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>研讨次数：</td>
+    <td align="left"><input type="text" class="zbbjan2" name="join_num" id="join_num" value="$record[join_num]"/>次</td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left"><input name="Submit222" type="submit" class="ckxq_sy left" value="保存修改" /></td>
+  </tr>
+    <!-- {/if} -->
+  <!-- {if $type=='tu'} -->
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>讲师名称：</td>
+    <td align="left">$record[teacher_name]</td>
+  </tr>
+  <tr>
+    <td width="150" align="right"><span class="hongse">*</span>课程辅导名称：</td>
+    <td align="left"><input type="text" class="zybjan" name="name" id="name" value="$record[name]"/></td>
+  </tr>
+  <tr>
+    <td align="right" valign="top"><span class="hongse">*</span>组织部门：</td>
+    <td align="left">
+    	<input type="text" name="orgname_input" value="$record[org_name]" class="zybjan" id="orgname_input"><a onclick="showWindow('orgtree', this.href, 'get', 0);" href="misc.php?mod=queryorg">选择</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><span class="hongse">*</span>辅导课时：</td>
+    <td align="left"><input type="text" class="zbbjan2" name="tu_num" id="tu_num" value="$record[tu_num]"/>小时</td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td align="left"><input name="Submit222" type="submit" class="ckxq_sy left" value="保存修改" /></td>
+  </tr>
+    <!-- {/if} -->
+</table>
+</form>
+<script type="text/javascript">
+	function validate_from(obj) {
+
+		var name = $('name');
+		if (name) {
+			var slen = strlen(name.value);
+			if (slen < 1) {
+				showDialog("请填写授课名称");
+				name.focus();
+				return false;
+			}
+		}
+		var class_time = $('class_time');
+		var patrn =/^\+?[1-9][0-9]*$/;
+		if (class_time) {
+			var slen = strlen(class_time.value);
+			if (slen < 1) {
+				showDialog("请填写课程时长");
+				$('class_time').focus();
+				return false;
+			}else if(!patrn.exec(class_time.value)){
+				showDialog("课程时长填写有误");
+				$('class_time').focus();
+				return false;
+			}
+		}
+		var starttime = $('starttime');
+		if (starttime) {
+			var slen = strlen(starttime.value);
+			if (slen < 1) {
+				showDialog("请选择时间");
+				starttime.focus();
+				return false;
+			}
+		}
+
+		var endtime = $('endtime');
+		if (endtime) {
+			var slen = strlen(endtime.value);
+			if (slen < 1) {
+				showDialog("请选择时间");
+				endtime.focus();
+				return false;
+			}
+		}
+
+		var orgname_input_id = $('orgname_input_id');
+		if (orgname_input_id) {
+			var slen = strlen(orgname_input_id.value);
+			if (slen < 1) {
+				showDialog("请选择主办方");
+				$('orgname_input').focus();
+				return false;
+			}
+		}
+
+		var address = $('address');
+		if (address) {
+			var slen = strlen(address.value);
+			if (slen < 1) {
+				showDialog("请填写地点");
+				address.focus();
+				return false;
+			}
+		}
+
+		var class_stud_num = $('class_stud_num');
+		if (class_stud_num) {
+			var s = class_stud_num.value;
+			var patrn=/^\+?[1-9][0-9]*$/;
+			if (!patrn.exec(s)) {
+				showDialog("人数输入有误");
+				class_stud_num.focus();
+				return false;
+			}
+		}
+var class_result=$('class_result');
+      if(class_result){
+      var s = class_result.value;
+
+			var patrn =/^[1-5]|[0-9].[0-9]*$/;
+
+			if (!patrn.exec(s) || (strlen(s)>4) || s<=0 || s>5) {
+
+				showDialog("评估分应大于0，小于等于5，例如4.8");
+
+				class_result.focus();
+
+				return false;
+
+			}
+      }
+
+	}
+</script>

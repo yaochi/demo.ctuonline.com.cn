@@ -1,0 +1,59 @@
+<div id="div_main_content" class="mtm mbm">
+<!--{if $comment_idtype != 'shlecturerid'}-->
+	<h3 class="bbs pbn">
+	<!--{if !empty($comment_list)}-->
+		<a href="#quickcommentform_{$id}" class="y xi2 xw0">{lang publish_comment}</a>
+	<!--{/if}-->
+	{lang comment} <!--{if $comment_needreplynum}-->(<span id="comment_replynum">$comment_replynum</span> {lang nwkt_replay})<!--{/if}-->
+	</h3>
+	<!--{/if}-->
+	<div id="comment">
+		<!--{if $cid}-->
+			<div class="i">
+				{lang current_nwkt_reply}<a href="$comment_refer">{lang click_view_all}</a>
+			</div>
+		<!--{/if}-->
+		<div id="comment_ul" class="xld xlda">
+			<!--{loop $comment_list $k $value}-->
+				<!--{template home/space_comment_li}-->
+			<!--{/loop}-->
+		</div>
+	</div>
+	<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
+</div>
+
+<!--{if !$comment_noreply}-->
+	<form id="quickcommentform_{$id}" action="home.php?mod=spacecp&ac=comment" method="post" autocomplete="off" onsubmit="ajaxpost('quickcommentform_{$id}', 'return_qcnwkt_$id');doane(event);">
+		<p>
+			<span id="comment_face" title="{lang insert_emoticons}" onclick="showFace(this.id, 'comment_message');return false;" style="cursor: pointer;"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
+			<!--{if !empty($_G['setting']['magics']['doodle'])}-->
+				<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=comment_message" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> {$_G[setting][magics][doodle]}</a>
+			<!--{/if}-->
+		</p>
+		<div class="tedt mtn mbn">
+			<div class="area">
+				<textarea id="comment_message" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="3" class="pt"></textarea>
+			</div>
+		</div>
+		<p class="pns">
+			<input type="hidden" name="referer" value="$comment_refer" />
+			<input type="hidden" name="id" value="$id" />
+			<input type="hidden" name="idtype" value="$comment_idtype" />
+			<input type="hidden" name="handlekey" value="qcnwkt_{$id}" />
+			<input type="hidden" name="commentsubmit" value="true" />
+			<input type="hidden" name="quickcomment" value="true" />
+			<button type="submit" name="commentsubmit_btn"value="true" id="commentsubmit_btn" class="pn"><strong>{lang comment}</strong></button>
+			<span id="return_qcnwkt_{$id}"></span>
+		</p>
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+	</form>
+	<script type="text/javascript">
+		function succeedhandle_qcnwkt_$id(url, msg, values) {
+			if(values['cid']) {
+				comment_add(values['cid']);
+			} else {
+				$('return_qcnwkt_{$id}').innerHTML = msg;
+			}
+		}
+	</script>
+<!--{/if}-->

@@ -1,0 +1,17 @@
+{subtemplate search/header}
+<div id="ct" class="w">
+	<form class="searchform" method="post" autocomplete="off" action="search.php?mod=$other">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+
+		{subtemplate search/pubsearch}
+		{hook/blog_top}
+
+	</form>
+    <!--{if in_array($_G[gp_mod], array('activity', 'topic', 'qbar', 'question', 'group_poll', 'group_live', 'group_notice'))}-->
+	{subtemplate search/activity_list}
+    <!--{/if}-->
+
+</div>
+{hook/blog_bottom}
+
+{subtemplate common/footer}
